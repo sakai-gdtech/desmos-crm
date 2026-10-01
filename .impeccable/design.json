@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-01T17:16:39.069173+00:00",
+  "generatedAt": "2026-10-01T20:10:48.085400+00:00",
   "title": "Design System: Desmos CRM",
   "extensions": {
     "colorMeta": {
@@ -8,14 +8,14 @@
         "role": "neutral",
         "displayName": "Fundo frio",
         "tonalRamp": [
-          "oklch(15.00% 0.00412 271.37)",
-          "oklch(26.43% 0.00412 271.37)",
-          "oklch(37.86% 0.00412 271.37)",
-          "oklch(49.29% 0.00412 271.37)",
-          "oklch(60.71% 0.00412 271.37)",
-          "oklch(72.14% 0.00412 271.37)",
-          "oklch(83.57% 0.00412 271.37)",
-          "oklch(95.00% 0.00412 271.37)"
+          "oklch(15.00% 0.00287 264.54)",
+          "oklch(26.43% 0.00287 264.54)",
+          "oklch(37.86% 0.00287 264.54)",
+          "oklch(49.29% 0.00287 264.54)",
+          "oklch(60.71% 0.00287 264.54)",
+          "oklch(72.14% 0.00287 264.54)",
+          "oklch(83.57% 0.00287 264.54)",
+          "oklch(95.00% 0.00287 264.54)"
         ]
       },
       "surface": {
@@ -34,142 +34,142 @@
       },
       "sidebar": {
         "role": "neutral",
-        "displayName": "Navegação fria",
+        "displayName": "Navegação clara",
         "tonalRamp": [
-          "oklch(15.00% 0.00701 268.55)",
-          "oklch(26.43% 0.00701 268.55)",
-          "oklch(37.86% 0.00701 268.55)",
-          "oklch(49.29% 0.00701 268.55)",
-          "oklch(60.71% 0.00701 268.55)",
-          "oklch(72.14% 0.00701 268.55)",
-          "oklch(83.57% 0.00701 268.55)",
-          "oklch(95.00% 0.00701 268.55)"
+          "oklch(15.00% 0.00000 0.00)",
+          "oklch(26.43% 0.00000 0.00)",
+          "oklch(37.86% 0.00000 0.00)",
+          "oklch(49.29% 0.00000 0.00)",
+          "oklch(60.71% 0.00000 0.00)",
+          "oklch(72.14% 0.00000 0.00)",
+          "oklch(83.57% 0.00000 0.00)",
+          "oklch(95.00% 0.00000 0.00)"
         ]
       },
       "surface-hover": {
         "role": "neutral",
         "displayName": "Superfície de interação",
         "tonalRamp": [
-          "oklch(15.00% 0.00543 274.97)",
-          "oklch(26.43% 0.00543 274.97)",
-          "oklch(37.86% 0.00543 274.97)",
-          "oklch(49.29% 0.00543 274.97)",
-          "oklch(60.71% 0.00543 274.97)",
-          "oklch(72.14% 0.00543 274.97)",
-          "oklch(83.57% 0.00543 274.97)",
-          "oklch(95.00% 0.00543 274.97)"
+          "oklch(15.00% 0.00625 255.48)",
+          "oklch(26.43% 0.00625 255.48)",
+          "oklch(37.86% 0.00625 255.48)",
+          "oklch(49.29% 0.00625 255.48)",
+          "oklch(60.71% 0.00625 255.48)",
+          "oklch(72.14% 0.00625 255.48)",
+          "oklch(83.57% 0.00625 255.48)",
+          "oklch(95.00% 0.00625 255.48)"
         ]
       },
       "text": {
         "role": "neutral",
         "displayName": "Texto principal",
         "tonalRamp": [
-          "oklch(15.00% 0.03626 272.45)",
-          "oklch(26.43% 0.03626 272.45)",
-          "oklch(37.86% 0.03626 272.45)",
-          "oklch(49.29% 0.03626 272.45)",
-          "oklch(60.71% 0.03626 272.45)",
-          "oklch(72.14% 0.03626 272.45)",
-          "oklch(83.57% 0.03626 272.45)",
-          "oklch(95.00% 0.03626 272.45)"
+          "oklch(15.00% 0.03917 257.77)",
+          "oklch(26.43% 0.03917 257.77)",
+          "oklch(37.86% 0.03917 257.77)",
+          "oklch(49.29% 0.03917 257.77)",
+          "oklch(60.71% 0.03917 257.77)",
+          "oklch(72.14% 0.03917 257.77)",
+          "oklch(83.57% 0.03917 257.77)",
+          "oklch(95.00% 0.03917 257.77)"
         ]
       },
       "muted": {
         "role": "neutral",
         "displayName": "Texto secundário",
         "tonalRamp": [
-          "oklch(15.00% 0.03181 265.24)",
-          "oklch(26.43% 0.03181 265.24)",
-          "oklch(37.86% 0.03181 265.24)",
-          "oklch(49.29% 0.03181 265.24)",
-          "oklch(60.71% 0.03181 265.24)",
-          "oklch(72.14% 0.03181 265.24)",
-          "oklch(83.57% 0.03181 265.24)",
-          "oklch(95.00% 0.03181 265.24)"
+          "oklch(15.00% 0.03457 256.09)",
+          "oklch(26.43% 0.03457 256.09)",
+          "oklch(37.86% 0.03457 256.09)",
+          "oklch(49.29% 0.03457 256.09)",
+          "oklch(60.71% 0.03457 256.09)",
+          "oklch(72.14% 0.03457 256.09)",
+          "oklch(83.57% 0.03457 256.09)",
+          "oklch(95.00% 0.03457 256.09)"
         ]
       },
       "subtle": {
         "role": "neutral",
         "displayName": "Texto auxiliar",
         "tonalRamp": [
-          "oklch(15.00% 0.02932 266.43)",
-          "oklch(26.43% 0.02932 266.43)",
-          "oklch(37.86% 0.02932 266.43)",
-          "oklch(49.29% 0.02932 266.43)",
-          "oklch(60.71% 0.02932 266.43)",
-          "oklch(72.14% 0.02932 266.43)",
-          "oklch(83.57% 0.02932 266.43)",
-          "oklch(95.00% 0.02932 266.43)"
+          "oklch(15.00% 0.03192 256.54)",
+          "oklch(26.43% 0.03192 256.54)",
+          "oklch(37.86% 0.03192 256.54)",
+          "oklch(49.29% 0.03192 256.54)",
+          "oklch(60.71% 0.03192 256.54)",
+          "oklch(72.14% 0.03192 256.54)",
+          "oklch(83.57% 0.03192 256.54)",
+          "oklch(95.00% 0.03192 256.54)"
         ]
       },
       "border": {
         "role": "neutral",
         "displayName": "Divisória",
         "tonalRamp": [
-          "oklch(15.00% 0.01165 264.51)",
-          "oklch(26.43% 0.01165 264.51)",
-          "oklch(37.86% 0.01165 264.51)",
-          "oklch(49.29% 0.01165 264.51)",
-          "oklch(60.71% 0.01165 264.51)",
-          "oklch(72.14% 0.01165 264.51)",
-          "oklch(83.57% 0.01165 264.51)",
-          "oklch(95.00% 0.01165 264.51)"
+          "oklch(15.00% 0.01092 256.70)",
+          "oklch(26.43% 0.01092 256.70)",
+          "oklch(37.86% 0.01092 256.70)",
+          "oklch(49.29% 0.01092 256.70)",
+          "oklch(60.71% 0.01092 256.70)",
+          "oklch(72.14% 0.01092 256.70)",
+          "oklch(83.57% 0.01092 256.70)",
+          "oklch(95.00% 0.01092 256.70)"
         ]
       },
       "primary": {
         "role": "primary",
-        "displayName": "Índigo de ação",
+        "displayName": "Azul de ação",
         "tonalRamp": [
-          "oklch(15.00% 0.23005 276.97)",
-          "oklch(26.43% 0.23005 276.97)",
-          "oklch(37.86% 0.23005 276.97)",
-          "oklch(49.29% 0.23005 276.97)",
-          "oklch(60.71% 0.23005 276.97)",
-          "oklch(72.14% 0.23005 276.97)",
-          "oklch(83.57% 0.23005 276.97)",
-          "oklch(95.00% 0.23005 276.97)"
+          "oklch(15.00% 0.08874 255.52)",
+          "oklch(26.43% 0.08874 255.52)",
+          "oklch(37.86% 0.08874 255.52)",
+          "oklch(49.29% 0.08874 255.52)",
+          "oklch(60.71% 0.08874 255.52)",
+          "oklch(72.14% 0.08874 255.52)",
+          "oklch(83.57% 0.08874 255.52)",
+          "oklch(95.00% 0.08874 255.52)"
         ]
       },
       "primary-hover": {
         "role": "primary",
-        "displayName": "Índigo de hover",
+        "displayName": "Azul de hover",
         "tonalRamp": [
-          "oklch(15.00% 0.21458 277.02)",
-          "oklch(26.43% 0.21458 277.02)",
-          "oklch(37.86% 0.21458 277.02)",
-          "oklch(49.29% 0.21458 277.02)",
-          "oklch(60.71% 0.21458 277.02)",
-          "oklch(72.14% 0.21458 277.02)",
-          "oklch(83.57% 0.21458 277.02)",
-          "oklch(95.00% 0.21458 277.02)"
+          "oklch(15.00% 0.07397 255.97)",
+          "oklch(26.43% 0.07397 255.97)",
+          "oklch(37.86% 0.07397 255.97)",
+          "oklch(49.29% 0.07397 255.97)",
+          "oklch(60.71% 0.07397 255.97)",
+          "oklch(72.14% 0.07397 255.97)",
+          "oklch(83.57% 0.07397 255.97)",
+          "oklch(95.00% 0.07397 255.97)"
         ]
       },
       "primary-soft": {
         "role": "primary",
-        "displayName": "Índigo suave",
+        "displayName": "Azul suave",
         "tonalRamp": [
-          "oklch(15.00% 0.02147 285.98)",
-          "oklch(26.43% 0.02147 285.98)",
-          "oklch(37.86% 0.02147 285.98)",
-          "oklch(49.29% 0.02147 285.98)",
-          "oklch(60.71% 0.02147 285.98)",
-          "oklch(72.14% 0.02147 285.98)",
-          "oklch(83.57% 0.02147 285.98)",
-          "oklch(95.00% 0.02147 285.98)"
+          "oklch(15.00% 0.01140 252.09)",
+          "oklch(26.43% 0.01140 252.09)",
+          "oklch(37.86% 0.01140 252.09)",
+          "oklch(49.29% 0.01140 252.09)",
+          "oklch(60.71% 0.01140 252.09)",
+          "oklch(72.14% 0.01140 252.09)",
+          "oklch(83.57% 0.01140 252.09)",
+          "oklch(95.00% 0.01140 252.09)"
         ]
       },
       "primary-text": {
         "role": "primary",
-        "displayName": "Texto índigo",
+        "displayName": "Texto azul",
         "tonalRamp": [
-          "oklch(15.00% 0.18862 278.83)",
-          "oklch(26.43% 0.18862 278.83)",
-          "oklch(37.86% 0.18862 278.83)",
-          "oklch(49.29% 0.18862 278.83)",
-          "oklch(60.71% 0.18862 278.83)",
-          "oklch(72.14% 0.18862 278.83)",
-          "oklch(83.57% 0.18862 278.83)",
-          "oklch(95.00% 0.18862 278.83)"
+          "oklch(15.00% 0.08874 255.52)",
+          "oklch(26.43% 0.08874 255.52)",
+          "oklch(37.86% 0.08874 255.52)",
+          "oklch(49.29% 0.08874 255.52)",
+          "oklch(60.71% 0.08874 255.52)",
+          "oklch(72.14% 0.08874 255.52)",
+          "oklch(83.57% 0.08874 255.52)",
+          "oklch(95.00% 0.08874 255.52)"
         ]
       },
       "success": {
@@ -260,182 +260,182 @@
         "role": "primary",
         "displayName": "Foco",
         "tonalRamp": [
-          "oklch(15.00% 0.15830 276.93)",
-          "oklch(26.43% 0.15830 276.93)",
-          "oklch(37.86% 0.15830 276.93)",
-          "oklch(49.29% 0.15830 276.93)",
-          "oklch(60.71% 0.15830 276.93)",
-          "oklch(72.14% 0.15830 276.93)",
-          "oklch(83.57% 0.15830 276.93)",
-          "oklch(95.00% 0.15830 276.93)"
+          "oklch(15.00% 0.12022 254.59)",
+          "oklch(26.43% 0.12022 254.59)",
+          "oklch(37.86% 0.12022 254.59)",
+          "oklch(49.29% 0.12022 254.59)",
+          "oklch(60.71% 0.12022 254.59)",
+          "oklch(72.14% 0.12022 254.59)",
+          "oklch(83.57% 0.12022 254.59)",
+          "oklch(95.00% 0.12022 254.59)"
         ]
       },
       "background-dark": {
         "role": "neutral",
         "displayName": "Fundo frio · escuro",
         "tonalRamp": [
-          "oklch(15.00% 0.02208 276.32)",
-          "oklch(26.43% 0.02208 276.32)",
-          "oklch(37.86% 0.02208 276.32)",
-          "oklch(49.29% 0.02208 276.32)",
-          "oklch(60.71% 0.02208 276.32)",
-          "oklch(72.14% 0.02208 276.32)",
-          "oklch(83.57% 0.02208 276.32)",
-          "oklch(95.00% 0.02208 276.32)"
+          "oklch(15.00% 0.02637 258.32)",
+          "oklch(26.43% 0.02637 258.32)",
+          "oklch(37.86% 0.02637 258.32)",
+          "oklch(49.29% 0.02637 258.32)",
+          "oklch(60.71% 0.02637 258.32)",
+          "oklch(72.14% 0.02637 258.32)",
+          "oklch(83.57% 0.02637 258.32)",
+          "oklch(95.00% 0.02637 258.32)"
         ]
       },
       "surface-dark": {
         "role": "neutral",
         "displayName": "Superfície · escuro",
         "tonalRamp": [
-          "oklch(15.00% 0.02878 275.40)",
-          "oklch(26.43% 0.02878 275.40)",
-          "oklch(37.86% 0.02878 275.40)",
-          "oklch(49.29% 0.02878 275.40)",
-          "oklch(60.71% 0.02878 275.40)",
-          "oklch(72.14% 0.02878 275.40)",
-          "oklch(83.57% 0.02878 275.40)",
-          "oklch(95.00% 0.02878 275.40)"
+          "oklch(15.00% 0.03210 256.29)",
+          "oklch(26.43% 0.03210 256.29)",
+          "oklch(37.86% 0.03210 256.29)",
+          "oklch(49.29% 0.03210 256.29)",
+          "oklch(60.71% 0.03210 256.29)",
+          "oklch(72.14% 0.03210 256.29)",
+          "oklch(83.57% 0.03210 256.29)",
+          "oklch(95.00% 0.03210 256.29)"
         ]
       },
       "sidebar-dark": {
         "role": "neutral",
         "displayName": "Navegação fria · escuro",
         "tonalRamp": [
-          "oklch(15.00% 0.02913 278.01)",
-          "oklch(26.43% 0.02913 278.01)",
-          "oklch(37.86% 0.02913 278.01)",
-          "oklch(49.29% 0.02913 278.01)",
-          "oklch(60.71% 0.02913 278.01)",
-          "oklch(72.14% 0.02913 278.01)",
-          "oklch(83.57% 0.02913 278.01)",
-          "oklch(95.00% 0.02913 278.01)"
+          "oklch(15.00% 0.03258 256.31)",
+          "oklch(26.43% 0.03258 256.31)",
+          "oklch(37.86% 0.03258 256.31)",
+          "oklch(49.29% 0.03258 256.31)",
+          "oklch(60.71% 0.03258 256.31)",
+          "oklch(72.14% 0.03258 256.31)",
+          "oklch(83.57% 0.03258 256.31)",
+          "oklch(95.00% 0.03258 256.31)"
         ]
       },
       "surface-hover-dark": {
         "role": "neutral",
         "displayName": "Superfície de interação · escuro",
         "tonalRamp": [
-          "oklch(15.00% 0.03324 274.52)",
-          "oklch(26.43% 0.03324 274.52)",
-          "oklch(37.86% 0.03324 274.52)",
-          "oklch(49.29% 0.03324 274.52)",
-          "oklch(60.71% 0.03324 274.52)",
-          "oklch(72.14% 0.03324 274.52)",
-          "oklch(83.57% 0.03324 274.52)",
-          "oklch(95.00% 0.03324 274.52)"
+          "oklch(15.00% 0.04259 256.87)",
+          "oklch(26.43% 0.04259 256.87)",
+          "oklch(37.86% 0.04259 256.87)",
+          "oklch(49.29% 0.04259 256.87)",
+          "oklch(60.71% 0.04259 256.87)",
+          "oklch(72.14% 0.04259 256.87)",
+          "oklch(83.57% 0.04259 256.87)",
+          "oklch(95.00% 0.04259 256.87)"
         ]
       },
       "text-dark": {
         "role": "neutral",
         "displayName": "Texto principal · escuro",
         "tonalRamp": [
-          "oklch(15.00% 0.01094 274.89)",
-          "oklch(26.43% 0.01094 274.89)",
-          "oklch(37.86% 0.01094 274.89)",
-          "oklch(49.29% 0.01094 274.89)",
-          "oklch(60.71% 0.01094 274.89)",
-          "oklch(72.14% 0.01094 274.89)",
-          "oklch(83.57% 0.01094 274.89)",
-          "oklch(95.00% 0.01094 274.89)"
+          "oklch(15.00% 0.00967 252.81)",
+          "oklch(26.43% 0.00967 252.81)",
+          "oklch(37.86% 0.00967 252.81)",
+          "oklch(49.29% 0.00967 252.81)",
+          "oklch(60.71% 0.00967 252.81)",
+          "oklch(72.14% 0.00967 252.81)",
+          "oklch(83.57% 0.00967 252.81)",
+          "oklch(95.00% 0.00967 252.81)"
         ]
       },
       "muted-dark": {
         "role": "neutral",
         "displayName": "Texto secundário · escuro",
         "tonalRamp": [
-          "oklch(15.00% 0.02834 269.58)",
-          "oklch(26.43% 0.02834 269.58)",
-          "oklch(37.86% 0.02834 269.58)",
-          "oklch(49.29% 0.02834 269.58)",
-          "oklch(60.71% 0.02834 269.58)",
-          "oklch(72.14% 0.02834 269.58)",
-          "oklch(83.57% 0.02834 269.58)",
-          "oklch(95.00% 0.02834 269.58)"
+          "oklch(15.00% 0.02759 257.04)",
+          "oklch(26.43% 0.02759 257.04)",
+          "oklch(37.86% 0.02759 257.04)",
+          "oklch(49.29% 0.02759 257.04)",
+          "oklch(60.71% 0.02759 257.04)",
+          "oklch(72.14% 0.02759 257.04)",
+          "oklch(83.57% 0.02759 257.04)",
+          "oklch(95.00% 0.02759 257.04)"
         ]
       },
       "subtle-dark": {
         "role": "neutral",
         "displayName": "Texto auxiliar · escuro",
         "tonalRamp": [
-          "oklch(15.00% 0.03216 267.10)",
-          "oklch(26.43% 0.03216 267.10)",
-          "oklch(37.86% 0.03216 267.10)",
-          "oklch(49.29% 0.03216 267.10)",
-          "oklch(60.71% 0.03216 267.10)",
-          "oklch(72.14% 0.03216 267.10)",
-          "oklch(83.57% 0.03216 267.10)",
-          "oklch(95.00% 0.03216 267.10)"
+          "oklch(15.00% 0.03154 256.04)",
+          "oklch(26.43% 0.03154 256.04)",
+          "oklch(37.86% 0.03154 256.04)",
+          "oklch(49.29% 0.03154 256.04)",
+          "oklch(60.71% 0.03154 256.04)",
+          "oklch(72.14% 0.03154 256.04)",
+          "oklch(83.57% 0.03154 256.04)",
+          "oklch(95.00% 0.03154 256.04)"
         ]
       },
       "border-dark": {
         "role": "neutral",
         "displayName": "Divisória · escuro",
         "tonalRamp": [
-          "oklch(15.00% 0.03544 275.62)",
-          "oklch(26.43% 0.03544 275.62)",
-          "oklch(37.86% 0.03544 275.62)",
-          "oklch(49.29% 0.03544 275.62)",
-          "oklch(60.71% 0.03544 275.62)",
-          "oklch(72.14% 0.03544 275.62)",
-          "oklch(83.57% 0.03544 275.62)",
-          "oklch(95.00% 0.03544 275.62)"
+          "oklch(15.00% 0.04350 255.11)",
+          "oklch(26.43% 0.04350 255.11)",
+          "oklch(37.86% 0.04350 255.11)",
+          "oklch(49.29% 0.04350 255.11)",
+          "oklch(60.71% 0.04350 255.11)",
+          "oklch(72.14% 0.04350 255.11)",
+          "oklch(83.57% 0.04350 255.11)",
+          "oklch(95.00% 0.04350 255.11)"
         ]
       },
       "primary-dark": {
         "role": "primary",
-        "displayName": "Índigo de ação · escuro",
+        "displayName": "Azul de ação · escuro",
         "tonalRamp": [
-          "oklch(15.00% 0.17657 284.01)",
-          "oklch(26.43% 0.17657 284.01)",
-          "oklch(37.86% 0.17657 284.01)",
-          "oklch(49.29% 0.17657 284.01)",
-          "oklch(60.71% 0.17657 284.01)",
-          "oklch(72.14% 0.17657 284.01)",
-          "oklch(83.57% 0.17657 284.01)",
-          "oklch(95.00% 0.17657 284.01)"
+          "oklch(15.00% 0.08937 255.52)",
+          "oklch(26.43% 0.08937 255.52)",
+          "oklch(37.86% 0.08937 255.52)",
+          "oklch(49.29% 0.08937 255.52)",
+          "oklch(60.71% 0.08937 255.52)",
+          "oklch(72.14% 0.08937 255.52)",
+          "oklch(83.57% 0.08937 255.52)",
+          "oklch(95.00% 0.08937 255.52)"
         ]
       },
       "primary-hover-dark": {
         "role": "primary",
-        "displayName": "Índigo de hover · escuro",
+        "displayName": "Azul de hover · escuro",
         "tonalRamp": [
-          "oklch(15.00% 0.15931 285.16)",
-          "oklch(26.43% 0.15931 285.16)",
-          "oklch(37.86% 0.15931 285.16)",
-          "oklch(49.29% 0.15931 285.16)",
-          "oklch(60.71% 0.15931 285.16)",
-          "oklch(72.14% 0.15931 285.16)",
-          "oklch(83.57% 0.15931 285.16)",
-          "oklch(95.00% 0.15931 285.16)"
+          "oklch(15.00% 0.06233 254.48)",
+          "oklch(26.43% 0.06233 254.48)",
+          "oklch(37.86% 0.06233 254.48)",
+          "oklch(49.29% 0.06233 254.48)",
+          "oklch(60.71% 0.06233 254.48)",
+          "oklch(72.14% 0.06233 254.48)",
+          "oklch(83.57% 0.06233 254.48)",
+          "oklch(95.00% 0.06233 254.48)"
         ]
       },
       "primary-soft-dark": {
         "role": "primary",
-        "displayName": "Índigo suave · escuro",
+        "displayName": "Azul suave · escuro",
         "tonalRamp": [
-          "oklch(15.00% 0.05428 287.43)",
-          "oklch(26.43% 0.05428 287.43)",
-          "oklch(37.86% 0.05428 287.43)",
-          "oklch(49.29% 0.05428 287.43)",
-          "oklch(60.71% 0.05428 287.43)",
-          "oklch(72.14% 0.05428 287.43)",
-          "oklch(83.57% 0.05428 287.43)",
-          "oklch(95.00% 0.05428 287.43)"
+          "oklch(15.00% 0.05700 254.03)",
+          "oklch(26.43% 0.05700 254.03)",
+          "oklch(37.86% 0.05700 254.03)",
+          "oklch(49.29% 0.05700 254.03)",
+          "oklch(60.71% 0.05700 254.03)",
+          "oklch(72.14% 0.05700 254.03)",
+          "oklch(83.57% 0.05700 254.03)",
+          "oklch(95.00% 0.05700 254.03)"
         ]
       },
       "primary-text-dark": {
         "role": "primary",
-        "displayName": "Texto índigo · escuro",
+        "displayName": "Texto azul · escuro",
         "tonalRamp": [
-          "oklch(15.00% 0.10084 288.39)",
-          "oklch(26.43% 0.10084 288.39)",
-          "oklch(37.86% 0.10084 288.39)",
-          "oklch(49.29% 0.10084 288.39)",
-          "oklch(60.71% 0.10084 288.39)",
-          "oklch(72.14% 0.10084 288.39)",
-          "oklch(83.57% 0.10084 288.39)",
-          "oklch(95.00% 0.10084 288.39)"
+          "oklch(15.00% 0.05462 256.13)",
+          "oklch(26.43% 0.05462 256.13)",
+          "oklch(37.86% 0.05462 256.13)",
+          "oklch(49.29% 0.05462 256.13)",
+          "oklch(60.71% 0.05462 256.13)",
+          "oklch(72.14% 0.05462 256.13)",
+          "oklch(83.57% 0.05462 256.13)",
+          "oklch(95.00% 0.05462 256.13)"
         ]
       },
       "success-dark": {
@@ -526,28 +526,28 @@
         "role": "primary",
         "displayName": "Foco · escuro",
         "tonalRamp": [
-          "oklch(15.00% 0.12803 283.42)",
-          "oklch(26.43% 0.12803 283.42)",
-          "oklch(37.86% 0.12803 283.42)",
-          "oklch(49.29% 0.12803 283.42)",
-          "oklch(60.71% 0.12803 283.42)",
-          "oklch(72.14% 0.12803 283.42)",
-          "oklch(83.57% 0.12803 283.42)",
-          "oklch(95.00% 0.12803 283.42)"
+          "oklch(15.00% 0.08937 255.52)",
+          "oklch(26.43% 0.08937 255.52)",
+          "oklch(37.86% 0.08937 255.52)",
+          "oklch(49.29% 0.08937 255.52)",
+          "oklch(60.71% 0.08937 255.52)",
+          "oklch(72.14% 0.08937 255.52)",
+          "oklch(83.57% 0.08937 255.52)",
+          "oklch(95.00% 0.08937 255.52)"
         ]
       },
       "primary-ink-dark": {
         "role": "primary",
         "displayName": "Tinta do botão escuro",
         "tonalRamp": [
-          "oklch(15.00% 0.02791 283.57)",
-          "oklch(26.43% 0.02791 283.57)",
-          "oklch(37.86% 0.02791 283.57)",
-          "oklch(49.29% 0.02791 283.57)",
-          "oklch(60.71% 0.02791 283.57)",
-          "oklch(72.14% 0.02791 283.57)",
-          "oklch(83.57% 0.02791 283.57)",
-          "oklch(95.00% 0.02791 283.57)"
+          "oklch(15.00% 0.05473 258.65)",
+          "oklch(26.43% 0.05473 258.65)",
+          "oklch(37.86% 0.05473 258.65)",
+          "oklch(49.29% 0.05473 258.65)",
+          "oklch(60.71% 0.05473 258.65)",
+          "oklch(72.14% 0.05473 258.65)",
+          "oklch(83.57% 0.05473 258.65)",
+          "oklch(95.00% 0.05473 258.65)"
         ]
       },
       "input-hover-border": {
@@ -562,6 +562,34 @@
           "oklch(72.14% 0.02307 265.71)",
           "oklch(83.57% 0.02307 265.71)",
           "oklch(95.00% 0.02307 265.71)"
+        ]
+      },
+      "brand-gold": {
+        "role": "secondary",
+        "displayName": "Dourado fosco de conexão",
+        "tonalRamp": [
+          "oklch(15.00% 0.09255 78.08)",
+          "oklch(26.43% 0.09255 78.08)",
+          "oklch(37.86% 0.09255 78.08)",
+          "oklch(49.29% 0.09255 78.08)",
+          "oklch(60.71% 0.09255 78.08)",
+          "oklch(72.14% 0.09255 78.08)",
+          "oklch(83.57% 0.09255 78.08)",
+          "oklch(95.00% 0.09255 78.08)"
+        ]
+      },
+      "brand-gold-dark": {
+        "role": "secondary",
+        "displayName": "Dourado fosco de conexão — escuro",
+        "tonalRamp": [
+          "oklch(15.00% 0.08076 81.32)",
+          "oklch(26.43% 0.08076 81.32)",
+          "oklch(37.86% 0.08076 81.32)",
+          "oklch(49.29% 0.08076 81.32)",
+          "oklch(60.71% 0.08076 81.32)",
+          "oklch(72.14% 0.08076 81.32)",
+          "oklch(83.57% 0.08076 81.32)",
+          "oklch(95.00% 0.08076 81.32)"
         ]
       }
     },
@@ -611,6 +639,11 @@
         "name": "spin",
         "value": "spin 1s linear infinite",
         "purpose": "Carregamento; rotação de 360deg. Desativada com redução de movimento."
+      },
+      {
+        "name": "navigation-disclosure",
+        "value": "transform 160ms ease-out",
+        "purpose": "Seta de Clientes e Configurações; giro de 180deg quando expandido, desativado com redução de movimento."
       }
     ],
     "breakpoints": [
@@ -643,7 +676,7 @@
       "refersTo": "button-primary",
       "description": "Variante real do componente Button; preserva foco e estado desabilitado.",
       "html": "<button type=\"button\" class=\"ds-btn-primary\">Salvar alterações</button>",
-      "css": ".ds-btn-primary {display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:7px;min-height:38px;padding:9px 14px;border:1px solid transparent;font-family:-apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;font-size:13px;font-weight:550;line-height:1.35;white-space:nowrap;cursor:pointer;transition:background-color 150ms ease,border-color 150ms ease,color 150ms ease;background:var(--primary, #4f46e5);color:#fff;} .ds-btn-primary:focus-visible {outline:2px solid var(--focus, #818cf8);outline-offset:3px;} .ds-btn-primary:disabled {opacity:0.56;cursor:not-allowed;} .ds-btn-primary:hover:not(:disabled) {background:var(--primary-hover, #4338ca);} :host-context([data-theme=\"dark\"]) .ds-btn-primary {color:#141422;} [data-theme=\"dark\"] .ds-btn-primary {color:#141422;} @media (prefers-reduced-motion:reduce) {.ds-btn-primary {transition:none;}}"
+      "css": ".ds-btn-primary {display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:7px;min-height:38px;padding:9px 14px;border:1px solid transparent;font-family:-apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;font-size:13px;font-weight:550;line-height:1.35;white-space:nowrap;cursor:pointer;transition:background-color 150ms ease,border-color 150ms ease,color 150ms ease;background:var(--primary, #173b68);color:#fff;} .ds-btn-primary:focus-visible {outline:2px solid var(--focus, #3067a9);outline-offset:3px;} .ds-btn-primary:disabled {opacity:0.56;cursor:not-allowed;} .ds-btn-primary:hover:not(:disabled) {background:var(--primary-hover, #102c50);} :host-context([data-theme=\"dark\"]) .ds-btn-primary {color:#10213b;} [data-theme=\"dark\"] .ds-btn-primary {color:#10213b;} @media (prefers-reduced-motion:reduce) {.ds-btn-primary {transition:none;}}"
     },
     {
       "name": "Botão secondary",
@@ -651,7 +684,7 @@
       "refersTo": "button-secondary",
       "description": "Variante real do componente Button; preserva foco e estado desabilitado.",
       "html": "<button type=\"button\" class=\"ds-btn-secondary\">Cancelar</button>",
-      "css": ".ds-btn-secondary {display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:7px;min-height:38px;padding:9px 14px;border:1px solid transparent;font-family:-apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;font-size:13px;font-weight:550;line-height:1.35;white-space:nowrap;cursor:pointer;transition:background-color 150ms ease,border-color 150ms ease,color 150ms ease;background:var(--surface, #ffffff);color:var(--text, #202538);border-color:var(--border, #e3e7ef);} .ds-btn-secondary:focus-visible {outline:2px solid var(--focus, #818cf8);outline-offset:3px;} .ds-btn-secondary:disabled {opacity:0.56;cursor:not-allowed;} .ds-btn-secondary:hover:not(:disabled) {background:var(--surface-hover, #f4f5f9);border-color:var(--subtle, #71798b);} @media (prefers-reduced-motion:reduce) {.ds-btn-secondary {transition:none;}}"
+      "css": ".ds-btn-secondary {display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:7px;min-height:38px;padding:9px 14px;border:1px solid transparent;font-family:-apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;font-size:13px;font-weight:550;line-height:1.35;white-space:nowrap;cursor:pointer;transition:background-color 150ms ease,border-color 150ms ease,color 150ms ease;background:var(--surface, #ffffff);color:var(--text, #202d40);border-color:var(--border, #e1e6ed);} .ds-btn-secondary:focus-visible {outline:2px solid var(--focus, #3067a9);outline-offset:3px;} .ds-btn-secondary:disabled {opacity:0.56;cursor:not-allowed;} .ds-btn-secondary:hover:not(:disabled) {background:var(--surface-hover, #f0f3f7);border-color:var(--subtle, #6b788a);} @media (prefers-reduced-motion:reduce) {.ds-btn-secondary {transition:none;}}"
     },
     {
       "name": "Botão ghost",
@@ -659,7 +692,7 @@
       "refersTo": "button-ghost",
       "description": "Variante real do componente Button; preserva foco e estado desabilitado.",
       "html": "<button type=\"button\" class=\"ds-btn-ghost\">Voltar</button>",
-      "css": ".ds-btn-ghost {display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:7px;min-height:38px;padding:9px 14px;border:1px solid transparent;font-family:-apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;font-size:13px;font-weight:550;line-height:1.35;white-space:nowrap;cursor:pointer;transition:background-color 150ms ease,border-color 150ms ease,color 150ms ease;background:transparent;color:var(--muted, #646d80);} .ds-btn-ghost:focus-visible {outline:2px solid var(--focus, #818cf8);outline-offset:3px;} .ds-btn-ghost:disabled {opacity:0.56;cursor:not-allowed;} .ds-btn-ghost:hover:not(:disabled) {background:var(--surface-hover, #f4f5f9);color:var(--text, #202538);} @media (prefers-reduced-motion:reduce) {.ds-btn-ghost {transition:none;}}"
+      "css": ".ds-btn-ghost {display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:7px;min-height:38px;padding:9px 14px;border:1px solid transparent;font-family:-apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;font-size:13px;font-weight:550;line-height:1.35;white-space:nowrap;cursor:pointer;transition:background-color 150ms ease,border-color 150ms ease,color 150ms ease;background:transparent;color:var(--muted, #5d6b7e);} .ds-btn-ghost:focus-visible {outline:2px solid var(--focus, #3067a9);outline-offset:3px;} .ds-btn-ghost:disabled {opacity:0.56;cursor:not-allowed;} .ds-btn-ghost:hover:not(:disabled) {background:var(--surface-hover, #f0f3f7);color:var(--text, #202d40);} @media (prefers-reduced-motion:reduce) {.ds-btn-ghost {transition:none;}}"
     },
     {
       "name": "Botão danger",
@@ -667,7 +700,7 @@
       "refersTo": "button-danger",
       "description": "Variante real do componente Button; preserva foco e estado desabilitado.",
       "html": "<button type=\"button\" class=\"ds-btn-danger\">Suspender acesso</button>",
-      "css": ".ds-btn-danger {display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:7px;min-height:38px;padding:9px 14px;border:1px solid transparent;font-family:-apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;font-size:13px;font-weight:550;line-height:1.35;white-space:nowrap;cursor:pointer;transition:background-color 150ms ease,border-color 150ms ease,color 150ms ease;background:var(--danger-soft, #fdf0f0);color:var(--danger, #b63b44);} .ds-btn-danger:focus-visible {outline:2px solid var(--focus, #818cf8);outline-offset:3px;} .ds-btn-danger:disabled {opacity:0.56;cursor:not-allowed;} @media (prefers-reduced-motion:reduce) {.ds-btn-danger {transition:none;}}"
+      "css": ".ds-btn-danger {display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:7px;min-height:38px;padding:9px 14px;border:1px solid transparent;font-family:-apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;font-size:13px;font-weight:550;line-height:1.35;white-space:nowrap;cursor:pointer;transition:background-color 150ms ease,border-color 150ms ease,color 150ms ease;background:var(--danger-soft, #fdf0f0);color:var(--danger, #b63b44);} .ds-btn-danger:focus-visible {outline:2px solid var(--focus, #3067a9);outline-offset:3px;} .ds-btn-danger:disabled {opacity:0.56;cursor:not-allowed;} @media (prefers-reduced-motion:reduce) {.ds-btn-danger {transition:none;}}"
     },
     {
       "name": "Campo com label",
@@ -675,15 +708,15 @@
       "refersTo": "input",
       "description": "Input com label persistente, placeholder e foco visível.",
       "html": "<div class=\"ds-field\"><label for=\"ds-company\">Nome da empresa</label><input class=\"ds-input\" id=\"ds-company\" placeholder=\"Nome da empresa\" /></div>",
-      "css": ".ds-field {display:flex;flex-direction:column;gap:7px;font-family:-apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;} .ds-field label {color:var(--text, #202538);font-size:12px;font-weight:550;line-height:1.5;} .ds-input {width:100%;height:40px;border:1px solid var(--border, #e3e7ef);border-radius:7px;background:var(--surface, #fff);color:var(--text, #202538);padding:9px 12px;font-family:-apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;font-size:13px;line-height:1.5;transition:background-color 150ms ease,border-color 150ms ease,color 150ms ease;} .ds-input::placeholder {color:var(--subtle, #71798b);opacity:1;} .ds-input:hover:not(:disabled):not([readonly]) {border-color:#a1a8b7;} .ds-input:focus, .ds-input:focus-visible {outline:2px solid var(--focus, #818cf8);outline-offset:1px;} .ds-input:disabled,.ds-input[readonly] {background:var(--background, #f7f8fb);color:var(--muted, #646d80);} .ds-input[aria-invalid=\"true\"] {border-color:var(--danger, #b63b44);} @media (prefers-reduced-motion:reduce) {.ds-input {transition:none;}}"
+      "css": ".ds-field {display:flex;flex-direction:column;gap:7px;font-family:-apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;} .ds-field label {color:var(--text, #202d40);font-size:12px;font-weight:550;line-height:1.5;} .ds-input {width:100%;height:40px;border:1px solid var(--border, #e1e6ed);border-radius:7px;background:var(--surface, #ffffff);color:var(--text, #202d40);padding:9px 12px;font-family:-apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;font-size:13px;line-height:1.5;transition:background-color 150ms ease,border-color 150ms ease,color 150ms ease;} .ds-input::placeholder {color:var(--subtle, #6b788a);opacity:1;} .ds-input:hover:not(:disabled):not([readonly]) {border-color:#a1a8b7;} .ds-input:focus, .ds-input:focus-visible {outline:2px solid var(--focus, #3067a9);outline-offset:1px;} .ds-input:disabled,.ds-input[readonly] {background:var(--background, #f7f8fa);color:var(--muted, #5d6b7e);} .ds-input[aria-invalid=\"true\"] {border-color:var(--danger, #b63b44);} @media (prefers-reduced-motion:reduce) {.ds-input {transition:none;}}"
     },
     {
       "name": "Navegação selecionada",
       "kind": "nav",
       "refersTo": "nav-item-current",
-      "description": "Link atual da barra lateral, com ícone, texto e indicador.",
-      "html": "<nav aria-label=\"Navegação\"><a class=\"ds-nav ds-nav-current\" href=\"#workspace\" aria-current=\"page\"><svg aria-hidden=\"true\" width=\"17\" height=\"17\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z\"/></svg><span>Visão geral</span><span class=\"ds-nav-dot\" aria-hidden=\"true\"></span></a></nav>",
-      "css": ".ds-nav {display:flex;align-items:center;gap:11px;min-height:39px;padding:9px 12px;margin:3px 0;border:0;border-radius:7px;color:var(--muted, #646d80);font-family:-apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;font-size:12px;line-height:1.3;text-align:left;text-decoration:none;background:transparent;transition:background-color 150ms ease,border-color 150ms ease,color 150ms ease;} .ds-nav:hover {background:var(--surface-hover, #f4f5f9);color:var(--text, #202538);} .ds-nav-current,.ds-nav-current:hover {background:var(--primary-soft, #eaeafa);color:var(--primary-text, #4840bd);font-weight:550;} .ds-nav:focus-visible {outline:2px solid var(--focus, #818cf8);outline-offset:3px;} .ds-nav-dot {margin-left:auto;width:5px;height:5px;border-radius:50%;background:currentColor;} @media (prefers-reduced-motion:reduce) {.ds-nav {transition:none;}}"
+      "description": "Link atual da barra lateral: altura de 44px, texto de 13px, ícone e indicador dourado; o shell agrupa Clientes e Configurações com expansão e rolagem própria.",
+      "html": "<nav aria-label=\"Navegação\"><a class=\"ds-nav ds-nav-current\" href=\"#workspace\" aria-current=\"page\"><svg aria-hidden=\"true\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z\"/></svg><span>Visão geral</span><span class=\"ds-nav-dot\" aria-hidden=\"true\"></span></a></nav>",
+      "css": ".ds-nav {display:flex;align-items:center;gap:11px;width:100%;min-height:44px;padding:9px 12px;margin:3px 0;border:0;border-radius:7px;color:var(--muted, #5d6b7e);font-family:-apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;font-size:13px;line-height:1.3;text-align:left;text-decoration:none;background:transparent;transition:background-color 150ms ease,border-color 150ms ease,color 150ms ease;} .ds-nav:hover {background:var(--surface-hover, #f0f3f7);color:var(--text, #202d40);} .ds-nav-current,.ds-nav-current:hover {background:var(--primary-soft, #eaf0f7);color:var(--primary-text, #173b68);font-weight:550;} .ds-nav:focus-visible {outline:2px solid var(--focus, #3067a9);outline-offset:3px;} .ds-nav-dot {margin-left:auto;width:5px;height:5px;border-radius:50%;background:var(--brand-gold, #aa8446);} @media (prefers-reduced-motion:reduce) {.ds-nav {transition:none;}} .ds-nav > svg {flex-shrink:0;} .ds-nav > span:not(.ds-nav-dot) {flex:1;}"
     },
     {
       "name": "Badge de status",
@@ -699,7 +732,7 @@
       "refersTo": "card",
       "description": "Card com conteúdo de configuração; o padding pertence ao conteúdo, não ao Card.",
       "html": "<section class=\"ds-card\"><div class=\"ds-card-content\"><h2>Dados da empresa</h2><p>Mantenha as informações da empresa atualizadas.</p></div></section>",
-      "css": ".ds-card {background:var(--surface, #fff);border:1px solid var(--border, #e3e7ef);border-radius:12px;font-family:-apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;} .ds-card-content {padding:26px;} .ds-card h2 {margin:0;color:var(--text, #202538);font-size:16px;font-weight:650;line-height:1.4;letter-spacing:-0.012em;} .ds-card p {margin:5px 0 0;color:var(--muted, #646d80);font-size:12px;line-height:1.5;}"
+      "css": ".ds-card {background:var(--surface, #ffffff);border:1px solid var(--border, #e1e6ed);border-radius:12px;font-family:-apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;} .ds-card-content {padding:26px;} .ds-card h2 {margin:0;color:var(--text, #202d40);font-size:16px;font-weight:650;line-height:1.4;letter-spacing:-0.012em;} .ds-card p {margin:5px 0 0;color:var(--muted, #5d6b7e);font-size:12px;line-height:1.5;}"
     },
     {
       "name": "Feedback de sucesso",
@@ -715,24 +748,25 @@
       "refersTo": "dialog",
       "description": "Prévia visual do diálogo nativo; abertura modal e callbacks pertencem ao componente React.",
       "html": "<dialog open class=\"ds-dialog\" aria-labelledby=\"ds-dialog-title\"><div class=\"ds-dialog-heading\"><div><h2 id=\"ds-dialog-title\">Confirmar alteração</h2><p>Revise o impacto antes de continuar.</p></div><form method=\"dialog\"><button class=\"ds-dialog-close\" aria-label=\"Fechar janela\"><svg aria-hidden=\"true\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m18 6-12 12M6 6l12 12\"/></svg></button></form></div></dialog>",
-      "css": ".ds-dialog {position:relative;margin:auto;max-height:calc(100dvh - 32px);overflow:auto;border:1px solid var(--border, #e3e7ef);border-radius:14px;color:var(--text, #202538);background:var(--surface, #fff);padding:25px;width:min(490px, calc(100vw - 32px));font-family:-apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;} .ds-dialog::backdrop {background:#10132266;} .ds-dialog-heading {display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:24px;gap:16px;} .ds-dialog h2 {margin:0;font-size:16px;line-height:1.4;font-weight:650;letter-spacing:-0.012em;} .ds-dialog p {margin:7px 0 0;font-size:12px;line-height:1.5;color:var(--muted, #646d80);} .ds-dialog-close {display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:7px;width:34px;height:34px;padding:0;color:var(--muted, #646d80);background:transparent;cursor:pointer;transition:background-color 150ms ease,border-color 150ms ease,color 150ms ease;} .ds-dialog-close:hover {color:var(--text, #202538);background:var(--surface-hover, #f4f5f9);} .ds-dialog-close:focus-visible {outline:2px solid var(--focus, #818cf8);outline-offset:3px;} @media (prefers-reduced-motion:reduce) {.ds-dialog-close {transition:none;}}"
+      "css": ".ds-dialog {position:relative;margin:auto;max-height:calc(100dvh - 32px);overflow:auto;border:1px solid var(--border, #e1e6ed);border-radius:14px;color:var(--text, #202d40);background:var(--surface, #ffffff);padding:25px;width:min(490px, calc(100vw - 32px));font-family:-apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;} .ds-dialog::backdrop {background:#10132266;} .ds-dialog-heading {display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:24px;gap:16px;} .ds-dialog h2 {margin:0;font-size:16px;line-height:1.4;font-weight:650;letter-spacing:-0.012em;} .ds-dialog p {margin:7px 0 0;font-size:12px;line-height:1.5;color:var(--muted, #5d6b7e);} .ds-dialog-close {display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:7px;width:34px;height:34px;padding:0;color:var(--muted, #5d6b7e);background:transparent;cursor:pointer;transition:background-color 150ms ease,border-color 150ms ease,color 150ms ease;} .ds-dialog-close:hover {color:var(--text, #202d40);background:var(--surface-hover, #f0f3f7);} .ds-dialog-close:focus-visible {outline:2px solid var(--focus, #3067a9);outline-offset:3px;} @media (prefers-reduced-motion:reduce) {.ds-dialog-close {transition:none;}}"
     }
   ],
   "narrative": {
     "northStar": "Minimalista, profissional e muito organizada",
-    "overview": "O Desmos CRM adota a direção confirmada no briefing: minimalista, profissional, premium, muito organizada e densa o suficiente para uso empresarial. A hierarquia aparece na tipografia, no alinhamento e nas divisórias; o índigo concentra ações e seleção sobre superfícies frias. As referências de software do produto orientam a clareza do trabalho sem reproduzir a identidade de outra marca.\n\nA marca Desmos foi escolhida pelo usuário, com referência ao grego. O símbolo usa elos, com Link2 na interface e favicon correspondente. A identificação da empresa na barra lateral é estática: cada conta pertence a uma única empresa cliente do SaaS.\n\nEste documento registra a implementação da fundação: autenticação, onboarding, navegação, empresa, equipe, perfil e sessões. A fonte da verdade visual é `apps/web/src/app/globals.css`, combinada com `apps/web/src/components/ui/primitives.tsx` e os componentes de cada tela. Os nomes descritivos abaixo resumem o código; não constituem uma nova marca. A paleta sugerida no briefing foi adaptada na implementação e os valores extraídos no frontmatter são os valores vigentes.",
+    "overview": "O Desmos CRM adota a direção confirmada no briefing: minimalista, profissional, premium, muito organizada e densa o suficiente para uso empresarial. A hierarquia aparece na tipografia, no alinhamento e nas divisórias; o azul profundo concentra ações e seleção sobre superfícies claras, com dourado fosco em detalhes de conexão. As referências de software do produto orientam a clareza do trabalho sem reproduzir a identidade de outra marca.\n\nA marca Desmos mantém a referência grega a laço e conexão. O símbolo próprio é uma imagem raster gerada em azul profundo e dourado fosco, sem brilho ou efeito metálico, compartilhada pela autenticação, barra lateral e ícone da aplicação. A identificação da empresa na barra lateral é estática: cada conta pertence a uma única empresa cliente do SaaS.\n\nEste documento registra os padrões reutilizados na autenticação, onboarding, navegação, configurações e trabalho comercial. A fonte da verdade visual é `apps/web/src/app/globals.css`, combinada com `apps/web/src/components/ui/primitives.tsx`, `apps/web/src/components/brand.tsx`, `apps/web/src/features/workspace/shell.tsx` e os componentes de cada tela. Os valores do frontmatter correspondem à implementação após a mudança de identidade autorizada em 01/10/2026. Capacidades de fases futuras permanecem requisitos, sem componentes fictícios.",
     "keyCharacteristics": [
-      "Superfícies claras ou escuras, separadas por tom e borda fina.",
+      "Superfícies claras por padrão, separadas por tom e borda fina.",
       "Densidade operacional com títulos curtos e controles compactos.",
-      "Índigo para ação e seleção; status sempre acompanhados de texto.",
-      "Tema escuro completo e navegação adaptada a telas pequenas."
+      "Azul profundo para ação e seleção; dourado fosco no símbolo e no indicador atual.",
+      "Tema escuro por escolha explícita e navegação agrupada, adaptada a telas pequenas."
     ],
     "rules": [
       "Cada conta pertence a uma única empresa cliente; a barra lateral identifica o ambiente sem seletor ou criação de uma segunda empresa.",
-      "A marca pública usa Desmos CRM e símbolo de elos; manter os tokens e a densidade operacional existentes."
+      "A marca pública usa Desmos CRM e símbolo próprio de laço em azul profundo e dourado fosco; o tema claro é o padrão."
     ],
     "dos": [
-      "Do reutilizar os tokens semânticos e verificar os dois temas ao adicionar uma superfície.",
+      "Do reutilizar os tokens semânticos, manter claro como padrão e verificar os dois temas ao adicionar uma superfície.",
+      "Do usar o símbolo próprio de laço em azul e dourado fosco, preservando sua proveniência.",
       "Do manter labels visíveis, foco por teclado e feedback textual de erro, sucesso e carregamento.",
       "Do agrupar campos relacionados, alinhar ações e usar divisórias nas listas e tabelas.",
       "Do adaptar a composição para telas pequenas, preservando ações essenciais e a rolagem horizontal das tabelas.",
@@ -741,6 +775,7 @@
     "donts": [
       "Don't transformar cada informação em um card ou introduzir painéis de métricas fictícias.",
       "Don't adicionar neon, estética futurista, ícones gigantes, gradientes excessivos ou sombras excessivas.",
+      "Don't aplicar brilho, efeito metálico ou acabamento lustroso ao dourado da marca.",
       "Don't comunicar estado somente pela cor nem remover os indicadores de foco.",
       "Don't tratar os detalhes decorativos da tela de autenticação como padrão de composição das telas de trabalho.",
       "Don't apresentar componentes futuros como funcionalidades já disponíveis."

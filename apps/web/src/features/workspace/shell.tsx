@@ -15,21 +15,23 @@ import {
   Trash2,
   UserRoundSearch,
   Check,
+  ChevronDown,
   ChevronRight,
-  Link2,
   Home,
   LogOut,
   Menu,
   Monitor,
   Moon,
   ScrollText,
-  ShieldCheck,
+  Settings2,
+  Workflow,
   Sun,
   UserRound,
   UsersRound,
   X,
 } from "lucide-react";
 import { useSession, useTheme } from "@/components/providers";
+import { BrandSymbol } from "@/components/brand";
 import { Alert, ErrorState, LoadingPage, cn } from "@/components/ui/primitives";
 import {
   errorMessage,
@@ -40,40 +42,47 @@ import {
 import { initials, roleLabels, type SessionContext } from "@/lib/types";
 
 const nav = [
+  {
+    label: "Automações",
+    href: "/sales/automations",
+    icon: Workflow,
+    group: "CONFIGURAÇÕES",
+    permission: "pipelines.manage",
+  },
   { label: "Visão geral", href: "/workspace", icon: Home, group: "WORKSPACE" },
   {
     label: "Leads",
     href: "/crm/leads",
     icon: UserRoundSearch,
-    group: "CRM",
+    group: "CLIENTES",
     permission: "leads.view",
   },
   {
     label: "Contatos",
     href: "/crm/contacts",
     icon: ContactRound,
-    group: "CRM",
+    group: "CLIENTES",
     permission: "contacts.view",
   },
   {
     label: "Empresas clientes",
     href: "/crm/companies",
     icon: Building2,
-    group: "CRM",
+    group: "CLIENTES",
     permission: "companies.view",
   },
   {
     label: "Tags",
     href: "/crm/tags",
     icon: Tags,
-    group: "CRM",
+    group: "CONFIGURAÇÕES",
     permission: "tags.manage",
   },
   {
     label: "Lixeira",
     href: "/crm/trash",
     icon: Trash2,
-    group: "CRM",
+    group: "CONFIGURAÇÕES",
     permission: "crm.trash",
   },
   {
@@ -105,31 +114,31 @@ const nav = [
     permission: "tasks.view",
   },
   {
-    label: "Pipelines",
+    label: "Funis e etapas",
     href: "/sales/pipelines",
     icon: GitBranch,
-    group: "VENDAS",
+    group: "CONFIGURAÇÕES",
     permission: "pipelines.manage",
   },
   {
     label: "Empresa",
     href: "/settings/company",
     icon: Building2,
-    group: "ORGANIZAÇÃO",
+    group: "CONFIGURAÇÕES",
     permission: "settings.manage",
   },
   {
     label: "Equipe e acessos",
     href: "/settings/team",
     icon: UsersRound,
-    group: "ORGANIZAÇÃO",
+    group: "CONFIGURAÇÕES",
     permission: "users.manage",
   },
   {
-    label: "Registro de atividades",
+    label: "Auditoria",
     href: "/settings/audit",
     icon: ScrollText,
-    group: "ORGANIZAÇÃO",
+    group: "CONFIGURAÇÕES",
     permission: "audit.view",
   },
   {
@@ -158,6 +167,26 @@ function WorkspaceShell({
   const queryClient = useQueryClient();
   const { dark, toggle } = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [clientsOpen, setClientsOpen] = useState(
+    nav.some(
+      (item) => item.group === "CLIENTES" && pathname.startsWith(item.href),
+    ),
+  );
+  const [settingsOpen, setSettingsOpen] = useState(
+    nav.some(
+      (item) =>
+        ["CONFIGURAÇÕES", "MINHA CONTA"].includes(item.group) &&
+        pathname.startsWith(item.href),
+    ),
+  );
+  useEffect(() => {
+    const item = nav.find(
+      (item) => pathname === item.href || pathname.startsWith(`${item.href}/`),
+    );
+    if (item?.group === "CLIENTES") setClientsOpen(true);
+    if (item && ["CONFIGURAÇÕES", "MINHA CONTA"].includes(item.group))
+      setSettingsOpen(true);
+  }, [pathname]);
   useEffect(() => {
     setExpectedTenant(session.tenant.id);
   }, [session.tenant.id]);
@@ -232,6 +261,33 @@ function WorkspaceShell({
   const current =
     nav.find((n) => n.href === pathname || pathname.startsWith(`${n.href}/`))
       ?.label ?? "Configuração inicial";
+  const renderLink = ({ href, icon: Icon, label }: (typeof nav)[number]) => {
+    const active = pathname === href || pathname.startsWith(`${href}/`);
+    return (
+      <Link
+        key={href}
+        href={href}
+        className={cn("nav-link", active && "nav-active")}
+        aria-current={active ? "page" : undefined}
+        onClick={() => setMobileOpen(false)}
+      >
+        <Icon size={18} aria-hidden="true" />
+        <span>{label}</span>
+        {active && <span className="nav-current-dot" aria-hidden="true" />}
+      </Link>
+    );
+  };
+  const clients = allowed.filter((item) => item.group === "CLIENTES");
+  const settings = [
+    "/settings/company",
+    "/settings/team",
+    "/sales/pipelines",
+    "/sales/automations",
+    "/crm/tags",
+    "/settings/audit",
+    "/crm/trash",
+  ].flatMap((href) => allowed.filter((item) => item.href === href));
+  const account = allowed.filter((item) => item.group === "MINHA CONTA");
   return (
     <div className="app-shell">
       <a href="#main-content" className="skip-link">
@@ -252,12 +308,15 @@ function WorkspaceShell({
         <div className="sidebar-brand-row">
           <Link
             className="brand"
-            href="/workspace"
+            href={
+              session.permissions.includes("deals.view")
+                ? "/sales/board"
+                : "/workspace"
+            }
+            aria-label="Desmos CRM — início"
             onClick={() => setMobileOpen(false)}
           >
-            <span className="brand-mark">
-              <Link2 size={23} />
-            </span>
+            <BrandSymbol size={40} />
             <span>
               desmos<span className="brand-suffix">crm</span>
             </span>
@@ -279,48 +338,86 @@ function WorkspaceShell({
             <strong title={session.tenant.name}>{session.tenant.name}</strong>
           </div>
         </div>
-        <nav>
-          {["WORKSPACE", "CRM", "VENDAS", "ORGANIZAÇÃO", "MINHA CONTA"].map(
-            (group) => {
-              const items = allowed.filter((n) => n.group === group);
-              return items.length ? (
-                <div className="nav-group" key={group}>
-                  <p className="nav-group-label">{group}</p>
-                  {items.map(({ href, icon: Icon, label }) => (
-                    <Link
-                      key={href}
-                      href={href}
-                      className={cn(
-                        "nav-link",
-                        (pathname === href ||
-                          pathname.startsWith(`${href}/`)) &&
-                          "nav-active",
-                      )}
-                      aria-current={
-                        pathname === href || pathname.startsWith(`${href}/`)
-                          ? "page"
-                          : undefined
-                      }
-                      onClick={() => setMobileOpen(false)}
-                    >
-                      <Icon size={18} />
-                      <span>{label}</span>
-                      {(pathname === href ||
-                        pathname.startsWith(`${href}/`)) && (
-                        <span className="nav-current-dot" />
-                      )}
-                    </Link>
-                  ))}
+        <nav className="sidebar-navigation" aria-label="Trabalho comercial">
+          <div className="nav-group nav-primary">
+            {[
+              "/sales/board",
+              "/sales/deals",
+              "/sales/tasks",
+              "/sales/activities",
+            ]
+              .flatMap((href) => allowed.filter((item) => item.href === href))
+              .map(renderLink)}
+          </div>
+          <div className="nav-group nav-secondary">
+            {clients.length > 0 && (
+              <>
+                <button
+                  type="button"
+                  className={cn(
+                    "nav-link nav-disclosure",
+                    clients.some((item) => pathname.startsWith(item.href)) &&
+                      "nav-section-current",
+                  )}
+                  aria-expanded={clientsOpen}
+                  aria-controls="nav-clients"
+                  onClick={() => setClientsOpen(!clientsOpen)}
+                >
+                  <ContactRound size={18} aria-hidden="true" />
+                  <span>Clientes</span>
+                  <ChevronDown
+                    size={15}
+                    className="nav-chevron"
+                    aria-hidden="true"
+                  />
+                </button>
+                <div
+                  id="nav-clients"
+                  className="nav-children"
+                  hidden={!clientsOpen}
+                >
+                  {clients.map(renderLink)}
                 </div>
-              ) : null;
-            },
-          )}
+              </>
+            )}
+            {allowed
+              .filter((item) => item.group === "WORKSPACE")
+              .map(renderLink)}
+          </div>
         </nav>
         <div className="sidebar-bottom">
-          <div className="sidebar-status">
-            <ShieldCheck size={15} />
-            <span>Ambiente da sua empresa</span>
-          </div>
+          <nav aria-label="Configurações e conta" className="sidebar-settings">
+            <button
+              type="button"
+              className={cn(
+                "nav-link nav-disclosure",
+                settings
+                  .concat(account)
+                  .some((item) => pathname.startsWith(item.href)) &&
+                  "nav-section-current",
+              )}
+              aria-expanded={settingsOpen}
+              aria-controls="nav-settings"
+              onClick={() => setSettingsOpen(!settingsOpen)}
+            >
+              <Settings2 size={18} aria-hidden="true" />
+              <span>Configurações</span>
+              <ChevronDown
+                size={15}
+                className="nav-chevron"
+                aria-hidden="true"
+              />
+            </button>
+            <div
+              id="nav-settings"
+              className="nav-children"
+              hidden={!settingsOpen}
+            >
+              {settings.map(renderLink)}
+              {settings.length > 0 && <div className="nav-separator" />}
+              {account.map(renderLink)}
+            </div>
+          </nav>
           <div className="sidebar-profile">
             <Link
               href="/settings/profile"

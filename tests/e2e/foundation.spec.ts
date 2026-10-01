@@ -27,6 +27,9 @@ test("cadastro, onboarding, configurações persistidas e novo login", async ({
     .fill("Organizar clientes e acompanhar cada negociação.");
   await page.getByRole("button", { name: "Concluir configuração" }).click();
   await expect(page).toHaveURL(/\/workspace$/);
+  await page
+    .getByRole("button", { name: "Configurações", exact: true })
+    .click();
   await page.getByRole("link", { name: "Empresa", exact: true }).click();
   await page
     .getByLabel("Nome da empresa", { exact: true })

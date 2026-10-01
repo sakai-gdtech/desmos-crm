@@ -2,45 +2,47 @@
 name: "Desmos CRM"
 description: "Interface profissional, minimalista e organizada para o trabalho diário."
 colors:
-  background: "#f7f8fb"
+  background: "#f7f8fa"
   surface: "#ffffff"
-  sidebar: "#f1f3f8"
-  surface-hover: "#f4f5f9"
-  text: "#202538"
-  muted: "#646d80"
-  subtle: "#71798b"
-  border: "#e3e7ef"
-  primary: "#4f46e5"
-  primary-hover: "#4338ca"
-  primary-soft: "#eaeafa"
-  primary-text: "#4840bd"
+  sidebar: "#ffffff"
+  surface-hover: "#f0f3f7"
+  text: "#202d40"
+  muted: "#5d6b7e"
+  subtle: "#6b788a"
+  border: "#e1e6ed"
+  primary: "#173b68"
+  primary-hover: "#102c50"
+  primary-soft: "#eaf0f7"
+  primary-text: "#173b68"
+  brand-gold: "#aa8446"
   success: "#217550"
   success-soft: "#e8f4ed"
   warning: "#8a5b16"
   warning-soft: "#fbf1df"
   danger: "#b63b44"
   danger-soft: "#fdf0f0"
-  focus: "#818cf8"
-  background-dark: "#151722"
-  surface-dark: "#1e2130"
-  sidebar-dark: "#1a1c2b"
-  surface-hover-dark: "#282c3e"
-  text-dark: "#ebedf5"
-  muted-dark: "#a8afc2"
-  subtle-dark: "#9ca5ba"
-  border-dark: "#34384c"
-  primary-dark: "#847af4"
-  primary-hover-dark: "#958cfb"
-  primary-soft-dark: "#33304f"
-  primary-text-dark: "#beb7ff"
+  focus: "#3067a9"
+  background-dark: "#141c28"
+  surface-dark: "#1c2736"
+  sidebar-dark: "#182332"
+  surface-hover-dark: "#26354a"
+  text-dark: "#edf2f8"
+  muted-dark: "#afbbcc"
+  subtle-dark: "#a2b0c3"
+  border-dark: "#35465c"
+  primary-dark: "#91baf0"
+  primary-hover-dark: "#b2d0f6"
+  primary-soft-dark: "#263d59"
+  primary-text-dark: "#bad3f5"
+  brand-gold-dark: "#c9aa73"
   success-dark: "#89d7ae"
   success-soft-dark: "#253d34"
   warning-dark: "#e6c286"
   warning-soft-dark: "#3e3428"
   danger-dark: "#ffacb2"
   danger-soft-dark: "#422a33"
-  focus-dark: "#a6a5ff"
-  primary-ink-dark: "#141422"
+  focus-dark: "#91baf0"
+  primary-ink-dark: "#10213b"
   input-hover-border: "#a1a8b7"
 typography:
   headline:
@@ -136,6 +138,7 @@ components:
     textColor: "{colors.muted}"
     rounded: "{rounded.control}"
     padding: "9px 12px"
+    height: "44px"
   nav-item-current:
     backgroundColor: "{colors.primary-soft}"
     textColor: "{colors.primary-text}"
@@ -176,35 +179,39 @@ components:
 
 **Creative North Star: "Minimalista, profissional e muito organizada"**
 
-O Desmos CRM adota a direção confirmada no briefing: minimalista, profissional, premium, muito organizada e densa o suficiente para uso empresarial. A hierarquia aparece na tipografia, no alinhamento e nas divisórias; o índigo concentra ações e seleção sobre superfícies frias. As referências de software do produto orientam a clareza do trabalho sem reproduzir a identidade de outra marca.
+O Desmos CRM adota a direção confirmada no briefing: minimalista, profissional, premium, muito organizada e densa o suficiente para uso empresarial. A hierarquia aparece na tipografia, no alinhamento e nas divisórias; o azul profundo concentra ações e seleção sobre superfícies claras, com dourado fosco em detalhes de conexão. As referências de software do produto orientam a clareza do trabalho sem reproduzir a identidade de outra marca.
 
-A marca Desmos foi escolhida pelo usuário, com referência ao grego. O símbolo usa elos, com Link2 na interface e favicon correspondente. A identificação da empresa na barra lateral é estática: cada conta pertence a uma única empresa cliente do SaaS.
+A marca Desmos mantém a referência grega a laço e conexão. O símbolo próprio é uma imagem raster gerada em azul profundo e dourado fosco, sem brilho ou efeito metálico, compartilhada pela autenticação, barra lateral e ícone da aplicação. A identificação da empresa na barra lateral é estática: cada conta pertence a uma única empresa cliente do SaaS.
 
-Este documento registra a implementação da fundação: autenticação, onboarding, navegação, empresa, equipe, perfil e sessões. A fonte da verdade visual é `apps/web/src/app/globals.css`, combinada com `apps/web/src/components/ui/primitives.tsx` e os componentes de cada tela. Os nomes descritivos abaixo resumem o código; não constituem uma nova marca. A paleta sugerida no briefing foi adaptada na implementação e os valores extraídos no frontmatter são os valores vigentes.
+Este documento registra os padrões reutilizados na autenticação, onboarding, navegação, configurações e trabalho comercial. A fonte da verdade visual é `apps/web/src/app/globals.css`, combinada com `apps/web/src/components/ui/primitives.tsx`, `apps/web/src/components/brand.tsx`, `apps/web/src/features/workspace/shell.tsx` e os componentes de cada tela. Os valores do frontmatter correspondem à implementação após a mudança de identidade autorizada em 01/10/2026. Capacidades de fases futuras permanecem requisitos, sem componentes fictícios.
 
 **Key Characteristics:**
 
-- Superfícies claras ou escuras, separadas por tom e borda fina.
+- Superfícies claras por padrão, separadas por tom e borda fina.
 - Densidade operacional com títulos curtos e controles compactos.
-- Índigo para ação e seleção; status sempre acompanhados de texto.
-- Tema escuro completo e navegação adaptada a telas pequenas.
+- Azul profundo para ação e seleção; dourado fosco no símbolo e no indicador atual.
+- Tema escuro por escolha explícita e navegação agrupada, adaptada a telas pequenas.
 
 ## Colors
 
-A paleta combina neutros frios com índigo e cores semânticas contidas. Os tokens sem sufixo correspondem ao tema claro; `-dark` registra o valor que a mesma variável CSS recebe quando a raiz possui `data-theme="dark"`. O código continua consumindo as variáveis semânticas sem sufixo em ambos os temas.
+A paleta combina neutros frios claros com azul profundo, dourado fosco e cores semânticas contidas. A primeira visita inicia no claro, independentemente do sistema operacional. Uma escolha salva em `orbit-theme` é respeitada; o controle da barra superior alterna e salva claro/escuro. Os tokens sem sufixo correspondem ao tema claro; `-dark` registra o valor que a mesma variável CSS recebe quando a raiz possui `data-theme="dark"`. O código continua consumindo as variáveis semânticas sem sufixo em ambos os temas.
 
 ### Primary
 
-- **Índigo de ação** (`primary`, `primary-hover`): preenchimento do botão principal e indicação de progresso.
-- **Índigo suave** (`primary-soft`, `primary-text`): navegação selecionada, badges de contexto, avatars e links. O fundo suave não substitui o contraste de texto.
-- **Índigo de foco** (`focus`): contorno de teclado compartilhado por links, botões e campos.
-- **Tinta do botão no tema escuro** (`primary-ink-dark`): texto escuro sobre o índigo mais claro do botão principal.
+- **Azul profundo de ação** (`primary`, `primary-hover`): preenchimento do botão principal e indicação de progresso.
+- **Azul suave** (`primary-soft`, `primary-text`): navegação selecionada, badges de contexto, avatars e links. O fundo suave não substitui o contraste de texto.
+- **Azul de foco** (`focus`): contorno de teclado compartilhado por links, botões e campos.
+- **Tinta do botão no tema escuro** (`primary-ink-dark`): texto escuro sobre o azul mais claro do botão principal.
+
+### Secondary
+
+- **Dourado fosco de conexão** (`brand-gold` e `brand-gold-dark`): pequeno indicador do destino atual. O símbolo raster também combina azul e dourado; seus pixels são um asset fixo, não uma aplicação dinâmica dos tokens CSS.
 
 ### Neutral
 
 - **Fundo frio** (`background`): plano de trabalho, cabeçalhos e rodapés de tabela.
 - **Superfície** (`surface`): campos, cards, barra superior e diálogo.
-- **Navegação fria** (`sidebar`): plano contínuo da barra lateral.
+- **Navegação clara** (`sidebar`): plano branco contínuo da barra lateral no tema padrão, com adaptação tonal no escuro.
 - **Superfície de interação** (`surface-hover`): hover de linhas, navegação e botões secundários; também badges neutros.
 - **Texto principal, secundário e auxiliar** (`text`, `muted`, `subtle`): hierarquia de conteúdo, legendas e placeholders.
 - **Divisória** (`border`): bordas de campos, containers e linhas. `input-hover-border` registra a borda de hover específica dos campos.
@@ -230,7 +237,7 @@ Descrições de página limitam a linha a (70ch); estados vazios a (55ch). Tabel
 
 ## Layout
 
-O shell de trabalho mantém uma barra lateral fixa (244px), barra superior com altura mínima (69px) e conteúdo central com largura máxima (1500px). A área principal usa margens internas de (36px 40px 44px). A estrutura mantém o contexto da empresa e da conta visível enquanto o conteúdo muda.
+O shell de trabalho mantém uma barra lateral fixa (244px), barra superior com altura mínima (69px) e conteúdo central com largura máxima (1500px). A área principal usa margens internas de (36px 40px 44px). A estrutura mantém marca e empresa no topo e conta no rodapé. A lista comercial central rola quando a altura é limitada; os filhos expandidos de Configurações têm rolagem independente e altura máxima de (28dvh), preservando perfil e logout visíveis.
 
 O ritmo observado combina (20px) entre campos e blocos de formulário, (24px) entre colunas de resumo e (28px) entre grandes seções. Cards definem o contorno, enquanto cada conteúdo define seu padding; não há padding universal no componente Card. Formulários de configuração usam (26px), resumos e grupos operacionais normalmente usam (22–24px).
 
@@ -258,7 +265,7 @@ O foco aparece com contorno de (2px), deslocado (3px) nos controles gerais e (1p
 
 Cantos discretamente arredondados delimitam controles, badges, containers e diálogos conforme `rounded`. Botões e campos compartilham o raio de controle; cards são mais amplos; badges permanecem compactos. A borda comum é fina e contínua.
 
-Avatars usam quadrados arredondados com iniciais e tamanhos contextuais. Círculos ficam restritos a indicadores de estado e progresso. A marca Desmos usa elos (ícone Link2 e favicon correspondente) para representar conexão. A autenticação preserva sua geometria elíptica ao redor do símbolo de conexão. Esse motivo visual não altera os tokens nem precisa se repetir nas telas de trabalho.
+Avatars usam quadrados arredondados com iniciais e tamanhos contextuais. Círculos ficam restritos a indicadores de estado e progresso. A marca Desmos usa um laço próprio no asset `apps/web/public/brand/desmos-symbol.png`, exibido pelo componente BrandSymbol com (40px) na marca do shell e da autenticação e (180px) na área narrativa do login. O ícone da aplicação usa `apps/web/src/app/icon.png`. No escuro, o símbolo recebe base branca e cantos de controle para preservar seus pixels. A autenticação apresenta o asset sobre azul suave, sem ornamento elíptico. A proveniência está em `docs/desmos-symbol-prompt.txt`; o símbolo não deve ser substituído por um ícone genérico.
 
 ## Components
 
@@ -266,7 +273,7 @@ Avatars usam quadrados arredondados com iniciais e tamanhos contextuais. Círcul
 
 Botões são compactos, com ação explícita em texto. O componente aceita `primary`, `secondary`, `ghost` e `danger`, usando os tokens homônimos no frontmatter. A altura mínima normal é (38px); autenticação usa (44px). Ícone e texto têm intervalo de (8px).
 
-O primário muda para o índigo de hover; o secundário muda superfície e borda; o ghost ganha fundo neutro. O danger usa fundo vermelho suave e texto semântico, sem efeito de hover específico adicional. Todo botão recebe foco visível. Desabilitados têm opacidade (0,56); carregamento inclui spinner e impede novo envio.
+O primário muda para o azul de hover; o secundário muda superfície e borda; o ghost ganha fundo neutro. O danger usa fundo vermelho suave e texto semântico, sem efeito de hover específico adicional. Todo botão recebe foco visível. Desabilitados têm opacidade (0,56); carregamento inclui spinner e impede novo envio.
 
 ### Inputs / Fields
 
@@ -276,11 +283,15 @@ Field mantém label associado e liga mensagens de erro ou ajuda ao controle por 
 
 ### Navigation
 
-Links da barra lateral têm texto compacto (12px), ícone e altura mínima (39px). O hover usa superfície neutra; o item atual usa índigo suave, peso (550) e um pequeno indicador. A empresa da conta aparece como identificação estática, sem seletor ou ação de criar outra empresa. Links de navegação fecham o drawer quando ele está aberto.
+Links e expansores da barra lateral têm texto compacto (13px), ícone de (18px) e altura mínima de (44px); os filhos usam (12px). O hover usa superfície neutra; o item atual usa azul suave, peso (550), `aria-current="page"` e indicador dourado de (5px). O grupo que contém a página atual recebe texto azul e peso (600).
+
+Quatro destinos comerciais ficam diretos, nesta ordem: Funil de vendas, Oportunidades, Tarefas e Atividades. Clientes expande Leads, Contatos e Empresas clientes; Visão geral permanece abaixo. Configurações fica no rodapé, com Empresa, Equipe e acessos, Funis e etapas, Tags, Auditoria e Lixeira conforme permissões, seguida da área de conta com Meu perfil e Dispositivos e sessões. Perfil e logout permanecem visíveis abaixo do grupo. Os expansores expõem `aria-expanded` e `aria-controls`; os grupos abrem ao acessar um filho diretamente.
+
+A empresa da conta aparece como identificação estática, sem seletor ou ação de criar outra empresa. A marca retorna ao funil para quem tem acesso a oportunidades, ou à Visão geral. Links de navegação fecham o drawer quando aberto. A mesma hierarquia e os mesmos agrupamentos se mantêm no mobile.
 
 ### Chips / Badges
 
-Badges são identificadores de estado e contexto, não botões. Variantes `neutral`, `green`, `indigo` e `amber` usam pares de fundo e texto descritos em Colors. O label informa o significado; não há comportamento de hover interativo.
+Badges são identificadores de estado e contexto, não botões. Variantes `neutral`, `green`, `indigo` e `amber` usam pares de fundo e texto descritos em Colors. `indigo` é o nome legado da API do badge; seu par semântico agora é azul, sem definir uma segunda identidade. O label informa o significado; não há comportamento de hover interativo.
 
 ### Cards / Containers
 
@@ -290,7 +301,7 @@ Card aplica superfície, borda e raio, sem sombra e sem padding próprio. Seçõ
 
 Alert de erro usa `role="alert"`; sucesso usa `role="status"`. Ícone e texto compartilham a cor semântica, com fundo suave e borda translúcida. Estados vazios informam ausência de conteúdo e podem apresentar a próxima ação; falhas de carregamento oferecem nova tentativa quando disponível.
 
-Skeletons usam a cor de borda e pulsação de (1,8s); spinners giram em (1s). Transições de cor, fundo e borda duram (150ms). `prefers-reduced-motion: reduce` remove animações e transições. Movimento serve ao estado da operação.
+Skeletons usam a cor de borda e pulsação de (1,8s); spinners giram em (1s). Transições de cor, fundo e borda duram (150ms); a seta dos expansores gira em (160ms) com `ease-out`. `prefers-reduced-motion: reduce` remove animações e transições. Movimento serve ao estado da operação.
 
 ### Dialogs
 
@@ -300,7 +311,8 @@ O diálogo usa o elemento nativo `dialog` aberto por `showModal()`, título asso
 
 ### Do:
 
-- Do reutilizar os tokens semânticos e verificar os dois temas ao adicionar uma superfície.
+- Do reutilizar os tokens semânticos, manter claro como padrão e verificar os dois temas ao adicionar uma superfície.
+- Do usar o símbolo próprio de laço em azul e dourado fosco, preservando sua proveniência.
 - Do manter labels visíveis, foco por teclado e feedback textual de erro, sucesso e carregamento.
 - Do agrupar campos relacionados, alinhar ações e usar divisórias nas listas e tabelas.
 - Do adaptar a composição para telas pequenas, preservando ações essenciais e a rolagem horizontal das tabelas.
@@ -310,6 +322,7 @@ O diálogo usa o elemento nativo `dialog` aberto por `showModal()`, título asso
 
 - Don't transformar cada informação em um card ou introduzir painéis de métricas fictícias.
 - Don't adicionar neon, estética futurista, ícones gigantes, gradientes excessivos ou sombras excessivas.
+- Don't aplicar brilho, efeito metálico ou acabamento lustroso ao dourado da marca.
 - Don't comunicar estado somente pela cor nem remover os indicadores de foco.
 - Don't tratar os detalhes decorativos da tela de autenticação como padrão de composição das telas de trabalho.
 - Don't apresentar componentes futuros como funcionalidades já disponíveis.

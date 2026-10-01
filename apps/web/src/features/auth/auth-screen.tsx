@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
+import { BrandSymbol } from "@/components/brand";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -10,9 +11,6 @@ import {
   ArrowLeft,
   ArrowRight,
   Check,
-  Link2,
-  Fingerprint,
-  Layers3,
   ShieldCheck,
 } from "lucide-react";
 import { Alert, Button, Field, Input } from "@/components/ui/primitives";
@@ -481,9 +479,7 @@ export function AuthScreen({ mode }: { mode: AuthMode }) {
     <main className="auth-layout">
       <section className="auth-story" aria-label="Desmos CRM">
         <Link href="/login" className="brand brand-light">
-          <span className="brand-mark">
-            <Link2 size={23} />
-          </span>
+          <BrandSymbol size={40} />
           <span>
             desmos<span className="brand-suffix">crm</span>
           </span>
@@ -500,24 +496,8 @@ export function AuthScreen({ mode }: { mode: AuthMode }) {
             Organize seu espaço de trabalho e dê a cada pessoa o acesso de que
             ela precisa.
           </p>
-          <div className="orbit-illustration" aria-hidden="true">
-            <div className="orbit-ring ring-one" />
-            <div className="orbit-ring ring-two" />
-            <div className="orbit-ring ring-three" />
-            <div className="orbit-core">
-              <Link2 size={46} />
-            </div>
-            <span className="orbit-node node-a">
-              <Layers3 size={22} />
-            </span>
-            <span className="orbit-node node-b">
-              <ShieldCheck size={22} />
-            </span>
-            <span className="orbit-node node-c">
-              <Fingerprint size={22} />
-            </span>
-            <span className="orbit-point point-a" />
-            <span className="orbit-point point-b" />
+          <div className="auth-brand-art" aria-hidden="true">
+            <BrandSymbol size={180} />
           </div>
         </div>
         <footer className="auth-story-footer">
@@ -527,9 +507,7 @@ export function AuthScreen({ mode }: { mode: AuthMode }) {
       </section>
       <section className="auth-main">
         <Link href="/login" className="brand mobile-brand">
-          <span className="brand-mark">
-            <Link2 size={23} />
-          </span>
+          <BrandSymbol size={40} />
           <span>
             desmos<span className="brand-suffix">crm</span>
           </span>

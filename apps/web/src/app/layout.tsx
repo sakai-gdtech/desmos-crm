@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   description:
     "Uma base organizada para conectar sua equipe e seus próximos negócios.",
 };
-const themeScript = `(function(){try{var t=localStorage.getItem('orbit-theme');document.documentElement.dataset.theme=t||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light')}catch(e){}})()`;
+const themeScript = `(function(){var t='light';try{var s=localStorage.getItem('orbit-theme');if(s==='dark'||s==='light')t=s}catch(e){}document.documentElement.dataset.theme=t})()`;
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {

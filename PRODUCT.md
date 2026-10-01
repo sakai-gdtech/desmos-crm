@@ -38,7 +38,11 @@ Direção adicional do usuário em 01/10/2026: cobrir o núcleo comercial do RD 
 
 ## Brand Commitments
 
-Nome definido pelo usuário: Desmos, apresentado como Desmos CRM quando descritivo, com referência ao grego. O símbolo da marca usa elos (ícone Link2 e favicon correspondente). Linguagem pt-BR simples, respeitosa e direta. Usuário pediu interface minimalista, profissional, premium, organizada e suficientemente densa. Referências explicitadas: Linear, Attio, HubSpot, Pipedrive, Notion e Slack, sem copiar. Sem neon, estética futurista, sombras excessivas ou gradientes excessivos. Paleta sugerida no briefing, dark mode obrigatório.
+Nome definido pelo usuário: Desmos, apresentado como Desmos CRM quando descritivo, com referência ao grego. Atualização explícita em 01/10/2026: símbolo próprio de laço/conexão, azul profundo com dourado fosco, sem brilho ou efeito metálico; superfícies claras e tema claro como padrão. Escuro continua disponível por escolha. Linguagem pt-BR simples, respeitosa e direta. Usuário pediu interface minimalista, profissional, premium, organizada e suficientemente densa. Referências explicitadas: Linear, Attio, HubSpot, Pipedrive, Notion e Slack, sem copiar. Sem neon, estética futurista, sombras excessivas ou gradientes excessivos.
+
+Fluxo principal confirmado: Funil de vendas → negociação → próxima tarefa. Clientes e administração têm agrupamentos secundários; funções e permissões atuais permanecem. Estratégia da superfície em docs/navigation-design-brief.md.
+
+O usuário também pediu automações por etapa e personalização independente por pipeline. Confirmou que esta entrega deve ser uma demonstração visual, sem envios reais. A rota /sales/automations permite configurar exemplos de email/WhatsApp, condições e prazo, testar simulação e selecionar campos obrigatórios de exemplo. Regras salvas somente no navegador, separadas por empresa/pipeline, sem aplicação backend ou bloqueio real do Kanban. Escopo em docs/automation-demo-contract.md. A personalização existente de etapas continua persistida pela API.
 
 ## Evidence on Hand
 

@@ -10,6 +10,7 @@ import {
   GitBranch,
   Plus,
   Trash2,
+  Workflow,
 } from "lucide-react";
 import {
   Alert,
@@ -83,12 +84,21 @@ export function Pipelines() {
                   <span>{p.stages.map((s) => s.name).join(" → ")}</span>
                 </div>
                 {canManage && (
-                  <Link
-                    className="btn btn-secondary"
-                    href={`/sales/pipelines/${p.id}/edit`}
-                  >
-                    Configurar
-                  </Link>
+                  <div className="sales-pipeline-actions">
+                    <Link
+                      className="btn btn-secondary"
+                      href={`/sales/automations?pipelineId=${p.id}`}
+                    >
+                      <Workflow size={15} />
+                      Automações
+                    </Link>
+                    <Link
+                      className="btn btn-secondary"
+                      href={`/sales/pipelines/${p.id}/edit`}
+                    >
+                      Configurar
+                    </Link>
+                  </div>
                 )}
               </div>
             ))}
@@ -183,6 +193,17 @@ function Editor({ item }: { item?: Pipeline }) {
       <PageHeading
         title={item ? "Configurar pipeline" : "Novo pipeline"}
         description="Organize as etapas e defina a probabilidade de cada uma."
+        action={
+          item && (
+            <Link
+              className="btn btn-secondary"
+              href={`/sales/automations?pipelineId=${item.id}`}
+            >
+              <Workflow size={16} />
+              Automações e regras
+            </Link>
+          )
+        }
       />
       {formError && <Alert>{formError}</Alert>}
       {save.isError && <Alert>{errorMessage(save.error)}</Alert>}

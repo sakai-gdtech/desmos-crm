@@ -3,6 +3,7 @@ import { SalesBoard } from "@/features/sales/board";
 import { Pipelines, PipelineEditor } from "@/features/sales/pipelines";
 import { Deals, DealForm, DealDetail } from "@/features/sales/deals";
 import { WorkList, WorkForm, WorkDetail } from "@/features/sales/work";
+import { SalesAutomations } from "@/features/sales/automations";
 export default async function SalesPage({
   params,
 }: {
@@ -11,6 +12,7 @@ export default async function SalesPage({
   const { path } = await params;
   const [kind, id, action] = path;
   if (path.length === 1 && kind === "board") return <SalesBoard />;
+  if (path.length === 1 && kind === "automations") return <SalesAutomations />;
   if (kind === "pipelines") {
     if (path.length === 1) return <Pipelines />;
     if (path.length === 2 && id === "new") return <PipelineEditor />;

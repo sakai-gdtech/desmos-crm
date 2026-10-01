@@ -1,6 +1,6 @@
 # Validação da fundação, CRM Core e Vendas
 
-Registro das Fases 1, 2 e 3, atualizado em 1 de outubro de 2026. A marca pública é Desmos e cada conta pertence a uma empresa. A validação cobre os módulos implementados; gestão comercial e fases posteriores seguem o roadmap.
+Registro das Fases 1, 2 e 3 e da demonstração visual de automações, atualizado em 1 de outubro de 2026. A marca pública é Desmos e cada conta pertence a uma empresa. A validação cobre os módulos implementados; gestão comercial e fases posteriores seguem o roadmap.
 
 ## Verificações executadas
 
@@ -8,7 +8,7 @@ Registro das Fases 1, 2 e 3, atualizado em 1 de outubro de 2026. A marca públic
 | --------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | TypeScript                  | API e frontend passaram em `npm run typecheck`.                                                                                                                                                                                                                |
 | API                         | 55 testes passaram: 5 de domínio, 20 de integração da fundação, 19 de CRM e 11 de Vendas com PostgreSQL/Redis locais. Cada execução cria e remove seu próprio schema no banco de teste.                                                                                      |
-| Navegador                   | A suíte completa de 10 cenários passou em Playwright com Chrome após as últimas alterações: 5 de fundação, 2 de CRM e 3 de Vendas.                                                                                                            |
+| Navegador                   | 13 cenários distintos verificados nesta entrega: suíte completa de 12 na navegação, dois de navegação repetidos após ajuste e um novo de automações aprovado na versão final. Escopo e ordem detalhados abaixo.                                                                                                            |
 | Build                       | `npm run build` passou para API e Next.js após as últimas alterações.                                                                                                                                                                                          |
 | Docker                      | A imagem `orbit-crm-web:local` foi construída na entrega inicial, com o target `web`, compilando API e frontend em Node 22 Alpine. Não foi reconstruída após a mudança para Desmos; as alterações posteriores passaram no build local.                         |
 | Dependências                | `npm audit` e a auditoria de produção reportaram zero vulnerabilidades na entrega da fundação. Não foram repetidos nesta fase; nenhuma dependência foi adicionada para o CRM.                                                                                  |
@@ -75,3 +75,17 @@ O detector Impeccable foi executado uma vez nos arquivos alterados: zero finding
 A validação final confirmou `npm run typecheck`, 55 testes de API, 10 testes de navegador e `npm run build`. A proteção de tráfego também recebeu regressão: 429 com Retry-After, cotas separadas para usuários com JWT verificado atrás do mesmo proxy, cota compartilhada entre sessões do usuário e limite por IP para tokens inválidos/anônimos. Nenhuma dependência nova foi adicionada.
 
 A revisão visual independente Impeccable, com contexto novo e instruções do papel fornecidas ao subagente, retornou **disposition: ship** no escopo das nove capturas válidas. Não apontou correções materiais. A revisão amostrou board, detalhe, tarefas e CSS; não certificou estados não capturados nem substituiu os testes funcionais. A comparação documental do sistema está em [revisão de design de Vendas](sales-design-review.md).
+
+## Identidade, navegação e demonstração de automações
+
+Tema claro passa a ser o padrão inclusive quando o sistema operacional está em modo escuro; escolha explícita e salva de escuro continua respeitada. A marca usa símbolo próprio de laço em azul/dourado fosco, com PNG transparente e prompt de origem embutido. A lateral prioriza quatro destinos comerciais e agrupa Clientes e Configurações; nome da empresa, marca, perfil e sair continuam visíveis, com rolagem própria para o trabalho e para os filhos de Configurações.
+
+`npm run typecheck` passou na nova UI e `npm run build` passou após a demonstração final. A suíte completa com 12 cenários E2E passou após a primeira versão da navegação. Depois do ajuste de rolagem do rodapé, os dois cenários de navegação passaram novamente: claro com SO escuro, escuro salvo, grupos abertos em acesso direto/reload, perfil/logout no viewport de 1280×650 e Escape/foco/fechamento do menu mobile.
+
+Um 13º cenário foi acrescentado e passou após os últimos ajustes da demonstração de automações. Exercita edição do exemplo, troca de canal, variáveis na prévia, simulação, persistência no navegador após reload, configurações independentes entre dois pipelines e requisitos separados. O teste verifica que essas ações não geram POST/PATCH/PUT para envio ou gravação no servidor. Não testa um motor de automações real, que não foi implementado nesta entrega.
+
+A inspeção foi limitada a duas rodadas por superfície. Navegação: oito capturas finais de login, desktop, Clientes, Configurações, tela baixa, escuro e dois estados mobile. Demonstração: oito capturas finais de email, WhatsApp/simulação, regras por etapa, navegação atual e quatro recortes móveis. Nos dois relatórios finais, nenhum overflow de página, nenhuma violação Axe WCAG 2 A/AA/2.1 AA e nenhum pageerror. São viewports emulados, sem alegação de dispositivo físico ou certificação global.
+
+O detector da navegação foi executado uma vez antes dos ajustes finais: 50 advisory, zero primary. O detector do arquivo de automações foi executado uma vez: zero findings. A documentação do sistema foi atualizada pelo Impeccable Documenter em [revisão de design](navigation-design-review.md), DESIGN.md e seu sidecar, com tokens e marca atuais. O [contrato da demonstração](automation-demo-contract.md) documenta o que ainda depende de implementação real.
+
+A revisão independente não apontou correções visuais materiais na navegação. Seu verdict final [ship](navigation-finish-review.md) pontuou como resolvidos os dois itens documentais (identidade e evidência do seed), sem recertificar toda a superfície. A revisão visual completa adicional da [demonstração de automações](automation-finish-review.md) retornou ship nas oito capturas finais, sem achados materiais e sem certificar envios reais. O Documenter confirmou que o módulo demo herda o sistema atualizado, sem novos tokens.

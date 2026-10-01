@@ -42,6 +42,8 @@ Aceite: limites de arquivo/linha e proteção contra fórmulas em exportações;
 
 ## Fase 6 — Comercial avançado
 
+Antecipação para apresentação: há uma demonstração visual de automações por pipeline, email/WhatsApp simulados e campos obrigatórios de exemplo por etapa. Os exemplos ficam neste navegador, separados por empresa/pipeline. O [contrato](automation-demo-contract.md) distingue o protótipo do motor real abaixo, ainda pendente.
+
 Produtos, itens/descontos, propostas e PDF, campos customizados, builder de automação por trigger/conditions/actions, round robin e atribuição por regra.
 
 Aceite: validação de transições de propostas, snapshots de preço, limites de recursão, jobs idempotentes, contador de distribuição concorrente e testes de automações/importação.

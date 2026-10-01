@@ -4,6 +4,8 @@ CRM SaaS para **empresas clientes independentes**, construído em fases. Cada em
 
 A referência funcional do núcleo comercial é o RD Station CRM. O [escopo do núcleo](docs/rd-core-scope.md) distingue recursos implementados e pendentes e registra a ordem das próximas entregas para a apresentação.
 
+A identidade atual usa azul profundo e dourado fosco, símbolo próprio de laço e tema claro padrão. A navegação prioriza Funil, Oportunidades, Tarefas e Atividades; Clientes e Configurações são grupos expansíveis. Há também uma [demonstração visual de automações e regras por etapa](docs/automation-demo-contract.md): os exemplos são salvos neste navegador por empresa/pipeline e os envios de email/WhatsApp são simulados.
+
 ## Executar localmente
 
 Requisitos: Node.js 22 ou superior, npm e Docker com Compose.

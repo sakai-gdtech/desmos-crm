@@ -19,6 +19,8 @@ Referências oficiais consultadas em 01/10/2026: [produto RD Station CRM](https:
 
 Os motivos de perda atuais são texto com sugestões no formulário, sem catálogo administrável. Papéis não equivalem a restrições por carteira: hoje o acesso permitido pelo papel abrange os registros da própria empresa. O SMTP existente atende autenticação e convites, sem editor de email comercial. Registrar uma atividade de WhatsApp não sincroniza conversas.
 
+Para apresentação, o usuário autorizou uma [demonstração de automações e requisitos por etapa](automation-demo-contract.md). Ela permite configurar e testar visualmente regras próprias de cada pipeline; não representa envio comercial real nem validação backend dos novos campos obrigatórios. Essas lacunas continuam pendentes na tabela acima.
+
 ## Ordem de desenvolvimento para apresentação
 
 1. **Gestão comercial:** dashboard com dados persistidos, negócios abertos/ganhos/perdidos, receita realizada, previsão ponderada, distribuição por etapa, perdas e desempenho por responsável. Filtros por período e pipeline; metas simples; Radar com negócios sem avanço e tarefas vencidas. Esta é a próxima entrega de interface.
