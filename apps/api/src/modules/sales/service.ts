@@ -289,6 +289,12 @@ export async function updatePipeline(ctx: Context, id: string, input: Row) {
       for (const old of before.stages)
         if (!keep.has(old.id)) {
           invariant(
+            old.id !== before.demoFollowupStageId,
+            409,
+            "AUTOMATION_STAGE",
+            "Esta etapa é usada pelo acompanhamento da demo. Escolha outra etapa em Automações antes de removê-la.",
+          );
+          invariant(
             !(await one(
               tx,
               sql`SELECT id FROM sales_deals WHERE tenant_id=${ctx.tenantId} AND stage_id=${old.id} LIMIT 1`,

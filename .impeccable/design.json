@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-01T21:37:02.880989+00:00",
+  "generatedAt": "2026-10-01T22:30:09.868568+00:00",
   "title": "Design System: Desmos CRM",
   "extensions": {
     "colorMeta": {
@@ -740,7 +740,7 @@
       "name": "Container de configuração",
       "kind": "card",
       "refersTo": "card",
-      "description": "Card com conteúdo de configuração; o padding pertence ao conteúdo, não ao Card.",
+      "description": "Card com conteúdo de configuração; o padding pertence ao conteúdo, não ao Card. Automações e editor de etapas reutilizam superfície e divisórias, labels persistentes e detalhes progressivos; o significado de simulação ou resultado real vem do texto de cada fluxo.",
       "html": "<section class=\"ds-card\"><div class=\"ds-card-content\"><h2>Dados da empresa</h2><p>Mantenha as informações da empresa atualizadas.</p></div></section>",
       "css": ".ds-card {background:var(--surface, #ffffff);border:1px solid var(--border, #e1e6ed);border-radius:12px;font-family:-apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;} .ds-card-content {padding:26px;} .ds-card h2 {margin:0;color:var(--text, #202d40);font-size:16px;font-weight:650;line-height:1.4;letter-spacing:-0.012em;} .ds-card p {margin:5px 0 0;color:var(--muted, #5d6b7e);font-size:12px;line-height:1.5;}"
     },

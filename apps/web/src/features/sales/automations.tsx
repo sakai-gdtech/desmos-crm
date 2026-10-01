@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { DemoFollowup } from "./demo-followup";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   ArrowRight,
   Check,
@@ -14,6 +14,9 @@ import {
   Play,
   Plus,
   Workflow,
+  ListTodo,
+  UserRound,
+  ArrowRightLeft,
 } from "lucide-react";
 import { useSession } from "@/components/providers";
 import {
@@ -32,18 +35,16 @@ import {
 import { PermissionNotice } from "@/features/settings/company";
 import { usePipelines } from "./shared";
 import type { Pipeline } from "./types";
+import { useCrmReferences } from "@/features/crm/shared";
+import {
+  actions,
+  triggers,
+  readRule,
+  ruleProblem,
+  exampleResult,
+  type Rule,
+} from "./automation-model";
 
-type Rule = {
-  id: string;
-  name: string;
-  stageId: string;
-  channel: "EMAIL" | "WHATSAPP";
-  enabled: boolean;
-  delay: string;
-  minimum: string;
-  subject: string;
-  message: string;
-};
 type Requirement = "value" | "contact" | "closeDate" | "nextActivity";
 const requirementLabels: Record<Requirement, string> = {
   value: "Valor da negociação",
@@ -80,7 +81,7 @@ function examples(pipeline: Pipeline): Rule[] {
       message:
         "Olá, {contato}! Tudo bem? Você conseguiu conferir nossa proposta para {negociacao}? Estou à disposição para conversar.",
     },
-  ];
+  ].map((r) => readRule(r)!);
 }
 const preview = (text: string) =>
   text
@@ -138,6 +139,14 @@ function AutomationWorkspace({
   storageKey: string;
 }) {
   const initial = examples(pipeline);
+  const { assignees } = useCrmReferences();
+  const owners = assignees.data?.items ?? [];
+  const [template, setTemplate] = useState("TASK");
+  const [history, setHistory] = useState<
+    { id: string; name: string; result: string; at: string }[]
+  >([]);
+  const [formError, setFormError] = useState("");
+  const tested = useRef("");
   const [rules, setRules] = useState<Rule[]>(initial);
   const [draft, setDraft] = useState<Rule>(initial[0]);
   const [tab, setTab] = useState<"automations" | "stages">("automations");
@@ -153,25 +162,27 @@ function AutomationWorkspace({
       const raw = localStorage.getItem(storageKey);
       if (raw) {
         const stored = JSON.parse(raw);
-        const valid =
-          Array.isArray(stored.rules) &&
-          stored.rules.every(
-            (r: Rule) =>
-              r &&
-              typeof r.name === "string" &&
-              typeof r.message === "string" &&
-              typeof r.subject === "string" &&
-              typeof r.delay === "string" &&
-              typeof r.minimum === "string" &&
-              typeof r.enabled === "boolean" &&
-              ["EMAIL", "WHATSAPP"].includes(r.channel) &&
-              typeof r.id === "string" &&
-              typeof r.stageId === "string",
-          );
-        if (valid && stored.rules.length) {
-          setRules(stored.rules);
-          setDraft(stored.rules[0]);
+        const valid = Array.isArray(stored.rules)
+          ? stored.rules.slice(0, 50).map(readRule)
+          : [];
+        if (valid.length && valid.every(Boolean)) {
+          setRules(valid as Rule[]);
+          setDraft(valid[0] as Rule);
         }
+        if (Array.isArray(stored.history))
+          setHistory(
+            stored.history
+              .filter(
+                (h: unknown) =>
+                  typeof h === "object" &&
+                  h &&
+                  ["id", "name", "result", "at"].every(
+                    (key) =>
+                      typeof (h as Record<string, unknown>)[key] === "string",
+                  ),
+              )
+              .slice(0, 8),
+          );
         if (
           stored.requirements &&
           typeof stored.requirements === "object" &&
@@ -198,7 +209,11 @@ function AutomationWorkspace({
     try {
       localStorage.setItem(
         storageKey,
-        JSON.stringify({ rules: nextRules, requirements: nextRequirements }),
+        JSON.stringify({
+          rules: nextRules,
+          requirements: nextRequirements,
+          history,
+        }),
       );
       return true;
     } catch {
@@ -209,7 +224,12 @@ function AutomationWorkspace({
     }
   };
   const change = <K extends keyof Rule>(key: K, value: Rule[K]) => {
-    setDraft((old) => ({ ...old, [key]: value }));
+    setDraft((old) => ({
+      ...old,
+      [key]: value,
+      ...(key === "channel" ? { action: value as Rule["action"] } : {}),
+    }));
+    setFormError("");
     setSimulation("");
     setNotice("");
   };
@@ -218,7 +238,102 @@ function AutomationWorkspace({
     "Etapa removida";
   const selectedStage =
     pipeline.stages.find((s) => s.id === stageId) ?? pipeline.stages[0];
+  const problem = ruleProblem(draft, pipeline, owners);
+  const ownerName = (id: string) =>
+    owners.find((o) => o.id === id)?.name ?? "Responsável indisponível";
+  const triggerSummary =
+    draft.trigger === "STAGE_CHANGED"
+      ? `Negócio entrar em ${stageName}`
+      : triggers[draft.trigger];
+  const conditionSummary = [
+    `Funil ${pipeline.name}`,
+    draft.conditionStageId
+      ? `etapa ${pipeline.stages.find((s) => s.id === draft.conditionStageId)?.name ?? "removida"}`
+      : "",
+    draft.ownerId ? `responsável ${ownerName(draft.ownerId)}` : "",
+    draft.minimum ? `valor mínimo R$ ${draft.minimum}` : "",
+  ]
+    .filter(Boolean)
+    .join(" · ");
+  const actionSummary =
+    draft.action === "ASSIGN"
+      ? `Atribuir a ${ownerName(draft.assigneeId)}`
+      : draft.action === "MOVE"
+        ? `Mover para ${pipeline.stages.find((s) => s.id === draft.targetStageId)?.name ?? "etapa não escolhida"}`
+        : actions[draft.action];
+  const startTemplate = () => {
+    const action = template as Rule["action"];
+    setDraft({
+      ...initial[0],
+      id: crypto.randomUUID(),
+      name:
+        action === "TASK"
+          ? "Acompanhar novo negócio"
+          : action === "ASSIGN"
+            ? "Distribuir novos leads"
+            : action === "MOVE"
+              ? "Avançar negociação"
+              : actions[action],
+      action,
+      trigger:
+        action === "ASSIGN"
+          ? "LEAD_CREATED"
+          : action === "TASK"
+            ? "DEAL_CREATED"
+            : "STAGE_CHANGED",
+      assigneeId: owners[0]?.id ?? "",
+      targetStageId:
+        pipeline.stages.find((s) => s.id !== initial[0].stageId)?.id ?? "",
+    });
+    setSimulation("");
+    setNotice("");
+    setFormError("");
+  };
+  const testRule = () => {
+    if (problem) {
+      setFormError(problem);
+      return;
+    }
+    const fingerprint = JSON.stringify({
+      draft,
+      pipeline: pipeline.version,
+      owner: owners[0]?.id,
+    });
+    const result = exampleResult(draft, pipeline, owners[0]?.id ?? "");
+    if (tested.current === fingerprint) {
+      setSimulation(result);
+      return;
+    }
+    tested.current = fingerprint;
+    setSimulation(result);
+    const next = [
+      {
+        id: crypto.randomUUID(),
+        name: draft.name,
+        result,
+        at: new Date().toISOString(),
+      },
+      ...history,
+    ].slice(0, 8);
+    setHistory(next);
+    try {
+      const raw = localStorage.getItem(storageKey);
+      const saved = raw ? JSON.parse(raw) : { rules, requirements };
+      localStorage.setItem(
+        storageKey,
+        JSON.stringify({ ...saved, history: next }),
+      );
+    } catch {
+      setNotice(
+        "O teste foi concluído, mas o navegador não permitiu guardar o resultado.",
+      );
+    }
+  };
   const save = () => {
+    if (problem) {
+      setFormError(problem);
+      return;
+    }
     const next = rules.some((r) => r.id === draft.id)
       ? rules.map((r) => (r.id === draft.id ? { ...draft } : r))
       : [...rules, { ...draft }];
@@ -344,36 +459,46 @@ function AutomationWorkspace({
                   setNotice("");
                 }}
               >
-                {rule.channel === "EMAIL" ? (
+                {rule.action === "EMAIL" ? (
                   <Mail size={18} aria-hidden="true" />
-                ) : (
+                ) : rule.action === "WHATSAPP" ? (
                   <MessageSquare size={18} aria-hidden="true" />
+                ) : rule.action === "TASK" ? (
+                  <ListTodo size={18} />
+                ) : rule.action === "ASSIGN" ? (
+                  <UserRound size={18} />
+                ) : (
+                  <ArrowRightLeft size={18} />
                 )}
                 <span>
                   <strong>{rule.name}</strong>
                   <small>
-                    {pipeline.stages.find((s) => s.id === rule.stageId)?.name ??
-                      "Etapa removida"}{" "}
-                    · {rule.enabled ? "Ativa" : "Pausada"}
+                    {actions[rule.action]} ·{" "}
+                    {rule.enabled ? "Ativa na simulação" : "Pausada"}
                   </small>
                 </span>
               </button>
             ))}
-            <Button
-              variant="ghost"
-              disabled={!loaded}
-              onClick={() => {
-                setDraft({
-                  ...initial[0],
-                  id: crypto.randomUUID(),
-                  name: "Nova automação",
-                  message: "Olá, {contato}!",
-                  subject: "Vamos conversar?",
-                });
-                setSimulation("");
-                setNotice("");
-              }}
-            >
+            <Field id="automation-template" label="Começar com um modelo">
+              <Select
+                id="automation-template"
+                value={template}
+                onChange={(e) => setTemplate(e.target.value)}
+              >
+                {Object.entries(actions).map(([key, label]) => (
+                  <option key={key} value={key}>
+                    {{
+                      TASK: "Acompanhar novo negócio",
+                      ASSIGN: "Distribuir novos leads",
+                      MOVE: "Avançar negociação",
+                      EMAIL: "Enviar proposta por email",
+                      WHATSAPP: "Acompanhar no WhatsApp",
+                    }[key] ?? label}
+                  </option>
+                ))}
+              </Select>
+            </Field>
+            <Button variant="ghost" disabled={!loaded} onClick={startTemplate}>
               <Plus size={16} />
               Criar automação
             </Button>
@@ -388,6 +513,7 @@ function AutomationWorkspace({
               save();
             }}
           >
+            {(formError || problem) && <Alert>{formError || problem}</Alert>}
             <div className="automation-builder-heading">
               <Field id="automation-name" label="Nome da automação">
                 <Input
@@ -404,7 +530,7 @@ function AutomationWorkspace({
                   checked={draft.enabled}
                   onChange={(e) => change("enabled", e.target.checked)}
                 />
-                Ativa
+                Ativa na simulação
               </label>
             </div>
             <section className="automation-step">
@@ -412,187 +538,380 @@ function AutomationWorkspace({
                 <span>1</span>
                 <h3>Quando acontecer</h3>
               </div>
-              <p>A oportunidade entrar em uma etapa deste pipeline.</p>
-              <Field id="automation-stage" label="Etapa de entrada">
+              <Field id="automation-trigger" label="O que acontece">
                 <Select
-                  id="automation-stage"
-                  value={draft.stageId}
-                  onChange={(e) => change("stageId", e.target.value)}
-                  required
+                  id="automation-trigger"
+                  value={draft.trigger}
+                  onChange={(e) =>
+                    change("trigger", e.target.value as Rule["trigger"])
+                  }
                 >
-                  {pipeline.stages.map((s) => (
-                    <option key={s.id} value={s.id}>
-                      {s.name}
+                  {Object.entries(triggers).map(([key, label]) => (
+                    <option value={key} key={key}>
+                      {label}
                     </option>
                   ))}
                 </Select>
               </Field>
+              {draft.trigger === "STAGE_CHANGED" && (
+                <Field id="automation-stage" label="Etapa de entrada">
+                  <Select
+                    id="automation-stage"
+                    value={draft.stageId}
+                    onChange={(e) => change("stageId", e.target.value)}
+                    required
+                  >
+                    {pipeline.stages.map((s) => (
+                      <option key={s.id} value={s.id}>
+                        {s.name}
+                      </option>
+                    ))}
+                  </Select>
+                </Field>
+              )}
             </section>
             <section className="automation-step">
               <div className="automation-step-heading">
                 <span>2</span>
-                <h3>Condições e momento</h3>
+                <h3>Se atender às condições</h3>
               </div>
-              <div className="form-grid">
-                <Field
-                  id="automation-minimum"
-                  label="Valor mínimo (R$)"
-                  hint="Opcional; deixe vazio para qualquer valor."
-                >
-                  <Input
+              <p>
+                Este funil já está selecionado. Outras condições são opcionais.
+              </p>
+              <details
+                className="crm-more-details"
+                open={
+                  !!(
+                    draft.minimum ||
+                    draft.ownerId ||
+                    draft.conditionStageId
+                  ) || undefined
+                }
+              >
+                <summary>Adicionar condições</summary>
+                <div className="form-grid">
+                  <Field id="automation-condition-stage" label="Estar na etapa">
+                    <Select
+                      id="automation-condition-stage"
+                      value={draft.conditionStageId}
+                      onChange={(e) =>
+                        change("conditionStageId", e.target.value)
+                      }
+                    >
+                      <option value="">Qualquer etapa</option>
+                      {pipeline.stages.map((s) => (
+                        <option key={s.id} value={s.id}>
+                          {s.name}
+                        </option>
+                      ))}
+                    </Select>
+                  </Field>
+                  <Field id="automation-owner" label="Responsável do registro">
+                    <Select
+                      id="automation-owner"
+                      value={draft.ownerId}
+                      onChange={(e) => change("ownerId", e.target.value)}
+                      disabled={assignees.isPending}
+                    >
+                      <option value="">Qualquer responsável</option>
+                      {owners.map((o) => (
+                        <option key={o.id} value={o.id}>
+                          {o.name}
+                        </option>
+                      ))}
+                    </Select>
+                  </Field>
+                  <Field
                     id="automation-minimum"
-                    type="number"
-                    min="0"
-                    step="0.01"
-                    value={draft.minimum}
-                    placeholder="Qualquer valor"
-                    onChange={(e) => change("minimum", e.target.value)}
-                  />
-                </Field>
-                <Field id="automation-delay" label="Quando executar">
-                  <Select
-                    id="automation-delay"
-                    value={draft.delay}
-                    onChange={(e) => change("delay", e.target.value)}
+                    label="Valor mínimo (R$)"
+                    hint="Opcional; deixe vazio para qualquer valor."
                   >
-                    <option value="0">Imediatamente</option>
-                    <option value="1">Após 1 hora</option>
-                    <option value="24">Após 24 horas</option>
-                    <option value="48">Após 48 horas</option>
-                  </Select>
-                </Field>
-              </div>
+                    <Input
+                      id="automation-minimum"
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      value={draft.minimum}
+                      placeholder="Qualquer valor"
+                      onChange={(e) => change("minimum", e.target.value)}
+                    />
+                  </Field>
+                </div>
+              </details>
+              {assignees.isError && (
+                <ErrorState
+                  error={assignees.error}
+                  retry={() => assignees.refetch()}
+                />
+              )}
             </section>
             <section className="automation-step">
               <div className="automation-step-heading">
                 <span>3</span>
-                <h3>Executar uma ação</h3>
+                <h3>Fazer</h3>
               </div>
-              <div
-                className="automation-channels"
-                role="group"
-                aria-label="Canal da mensagem"
-              >
-                <Button
-                  variant={draft.channel === "EMAIL" ? "primary" : "secondary"}
-                  aria-pressed={draft.channel === "EMAIL"}
-                  onClick={() => change("channel", "EMAIL")}
-                >
-                  <Mail size={16} />
-                  Email
-                </Button>
-                <Button
-                  variant={
-                    draft.channel === "WHATSAPP" ? "primary" : "secondary"
+              <Field id="automation-action" label="Ação da automação">
+                <Select
+                  id="automation-action"
+                  value={draft.action}
+                  onChange={(e) =>
+                    change("action", e.target.value as Rule["action"])
                   }
-                  aria-pressed={draft.channel === "WHATSAPP"}
-                  onClick={() => change("channel", "WHATSAPP")}
                 >
-                  <MessageSquare size={16} />
-                  WhatsApp
-                </Button>
-              </div>
-              <p className="automation-recipient">
-                Para o contato vinculado à oportunidade.
-              </p>
-              {draft.channel === "EMAIL" && (
-                <Field id="automation-subject" label="Assunto">
+                  {Object.entries(actions).map(([key, label]) => (
+                    <option
+                      key={key}
+                      value={key}
+                      disabled={
+                        key === "MOVE" && draft.trigger === "LEAD_CREATED"
+                      }
+                    >
+                      {{
+                        TASK: "Criar tarefa",
+                        ASSIGN: "Atribuir responsável",
+                        MOVE: "Mover etapa",
+                        EMAIL: "Preparar email",
+                        WHATSAPP: "Preparar WhatsApp",
+                      }[key] ?? label}{" "}
+                      · simulação
+                    </option>
+                  ))}
+                </Select>
+              </Field>
+              {draft.action === "TASK" && (
+                <Field id="automation-task-title" label="Título da tarefa">
                   <Input
-                    id="automation-subject"
-                    value={draft.subject}
-                    onChange={(e) => change("subject", e.target.value)}
-                    required
+                    id="automation-task-title"
+                    value={draft.taskTitle}
+                    onChange={(e) => change("taskTitle", e.target.value)}
                     maxLength={200}
+                    required
                   />
+                  <p className="field-help">
+                    Prévia de tarefa para o dia seguinte, com o responsável do
+                    registro.
+                  </p>
                 </Field>
               )}
-              <Field id="automation-message" label="Mensagem">
-                <textarea
-                  id="automation-message"
-                  className="input automation-message"
-                  rows={6}
-                  value={draft.message}
-                  onChange={(e) => change("message", e.target.value)}
-                  required
-                  maxLength={4000}
-                />
-              </Field>
-              <div className="automation-variables">
-                <span>Inserir:</span>
-                {["{contato}", "{empresa}", "{negociacao}"].map((variable) => (
-                  <button
-                    type="button"
-                    key={variable}
-                    onClick={() =>
-                      change("message", draft.message + " " + variable)
-                    }
+              {draft.action === "ASSIGN" && (
+                <Field id="automation-assignee" label="Atribuir a">
+                  <Select
+                    id="automation-assignee"
+                    value={draft.assigneeId}
+                    onChange={(e) => change("assigneeId", e.target.value)}
+                    required
                   >
-                    {variable}
-                  </button>
-                ))}
-              </div>
+                    <option value="">Escolher responsável</option>
+                    {owners.map((o) => (
+                      <option key={o.id} value={o.id}>
+                        {o.name}
+                      </option>
+                    ))}
+                  </Select>
+                </Field>
+              )}
+              {draft.action === "MOVE" && (
+                <Field id="automation-target" label="Etapa de destino">
+                  <Select
+                    id="automation-target"
+                    value={draft.targetStageId}
+                    onChange={(e) => change("targetStageId", e.target.value)}
+                    required
+                  >
+                    <option value="">Escolher etapa</option>
+                    {pipeline.stages.map((s) => (
+                      <option key={s.id} value={s.id}>
+                        {s.name}
+                      </option>
+                    ))}
+                  </Select>
+                </Field>
+              )}
+              {["EMAIL", "WHATSAPP"].includes(draft.action) && (
+                <>
+                  <div
+                    className="automation-channels"
+                    role="group"
+                    aria-label="Canal da mensagem"
+                  >
+                    <Button
+                      variant={
+                        draft.action === "EMAIL" ? "primary" : "secondary"
+                      }
+                      aria-pressed={draft.action === "EMAIL"}
+                      onClick={() => change("channel", "EMAIL")}
+                    >
+                      <Mail size={16} />
+                      Email
+                    </Button>
+                    <Button
+                      variant={
+                        draft.action === "WHATSAPP" ? "primary" : "secondary"
+                      }
+                      aria-pressed={draft.action === "WHATSAPP"}
+                      onClick={() => change("channel", "WHATSAPP")}
+                    >
+                      <MessageSquare size={16} />
+                      WhatsApp
+                    </Button>
+                  </div>
+                  <p className="automation-recipient">
+                    Para o contato vinculado à oportunidade.
+                  </p>
+                  {draft.action === "EMAIL" && (
+                    <Field id="automation-subject" label="Assunto">
+                      <Input
+                        id="automation-subject"
+                        value={draft.subject}
+                        onChange={(e) => change("subject", e.target.value)}
+                        required
+                        maxLength={200}
+                      />
+                    </Field>
+                  )}
+                  <Field id="automation-message" label="Mensagem">
+                    <textarea
+                      id="automation-message"
+                      className="input automation-message"
+                      rows={6}
+                      value={draft.message}
+                      onChange={(e) => change("message", e.target.value)}
+                      required
+                      maxLength={4000}
+                    />
+                  </Field>
+                  <div className="automation-variables">
+                    <span>Inserir:</span>
+                    {["{contato}", "{empresa}", "{negociacao}"].map(
+                      (variable) => (
+                        <button
+                          type="button"
+                          key={variable}
+                          onClick={() =>
+                            change("message", draft.message + " " + variable)
+                          }
+                        >
+                          {variable}
+                        </button>
+                      ),
+                    )}
+                  </div>
+                  <Field id="automation-delay" label="Quando executar">
+                    <Select
+                      id="automation-delay"
+                      value={draft.delay}
+                      onChange={(e) => change("delay", e.target.value)}
+                    >
+                      <option value="0">Imediatamente</option>
+                      <option value="1">Após 1 hora</option>
+                      <option value="24">Após 24 horas</option>
+                      <option value="48">Após 48 horas</option>
+                    </Select>
+                  </Field>
+                </>
+              )}
+              <p>
+                Esta ação é simulada. A regra real de tarefa fica em
+                Acompanhamento de proposta.
+              </p>
             </section>
-            <Button
-              type="submit"
-              disabled={
-                !loaded || !pipeline.stages.some((s) => s.id === draft.stageId)
-              }
-            >
+            <Button type="submit" disabled={!loaded || assignees.isPending}>
               <Check size={16} />
               Salvar automação
+            </Button>
+            <Button
+              variant="ghost"
+              onClick={() => {
+                setDraft({
+                  ...(rules.find((r) => r.id === draft.id) ?? rules[0]),
+                });
+                setFormError("");
+                setSimulation("");
+                setNotice("Alterações canceladas.");
+              }}
+            >
+              Cancelar alterações
             </Button>
           </form>
           <aside
             className="automation-preview"
             aria-label="Prévia da automação"
           >
-            <h2>Prévia do envio</h2>
-            <p>Exemplo de oportunidade</p>
+            <h2>Resumo da regra</h2>
+            <Badge tone="amber">Simulação neste navegador</Badge>
+            <dl className="automation-readable-summary">
+              <dt>Quando</dt>
+              <dd>{triggerSummary}</dd>
+              <dt>Se</dt>
+              <dd>{conditionSummary}</dd>
+              <dt>Fazer</dt>
+              <dd>{actionSummary}</dd>
+            </dl>
+            <p>Exemplo fictício para testar</p>
             <div className="automation-sample">
               <strong>Implantação comercial</strong>
               <span>Marina · Aurora Digital · R$ 25.000,00</span>
-            </div>
-            <div className="automation-flow-summary">
+              <span>Responsável: {owners[0]?.name ?? "Carregando"}</span>
               <span>
-                <GitBranch size={15} />
-                {stageName}
+                Etapa:{" "}
+                {draft.trigger === "STAGE_CHANGED"
+                  ? stageName
+                  : pipeline.stages[0]?.name}
               </span>
-              <ArrowRight size={15} />
-              <span>{draft.channel === "EMAIL" ? "Email" : "WhatsApp"}</span>
             </div>
             <div className="automation-message-preview">
-              {draft.channel === "EMAIL" && (
+              {draft.action === "EMAIL" && (
                 <strong>{preview(draft.subject)}</strong>
               )}
-              <p>{preview(draft.message)}</p>
+              <p>
+                {["EMAIL", "WHATSAPP"].includes(draft.action)
+                  ? preview(draft.message)
+                  : draft.action === "TASK"
+                    ? preview(draft.taskTitle)
+                    : actionSummary}
+              </p>
             </div>
-            <div className="automation-timing">
-              <Clock3 size={15} />
-              <span>
-                {draft.delay === "0"
-                  ? "Ao entrar na etapa"
-                  : `${draft.delay} horas após entrar na etapa`}
-              </span>
-            </div>
+            {["EMAIL", "WHATSAPP"].includes(draft.action) && (
+              <div className="automation-timing">
+                <Clock3 size={15} />
+                <span>
+                  {draft.delay === "0"
+                    ? "Imediatamente"
+                    : `${draft.delay} horas depois`}
+                </span>
+              </div>
+            )}
             <Button
               variant="secondary"
-              disabled={!draft.enabled || !draft.message.trim()}
-              onClick={() =>
-                setSimulation(
-                  Number(draft.minimum || 0) > 25000
-                    ? "A condição não foi atendida: o exemplo tem valor de R$ 25.000,00. Nenhum envio foi simulado."
-                    : `Teste concluído: ${draft.channel === "EMAIL" ? "email" : "WhatsApp"} preparado para Marina. Nenhuma mensagem real foi enviada.`,
-                )
-              }
+              disabled={!loaded || !draft.enabled || assignees.isPending}
+              onClick={testRule}
             >
               <Play size={15} />
-              Simular envio
+              {["EMAIL", "WHATSAPP"].includes(draft.action)
+                ? "Simular envio"
+                : "Testar com prévia"}
             </Button>
             {simulation && (
               <p className="automation-simulation" role="status">
                 {simulation}
               </p>
             )}
+            <details className="automation-test-history">
+              <summary>Resultados dos testes ({history.length})</summary>
+              {history.length ? (
+                history.map((h) => (
+                  <div key={h.id}>
+                    <strong>{h.name}</strong>
+                    <time dateTime={h.at}>
+                      {new Date(h.at).toLocaleString("pt-BR")}
+                    </time>
+                    <p>{h.result}</p>
+                  </div>
+                ))
+              ) : (
+                <p>Nenhum teste ainda. Use a prévia acima.</p>
+              )}
+            </details>
           </aside>
         </div>
       ) : (

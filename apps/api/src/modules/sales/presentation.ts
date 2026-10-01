@@ -224,6 +224,8 @@ export async function demoAutomation(
   ctx: Context,
   id: string,
   enabled?: boolean,
+  stageId?: string,
+  version?: number,
 ) {
   return crmTransaction(ctx, "pipelines.manage", async (tx, ctx) => {
     const p = await one(
@@ -237,16 +239,44 @@ export async function demoAutomation(
       "DEMO_ONLY",
       "Esta ação funciona apenas no funil de apresentação fora de produção.",
     );
-    if (enabled !== undefined)
-      await tx.execute(
-        sql`UPDATE sales_pipelines SET demo_followup_enabled=${enabled},version=version+1,updated_at=now() WHERE tenant_id=${ctx.tenantId} AND id=${id}`,
+    if (enabled !== undefined) {
+      invariant(
+        version === undefined || version === p.version,
+        409,
+        "VERSION_CONFLICT",
+        "A regra ou o funil mudou. Recarregue antes de salvar.",
       );
+      const selected = stageId ?? p.demo_followup_stage_id;
+      invariant(
+        selected &&
+          (await one(
+            tx,
+            sql`SELECT id FROM sales_stages WHERE tenant_id=${ctx.tenantId} AND pipeline_id=${id} AND id=${selected}`,
+          )),
+        400,
+        "INVALID_STAGE",
+        "Selecione uma etapa deste funil para o acompanhamento.",
+      );
+      await tx.execute(
+        sql`UPDATE sales_pipelines SET demo_followup_enabled=${enabled},demo_followup_stage_id=${selected},version=version+1,updated_at=now() WHERE tenant_id=${ctx.tenantId} AND id=${id}`,
+      );
+      await audit(
+        tx,
+        ctx,
+        "demo-automation.updated",
+        id,
+        { enabled: p.demo_followup_enabled, stageId: p.demo_followup_stage_id },
+        { enabled, stageId: selected },
+      );
+    }
     const executions = await rows(
       tx,
       sql`SELECT e.*,d.title AS deal_title,w.title AS task_title FROM sales_demo_executions e JOIN sales_deals d ON d.tenant_id=e.tenant_id AND d.id=e.deal_id JOIN sales_work w ON w.tenant_id=e.tenant_id AND w.id=e.task_id WHERE e.tenant_id=${ctx.tenantId} AND d.pipeline_id=${id} ORDER BY e.created_at DESC LIMIT 10`,
     );
     return {
       enabled: enabled ?? p.demo_followup_enabled,
+      stageId: stageId ?? p.demo_followup_stage_id,
+      version: p.version + (enabled === undefined ? 0 : 1),
       executions: executions.map(camel),
     };
   });
@@ -271,12 +301,12 @@ export async function maybeDemoFollowup(
     return;
   const p = await one(
     tx,
-    sql`SELECT demo_fixture,demo_followup_enabled FROM sales_pipelines WHERE tenant_id=${ctx.tenantId} AND id=${after.pipelineId}`,
+    sql`SELECT demo_fixture,demo_followup_enabled,demo_followup_stage_id FROM sales_pipelines WHERE tenant_id=${ctx.tenantId} AND id=${after.pipelineId}`,
   );
   if (
     !p?.demo_fixture ||
     !p.demo_followup_enabled ||
-    after.stageName !== "Proposta"
+    after.stageId !== p.demo_followup_stage_id
   )
     return;
   authorize(ctx, "tasks.create");

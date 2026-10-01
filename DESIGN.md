@@ -318,7 +318,17 @@ O painel comercial usa uma faixa única de indicadores com divisórias, seguida 
 
 O registro mostra valor final, etapa, responsável e cliente antes da próxima ação. O formulário inline de tarefa usa título, prazo e responsável com labels persistentes; descrição e campos adicionais ficam em “Mais detalhes”. A proposta usa grupos de itens com descrição e controles compactos, divisórias, catálogo opcional e totais alinhados. O valor final fica explícito na confirmação de ganho. A indicação de proposta salva ou alterada e as mensagens de erro/sucesso reutilizam os padrões existentes.
 
-A seção de acompanhamento de proposta reutiliza superfície, borda, raio e feedback. O badge “Ambiente de demonstração”, o estado ativo/pausado e os links para as tarefas criadas explicam o efeito real no funil de demonstração. As simulações de comunicação continuam identificadas na tela existente.
+### Rule configuration and stage editor
+
+A configuração de automações reutiliza campos com labels persistentes, botões compactos, superfície branca e divisórias entre três grupos numerados: “Quando acontecer”, “Se atender às condições” e “Fazer”. Modelos iniciam a configuração; condições opcionais ficam no disclosure “Adicionar condições”. Os campos da ação aparecem conforme a seleção. O resumo usa termos e descrições em uma lista de definição; a prévia do exemplo e “Resultados dos testes” ficam no mesmo contexto, com feedback textual de conclusão ou condição não atendida.
+
+“Simulação neste navegador” identifica o resumo, e cada opção de ação informa “simulação”, inclusive tarefa, atribuição de responsável e movimentação de etapa. Os exemplos de email e WhatsApp compartilham essa identificação. Salvar conserva a configuração local; testar apresenta uma prévia sem alterar registros. O estado ativo da configuração de exemplo não comunica execução automática. O histórico de até oito testes aparece em disclosure com nome, horário e resultado.
+
+O acompanhamento real de proposta ocupa um disclosure separado, identificado por “Funciona nesta demo”. A etapa selecionável, os controles de salvar, pausar/ativar, a prévia e os links às tarefas criadas deixam o efeito real explícito no funil fictício. O estado ativo/pausado recebe texto, e a prévia informa que não altera registros. A identidade da etapa é preservada ao renomear ou reordenar; a apresentação do seu nome acompanha a configuração, sem assumir “Proposta” como gatilho fixo.
+
+No editor de etapas, a posição de inserção e “Adicionar etapa” precedem a sequência de fieldsets separados por divisórias. A numeração acompanha a posição atual. A alça “Arrastar” combina ícone de linha e texto; as setas oferecem a mesma reordenação por teclado ou touch, com labels acessíveis. O alvo de arraste recebe o contorno de foco existente, sem nova cor ou elevação. O nome da etapa inserida recebe foco e o resultado da mudança de ordem aparece em uma mensagem de status.
+
+A composição de automações usa lista, formulário e resumo em três colunas no desktop; até (1200px) a lista ocupa a linha superior e até (980px) os grupos passam a uma coluna, com resumo sem posição sticky. Até (600px), campos e cabeçalho do builder se empilham. O seletor de posição e a ação de inserção de etapa se empilham até (760px); as setas preservam alvos de (44px). Essas medidas descrevem esta configuração, sem substituir o layout das demais superfícies.
 
 ### Dialogs
 

@@ -15,7 +15,7 @@ O painel seleciona o funil **Apresentação Desmos (dados fictícios)** automati
 3. **Proposta:** abra Aurora novamente, clique **Ver proposta**. O negócio já preenche cliente e valor. Para demonstrar catálogo, altere o item principal para **Implantação comercial**, preço **20000.00**, quantidade 1; adicione **Treinamento da equipe**, preço R$ 5.000,00. Salve: total R$ 25.000,00, também no negócio. Desconto é um valor absoluto em reais, não percentual.
 4. **Acompanhamento:** feche a proposta e mova a etapa para **Proposta** pelo seletor do negócio ou pelo botão **Mover** no cartão. Uma tarefa **Acompanhar proposta · …** aparece. Ela é real nesta demo, criada uma vez por negócio; nenhum email/WhatsApp é enviado. Reentrar na etapa não duplica a tarefa.
 5. **Ganho:** clique **Marcar como ganho**, confira o valor final e **Confirmar ganho**. Feche o painel. Os indicadores mostram R$ 30.000,00 em aberto, um negócio ganho/R$ 25.000,00 e um negócio sem ação futura. Recarregue para comprovar persistência.
-6. **Automações:** em Configurações → Automações, confira a regra de acompanhamento e sua execução com link para a tarefa criada. Os outros exemplos de email/WhatsApp continuam identificados como simulados.
+6. **Automações:** em Configurações → Automações, abra **Acompanhamento de proposta · Proposta** e confira a regra de acompanhamento e sua execução com link para a tarefa criada. Os outros exemplos de email/WhatsApp continuam identificados como simulados.
 
 O Kanban abre o mesmo painel sem sair da tela; fechar ou Escape preserva filtros e rolagem. Links permitem abrir a página completa em outra aba. Tarefas atrasadas do painel abrem a tarefa correspondente para concluir ou reagendar.
 

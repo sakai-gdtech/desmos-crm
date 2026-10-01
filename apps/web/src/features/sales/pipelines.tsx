@@ -2,12 +2,13 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   ArrowDown,
   ArrowLeft,
   ArrowUp,
   GitBranch,
+  GripVertical,
   Plus,
   Trash2,
   Workflow,
@@ -23,6 +24,7 @@ import {
   Input,
   LoadingPage,
   PageHeading,
+  Select,
 } from "@/components/ui/primitives";
 import { useSession } from "@/components/providers";
 import { PermissionNotice } from "@/features/settings/company";
@@ -131,7 +133,24 @@ function Editor({ item }: { item?: Pipeline }) {
   const [name, setName] = useState(item?.name ?? "Vendas");
   const [description, setDescription] = useState(item?.description ?? "");
   const [active, setActive] = useState(item?.active ?? true);
-  const [stages, setStages] = useState<Stage[]>(item?.stages ?? defaults);
+  const [stages, setStages] = useState(() =>
+    (item?.stages ?? defaults).map((s) => ({
+      ...s,
+      localKey: s.id ?? crypto.randomUUID(),
+    })),
+  );
+  const [insertAt, setInsertAt] = useState("end");
+  const [dropAt, setDropAt] = useState<number | null>(null);
+  const [orderNotice, setOrderNotice] = useState("");
+  const [focusKey, setFocusKey] = useState("");
+  const saveLocked = useRef(false);
+  const dragKey = useRef<string | null>(null);
+  useEffect(() => {
+    if (!focusKey) return;
+    const index = stages.findIndex((s) => s.localKey === focusKey);
+    document.getElementById(`stage-name-${index}`)?.focus();
+    setFocusKey("");
+  }, [focusKey, stages]);
   const [removeOpen, setRemoveOpen] = useState(false);
   const [formError, setFormError] = useState("");
   const save = useMutation({
@@ -142,16 +161,51 @@ function Editor({ item }: { item?: Pipeline }) {
             description: description || null,
             active,
             version: item.version,
-            stages: stages.map(({ position, ...s }) => s),
+            stages: stages.map(
+              ({
+                id,
+                name,
+                probability,
+                color,
+                staleDays,
+                requireActivity,
+              }) => ({
+                id,
+                name,
+                probability,
+                color,
+                staleDays,
+                requireActivity,
+              }),
+            ),
           })
         : post<{ item: Pipeline }>("/sales/pipelines", {
             name,
             description: description || null,
-            stages: stages.map(({ position, ...s }) => s),
+            stages: stages.map(
+              ({
+                id,
+                name,
+                probability,
+                color,
+                staleDays,
+                requireActivity,
+              }) => ({
+                id,
+                name,
+                probability,
+                color,
+                staleDays,
+                requireActivity,
+              }),
+            ),
           }),
     onSuccess: async () => {
       await invalidate();
       router.push("/sales/pipelines");
+    },
+    onSettled: () => {
+      saveLocked.current = false;
     },
   });
   const remove = useMutation({
@@ -166,12 +220,42 @@ function Editor({ item }: { item?: Pipeline }) {
       v.map((s, i) => (i === index ? { ...s, [key]: value } : s)),
     );
   }
-  function reorder(index: number, delta: number) {
+  function reorder(index: number, target: number) {
+    if (target < 0 || target >= stages.length || index === target) return;
+    const moved = stages[index];
     setStages((old) => {
-      const v = [...old];
-      [v[index], v[index + delta]] = [v[index + delta], v[index]];
-      return v;
+      const next = [...old];
+      const [entry] = next.splice(index, 1);
+      next.splice(target, 0, entry!);
+      return next;
     });
+    setOrderNotice(
+      `${moved.name || "Nova etapa"} agora é a etapa ${target + 1}. Salve para aplicar ao Kanban.`,
+    );
+  }
+  function insert() {
+    const index =
+      insertAt === "end"
+        ? stages.length
+        : stages.findIndex((s) => s.localKey === insertAt);
+    const localKey = crypto.randomUUID();
+    setStages((old) => {
+      const next = [...old];
+      next.splice(Math.max(0, index), 0, {
+        localKey,
+        name: "",
+        position: 0,
+        probability: 0,
+        color: "#173b68",
+        staleDays: 7,
+        requireActivity: false,
+      });
+      return next;
+    });
+    setFocusKey(localKey);
+    setOrderNotice(
+      `Nova etapa inserida na posição ${Math.max(0, index) + 1}. Dê um nome e salve.`,
+    );
   }
   return (
     <form
@@ -183,6 +267,13 @@ function Editor({ item }: { item?: Pipeline }) {
           return setFormError(
             "Informe pelo menos uma etapa e dê nome a todas elas.",
           );
+        if (
+          new Set(stages.map((s) => s.name.trim().toLocaleLowerCase())).size !==
+          stages.length
+        )
+          return setFormError("Use nomes diferentes para cada etapa.");
+        if (saveLocked.current) return;
+        saveLocked.current = true;
         save.mutate();
       }}
     >
@@ -242,33 +333,85 @@ function Editor({ item }: { item?: Pipeline }) {
         <div className="crm-section-top">
           <div>
             <h2>Etapas de vendas</h2>
-            <p>A ordem abaixo será a ordem das colunas no Kanban.</p>
+            <p>
+              Arraste pela alça ou use as setas. Salvar aplica a ordem ao
+              Kanban.
+            </p>
           </div>
-          <Button
-            variant="secondary"
-            disabled={stages.length >= 20}
-            onClick={() =>
-              setStages((v) => [
-                ...v,
-                {
-                  name: "",
-                  position: v.length,
-                  probability: 0,
-                  color: "#4f46e5",
-                  staleDays: 7,
-                  requireActivity: false,
-                },
-              ])
-            }
-          >
-            <Plus size={15} />
-            Adicionar etapa
-          </Button>
+          <div className="stage-insert-controls">
+            <Field id="stage-insert-position" label="Posição da nova etapa">
+              <Select
+                id="stage-insert-position"
+                value={insertAt}
+                onChange={(e) => setInsertAt(e.target.value)}
+                disabled={save.isPending}
+              >
+                {stages.map((stage, i) => (
+                  <option key={stage.localKey} value={stage.localKey}>
+                    {i + 1} · Antes de {stage.name || "nova etapa"}
+                  </option>
+                ))}
+                <option value="end">{stages.length + 1} · No final</option>
+              </Select>
+            </Field>
+            <Button
+              variant="secondary"
+              disabled={stages.length >= 20 || save.isPending}
+              onClick={insert}
+            >
+              <Plus size={15} />
+              Adicionar etapa
+            </Button>
+          </div>
         </div>
+        {orderNotice && (
+          <p className="info-note" role="status">
+            {orderNotice}
+          </p>
+        )}
         <div className="sales-stage-editor">
           {stages.map((s, i) => (
-            <fieldset key={s.id ?? `new-${i}`}>
+            <fieldset
+              key={s.localKey}
+              disabled={save.isPending}
+              className={dropAt === i ? "stage-drop-target" : undefined}
+              onDragOver={(e) => {
+                if (dragKey.current) {
+                  e.preventDefault();
+                  e.dataTransfer.dropEffect = "move";
+                  setDropAt(i);
+                }
+              }}
+              onDrop={(e) => {
+                e.preventDefault();
+                const from = stages.findIndex(
+                  (stage) =>
+                    stage.localKey ===
+                    (e.dataTransfer.getData("text/plain") || dragKey.current),
+                );
+                if (from >= 0) reorder(from, i);
+                setDropAt(null);
+              }}
+            >
               <legend>Etapa {i + 1}</legend>
+              <button
+                type="button"
+                className="stage-drag-handle"
+                draggable={!save.isPending}
+                aria-label={`Arrastar etapa ${s.name || i + 1}`}
+                onDragStart={(e) => {
+                  dragKey.current = s.localKey;
+                  e.dataTransfer.effectAllowed = "move";
+                  e.dataTransfer.setData("text/plain", s.localKey);
+                }}
+                onDragEnd={() => {
+                  dragKey.current = null;
+                  setDropAt(null);
+                }}
+              >
+                <GripVertical size={18} />
+                Arrastar
+              </button>
               <div className="sales-stage-fields">
                 <Field id={`stage-name-${i}`} label="Nome da etapa">
                   <Input
@@ -328,7 +471,7 @@ function Editor({ item }: { item?: Pipeline }) {
                     variant="ghost"
                     disabled={i === 0}
                     aria-label={`Mover ${s.name || "etapa"} para cima`}
-                    onClick={() => reorder(i, -1)}
+                    onClick={() => reorder(i, i - 1)}
                   >
                     <ArrowUp size={16} />
                   </Button>
@@ -336,7 +479,7 @@ function Editor({ item }: { item?: Pipeline }) {
                     variant="ghost"
                     disabled={i === stages.length - 1}
                     aria-label={`Mover ${s.name || "etapa"} para baixo`}
-                    onClick={() => reorder(i, 1)}
+                    onClick={() => reorder(i, i + 1)}
                   >
                     <ArrowDown size={16} />
                   </Button>

@@ -36,3 +36,9 @@ O backend deverá persistir regras por tenant/pipeline/etapa, avaliar condiçõe
 ## Acompanhamento da apresentação — atualização 01/10/2026
 
 A jornada A–D acrescenta uma regra separada dos envios simulados: no funil marcado como demo_fixture, fora de produção, entrar em Proposta cria uma tarefa real para o dia seguinte. A regra pode ser pausada/ativada na mesma tela. A lista de execuções aponta para a tarefa efetivamente criada. Regra e execução persistem no banco; chave tenant/deal evita repetição ao retornar à etapa. Não há envio externo nem motor genérico. A transição e a criação da tarefa são uma transação. Reset do funil restaura os exemplos, limpa execuções e propostas dessa demo e marca suas tarefas anteriores como excluídas. Outros funis/empresas não são restaurados.
+
+## Extensão Quando → Se → Fazer
+
+Modelos: acompanhar negócio criado, distribuir lead, avançar negociação, email e WhatsApp. Gatilhos de criação de lead/negócio, etapa alterada e ganho/perda; condições opcionais de etapa, responsável e valor mínimo, sempre no funil escolhido. Leads não têm etapa/valor de negócio: essas condições são rejeitadas para esse gatilho. Ações de tarefa, atribuição e movimentação no builder são simulações, assim como mensagens; nenhum registro comercial é alterado pelo teste. As referências usam IDs; etapa removida gera mensagem para revisão, não substituição silenciosa.
+
+A prévia usa exemplo fictício de R$ 25.000 e primeiro responsável ativo da conta, mostra condições não atendidas e rejeita destino igual à etapa do gatilho. Resultado é guardado localmente (últimos oito), por empresa/funil. Clique duplo em teste idêntico não duplica resultado na mesma sessão da tela. A regra real é separada, identificada como Funciona nesta demo, e mantém execução única por negócio mesmo após mudar sua configuração. Etapa real configurável por UUID, versão obrigatória no cliente, pausa e consulta das execuções com link à tarefa; prévia sem execução.

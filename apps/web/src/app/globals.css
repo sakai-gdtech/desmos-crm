@@ -4061,3 +4061,113 @@ td .btn {
   font-weight: 400;
   letter-spacing: normal;
 }
+
+/* Configuração de automações e ordem das etapas */
+.stage-insert-controls {
+  display: flex;
+  align-items: end;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.stage-insert-controls .field {
+  min-width: 220px;
+}
+.stage-drag-handle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 16px;
+  border: 0;
+  padding: 8px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 12px;
+  cursor: grab;
+}
+.stage-drag-handle:hover {
+  background: var(--surface-hover);
+  color: var(--text);
+}
+.stage-drag-handle:active {
+  cursor: grabbing;
+}
+.sales-stage-editor .stage-drop-target {
+  outline: 2px solid var(--focus);
+  outline-offset: 4px;
+}
+.automation-rule-list > .field {
+  margin-top: 24px;
+}
+.automation-readable-summary {
+  margin: 20px 0;
+}
+.automation-readable-summary dt {
+  margin-top: 16px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.automation-readable-summary dd {
+  margin: 4px 0 0;
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+.automation-test-history {
+  margin-top: 24px;
+  font-size: 12px;
+}
+.automation-test-history > div {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+}
+.automation-test-history time {
+  display: block;
+  color: var(--muted);
+  margin-top: 4px;
+}
+.demo-followup-details > summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+}
+.demo-followup-details > summary::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-right: 1px solid currentColor;
+  border-bottom: 1px solid currentColor;
+  transform: rotate(-45deg);
+}
+.demo-followup-details[open] > summary::before {
+  transform: rotate(45deg);
+}
+.demo-followup-details > summary > span:first-child {
+  flex: 1;
+}
+.demo-followup-body {
+  margin-top: 24px;
+}
+.demo-followup-body > .field {
+  max-width: 400px;
+  margin: 16px 0;
+}
+.demo-followup-body > h3 {
+  margin-top: 24px;
+}
+@media (max-width: 760px) {
+  .stage-insert-controls {
+    width: 100%;
+    align-items: stretch;
+    flex-direction: column;
+  }
+  .stage-insert-controls .field {
+    min-width: 0;
+  }
+  .demo-followup-details > summary .badge {
+    margin-left: 19px;
+  }
+}

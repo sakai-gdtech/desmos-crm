@@ -62,7 +62,7 @@ test("demonstração de automações e requisitos preserva configurações por p
     .getByRole("button", { name: "Simular envio", exact: true })
     .click();
   await expect(
-    page.getByText(/Nenhuma mensagem real foi enviada/),
+    page.getByText(/Nenhuma mensagem real foi enviada/).first(),
   ).toBeVisible();
   await page.reload();
   await expect(page.getByLabel("Nome da automação")).toHaveValue(

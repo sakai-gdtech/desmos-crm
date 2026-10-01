@@ -66,7 +66,7 @@ O primeiro seed reconhece a associação de demonstração, cria Bruno como prop
 - Painel com valores em aberto, ganhos, tarefas atrasadas e ausência de próxima ação; Radar abre o negócio em painel lateral. Filtro por funil, moedas separadas e indicadores do período inteiro.
 - Tarefa rápida no painel do negócio; o Kanban mantém filtros e rolagem ao fechar.
 - Proposta com cliente, itens, quantidades, preços, desconto absoluto e total calculado em centavos; preços preservados após alteração do catálogo. Salvar sincroniza o valor final do negócio; ganho exige confirmação.
-- Regra única da demo: entrar em Proposta cria uma tarefa real para o dia seguinte, uma vez por negócio. Restrita ao funil de apresentação e ambientes fora de produção.
+- Regra única da demo: entrar na etapa configurada (Proposta por padrão) cria uma tarefa real para o dia seguinte, uma vez por negócio. Restrita ao funil de apresentação e ambientes fora de produção.
 - Edição com versão e conflito 409, eventos/auditoria na mesma transação e isolamento adicional por RLS nas tabelas comerciais.
 - Lixeira com restauração; exclusão definitiva manual por OWNER/ADMIN apenas de registros excluídos e sem referências comerciais, inclusive referências também na lixeira. Não há retenção automática.
 - Emails via outbox transacional e worker SMTP com retry; Mailpit captura os emails do ambiente local.
@@ -143,3 +143,5 @@ Fundação, CRM Core e Vendas não equivalem ao produto completo. Ainda faltam r
 Para uma publicação real: HTTPS e `NODE_ENV=production`, `WEB_URL` correto, segredos exclusivos, SMTP autenticado, rede privada para banco/Redis, backups e restauração verificados, monitoramento, alertas do worker e revisão de segurança. O proxy confiável/IP do cliente deve ser definido conforme a infraestrutura; a aplicação não confia indiscriminadamente em `X-Forwarded-For`. O endereço IP visto atrás do proxy Next.js pode ser o do proxy.
 
 Papéis customizados, billing, pagamentos, limites por plano persistidos, gerenciamento de arquivos e integração com calendários não estão ativos. Entitlements iniciais são centralizados para permitir evolução posterior. Envio SMTP possui semântica de pelo menos uma entrega: falha entre envio e confirmação pode gerar email duplicado; tokens continuam de uso único.
+
+A configuração de automações agora usa Quando → Se → Fazer, com modelos e condições progressivas, resumo e histórico de testes. Atribuição, movimentação e tarefa no builder são simulações; a regra real do fixture permanece separada. O editor permite inserir etapa em qualquer posição, arrastar ou usar setas, mantendo os IDs após salvar. Consulte o [guia de automações e etapas](docs/rules-guide.md).

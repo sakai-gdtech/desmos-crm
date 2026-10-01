@@ -61,3 +61,5 @@ Requisitos integrais: docs/product-requirements.txt, preservado como briefing or
 ## Accessibility & Inclusion
 
 Navegação por teclado, labels, contraste, foco visível, atributos aria e feedback visual. Responsividade para desktop, notebook, tablet e mobile. Redução de movimento respeitada. Não depender de cor para comunicar status.
+
+Última extensão autorizada em 01/10/2026: automações em Quando → Se → Fazer, com cinco gatilhos e modelos de tarefa, atribuição, movimentação e comunicação. Esses modelos/condições são simulados no navegador, com resumo, teste e histórico; não há motor genérico. A regra funcional do fixture cria tarefa na etapa configurada por ID, com versão, pausa e proteção de referência; renomeação/reordenação não muda seu vínculo. O editor de funis insere em qualquer posição, oferece arraste e setas e preserva negócios/IDs. Contrato e validação: docs/rules-flow-contract.md e docs/rules-guide.md.

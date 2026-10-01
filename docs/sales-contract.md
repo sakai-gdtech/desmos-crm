@@ -41,3 +41,9 @@ A proposta guarda nome do cliente e snapshots dos itens/preços, moeda do negóc
 O dashboard soma separadamente por moeda; sem próxima ação significa negócio aberto sem tarefa/atividade futura pendente. Tarefa vencida não conta como ação futura. Negócios parados obedecem staleDays da etapa. As contagens consideram todos os registros elegíveis, mesmo quando a lista do Radar atinge o limite.
 
 Regra única de apresentação: transição de negócio aberto para etapa com nome Proposta cria tarefa de follow-up real, se o pipeline demo estiver habilitado. Não dispara na criação inicial já em Proposta. Execução e tarefa são transacionais e únicas por tenant/negócio, inclusive em concorrência ou retorno à etapa. Pode ser pausada na interface. Envio de email/WhatsApp continua apenas simulado no navegador. Produtos/propostas não incluem PDF, assinatura, validade ou aceite externo.
+
+### Etapa configurável da automação demo
+
+Migração `0007_demo_stage.sql` adiciona `sales_pipelines.demo_followup_stage_id`, FK composta `(tenant_id,id,demo_followup_stage_id)` para a etapa do próprio funil. Backfill associa a etapa Proposta dos fixtures existentes sem apagar registros. GET demo-automation retorna também stageId e version; PATCH aceita stageId e version (versão enviada pelo frontend, opcional para compatibilidade HTTP anterior). Atualização valida etapa/tenant e versão, incrementa versão e audita. O gatilho compara ID da etapa, preservando configuração após alteração de nome/ordem. Exclusão de etapa configurada retorna 409 AUTOMATION_STAGE e orienta escolher outra na regra. O reset da apresentação restaura a referência à Proposta original.
+
+Editor de funis envia somente os campos permitidos da etapa; tenantId/pipelineId recebidos no DTO nunca voltam no payload. IDs existentes são preservados, novas etapas recebem UUID no banco e posições seguem a ordem enviada. Versão da pipeline mantém a proteção contra concorrência.

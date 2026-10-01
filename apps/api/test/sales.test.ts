@@ -1222,7 +1222,7 @@ test("Automação demo: só funil dedicado, tarefa real única após reentrada e
   );
   await tenantQuery(
     a.tenant.id,
-    sql`UPDATE sales_pipelines SET demo_fixture=true,demo_followup_enabled=true WHERE tenant_id=${a.tenant.id} AND id=${p.id}`,
+    sql`UPDATE sales_pipelines SET demo_fixture=true,demo_followup_enabled=true,demo_followup_stage_id=${p.stages[1].id} WHERE tenant_id=${a.tenant.id} AND id=${p.id}`,
   );
   const same = await Promise.all([
     a.client.request("PATCH", `/sales/deals/${d.id}`, {
@@ -1282,4 +1282,126 @@ test("Apresentação: RLS forçada nas propostas, catálogo e execuções", asyn
       (await rows(db, sql`SELECT * FROM ${sql.identifier(t)}`)).length,
       0,
     );
+});
+
+test("Automação demo: referência estável, configuração concorrente e etapas de outra empresa", async () => {
+  const a = await register(),
+    b = await register();
+  const p = await pipelineFor(
+    a.client,
+    "Cinco etapas",
+    ["Entrada", "Reunião", "Proposta", "Negociação", "Fechamento"].map((n, i) =>
+      stageData(n, i * 20),
+    ),
+  );
+  const other = await pipelineFor(b.client);
+  await tenantQuery(
+    a.tenant.id,
+    sql`UPDATE sales_pipelines SET demo_fixture=true,demo_followup_enabled=true,demo_followup_stage_id=${p.stages[2].id} WHERE tenant_id=${a.tenant.id} AND id=${p.id}`,
+  );
+  const route = `/sales/pipelines/${p.id}/demo-automation`;
+  errorCode(await b.client.request("GET", route), 404, "NOT_FOUND");
+  const viewer = await member(a, "VIEWER");
+  errorCode(
+    await viewer.client.request("PATCH", route, {
+      enabled: true,
+      stageId: p.stages[1].id,
+      version: p.version,
+    }),
+    403,
+    "FORBIDDEN",
+  );
+  errorCode(
+    await a.client.request("PATCH", route, {
+      enabled: true,
+      stageId: other.stages[0].id,
+      version: p.version,
+    }),
+    400,
+    "INVALID_STAGE",
+  );
+  const changes = await Promise.all([
+    a.client.request("PATCH", route, {
+      enabled: true,
+      stageId: p.stages[2].id,
+      version: p.version,
+    }),
+    a.client.request("PATCH", route, {
+      enabled: true,
+      stageId: p.stages[2].id,
+      version: p.version,
+    }),
+  ]);
+  assert.deepEqual(changes.map((r) => r.statusCode).sort(), [200, 409]);
+  const configured = (await a.client.request("GET", route)).json();
+  const savedInputs = stagesInput(p);
+  const reordered = [
+    savedInputs[4],
+    savedInputs[0],
+    stageData("Validação", 45),
+    savedInputs[1],
+    { ...savedInputs[2], name: "Proposta revisada" },
+    savedInputs[3],
+  ];
+  const changed = await a.client.request("PATCH", `/sales/pipelines/${p.id}`, {
+    version: configured.version,
+    stages: reordered,
+  });
+  status(changed, 200);
+  const updated = changed.json().item;
+  assert.deepEqual(
+    updated.stages.map((s: any) => s.position),
+    [0, 1, 2, 3, 4, 5],
+  );
+  assert.equal(updated.stages[4].id, p.stages[2].id);
+  assert.equal(
+    (await a.client.request("GET", route)).json().stageId,
+    p.stages[2].id,
+  );
+  errorCode(
+    await a.client.request("PATCH", `/sales/pipelines/${p.id}`, {
+      version: updated.version,
+      stages: stagesInput(updated).filter((s: any) => s.id !== p.stages[2].id),
+    }),
+    409,
+    "AUTOMATION_STAGE",
+  );
+  const d = await sale(
+    a.client,
+    "deals",
+    dealInput(updated, { stageId: p.stages[0].id }),
+  );
+  status(
+    await a.client.request("PATCH", `/sales/deals/${d.id}`, {
+      stageId: p.stages[2].id,
+      version: d.version,
+    }),
+    200,
+  );
+  assert.equal((await saleList(a.client, "tasks", `?dealId=${d.id}`)).total, 1);
+  const cfg = (await a.client.request("GET", route)).json();
+  status(
+    await a.client.request("PATCH", route, {
+      enabled: false,
+      stageId: cfg.stageId,
+      version: cfg.version,
+    }),
+    200,
+  );
+  const paused = await sale(
+    a.client,
+    "deals",
+    dealInput(updated, { stageId: p.stages[0].id }),
+  );
+  status(
+    await a.client.request("PATCH", `/sales/deals/${paused.id}`, {
+      stageId: p.stages[2].id,
+      version: paused.version,
+    }),
+    200,
+  );
+  assert.equal(
+    (await saleList(a.client, "tasks", `?dealId=${paused.id}`)).total,
+    0,
+  );
 });

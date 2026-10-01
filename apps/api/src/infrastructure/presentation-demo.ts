@@ -70,6 +70,9 @@ export async function presentationDemo(reset = false) {
       await tx.execute(
         sql`INSERT INTO sales_stages(id,tenant_id,pipeline_id,name,position,probability,color,stale_days) VALUES(${fixtureId("stage-" + i)},${presentationTenant},${pipelineId},${name},${i},${[10, 20, 35, 55, 75, 90][i]},${["#173b68", "#0e7490", "#217550", "#8a5b16", "#b63b44", "#646d80"][i]},7) ON CONFLICT(id) DO UPDATE SET name=excluded.name,position=excluded.position,probability=excluded.probability,stale_days=7,require_activity=false`,
       );
+    await tx.execute(
+      sql`UPDATE sales_pipelines SET demo_followup_stage_id=${fixtureId("stage-3")} WHERE tenant_id=${presentationTenant} AND id=${pipelineId}`,
+    );
     const fixtures = [
       {
         key: "aurora",

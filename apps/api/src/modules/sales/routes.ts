@@ -50,13 +50,23 @@ export async function salesRoutes(app: FastifyInstance) {
       params.parse(req.params).id,
     ),
   );
-  app.patch("/sales/pipelines/:id/demo-automation", async (req) =>
-    presentation.demoAutomation(
+  app.patch("/sales/pipelines/:id/demo-automation", async (req) => {
+    const input = z
+      .object({
+        enabled: z.boolean(),
+        stageId: z.uuid().optional(),
+        version: z.number().int().positive().optional(),
+      })
+      .strict()
+      .parse(req.body);
+    return presentation.demoAutomation(
       await authenticate(req),
       params.parse(req.params).id,
-      z.object({ enabled: z.boolean() }).strict().parse(req.body).enabled,
-    ),
-  );
+      input.enabled,
+      input.stageId,
+      input.version,
+    );
+  });
   app.get("/sales/pipelines", async (req) =>
     service.pipelines(await authenticate(req)),
   );

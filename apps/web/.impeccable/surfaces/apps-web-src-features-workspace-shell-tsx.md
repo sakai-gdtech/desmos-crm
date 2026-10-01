@@ -50,3 +50,9 @@ Este adendo prevalece sobre STORY e FIRST VIEWPORT históricos acima onde a jorn
 **DADOS E VERDADE:** indicadores e Radar são calculados sobre registros ativos no PostgreSQL, separados por moeda e pelo funil escolhido; a tela informa período inteiro e limites das listas. Proposta preserva cliente, itens e preços em snapshots; salvar atualiza o valor final. Acompanhamento real é exclusivo da demo fora de produção; execuções mostram links para tarefas criadas. Não anunciar envio, assinatura, PDF elaborado ou motor genérico como implementados.
 
 **FINISH:** docs/presentation-finish-review.md registra disposition: ship após revisão independente das treze capturas. Esta reconciliação documental lê código e evidências existentes, sem executar browser, detector ou nova rodada visual. O critério é protótipo profissional de apresentação dentro da identidade incumbente.
+
+## Extensão aprovada — automações e ordem das etapas, 01/10/2026
+
+docs/rules-flow-contract.md é a autoridade desta extensão em modo Operate; docs/rules-guide.md descreve a operação e docs/rules-finish-review.md registra disposition: ship. Mantêm-se identidade, shell, FORM histórico e tokens existentes. O fluxo de configuração passa a Quando → condições opcionais → Fazer, com modelos, resumo, prévia e histórico progressivo; todas as ações do builder são simuladas, inclusive tarefa, atribuição e movimento de etapa.
+
+O acompanhamento real do fixture permanece separado por disclosure e identificação “Funciona nesta demo”. A etapa agora é configurável por UUID, com versão, pausa, prévia sem mutação e links aos resultados; “Proposta” deixa de ser um gatilho fixo. Renomear/reordenar conserva o vínculo. O editor permite inserir antes de qualquer etapa ou no final, oferece alça e setas, numera pela posição e preserva IDs existentes ao salvar. A composição responsiva e os detalhes reutilizáveis desta configuração constam de DESIGN.md; este adendo não cria um segundo briefing de superfície.

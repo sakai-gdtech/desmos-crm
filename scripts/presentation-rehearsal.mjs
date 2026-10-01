@@ -169,6 +169,7 @@ try {
     await pause();
     if (round === 2) {
       await page.goto(`/sales/automations?pipelineId=${pipeline.id}`);
+      await page.locator(".demo-followup-details > summary").click();
       await expect(
         page.getByRole("heading", {
           name: "Acompanhamento de proposta",
