@@ -10,12 +10,12 @@ Referências oficiais consultadas em 01/10/2026: [produto RD Station CRM](https:
 | --- | --- | --- |
 | Contatos, empresas clientes e leads | Implementado: cadastros, responsáveis, pesquisa, tags, notas, histórico e conversão | Importar e exportar cadastros |
 | Funis e negociações | Implementado: múltiplos pipelines, etapas, Kanban, valores, previsão, ganho/perda e reabertura | Campos obrigatórios por etapa e filtros salvos |
-| Tarefas e interações | Implementado: agenda em lista, tipos de atividade, prazos, prioridades, checklist e follow-up | Calendário visual, lembretes e notificações |
+| Tarefas e interações | Implementado: Agenda semanal/lista, filtros, tipos de atividade, prazos, prioridades, checklist, follow-up, conclusão e reagendamento | Calendário externo, lembretes e notificações |
 | Gestão comercial | Painel por funil com aberto/ganho, tarefas atrasadas, falta de ação e Radar; Kanban com valores e quantidades | Relatórios completos, conversão, perdas, metas, previsão agregada e desempenho por vendedor |
 | Equipe e acesso | Convites, seis papéis, permissões por ação e isolamento entre empresas | Grupos de vendas e visibilidade de registros por responsável/equipe |
 | Adaptação ao negócio | Tags, etapas, responsáveis e exigência de próxima atividade | Campos personalizados e obrigatórios, motivos de perda administráveis |
 | Produtos e serviços | Catálogo mínimo e proposta persistida, com quantidades, preços preservados, desconto absoluto e total exato | Envio, assinatura, PDF e gestão avançada de catálogo/propostas |
-| Comunicação comercial | Registro manual de atividades de email, ligação e WhatsApp | Envio comercial de email, modelos e integração de WhatsApp com histórico |
+| Comunicação comercial | Registro manual de atividades de email, ligação e WhatsApp | Envio comercial de email e integração de WhatsApp com histórico; modelos locais de demonstração já disponíveis |
 
 Os motivos de perda atuais são texto com sugestões no formulário, sem catálogo administrável. Papéis não equivalem a restrições por carteira: hoje o acesso permitido pelo papel abrange os registros da própria empresa. O SMTP existente atende autenticação e convites, sem editor de email comercial. Registrar uma atividade de WhatsApp não sincroniza conversas.
 

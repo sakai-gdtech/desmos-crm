@@ -4171,3 +4171,364 @@ td .btn {
     margin-left: 19px;
   }
 }
+
+/* Workspace automation, templates and agenda — existing Desmos tokens. */
+.automation-workspace-v2 .crm-tabs {
+  flex-wrap: wrap;
+}
+.automation-directory,
+.message-library,
+.assistant-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+}
+.automation-directory-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  width: 100%;
+  padding: 18px 0;
+  border: 0;
+  border-bottom: 1px solid var(--border);
+  background: transparent;
+  text-align: left;
+  color: var(--text);
+  cursor: pointer;
+}
+.automation-directory-row:hover {
+  background: var(--surface-hover);
+}
+.automation-directory-row > span {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+.automation-directory-row > span:last-child {
+  justify-items: end;
+  flex-shrink: 0;
+}
+.automation-directory-row small,
+.template-row p {
+  color: var(--muted);
+  font-size: 12px;
+}
+.automation-recipes {
+  margin-top: 24px;
+}
+.automation-recipes > summary,
+.message-library summary,
+.assistant-panel summary,
+.stage-advanced summary {
+  cursor: pointer;
+  color: var(--primary-text);
+  padding: 8px 0;
+}
+.automation-recipes .field {
+  margin-top: 16px;
+  max-width: 400px;
+}
+.automation-editor-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(300px, 0.75fr);
+  align-items: start;
+  gap: 28px;
+}
+.automation-editor-layout .automation-builder {
+  min-width: 0;
+}
+.automation-editor-layout .automation-preview {
+  position: sticky;
+  top: 90px;
+}
+.automation-editor-layout .automation-preview .field {
+  margin: 20px 0;
+}
+.automation-workspace-v2 .automation-message {
+  min-height: 120px;
+}
+.message-template-form,
+.assistant-resolution {
+  display: grid;
+  gap: 20px;
+  max-width: 780px;
+  padding-top: 20px;
+}
+.template-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+}
+.message-text {
+  white-space: pre-wrap;
+}
+.assistant-panel {
+  max-width: 900px;
+}
+.assistant-panel > p {
+  margin: 16px 0;
+  max-width: 65ch;
+  color: var(--muted);
+}
+.assistant-panel form {
+  display: grid;
+  gap: 16px;
+}
+.assistant-conversation p {
+  background: var(--surface-hover);
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+.sales-stage-compact fieldset {
+  padding: 12px 16px;
+}
+.stage-compact-line {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.stage-position {
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+  min-width: 18px;
+}
+.sales-stage-compact .sales-stage-fields {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr);
+  gap: 12px;
+  flex: 1;
+}
+.sales-stage-compact .sales-stage-fields .field {
+  margin: 0;
+}
+.sales-stage-compact .sales-stage-fields .field:first-child input {
+  padding: 3px;
+}
+.sales-stage-compact .sales-stage-controls {
+  margin: 0;
+  border: 0;
+  padding: 0;
+  flex-shrink: 0;
+}
+.stage-advanced {
+  margin-top: 8px;
+}
+.stage-advanced .form-grid {
+  max-width: 520px;
+  margin: 12px 0;
+}
+.agenda-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.agenda-filters {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+.agenda-days {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.agenda-week {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+.agenda-days > section {
+  min-width: 0;
+  padding: 12px;
+}
+.agenda-week > section + section {
+  border-left: 1px solid var(--border);
+}
+.agenda-days h2 {
+  font-size: 13px;
+  margin: 0 0 16px;
+  text-transform: capitalize;
+}
+.agenda-item {
+  width: 100%;
+  display: grid;
+  gap: 7px;
+  text-align: left;
+  padding: 12px 8px;
+  margin-bottom: 8px;
+  color: var(--text);
+  background: var(--surface-hover);
+  border: 0;
+  border-radius: 7px;
+  cursor: pointer;
+}
+.agenda-item strong {
+  overflow-wrap: anywhere;
+  font-size: 13px;
+}
+.agenda-item small,
+.agenda-item > span:first-child {
+  font-size: 11px;
+  color: var(--muted);
+}
+.agenda-item .badge {
+  justify-self: start;
+}
+.agenda-item:hover {
+  background: var(--primary-soft);
+}
+.agenda-list > section + section {
+  border-top: 1px solid var(--border);
+}
+.agenda-list .agenda-item {
+  grid-template-columns: 150px minmax(0, 1fr) minmax(0, 1fr) 100px;
+  align-items: center;
+  gap: 16px;
+}
+.dialog:has(.agenda-action) {
+  margin: 0 0 0 auto;
+  width: min(760px, 100vw);
+  max-width: 100vw;
+  height: 100dvh;
+  max-height: 100dvh;
+  border-radius: 0;
+}
+.agenda-action {
+  display: grid;
+  gap: 20px;
+}
+.agenda-action .page-stack {
+  gap: 16px;
+}
+@media (max-width: 1100px) {
+  .agenda-week {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+@media (max-width: 800px) {
+  .automation-editor-layout {
+    grid-template-columns: 1fr;
+  }
+  .automation-editor-layout .automation-preview {
+    position: static;
+  }
+  .agenda-filters {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .agenda-week {
+    display: block;
+  }
+  .agenda-week > section + section {
+    border-left: 0;
+    border-top: 1px solid var(--border);
+  }
+  .agenda-view {
+    display: none;
+  }
+  .agenda-list .agenda-item {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 540px) {
+  .automation-directory,
+  .message-library,
+  .assistant-panel {
+    padding: 16px;
+  }
+  .automation-directory-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .automation-directory-row > span:last-child {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .template-row {
+    align-items: start;
+    flex-direction: column;
+  }
+  .stage-compact-line {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .sales-stage-compact .sales-stage-fields {
+    min-width: 200px;
+  }
+  .sales-stage-compact .sales-stage-controls {
+    margin-left: auto;
+  }
+  .agenda-controls .crm-detail-actions {
+    flex-wrap: wrap;
+  }
+  .agenda-filters {
+    gap: 12px;
+  }
+}
+.sales-stage-compact legend.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.automation-editor-layout :is(p, dd),
+.assistant-conversation p {
+  overflow-wrap: anywhere;
+}
+.automation-workspace-v2 {
+  gap: 20px;
+}
+.automation-workspace-v2 > .crm-tabs {
+  padding: 0;
+  gap: 4px;
+}
+.automation-workspace-v2 > .crm-tabs button {
+  padding: 12px 10px;
+  min-height: 44px;
+}
+.automation-workspace-v2 > .crm-section-top {
+  padding: 0;
+  margin: 0;
+}
+.automation-directory > .crm-section-top,
+.message-library > .crm-section-top {
+  padding: 0 0 16px;
+}
+.automation-workspace-v2 > .info-note {
+  margin: 0;
+  padding: 10px 14px;
+}
+.automation-step > details > summary {
+  min-height: 32px;
+  padding: 8px 0;
+  cursor: pointer;
+}
+.message-template-form textarea {
+  min-height: 120px;
+  height: auto;
+}
+.sales-form-section .sales-stage-compact > fieldset {
+  padding: 10px 0;
+}
+.sales-stage-compact {
+  gap: 0;
+}
+.stage-advanced {
+  margin-top: 4px;
+}
+.agenda-action > .badge {
+  justify-self: start;
+}

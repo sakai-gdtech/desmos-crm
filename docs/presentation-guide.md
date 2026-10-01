@@ -8,14 +8,16 @@ Na pasta do projeto, execute `npm run db:migrate`, `npm run db:seed`, `npm run d
 
 O painel seleciona o funil **Apresentação Desmos (dados fictícios)** automaticamente. Estado inicial: R$ 55.000,00 em aberto, zero ganhos, uma tarefa atrasada e dois negócios sem ação futura. Aurora Digital: R$ 25.000,00 na Reunião, sem tarefa. Atlas Logística: R$ 12.000,00, 12 dias na Qualificação e tarefa atrasada. Vértice Saúde: R$ 18.000,00 em Fechamento, com tarefa futura. Todos pertencem a Ana.
 
-## Roteiro de cerca de dois minutos
+## Roteiro principal e extensão opcional
 
 1. **Visão geral:** mostre os quatro indicadores e o Radar. Abra **Implantação comercial · Aurora Digital** no Radar.
 2. **Negócio:** confira cliente, responsável, etapa e valor. Clique **Criar tarefa**, escreva **Confirmar proposta com Marina** e salve mantendo o prazo sugerido. Feche o painel; Aurora sai do alerta de falta de próxima ação.
 3. **Proposta:** abra Aurora novamente, clique **Ver proposta**. O negócio já preenche cliente e valor. Para demonstrar catálogo, altere o item principal para **Implantação comercial**, preço **20000.00**, quantidade 1; adicione **Treinamento da equipe**, preço R$ 5.000,00. Salve: total R$ 25.000,00, também no negócio. Desconto é um valor absoluto em reais, não percentual.
 4. **Acompanhamento:** feche a proposta e mova a etapa para **Proposta** pelo seletor do negócio ou pelo botão **Mover** no cartão. Uma tarefa **Acompanhar proposta · …** aparece. Ela é real nesta demo, criada uma vez por negócio; nenhum email/WhatsApp é enviado. Reentrar na etapa não duplica a tarefa.
 5. **Ganho:** clique **Marcar como ganho**, confira o valor final e **Confirmar ganho**. Feche o painel. Os indicadores mostram R$ 30.000,00 em aberto, um negócio ganho/R$ 25.000,00 e um negócio sem ação futura. Recarregue para comprovar persistência.
-6. **Automações:** em Configurações → Automações, abra **Acompanhamento de proposta · Proposta** e confira a regra de acompanhamento e sua execução com link para a tarefa criada. Os outros exemplos de email/WhatsApp continuam identificados como simulados.
+6. **Automações:** em Configurações → Automações, abra a linha **Acompanhamento de proposta** e confira a regra funcional e sua execução com link para a tarefa criada. Os outros exemplos continuam identificados como simulações.
+7. **Agenda:** abra Agenda, selecione toda a equipe e o funil fictício; localize **Acompanhar proposta · …** na semana do prazo. Abra e conclua. No negócio, a aba Tarefas mostra a mesma tarefa concluída.
+8. **Modelos e assistente:** em Automações → Modelos de mensagem, crie um modelo email “Aviso de reunião”, assunto “Próximo passo de {negociacao}” e corpo “Olá {contato}! Vamos conversar sobre a proposta de {negociacao}?”. Na aba Assistente, use o exemplo de reunião, interprete e escolha explicitamente o funil fictício e a etapa Reunião. Gere o rascunho, revise o destinatário fixo e simule. Salve, recarregue e reabra **Email ao entrar em Reunião**. Nenhuma mensagem real foi enviada.
 
 O Kanban abre o mesmo painel sem sair da tela; fechar ou Escape preserva filtros e rolagem. Links permitem abrir a página completa em outra aba. Tarefas atrasadas do painel abrem a tarefa correspondente para concluir ou reagendar.
 
@@ -23,11 +25,11 @@ O Kanban abre o mesmo painel sem sair da tela; fechar ou Escape preserva filtros
 
 Execute `npm run demo:reset` e recarregue o painel antes do próximo ensaio. A restauração atua somente no funil fictício dedicado: reabre seus três negócios, repõe valores e etapas, remove suas propostas/execuções e exclui logicamente tarefas anteriores, restaurando as duas tarefas do roteiro. Não altera outros funis ou empresas; históricos e auditorias gerais são preservados. O comando é recusado em produção.
 
-Dois ensaios completos foram automatizados com restauração entre eles. Para reproduzir: instale o componente de vídeo com `npx playwright install ffmpeg` e execute `node --env-file=.env scripts/presentation-rehearsal.mjs` com API e web ativos. O roteiro restaura a demo ao terminar com sucesso e salva a gravação em `docs/demo/desmos-apresentacao.webm`. Se interrompido, use `demo:reset` manualmente.
+Dois ensaios completos foram automatizados com restauração entre eles. Para reproduzir: instale o componente de vídeo com `npx playwright install ffmpeg` e execute `node --env-file=.env scripts/presentation-rehearsal.mjs` com API e web ativos. O roteiro restaura a demo em finally, inclusive após falha normal e salva a gravação em `docs/demo/desmos-apresentacao.webm`. Se interrompido, use `demo:reset` manualmente.
 
 ## Gravação de reserva
 
-[Desmos — apresentação gravada](demo/desmos-apresentacao.webm), sem áudio. Mostra o roteiro, indicadores atualizados, recarga e execução da regra. Use um player compatível com WebM ou o navegador. A gravação não substitui a operação ao vivo.
+[Desmos — apresentação gravada](demo/desmos-apresentacao.webm), sem áudio. Mostra o roteiro, indicadores atualizados, recarga, execução da regra, conclusão na Agenda e rascunho gerado pelo assistente. Use um player compatível com WebM ou o navegador. A gravação não substitui a operação ao vivo.
 
 ## Limites conhecidos
 

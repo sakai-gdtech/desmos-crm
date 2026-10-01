@@ -33,16 +33,11 @@ test("demonstração de automações e requisitos preserva configurações por p
   const first = await create("Vendas consultivas");
   const second = await create("Renovações");
   await page.goto(`/sales/automations?pipelineId=${first.id}`);
-  await expect(
-    page.getByText(/Os envios de email e WhatsApp são/),
-  ).toBeVisible();
+  await page.getByRole("button", { name: /Enviar proposta por email/ }).click();
   await page
     .getByLabel("Nome da automação")
     .fill("Enviar proposta personalizada");
-  await page
-    .getByRole("group", { name: "Canal da mensagem" })
-    .getByRole("button", { name: "WhatsApp", exact: true })
-    .click();
+  await page.getByLabel("Ação da automação").selectOption("WHATSAPP");
   await page
     .getByLabel("Mensagem", { exact: true })
     .fill("Olá, {contato}! Segue a proposta da {empresa}.");
@@ -56,7 +51,7 @@ test("demonstração de automações e requisitos preserva configurações por p
     if (["POST", "PATCH", "PUT"].includes(request.method())) outboundCalls++;
   });
   await page
-    .getByRole("button", { name: "Salvar automação", exact: true })
+    .getByRole("button", { name: "Salvar rascunho", exact: true })
     .click();
   await page
     .getByRole("button", { name: "Simular envio", exact: true })
@@ -65,26 +60,36 @@ test("demonstração de automações e requisitos preserva configurações por p
     page.getByText(/Nenhuma mensagem real foi enviada/).first(),
   ).toBeVisible();
   await page.reload();
+  await page
+    .getByRole("button", { name: /Enviar proposta personalizada/ })
+    .click();
   await expect(page.getByLabel("Nome da automação")).toHaveValue(
     "Enviar proposta personalizada",
   );
-  await page.getByRole("tab", { name: "Regras por etapa" }).click();
-  await page.getByLabel("Contato vinculado", { exact: true }).check();
   await page
-    .getByRole("button", { name: "Salvar regras da demonstração" })
+    .getByRole("button", { name: "Regras por etapa", exact: true })
     .click();
+  await page.getByText("1 · Entrada", { exact: true }).click();
+  await page.getByLabel("Contato vinculado", { exact: true }).first().check();
+  await page.getByRole("button", { name: "Salvar regras da etapa" }).click();
   await page.getByLabel("Pipeline", { exact: true }).selectOption(second.id);
-  await expect(page.getByLabel("Nome da automação")).toHaveValue(
-    "Enviar proposta por email",
-  );
-  await page.getByRole("tab", { name: "Regras por etapa" }).click();
   await expect(
-    page.getByLabel("Contato vinculado", { exact: true }),
+    page.getByRole("button", { name: /Enviar proposta por email/ }),
+  ).toBeVisible();
+  await page
+    .getByRole("button", { name: "Regras por etapa", exact: true })
+    .click();
+  await page.getByText("1 · Entrada", { exact: true }).click();
+  await expect(
+    page.getByLabel("Contato vinculado", { exact: true }).first(),
   ).not.toBeChecked();
   await page.getByLabel("Pipeline", { exact: true }).selectOption(first.id);
-  await page.getByRole("tab", { name: "Regras por etapa" }).click();
+  await page
+    .getByRole("button", { name: "Regras por etapa", exact: true })
+    .click();
+  await page.getByText("1 · Entrada", { exact: true }).click();
   await expect(
-    page.getByLabel("Contato vinculado", { exact: true }),
+    page.getByLabel("Contato vinculado", { exact: true }).first(),
   ).toBeChecked();
   expect(outboundCalls).toBe(0);
 });

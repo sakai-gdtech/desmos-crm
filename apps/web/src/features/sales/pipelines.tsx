@@ -139,6 +139,27 @@ function Editor({ item }: { item?: Pipeline }) {
       localKey: s.id ?? crypto.randomUUID(),
     })),
   );
+  const original = useRef(
+    JSON.stringify({
+      name: item?.name ?? "Vendas",
+      description: item?.description ?? "",
+      active: item?.active ?? true,
+      stages: item?.stages ?? defaults,
+    }),
+  );
+  const dirty =
+    JSON.stringify({
+      name,
+      description,
+      active,
+      stages: stages.map(({ localKey, ...s }) => s),
+    }) !== original.current;
+  useEffect(() => {
+    if (!dirty) return;
+    const handler = (e: BeforeUnloadEvent) => e.preventDefault();
+    window.addEventListener("beforeunload", handler);
+    return () => window.removeEventListener("beforeunload", handler);
+  }, [dirty]);
   const [insertAt, setInsertAt] = useState("end");
   const [dropAt, setDropAt] = useState<number | null>(null);
   const [orderNotice, setOrderNotice] = useState("");
@@ -369,7 +390,19 @@ function Editor({ item }: { item?: Pipeline }) {
             {orderNotice}
           </p>
         )}
-        <div className="sales-stage-editor">
+        <p className="field-hint">
+          Sequência:{" "}
+          {stages
+            .map((s, i) => `${i + 1}. ${s.name || "Nova etapa"}`)
+            .join(" → ")}
+        </p>
+        {dirty && (
+          <p className="info-note" role="status">
+            Alterações não salvas. Salve para aplicar ou cancele para manter a
+            versão anterior.
+          </p>
+        )}
+        <div className="sales-stage-editor sales-stage-compact">
           {stages.map((s, i) => (
             <fieldset
               key={s.localKey}
@@ -393,69 +426,106 @@ function Editor({ item }: { item?: Pipeline }) {
                 setDropAt(null);
               }}
             >
-              <legend>Etapa {i + 1}</legend>
-              <button
-                type="button"
-                className="stage-drag-handle"
-                draggable={!save.isPending}
-                aria-label={`Arrastar etapa ${s.name || i + 1}`}
-                onDragStart={(e) => {
-                  dragKey.current = s.localKey;
-                  e.dataTransfer.effectAllowed = "move";
-                  e.dataTransfer.setData("text/plain", s.localKey);
-                }}
-                onDragEnd={() => {
-                  dragKey.current = null;
-                  setDropAt(null);
-                }}
-              >
-                <GripVertical size={18} />
-                Arrastar
-              </button>
-              <div className="sales-stage-fields">
-                <Field id={`stage-name-${i}`} label="Nome da etapa">
-                  <Input
-                    id={`stage-name-${i}`}
-                    value={s.name}
-                    onChange={(e) => change(i, "name", e.target.value)}
-                    required
-                    maxLength={100}
-                  />
-                </Field>
-                <Field id={`stage-prob-${i}`} label="Probabilidade (%)">
-                  <Input
-                    id={`stage-prob-${i}`}
-                    type="number"
-                    min={0}
-                    max={100}
-                    value={s.probability}
-                    onChange={(e) =>
-                      change(i, "probability", Number(e.target.value))
-                    }
-                  />
-                </Field>
-                <Field id={`stage-color-${i}`} label="Cor da etapa">
-                  <Input
-                    id={`stage-color-${i}`}
-                    type="color"
-                    value={s.color}
-                    onChange={(e) => change(i, "color", e.target.value)}
-                  />
-                </Field>
-                <Field id={`stage-days-${i}`} label="Dias sem avanço">
-                  <Input
-                    id={`stage-days-${i}`}
-                    type="number"
-                    min={1}
-                    max={365}
-                    value={s.staleDays}
-                    onChange={(e) =>
-                      change(i, "staleDays", Number(e.target.value))
-                    }
-                  />
-                </Field>
+              <legend className="sr-only">Etapa {i + 1}</legend>
+              <div className="stage-compact-line">
+                <span className="stage-position">{i + 1}</span>
+                <button
+                  type="button"
+                  className="stage-drag-handle"
+                  draggable={!save.isPending}
+                  aria-label={`Arrastar etapa ${s.name || i + 1}`}
+                  onDragStart={(e) => {
+                    dragKey.current = s.localKey;
+                    e.dataTransfer.effectAllowed = "move";
+                    e.dataTransfer.setData("text/plain", s.localKey);
+                  }}
+                  onDragEnd={() => {
+                    dragKey.current = null;
+                    setDropAt(null);
+                  }}
+                >
+                  <GripVertical size={18} />
+                </button>
+                <div className="sales-stage-fields">
+                  <Field id={`stage-color-${i}`} label="Cor">
+                    <Input
+                      id={`stage-color-${i}`}
+                      type="color"
+                      value={s.color}
+                      onChange={(e) => change(i, "color", e.target.value)}
+                    />
+                  </Field>
+
+                  <Field id={`stage-name-${i}`} label="Nome da etapa">
+                    <Input
+                      id={`stage-name-${i}`}
+                      value={s.name}
+                      onChange={(e) => change(i, "name", e.target.value)}
+                      required
+                      maxLength={100}
+                    />
+                  </Field>
+                </div>
+                <div className="sales-stage-controls">
+                  <div>
+                    <Button
+                      variant="ghost"
+                      disabled={i === 0}
+                      aria-label={`Mover ${s.name || "etapa"} para cima`}
+                      onClick={() => reorder(i, i - 1)}
+                    >
+                      <ArrowUp size={16} />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      disabled={i === stages.length - 1}
+                      aria-label={`Mover ${s.name || "etapa"} para baixo`}
+                      onClick={() => reorder(i, i + 1)}
+                    >
+                      <ArrowDown size={16} />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      disabled={stages.length === 1}
+                      aria-label={`Remover etapa ${s.name || i + 1}`}
+                      onClick={() =>
+                        setStages((v) => v.filter((_, j) => j !== i))
+                      }
+                    >
+                      <Trash2 size={16} />
+                    </Button>
+                  </div>
+                </div>
               </div>
-              <div className="sales-stage-controls">
+              <details className="stage-advanced">
+                <summary>Detalhes avançados</summary>
+                <div className="form-grid">
+                  {" "}
+                  <Field id={`stage-prob-${i}`} label="Probabilidade (%)">
+                    <Input
+                      id={`stage-prob-${i}`}
+                      type="number"
+                      min={0}
+                      max={100}
+                      value={s.probability}
+                      onChange={(e) =>
+                        change(i, "probability", Number(e.target.value))
+                      }
+                    />
+                  </Field>
+                  <Field id={`stage-days-${i}`} label="Dias sem avanço">
+                    <Input
+                      id={`stage-days-${i}`}
+                      type="number"
+                      min={1}
+                      max={365}
+                      value={s.staleDays}
+                      onChange={(e) =>
+                        change(i, "staleDays", Number(e.target.value))
+                      }
+                    />
+                  </Field>
+                </div>{" "}
                 <label className="crm-checkbox">
                   <input
                     type="checkbox"
@@ -466,35 +536,7 @@ function Editor({ item }: { item?: Pipeline }) {
                   />
                   Exigir próxima atividade ao mover para esta etapa
                 </label>
-                <div>
-                  <Button
-                    variant="ghost"
-                    disabled={i === 0}
-                    aria-label={`Mover ${s.name || "etapa"} para cima`}
-                    onClick={() => reorder(i, i - 1)}
-                  >
-                    <ArrowUp size={16} />
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    disabled={i === stages.length - 1}
-                    aria-label={`Mover ${s.name || "etapa"} para baixo`}
-                    onClick={() => reorder(i, i + 1)}
-                  >
-                    <ArrowDown size={16} />
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    disabled={stages.length === 1}
-                    aria-label={`Remover etapa ${s.name || i + 1}`}
-                    onClick={() =>
-                      setStages((v) => v.filter((_, j) => j !== i))
-                    }
-                  >
-                    <Trash2 size={16} />
-                  </Button>
-                </div>
-              </div>
+              </details>
             </fieldset>
           ))}
         </div>

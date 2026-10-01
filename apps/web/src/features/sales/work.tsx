@@ -37,6 +37,7 @@ import {
   useDebounced,
 } from "@/features/crm/shared";
 import { api, errorMessage, patch, post } from "@/lib/api";
+import { companyInput, companyInstant } from "@/lib/company-time";
 import { formatDate } from "@/lib/types";
 import {
   DealPicker,
@@ -417,14 +418,15 @@ type Values = {
   tagIds: string[];
   checklist: { title: string; done: boolean }[];
 };
-const localDate = (value?: string | null) => {
-  if (!value) return "";
-  const date = new Date(value);
-  return new Date(date.getTime() - date.getTimezoneOffset() * 60000)
-    .toISOString()
-    .slice(0, 16);
-};
-export function WorkForm({ kind, id }: { kind: WorkKind; id?: string }) {
+export function WorkForm({
+  kind,
+  id,
+  onDone,
+}: {
+  kind: WorkKind;
+  id?: string;
+  onDone?: () => void;
+}) {
   const { data: session } = useSession();
   const result = useQuery({
     queryKey: ["sales", kind, id],
@@ -439,9 +441,24 @@ export function WorkForm({ kind, id }: { kind: WorkKind; id?: string }) {
     return <ErrorState error={result.error} retry={() => result.refetch()} />;
   if (result.data?.item.deletedAt)
     return <Alert>Restaure o registro antes de editar.</Alert>;
-  return <WorkEditor key={id ?? "new"} kind={kind} item={result.data?.item} />;
+  return (
+    <WorkEditor
+      key={id ?? "new"}
+      kind={kind}
+      item={result.data?.item}
+      onDone={onDone}
+    />
+  );
 }
-function WorkEditor({ kind, item }: { kind: WorkKind; item?: Work }) {
+function WorkEditor({
+  kind,
+  item,
+  onDone,
+}: {
+  kind: WorkKind;
+  item?: Work;
+  onDone?: () => void;
+}) {
   const params = useSearchParams();
   const { data: session } = useSession();
   const router = useRouter();
@@ -457,8 +474,12 @@ function WorkEditor({ kind, item }: { kind: WorkKind; item?: Work }) {
       leadId: item?.leadId ?? params.get("leadId") ?? "",
       dealId: item?.dealId ?? params.get("dealId") ?? "",
       type: item?.type ?? "CALL",
-      scheduledAt: localDate(item?.scheduledAt),
-      dueAt: localDate(item?.dueAt),
+      scheduledAt: item?.scheduledAt
+        ? companyInput(item.scheduledAt, session?.tenant.timezone ?? "UTC")
+        : "",
+      dueAt: item?.dueAt
+        ? companyInput(item.dueAt, session?.tenant.timezone ?? "UTC")
+        : "",
       priority: item?.priority ?? "MEDIUM",
       status: item?.status ?? (kind === "tasks" ? "TODO" : "PLANNED"),
       duration: item?.duration == null ? "" : String(item.duration),
@@ -496,7 +517,12 @@ function WorkEditor({ kind, item }: { kind: WorkKind; item?: Work }) {
         if (item && !dirty[key]) continue;
         let value: unknown = v[key] || null;
         if (["dueAt", "scheduledAt", "followUpAt"].includes(key))
-          value = v[key] ? new Date(v[key] as string).toISOString() : null;
+          value = v[key]
+            ? companyInstant(
+                v[key] as string,
+                session?.tenant.timezone ?? "UTC",
+              )
+            : null;
         if (key === "duration") value = v.duration ? Number(v.duration) : null;
         body[key] = value;
       }
@@ -509,7 +535,8 @@ function WorkEditor({ kind, item }: { kind: WorkKind; item?: Work }) {
     },
     onSuccess: async (data) => {
       await invalidate();
-      router.push(`/sales/${kind}/${data.item.id}`);
+      if (onDone) onDone();
+      else router.push(`/sales/${kind}/${data.item.id}`);
     },
   });
   const input = (
@@ -547,6 +574,9 @@ function WorkEditor({ kind, item }: { kind: WorkKind; item?: Work }) {
         />
         {save.isError && <Alert>{errorMessage(save.error)}</Alert>}
         <Card className="sales-form-section">
+          <p className="field-hint">
+            Fuso da empresa: {session?.tenant.timezone}
+          </p>
           {input("title", "Título", { required: true, maxLength: 200 })}
           <div className="form-grid">
             {input("dueAt", "Prazo", { type: "datetime-local" })}
@@ -555,7 +585,9 @@ function WorkEditor({ kind, item }: { kind: WorkKind; item?: Work }) {
               onChange={(v) => set("assignedTo", v)}
             />
           </div>
-          <p className="field-hint">Horários no fuso deste dispositivo.</p>
+          <p className="field-hint">
+            Horários no fuso da empresa: {session?.tenant.timezone}.
+          </p>
           <DealPicker
             value={form.watch("dealId")}
             onChange={(v) => set("dealId", v)}

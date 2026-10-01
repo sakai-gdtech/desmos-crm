@@ -48,14 +48,15 @@ for (const mobile of [false, true]) {
     expect(dealResponse.status()).toBe(201);
     const deal = (await dealResponse.json()).item;
     await page.goto(`/sales/automations?pipelineId=${pipeline.id}`);
-    await page.getByLabel("Começar com um modelo").selectOption("TASK");
+    await page.getByText("Começar com uma receita", { exact: true }).click();
+    await page.getByLabel("Receita de automação").selectOption("TASK");
     await page
-      .getByRole("button", { name: "Criar automação", exact: true })
+      .getByRole("button", { name: "Usar receita", exact: true })
       .click();
     await expect(page.getByLabel("O que acontece")).toHaveValue("DEAL_CREATED");
     await page.getByLabel("Nome da automação").fill("Acompanhar cadastro");
     await page
-      .getByRole("button", { name: "Salvar automação", exact: true })
+      .getByRole("button", { name: "Salvar rascunho", exact: true })
       .dblclick();
     await page
       .getByRole("button", { name: "Testar com prévia", exact: true })
@@ -68,6 +69,7 @@ for (const mobile of [false, true]) {
     expect((await tasks.json()).total).toBe(0);
     await page.getByLabel("Nome da automação").fill("Não salvar");
     await page.getByRole("button", { name: "Cancelar alterações" }).click();
+    await page.getByRole("button", { name: /Acompanhar cadastro/ }).click();
     await expect(page.getByLabel("Nome da automação")).toHaveValue(
       "Acompanhar cadastro",
     );
@@ -77,7 +79,7 @@ for (const mobile of [false, true]) {
       .getByLabel("Etapa de entrada")
       .selectOption(pipeline.stages[2].id);
     await page
-      .getByRole("button", { name: "Salvar automação", exact: true })
+      .getByRole("button", { name: "Salvar rascunho", exact: true })
       .click();
     await page.reload();
     // First rule remains the incumbent email; select the saved task explicitly.

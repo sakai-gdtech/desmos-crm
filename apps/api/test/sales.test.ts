@@ -1405,3 +1405,71 @@ test("Automação demo: referência estável, configuração concorrente e etapa
     0,
   );
 });
+
+test("agenda window includes start, excludes end, pages >100, filters pipeline/type and retains tenant boundaries", async () => {
+  const a = await register("Agenda"),
+    b = await register("Outra agenda");
+  const p = await pipelineFor(a.client),
+    other = await pipelineFor(a.client);
+  const d = await sale(a.client, "deals", dealInput(p));
+  const d2 = await sale(a.client, "deals", dealInput(other));
+  const from = "2026-10-05T04:00:00.000Z",
+    to = "2026-10-06T04:00:00.000Z";
+  await tenantQuery(
+    a.tenant.id,
+    sql`INSERT INTO sales_work(tenant_id,kind,title,deal_id,assigned_to,due_at,status,created_by,priority) SELECT ${a.tenant.id},'tasks','Agenda '||n,${d.id},${a.user.id},${from}::timestamptz + (n-1)*interval '1 minute','TODO',${a.user.id},'MEDIUM' FROM generate_series(1,105) n`,
+  );
+  await sale(a.client, "tasks", { dealId: d.id, dueAt: to });
+  await sale(a.client, "tasks", {
+    dealId: d.id,
+    dueAt: "2026-10-05T03:59:59.000Z",
+  });
+  await sale(a.client, "tasks", { dealId: d2.id, dueAt: from });
+  await sale(a.client, "tasks", { dealId: d.id });
+  const q = `?from=${from}&to=${to}&pipelineId=${p.id}&pageSize=100&type=TASK`;
+  const first = await saleList(a.client, "tasks", q),
+    second = await saleList(a.client, "tasks", q + "&page=2");
+  assert.equal(first.total, 105);
+  assert.equal(first.items.length, 100);
+  assert.equal(second.items.length, 5);
+  assert.equal(
+    new Set([...first.items, ...second.items].map((i) => i.id)).size,
+    105,
+  );
+  assert.ok(first.items.some((i) => new Date(i.dueAt).toISOString() === from));
+  assert.equal((await saleList(b.client, "tasks", q)).total, 0);
+  assert.equal(
+    (await saleList(a.client, "tasks", `?pipelineId=${other.id}`)).total,
+    1,
+  );
+  assert.equal(
+    (await saleList(a.client, "tasks", `?bucket=undated&pipelineId=${p.id}`))
+      .total,
+    1,
+  );
+  assert.equal(
+    (await saleList(a.client, "tasks", `?type=MEETING&pipelineId=${p.id}`))
+      .total,
+    0,
+  );
+  status(
+    await a.client.request("GET", `/sales/tasks?from=${to}&to=${from}`),
+    400,
+  );
+  const meeting = await sale(a.client, "activities", {
+    type: "MEETING",
+    dealId: d.id,
+    scheduledAt: from,
+    duration: 45,
+  });
+  assert.equal(
+    (
+      await saleList(
+        a.client,
+        "activities",
+        q.replace("type=TASK", "type=MEETING"),
+      )
+    ).items[0].id,
+    meeting.id,
+  );
+});

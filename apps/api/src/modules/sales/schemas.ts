@@ -185,12 +185,30 @@ export const list = pagination
     leadId: id.optional(),
     dealId: id.optional(),
     status: z.string().max(30).optional(),
+    from: z.iso.datetime({ offset: true }).optional(),
+    to: z.iso.datetime({ offset: true }).optional(),
+    type: z
+      .enum([
+        "CALL",
+        "EMAIL",
+        "WHATSAPP",
+        "MEETING",
+        "NOTE",
+        "TASK",
+        "VISIT",
+        "OTHER",
+      ])
+      .optional(),
     deleted: z.enum(["true", "false"]).default("false"),
     bucket: z
-      .enum(["all", "today", "upcoming", "overdue", "completed"])
+      .enum(["all", "today", "upcoming", "overdue", "completed", "undated"])
       .default("all"),
   })
-  .strict();
+  .strict()
+  .refine(
+    (q) => !q.from || !q.to || new Date(q.from) < new Date(q.to),
+    "A janela deve terminar depois de começar.",
+  );
 export const board = z
   .object({
     pipelineId: id,

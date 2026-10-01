@@ -382,6 +382,19 @@ export async function list(ctx: Context, kind: string, q: Row) {
         (key !== "dealId" || kind !== "deals")
       )
         filters.push(sql`${field(column(key))}=${q[key]}`);
+    if (kind !== "deals") {
+      if (q.pipelineId)
+        filters.push(
+          sql`EXISTS (SELECT 1 FROM sales_deals linked WHERE linked.tenant_id=w.tenant_id AND linked.id=w.deal_id AND linked.pipeline_id=${q.pipelineId})`,
+        );
+      const due = kind === "tasks" ? sql`w.due_at` : sql`w.scheduled_at`;
+      if (q.from) filters.push(sql`${due} >= ${q.from}::timestamptz`);
+      if (q.to) filters.push(sql`${due} < ${q.to}::timestamptz`);
+      if (q.type)
+        filters.push(
+          kind === "tasks" ? sql`${q.type} = 'TASK'` : sql`w.type=${q.type}`,
+        );
+    }
     if (q.status) filters.push(sql`${field("status")}=${q.status}`);
     if (kind !== "deals" && q.bucket !== "all") {
       const due = kind === "tasks" ? sql`w.due_at` : sql`w.scheduled_at`;
@@ -389,7 +402,11 @@ export async function list(ctx: Context, kind: string, q: Row) {
         tx,
         sql`SELECT timezone FROM tenants WHERE id=${ctx.tenantId}`,
       ))!.timezone;
-      if (q.bucket === "completed")
+      if (q.bucket === "undated")
+        filters.push(
+          sql`${due} IS NULL AND w.status IN ('TODO','IN_PROGRESS','PLANNED')`,
+        );
+      else if (q.bucket === "completed")
         filters.push(sql`w.status IN ('DONE','COMPLETED')`);
       else {
         filters.push(sql`w.status IN ('TODO','IN_PROGRESS','PLANNED')`);

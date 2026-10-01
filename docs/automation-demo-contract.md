@@ -1,5 +1,7 @@
 # Automações e personalização de pipeline — demonstração
 
+Esta documentação registra a etapa anterior. A interface atual, com lista/editor separados, modelos versionados, assistente e Agenda, está no [guia atualizado](automation-workspace-guide.md) e na [especificação da extensão](specs/automation-workspace-agenda.md).
+
 Pedido do usuário em 01/10/2026: configurar automações próprias de cada pipeline, como enviar email ou WhatsApp ao entrar em Proposta, e ter personalização granular por etapa. Esclarecimento explícito: nesta entrega, os envios são exemplos para apresentar; a prioridade é o funcionamento visual, sem conectar serviços externos.
 
 ## Entrega da demonstração

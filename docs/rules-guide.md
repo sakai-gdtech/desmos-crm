@@ -1,5 +1,7 @@
 # Demonstrar automações e edição das etapas
 
+Esta documentação registra a etapa anterior. A interface atual, com lista/editor separados, modelos versionados, assistente e Agenda, está no [guia atualizado](automation-workspace-guide.md) e na [especificação da extensão](specs/automation-workspace-agenda.md).
+
 Em Configurações → Automações, escolha o funil. O builder apresenta Quando acontecer, Se atender às condições e Fazer. Escolha um modelo (por exemplo Acompanhar novo negócio), dê um nome e personalize o gatilho/ação. Abra Adicionar condições somente quando precisar filtrar etapa, responsável ou valor. Funil é o contexto selecionado; cada funil guarda exemplos próprios.
 
 O Resumo da regra mostra o que acontecerá. Testar com prévia usa Marina/Aurora, R$ 25.000 e o primeiro responsável da conta. Resultados dos testes mantém os últimos oito neste navegador. Teste idêntico repetido na mesma abertura não duplica o resultado. Salvar automação guarda a configuração local; Cancelar alterações recupera a regra salva. Recarregar abandona alterações não salvas. Modelos antigos de email/WhatsApp continuam disponíveis e são convertidos para o novo formato ao carregar.

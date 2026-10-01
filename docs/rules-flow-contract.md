@@ -1,5 +1,7 @@
 # Automações e ordem das etapas — contrato da apresentação
 
+Esta documentação registra a etapa anterior. A interface atual, com lista/editor separados, modelos versionados, assistente e Agenda, está no [guia atualizado](automation-workspace-guide.md) e na [especificação da extensão](specs/automation-workspace-agenda.md).
+
 Extensão Operate da identidade clara azul/dourado aprovada, sem novo mundo visual ou assets. Fonte autorizadora: pedido de 01/10 para configuração simples, gatilhos/condições/ações e inserção/reordenação de etapas, mantendo os dados existentes. Qualidade exigida: operação clara na apresentação de 5/10; não implementar motor genérico ou integrações externas.
 
 A automação tem três partes legíveis: Quando acontecer → Se atender às condições (opcional) → Fazer. Modelos, condições progressivas, resumo, prévia e resultados ficam no fluxo existente. Os exemplos são salvos por empresa/funil no navegador; não executam registros automaticamente. Leads não aceitam condições de valor/etapa de negócio. Movimentação para a própria etapa é rejeitada na prévia. Email e WhatsApp não são enviados.

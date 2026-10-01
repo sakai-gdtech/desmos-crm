@@ -95,6 +95,11 @@ export function formatDate(
   timezone = "America/Sao_Paulo",
 ) {
   if (!value) return "—";
+  if (/^\d{4}-\d{2}-\d{2}$/.test(value))
+    return new Intl.DateTimeFormat("pt-BR", {
+      dateStyle: "short",
+      timeZone: "UTC",
+    }).format(new Date(`${value}T12:00:00Z`));
   return new Intl.DateTimeFormat("pt-BR", {
     dateStyle: "short",
     timeStyle: "short",

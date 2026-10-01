@@ -169,13 +169,115 @@ try {
     await pause();
     if (round === 2) {
       await page.goto(`/sales/automations?pipelineId=${pipeline.id}`);
-      await page.locator(".demo-followup-details > summary").click();
+      await page
+        .getByRole("button", { name: /Acompanhamento de proposta/ })
+        .click();
       await expect(
         page.getByRole("heading", {
           name: "Acompanhamento de proposta",
           exact: true,
         }),
       ).toBeVisible();
+      await pause();
+    }
+    // Real follow-up appears in Agenda and completing it updates the same record.
+    const automaticTask = tasks.find((t) =>
+      t.title.startsWith("Acompanhar proposta"),
+    );
+    await page.goto("/sales/agenda");
+    await page.getByLabel("Responsável", { exact: true }).selectOption("all");
+    await page.getByLabel("Funil", { exact: true }).selectOption(pipeline.id);
+    // The day-after deadline can fall in next week when rehearsed on a Sunday.
+    if (new Date().getDay() === 0)
+      await page.getByRole("button", { name: "Próxima semana" }).click();
+    await page
+      .getByRole("button", {
+        name: new RegExp(
+          automaticTask.title.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
+        ),
+      })
+      .click();
+    await pause();
+    await page
+      .getByRole("dialog")
+      .getByRole("button", { name: "Concluir", exact: true })
+      .click();
+    await expect(page.getByRole("dialog")).not.toBeVisible();
+    expect(
+      (
+        await (
+          await context.request.get(`/api/sales/tasks/${automaticTask.id}`)
+        ).json()
+      ).item.status,
+    ).toBe("DONE");
+    await page.goto(`/sales/deals/${aurora.id}`);
+    await page.getByRole("button", { name: "Tarefas", exact: true }).click();
+    await expect(
+      page.getByRole("link", { name: automaticTask.title, exact: true }),
+    ).toBeVisible();
+    await expect(
+      page.locator(".sales-work-row").filter({
+        has: page.getByRole("link", {
+          name: automaticTask.title,
+          exact: true,
+        }),
+      }),
+    ).toContainText("Concluída");
+    await pause();
+    if (round === 2) {
+      await page.goto(`/sales/automations?pipelineId=${pipeline.id}`);
+      await page
+        .getByRole("button", { name: "Modelos de mensagem", exact: true })
+        .click();
+      await page
+        .getByRole("button", { name: "Criar modelo", exact: true })
+        .click();
+      await page.getByLabel("Nome do modelo").fill("Aviso de reunião");
+      await page
+        .getByLabel("Assunto do modelo")
+        .fill("Próximo passo de {negociacao}");
+      await page
+        .getByLabel("Corpo do modelo")
+        .fill(
+          "Olá {contato}! Vamos conversar sobre a proposta de {negociacao}?",
+        );
+      await page
+        .getByRole("button", { name: "Salvar modelo", exact: true })
+        .click();
+      await pause();
+      await page
+        .getByRole("button", { name: "Assistente", exact: true })
+        .click();
+      await page
+        .getByRole("button", { name: "Usar exemplo de reunião" })
+        .click();
+      await page
+        .getByRole("button", { name: "Interpretar pedido", exact: true })
+        .click();
+      await page.getByLabel("Escolher funil").selectOption(pipeline.id);
+      await page
+        .getByLabel("Escolher etapa")
+        .selectOption(pipeline.stages.find((s) => /reunião/i.test(s.name)).id);
+      await pause();
+      await page
+        .getByRole("button", { name: "Gerar rascunho para revisão" })
+        .click();
+      await page
+        .getByRole("button", { name: "Simular envio", exact: true })
+        .click();
+      await expect(
+        page.getByText(/Nenhuma mensagem real foi enviada/).first(),
+      ).toBeVisible();
+      await page
+        .getByRole("button", { name: "Salvar rascunho", exact: true })
+        .click();
+      await expect(
+        page.getByText(
+          "Rascunho salvo neste navegador. Nenhuma regra real foi ativada.",
+        ),
+      ).toBeVisible();
+      await page.reload();
+      await page.getByRole("button", { name: /Email ao entrar/ }).click();
       await pause();
     }
     const video = page.video();
@@ -192,6 +294,7 @@ try {
       wonValue: data.totals[0].wonValue,
       openValue: data.totals[0].openValue,
       automaticTasks: 1,
+      agendaCompletion: true,
       reload: true,
     });
   }
@@ -202,5 +305,6 @@ try {
   );
   console.log(JSON.stringify({ result, restored: true }));
 } finally {
+  await reset();
   await browser.close();
 }

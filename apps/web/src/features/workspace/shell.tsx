@@ -107,6 +107,13 @@ const nav = [
     permission: "activities.view",
   },
   {
+    label: "Agenda",
+    href: "/sales/agenda",
+    icon: CalendarClock,
+    group: "VENDAS",
+    permission: "tasks.view",
+  },
+  {
     label: "Tarefas",
     href: "/sales/tasks",
     icon: ListTodo,
@@ -372,7 +379,9 @@ function WorkspaceShell({
               </>
             )}
             {allowed
-              .filter((item) => item.href === "/sales/tasks")
+              .filter((item) =>
+                ["/sales/agenda", "/sales/tasks"].includes(item.href),
+              )
               .map(renderLink)}
           </div>
         </nav>

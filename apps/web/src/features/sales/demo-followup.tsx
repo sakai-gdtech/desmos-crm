@@ -26,7 +26,13 @@ type Config = {
     createdAt: string;
   }[];
 };
-export function DemoFollowup({ pipeline }: { pipeline: Pipeline }) {
+export function DemoFollowup({
+  pipeline,
+  expanded = false,
+}: {
+  pipeline: Pipeline;
+  expanded?: boolean;
+}) {
   const invalidate = useSalesInvalidation();
   const result = useQuery({
     queryKey: ["sales", "demo-followup", pipeline.id],
@@ -73,7 +79,10 @@ export function DemoFollowup({ pipeline }: { pipeline: Pipeline }) {
     change.mutate({ enabled, stageId: selected, version: result.data.version });
   };
   return (
-    <details className="demo-followup-section demo-followup-details">
+    <details
+      open={expanded || undefined}
+      className="demo-followup-section demo-followup-details"
+    >
       <summary>
         <span>Acompanhamento de proposta · {stageName}</span>
         <Badge tone="green">Funciona nesta demo</Badge>
@@ -114,6 +123,11 @@ export function DemoFollowup({ pipeline }: { pipeline: Pipeline }) {
                 ))}
               </Select>
             </Field>
+            {selected !== result.data.stageId && (
+              <p className="field-hint">
+                Salve a nova etapa antes de ativar ou pausar a regra.
+              </p>
+            )}
             <div className="crm-detail-actions">
               <Button
                 variant="secondary"
@@ -125,12 +139,19 @@ export function DemoFollowup({ pipeline }: { pipeline: Pipeline }) {
               </Button>
               <Button
                 variant="secondary"
-                disabled={!selected || change.isPending}
+                disabled={selected !== result.data.stageId || change.isPending}
                 onClick={() => save(!result.data.enabled)}
               >
                 {result.data.enabled
                   ? "Pausar acompanhamento"
                   : "Ativar acompanhamento"}
+              </Button>
+              <Button
+                variant="ghost"
+                disabled={selected === result.data.stageId || change.isPending}
+                onClick={() => setStageId("")}
+              >
+                Cancelar etapa
               </Button>
               <Button
                 variant="ghost"

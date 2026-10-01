@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { templateSchema, recipientSchema } from "./message-model";
 import type { Pipeline } from "./types";
 export const triggers = {
   STAGE_CHANGED: "Negócio mudar de etapa",
@@ -45,8 +46,24 @@ const ruleSchema = z
     ownerId: z.string().default(""),
     assigneeId: z.string().default(""),
     targetStageId: z.string().default(""),
+    recipient: recipientSchema.default({ kind: "CONTACT" }),
+    messageTemplate: z
+      .object({
+        id: z.string(),
+        revision: z.number().int().positive(),
+        snapshot: templateSchema,
+      })
+      .nullable()
+      .default(null),
     taskTitle: z.string().max(200).default("Acompanhar {negociacao}"),
   })
+  .refine(
+    (r) =>
+      !r.messageTemplate ||
+      (r.messageTemplate.id === r.messageTemplate.snapshot.id &&
+        r.messageTemplate.revision === r.messageTemplate.snapshot.revision),
+    "Snapshot inconsistente.",
+  )
   .transform((r) => ({ ...r, action: r.action ?? r.channel }));
 export type Rule = z.infer<typeof ruleSchema>;
 export function readRule(input: unknown) {
@@ -108,6 +125,6 @@ export function exampleResult(rule: Rule, pipeline: Pipeline, ownerId: string) {
         ? "troca de responsável preparada"
         : rule.action === "MOVE"
           ? "mudança de etapa preparada"
-          : `${rule.action === "EMAIL" ? "email" : "WhatsApp"} preparado para Marina`;
+          : `${rule.action === "EMAIL" ? "email" : "WhatsApp"} preparado para ${rule.recipient.kind === "USER" ? rule.recipient.name : "Marina"}`;
   return `Teste concluído: ${outcome}. ${["EMAIL", "WHATSAPP"].includes(rule.action) ? "Nenhuma mensagem real foi enviada." : "Simulação: nenhum registro foi alterado."}`;
 }
