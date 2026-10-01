@@ -86,7 +86,7 @@ const nav = [
     permission: "crm.trash",
   },
   {
-    label: "Funil de vendas",
+    label: "Negócios",
     href: "/sales/board",
     icon: GitBranch,
     group: "VENDAS",
@@ -96,14 +96,14 @@ const nav = [
     label: "Oportunidades",
     href: "/sales/deals",
     icon: Handshake,
-    group: "VENDAS",
+    group: "CONFIGURAÇÕES",
     permission: "deals.view",
   },
   {
     label: "Atividades",
     href: "/sales/activities",
     icon: CalendarClock,
-    group: "VENDAS",
+    group: "CONFIGURAÇÕES",
     permission: "activities.view",
   },
   {
@@ -279,6 +279,8 @@ function WorkspaceShell({
   };
   const clients = allowed.filter((item) => item.group === "CLIENTES");
   const settings = [
+    "/sales/activities",
+    "/sales/deals",
     "/settings/company",
     "/settings/team",
     "/sales/pipelines",
@@ -308,11 +310,7 @@ function WorkspaceShell({
         <div className="sidebar-brand-row">
           <Link
             className="brand"
-            href={
-              session.permissions.includes("deals.view")
-                ? "/sales/board"
-                : "/workspace"
-            }
+            href="/workspace"
             aria-label="Desmos CRM — início"
             onClick={() => setMobileOpen(false)}
           >
@@ -340,16 +338,9 @@ function WorkspaceShell({
         </div>
         <nav className="sidebar-navigation" aria-label="Trabalho comercial">
           <div className="nav-group nav-primary">
-            {[
-              "/sales/board",
-              "/sales/deals",
-              "/sales/tasks",
-              "/sales/activities",
-            ]
+            {["/workspace", "/sales/board"]
               .flatMap((href) => allowed.filter((item) => item.href === href))
               .map(renderLink)}
-          </div>
-          <div className="nav-group nav-secondary">
             {clients.length > 0 && (
               <>
                 <button
@@ -381,7 +372,7 @@ function WorkspaceShell({
               </>
             )}
             {allowed
-              .filter((item) => item.group === "WORKSPACE")
+              .filter((item) => item.href === "/sales/tasks")
               .map(renderLink)}
           </div>
         </nav>

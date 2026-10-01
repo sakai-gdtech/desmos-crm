@@ -23,7 +23,7 @@ test("tema claro padrão, navegação por tarefa e preferência explícita persi
   await page.goto("/sales/board");
   await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
   const nav = page.getByRole("navigation", { name: "Trabalho comercial" });
-  await expect(nav.getByRole("link").first()).toHaveText("Funil de vendas");
+  await expect(nav.getByRole("link").first()).toHaveText("Visão geral");
   await expect(
     page.getByRole("link", { name: "Empresa", exact: true }),
   ).toBeHidden();
@@ -54,6 +54,19 @@ test("tema claro padrão, navegação por tarefa e preferência explícita persi
   await page.getByRole("button", { name: "Ativar tema escuro" }).click();
   await page.reload();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+  for (const [route, label] of [
+    ["/sales/activities", "Atividades"],
+    ["/sales/deals", "Oportunidades"],
+  ]) {
+    await page.goto(route!);
+    await page.reload();
+    await expect(
+      page.getByRole("button", { name: "Configurações", exact: true }),
+    ).toHaveAttribute("aria-expanded", "true");
+    await expect(
+      page.getByRole("link", { name: label!, exact: true }),
+    ).toHaveAttribute("aria-current", "page");
+  }
 });
 
 test("menu móvel fecha com Escape, devolve foco e fecha ao navegar", async ({

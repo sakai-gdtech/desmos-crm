@@ -48,7 +48,7 @@ export async function buildApp(options: { logger?: boolean } = {}) {
   await app.register(cors, {
     origin: new URL(config.WEB_URL).origin,
     credentials: true,
-    methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
   });
   await app.register(helmet);
   await app.register(rateLimit, {

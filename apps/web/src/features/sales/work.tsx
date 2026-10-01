@@ -45,6 +45,7 @@ import {
   useSalesInvalidation,
 } from "./shared";
 import {
+  statusLabels,
   priorityLabels,
   typeLabels,
   type Page,
@@ -52,7 +53,7 @@ import {
   type WorkKind,
 } from "./types";
 const names = {
-  tasks: { title: "Tarefas", new: "Nova tarefa", singular: "tarefa" },
+  tasks: { title: "Tarefas", new: "Criar tarefa", singular: "tarefa" },
   activities: {
     title: "Atividades",
     new: "Nova atividade",
@@ -525,6 +526,164 @@ function WorkEditor({ kind, item }: { kind: WorkKind; item?: Work }) {
     </Field>
   );
   const tagIds = form.watch("tagIds");
+  if (["tasks"].includes(kind))
+    return (
+      <form
+        className="page-stack crm-record-form sales-record-form"
+        onSubmit={form.handleSubmit((v) => {
+          if (!save.isPending) save.mutate(v);
+        })}
+      >
+        <Link
+          className="back-link"
+          href={item ? `/sales/tasks/${item.id}` : "/sales/tasks"}
+        >
+          <ArrowLeft size={15} />
+          Voltar para tarefas
+        </Link>
+        <PageHeading
+          title={item ? "Editar tarefa" : "Criar tarefa"}
+          description="Defina o próximo passo, responsável e prazo."
+        />
+        {save.isError && <Alert>{errorMessage(save.error)}</Alert>}
+        <Card className="sales-form-section">
+          {input("title", "Título", { required: true, maxLength: 200 })}
+          <div className="form-grid">
+            {input("dueAt", "Prazo", { type: "datetime-local" })}
+            <OwnerField
+              value={form.watch("assignedTo")}
+              onChange={(v) => set("assignedTo", v)}
+            />
+          </div>
+          <p className="field-hint">Horários no fuso deste dispositivo.</p>
+          <DealPicker
+            value={form.watch("dealId")}
+            onChange={(v) => set("dealId", v)}
+            selectedName={item?.dealTitle}
+          />
+          <details className="more-details">
+            <summary>Mais detalhes</summary>
+            <div className="form-grid">
+              <Field id="work-priority" label="Prioridade">
+                <Select id="work-priority" {...form.register("priority")}>
+                  {Object.entries(priorityLabels).map(([key, value]) => (
+                    <option key={key} value={key}>
+                      {value}
+                    </option>
+                  ))}
+                </Select>
+              </Field>
+              <Field id="work-status" label="Status">
+                <Select id="work-status" {...form.register("status")}>
+                  {["TODO", "IN_PROGRESS", "DONE", "CANCELED"].map((s) => (
+                    <option key={s} value={s}>
+                      {statusLabels[s]}
+                    </option>
+                  ))}
+                </Select>
+              </Field>
+            </div>
+            <Field id="work-description" label="Descrição">
+              <textarea
+                id="work-description"
+                className="input"
+                rows={3}
+                maxLength={10000}
+                {...form.register("description")}
+              />
+            </Field>
+            <EntityPicker
+              kind="contacts"
+              id="work-contact"
+              label="Contato vinculado"
+              value={form.watch("contactId")}
+              onChange={(v) => set("contactId", v)}
+              selectedName={item?.contactName}
+            />
+            <EntityPicker
+              kind="companies"
+              id="work-company"
+              label="Empresa cliente vinculada"
+              value={form.watch("companyId")}
+              onChange={(v) => set("companyId", v)}
+              selectedName={item?.companyName}
+            />
+            <EntityPicker
+              kind="leads"
+              id="work-lead"
+              label="Lead vinculado"
+              value={form.watch("leadId")}
+              onChange={(v) => set("leadId", v)}
+              selectedName={item?.leadName}
+            />
+            <fieldset className="crm-tags-field">
+              <legend>Tags</legend>
+              {tags.data?.items.map((t) => (
+                <label className="crm-checkbox" key={t.id}>
+                  <input
+                    type="checkbox"
+                    checked={tagIds.includes(t.id)}
+                    onChange={(e) =>
+                      set(
+                        "tagIds",
+                        e.target.checked
+                          ? [...tagIds, t.id]
+                          : tagIds.filter((id) => id !== t.id),
+                      )
+                    }
+                  />
+                  {t.name}
+                </label>
+              ))}
+            </fieldset>
+            <div className="crm-section-top">
+              <h3>Checklist</h3>
+              <Button
+                variant="secondary"
+                disabled={fields.length >= 50}
+                onClick={() => append({ title: "", done: false })}
+              >
+                <Plus size={14} />
+                Adicionar item
+              </Button>
+            </div>
+            {fields.map((f, i) => (
+              <div className="sales-checklist-editor" key={f.id}>
+                <Input
+                  aria-label={`Título do item ${i + 1}`}
+                  required
+                  maxLength={300}
+                  {...form.register(`checklist.${i}.title`)}
+                />
+                <Button
+                  variant="ghost"
+                  aria-label={`Remover item ${i + 1}`}
+                  onClick={() => remove(i)}
+                >
+                  <Trash2 size={15} />
+                </Button>
+              </div>
+            ))}
+          </details>
+        </Card>
+        <div className="form-actions">
+          <Link
+            className="btn btn-secondary"
+            href={item ? `/sales/tasks/${item.id}` : "/sales/tasks"}
+          >
+            Cancelar
+          </Link>
+          <Button
+            type="submit"
+            loading={save.isPending}
+            disabled={!!item && !form.formState.isDirty}
+          >
+            Salvar tarefa
+          </Button>
+        </div>
+      </form>
+    );
+
   return (
     <form
       className="page-stack crm-record-form sales-record-form"

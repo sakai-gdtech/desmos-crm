@@ -14,6 +14,8 @@ export type Pipeline = {
   description: string | null;
   active: boolean;
   version: number;
+  demoFixture?: boolean;
+  demoFollowupEnabled?: boolean;
   stages: Stage[];
   createdAt: string;
   updatedAt: string;

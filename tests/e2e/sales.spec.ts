@@ -51,15 +51,13 @@ test("pipeline pela interface, oportunidade, Kanban, ganho/perda, tarefas e foll
   const p = (await (await page.request.get("/api/sales/pipelines")).json())
     .items[0];
   await page.goto(`/sales/board?pipelineId=${p.id}`);
+  await page.getByRole("link", { name: "Novo negócio", exact: true }).click();
   await page
-    .getByRole("link", { name: "Nova oportunidade", exact: true })
-    .click();
-  await page
-    .getByLabel("Título da oportunidade", { exact: true })
+    .getByLabel("Nome do negócio", { exact: true })
     .fill("Projeto Andrade");
   await page.getByLabel("Valor", { exact: true }).fill("12500.50");
   await page
-    .getByRole("button", { name: "Salvar oportunidade", exact: true })
+    .getByRole("button", { name: "Salvar negócio", exact: true })
     .click();
   await expect(
     page.getByRole("heading", { name: "Projeto Andrade", exact: true }),
@@ -89,7 +87,7 @@ test("pipeline pela interface, oportunidade, Kanban, ganho/perda, tarefas e foll
   ).toBeVisible();
   await page.goto(`/sales/deals/${id}`);
   await page
-    .getByRole("button", { name: "Marcar como perdida", exact: true })
+    .getByRole("button", { name: "Marcar como perdido", exact: true })
     .click();
   await page.getByLabel("Motivo da perda (opcional)").fill("Preço");
   await page
@@ -99,18 +97,22 @@ test("pipeline pela interface, oportunidade, Kanban, ganho/perda, tarefas e foll
     page.getByText("Perdida", { exact: true }).first(),
   ).toBeVisible();
   await page
-    .getByRole("button", { name: "Reabrir oportunidade", exact: true })
+    .getByRole("button", { name: "Reabrir negócio", exact: true })
     .click();
   await page
-    .getByRole("button", { name: "Marcar como ganha", exact: true })
+    .getByRole("button", { name: "Marcar como ganho", exact: true })
+    .click();
+  await page
+    .getByRole("button", { name: "Confirmar ganho", exact: true })
     .click();
   await expect(page.getByText("Ganha", { exact: true }).first()).toBeVisible();
   await page
-    .getByRole("button", { name: "Reabrir oportunidade", exact: true })
+    .getByRole("button", { name: "Reabrir negócio", exact: true })
     .click();
   await page.getByRole("button", { name: "Tarefas", exact: true }).click();
-  await page.getByRole("link", { name: "Nova tarefa", exact: true }).click();
+  await page.getByRole("link", { name: "Criar tarefa", exact: true }).click();
   await page.getByLabel("Título", { exact: true }).fill("Preparar proposta");
+  await page.getByText("Mais detalhes", { exact: true }).click();
   await page.getByLabel("Prioridade", { exact: true }).selectOption("HIGH");
   await page.getByLabel("Prazo", { exact: true }).fill(localTomorrow());
   await page
@@ -312,7 +314,7 @@ test("Kanban: mover acessível, conflito sem sobrescrita, tema escuro e mobile s
   if (await page.getByRole("button", { name: "Ativar tema escuro" }).count())
     await page.getByRole("button", { name: "Ativar tema escuro" }).click();
   await expect(
-    page.getByRole("heading", { name: "Funil de vendas", exact: true }),
+    page.getByRole("heading", { name: "Negócios", exact: true }),
   ).toBeVisible();
   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
   await page.setViewportSize({ width: 390, height: 844 });
@@ -325,7 +327,7 @@ test("Kanban: mover acessível, conflito sem sobrescrita, tema escuro e mobile s
   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
   await page.goto("/sales/tasks/new");
   await expect(
-    page.getByRole("heading", { name: "Nova tarefa", exact: true }),
+    page.getByRole("heading", { name: "Criar tarefa", exact: true }),
   ).toBeVisible();
   expect(
     await page.evaluate(

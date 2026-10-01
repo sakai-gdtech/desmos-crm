@@ -31,3 +31,8 @@ Não há disparo automático real, fila de mensagens, provedor de WhatsApp, emai
 ## Evolução para envio real
 
 O backend deverá persistir regras por tenant/pipeline/etapa, avaliar condições na transição, publicar execução em outbox na mesma transação, deduplicar o disparo e controlar retentativas, cancelamento e logs. Regras não devem disparar com eventos de outra empresa. Email e WhatsApp exigem conexão explícita com os serviços escolhidos antes de serem anunciados como envio real. Campos obrigatórios devem ser validados também pela API na movimentação.
+
+
+## Acompanhamento da apresentação — atualização 01/10/2026
+
+A jornada A–D acrescenta uma regra separada dos envios simulados: no funil marcado como demo_fixture, fora de produção, entrar em Proposta cria uma tarefa real para o dia seguinte. A regra pode ser pausada/ativada na mesma tela. A lista de execuções aponta para a tarefa efetivamente criada. Regra e execução persistem no banco; chave tenant/deal evita repetição ao retornar à etapa. Não há envio externo nem motor genérico. A transição e a criação da tarefa são uma transação. Reset do funil restaura os exemplos, limpa execuções e propostas dessa demo e marca suas tarefas anteriores como excluídas. Outros funis/empresas não são restaurados.

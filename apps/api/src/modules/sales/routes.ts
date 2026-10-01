@@ -3,9 +3,60 @@ import { z } from "zod";
 import { authenticate } from "../iam/application/sessions.js";
 import { noteCreate, notePatch } from "../crm/schemas.js";
 import * as s from "./schemas.js";
+import * as presentation from "./presentation.js";
 import * as service from "./service.js";
 const params = z.object({ id: z.uuid() });
 export async function salesRoutes(app: FastifyInstance) {
+  app.get("/sales/dashboard", async (req) =>
+    presentation.dashboard(
+      await authenticate(req),
+      z.object({ pipelineId: z.uuid().optional() }).strict().parse(req.query)
+        .pipelineId,
+    ),
+  );
+  app.get("/sales/products", async (req) =>
+    presentation.products(await authenticate(req)),
+  );
+  app.post("/sales/products", async (req, reply) =>
+    reply
+      .code(201)
+      .send(
+        await presentation.saveProduct(
+          await authenticate(req),
+          presentation.productInput.parse(req.body),
+        ),
+      ),
+  );
+  app.patch("/sales/products/:id", async (req) =>
+    presentation.saveProduct(
+      await authenticate(req),
+      presentation.productInput.parse(req.body),
+      params.parse(req.params).id,
+    ),
+  );
+  app.get("/sales/deals/:id/proposal", async (req) =>
+    presentation.proposal(await authenticate(req), params.parse(req.params).id),
+  );
+  app.put("/sales/deals/:id/proposal", async (req) =>
+    presentation.saveProposal(
+      await authenticate(req),
+      params.parse(req.params).id,
+      presentation.proposalInput.parse(req.body),
+    ),
+  );
+  app.get("/sales/pipelines/:id/demo-automation", async (req) =>
+    presentation.demoAutomation(
+      await authenticate(req),
+      params.parse(req.params).id,
+    ),
+  );
+  app.patch("/sales/pipelines/:id/demo-automation", async (req) =>
+    presentation.demoAutomation(
+      await authenticate(req),
+      params.parse(req.params).id,
+      z.object({ enabled: z.boolean() }).strict().parse(req.body).enabled,
+    ),
+  );
   app.get("/sales/pipelines", async (req) =>
     service.pipelines(await authenticate(req)),
   );

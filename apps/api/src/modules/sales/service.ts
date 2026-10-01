@@ -14,6 +14,7 @@ import { hasPermission, type Permission } from "../iam/domain/permissions.js";
 import { crmTransaction } from "../crm/tenant.js";
 import { convert as convertCrm } from "../crm/service.js";
 import type { WorkKind } from "./schemas.js";
+import { maybeDemoFollowup } from "./presentation.js";
 const table = (kind: string) =>
   kind === "deals" ? "sales_deals" : "sales_work";
 const column = (key: string) =>
@@ -645,6 +646,24 @@ export async function update(
         data.stageEnteredAt = new Date();
         data.probability = input.probability ?? stage.probability;
       }
+      if (
+        input.status === "WON" ||
+        input.value !== undefined ||
+        input.currency !== undefined
+      ) {
+        const proposal = await one(
+          tx,
+          sql`SELECT total,currency FROM sales_proposals WHERE tenant_id=${ctx.tenantId} AND deal_id=${id}`,
+        );
+        if (proposal)
+          invariant(
+            moneyEqual(input.value ?? old.value, proposal.total) &&
+              (input.currency ?? old.currency) === proposal.currency,
+            409,
+            "PROPOSAL_VALUE_MISMATCH",
+            "Atualize a proposta para alterar o valor final ou a moeda do negócio.",
+          );
+      }
       const status = input.status ?? old.status;
       if (status !== old.status) {
         data.wonAt = status === "WON" ? new Date() : null;
@@ -698,6 +717,8 @@ export async function update(
         changes: diff,
       },
     );
+    if (kind === "deals")
+      await maybeDemoFollowup(tx, ctx, before, after, insertWork);
     if (kind === "activities") await followup(tx, ctx, after, input.followUpAt);
     return { item: after };
   });

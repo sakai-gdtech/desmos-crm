@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { DemoFollowup } from "./demo-followup";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import {
@@ -261,6 +262,7 @@ function AutomationWorkspace({
           Editar etapas
         </Link>
       </div>
+      <DemoFollowup pipeline={pipeline} />
       <div
         className="automation-tabs"
         role="tablist"

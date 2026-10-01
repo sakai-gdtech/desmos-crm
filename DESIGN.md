@@ -165,6 +165,11 @@ components:
     textColor: "{colors.success}"
     rounded: "{rounded.feedback}"
     padding: "12px 14px"
+  deal-drawer:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.text}"
+    width: "min(760px, 100vw)"
+    height: "100dvh"
   dialog:
     backgroundColor: "{colors.surface}"
     textColor: "{colors.text}"
@@ -253,11 +258,15 @@ Formulários podem ter duas colunas com divisão igual; configurações usam uma
 
 No perfil em telas pequenas, o bloco de nome e e-mail mantém a largura restante ao lado do avatar; o badge passa para a linha seguinte.
 
-No mobile, abrir o drawer prende o foco dentro da navegação, bloqueia a rolagem do corpo e torna o conteúdo de fundo inativo. Escape, botão de fechar, scrim e navegação encerram o drawer; o foco volta ao controle anterior. A autenticação usa duas áreas no desktop e formulário com largura máxima (385px); a área narrativa desaparece no mobile.
+No mobile, abrir o drawer de navegação prende o foco dentro da navegação, bloqueia a rolagem do corpo e torna o conteúdo de fundo inativo. Escape, botão de fechar, scrim e navegação encerram o drawer; o foco volta ao controle anterior. O painel de negócio é uma segunda sobreposição, independente da navegação: ocupa até (760px) junto à borda direita, usa a altura do viewport e rolagem interna, com cabeçalho fixo ao rolar. Seu conteúdo tem padding de (24px), reduzido para (20px 16px) até (760px). O Kanban mantém rolagem horizontal no próprio container; abrir e fechar o registro preserva filtros e posição.
+
+A autenticação usa duas áreas no desktop e formulário com largura máxima (385px); a área narrativa desaparece no mobile.
 
 ## Elevation & Depth
 
-As superfícies são planas: a folha global não define `box-shadow`. A profundidade vem de fundos tonais, bordas de (1px) e sobreposição de diálogo ou navegação mobile. Cards não sobem no hover; tabelas e controles mudam de tom. O diálogo tem backdrop translúcido e o drawer tem scrim, sem blur.
+As superfícies de trabalho são planas. A profundidade vem de fundos tonais, bordas de (1px) e sobreposição de diálogo ou navegação mobile. Cards não sobem no hover; tabelas e controles mudam de tom. O diálogo central tem backdrop translúcido e a navegação mobile tem scrim, sem blur. O painel lateral de negócio acrescenta uma sombra suave lateral, registrada no sidecar, para separar o registro do contexto preservado; isso não estende sombras aos cards.
+
+**The Flat-By-Default Rule.** Superfícies de conteúdo permanecem planas; a sombra lateral pertence ao painel modal de negócio.
 
 O foco aparece com contorno de (2px), deslocado (3px) nos controles gerais e (1px) nos campos. Esse contorno comunica interação, não elevação. Os valores de backdrop, contorno e camadas ficam nos snippets do sidecar, pois não são propriedades do schema de componentes do frontmatter.
 
@@ -285,9 +294,9 @@ Field mantém label associado e liga mensagens de erro ou ajuda ao controle por 
 
 Links e expansores da barra lateral têm texto compacto (13px), ícone de (18px) e altura mínima de (44px); os filhos usam (12px). O hover usa superfície neutra; o item atual usa azul suave, peso (550), `aria-current="page"` e indicador dourado de (5px). O grupo que contém a página atual recebe texto azul e peso (600).
 
-Quatro destinos comerciais ficam diretos, nesta ordem: Funil de vendas, Oportunidades, Tarefas e Atividades. Clientes expande Leads, Contatos e Empresas clientes; Visão geral permanece abaixo. Configurações fica no rodapé, com Empresa, Equipe e acessos, Funis e etapas, Tags, Auditoria e Lixeira conforme permissões, seguida da área de conta com Meu perfil e Dispositivos e sessões. Perfil e logout permanecem visíveis abaixo do grupo. Os expansores expõem `aria-expanded` e `aria-controls`; os grupos abrem ao acessar um filho diretamente.
+A navegação principal segue Visão geral → Negócios → Clientes → Tarefas. Negócios abre o Kanban; Clientes expande Leads, Contatos e Empresas clientes. Configurações fica no rodapé, com Atividades, Oportunidades (lista), Empresa, Equipe e acessos, Funis e etapas, Automações, Tags, Auditoria e Lixeira conforme permissões, seguida da área de conta com Meu perfil e Dispositivos e sessões. Perfil e logout permanecem visíveis abaixo do grupo. Os expansores expõem `aria-expanded` e `aria-controls`; os grupos abrem ao acessar um filho diretamente.
 
-A empresa da conta aparece como identificação estática, sem seletor ou ação de criar outra empresa. A marca retorna ao funil para quem tem acesso a oportunidades, ou à Visão geral. Links de navegação fecham o drawer quando aberto. A mesma hierarquia e os mesmos agrupamentos se mantêm no mobile.
+A empresa da conta aparece como identificação estática, sem seletor ou ação de criar outra empresa. A marca retorna à Visão geral. Quem tem permissão de negócios vê o painel comercial; os demais mantêm a visão de configuração da empresa. Links de navegação fecham o drawer quando aberto. A mesma hierarquia e os mesmos agrupamentos se mantêm no mobile.
 
 ### Chips / Badges
 
@@ -303,9 +312,19 @@ Alert de erro usa `role="alert"`; sucesso usa `role="status"`. Ícone e texto co
 
 Skeletons usam a cor de borda e pulsação de (1,8s); spinners giram em (1s). Transições de cor, fundo e borda duram (150ms); a seta dos expansores gira em (160ms) com `ease-out`. `prefers-reduced-motion: reduce` remove animações e transições. Movimento serve ao estado da operação.
 
+### Commercial context
+
+O painel comercial usa uma faixa única de indicadores com divisórias, seguida de listas do Radar. Valores têm algarismos tabulares; alertas combinam motivo textual, cliente, valor e etapa. A faixa usa quatro colunas, passando a duas até (1100px); listas refluem até (760px), sem exigir tabela larga. Esses números representam registros persistidos do funil escolhido, com a origem e o período informados na tela. A composição específica da apresentação está no contrato da superfície.
+
+O registro mostra valor final, etapa, responsável e cliente antes da próxima ação. O formulário inline de tarefa usa título, prazo e responsável com labels persistentes; descrição e campos adicionais ficam em “Mais detalhes”. A proposta usa grupos de itens com descrição e controles compactos, divisórias, catálogo opcional e totais alinhados. O valor final fica explícito na confirmação de ganho. A indicação de proposta salva ou alterada e as mensagens de erro/sucesso reutilizam os padrões existentes.
+
+A seção de acompanhamento de proposta reutiliza superfície, borda, raio e feedback. O badge “Ambiente de demonstração”, o estado ativo/pausado e os links para as tarefas criadas explicam o efeito real no funil de demonstração. As simulações de comunicação continuam identificadas na tela existente.
+
 ### Dialogs
 
 O diálogo usa o elemento nativo `dialog` aberto por `showModal()`, título associado e botão de fechar com label acessível. Escape e clique no backdrop fecham a janela. A largura máxima e o padding estão registrados no frontmatter; o diálogo centraliza com margem automática, limita a altura a `calc(100dvh - 32px)` e permite rolagem interna. O backdrop separa o contexto. Confirmações de alteração de acesso explicam o efeito antes da ação.
+
+O painel lateral de negócio também usa `dialog` com `showModal()`, título associado e fechamento por Escape, botão ou backdrop. Tem cantos retos, cabeçalho sticky e largura/altura registradas em `deal-drawer`. Ao fechar, devolve foco ao link de origem com `preventScroll`; abrir normalmente intercepta o link do Kanban ou Radar, enquanto o destino completo continua disponível para uma nova aba. A rolagem do corpo fica bloqueada durante a abertura.
 
 ## Do's and Don'ts
 

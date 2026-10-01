@@ -4,6 +4,17 @@ O SaaS atende empresas clientes independentes. Cada conta pertence a uma única 
 
 Atualização de prioridade em 01/10/2026: completar o núcleo comercial usando o RD Station CRM como referência e entregar rapidamente uma demonstração funcional. O [escopo comparado e a ordem de execução](rd-core-scope.md) priorizam gestão comercial, importação CSV, campos personalizados, produtos, produtividade e acesso por equipe antes da plataforma avançada. As fases abaixo preservam os contratos e critérios originais; funcionalidades pendentes continuam identificadas como futuras.
 
+## Entrega para apresentação — A–D
+
+O [plano atualizado](presentation-plan.txt) prioriza clareza e operação rápida. A jornada e seus limites estão em [presentation-flow-contract.md](presentation-flow-contract.md), com ensaio e restauração em [presentation-guide.md](presentation-guide.md).
+
+- A: navegação em quatro destinos, painel lateral de negócio, tarefa inline e formulários com detalhes opcionais.
+- B: valores em aberto/ganhos, tarefas atrasadas, ausência de próxima ação e Radar, calculados no banco por funil e separados por moeda. Período inteiro; sem relatórios avançados.
+- C: catálogo mínimo e proposta persistida com snapshot dos preços, quantidades, desconto absoluto, cálculo exato e valor final sincronizado ao negócio. Sem envio/assinatura/PDF.
+- D: tarefa real de acompanhamento ao entrar em Proposta no funil dedicado à demo, uma execução por negócio. E-mail/WhatsApp continuam simulados.
+
+Estas antecipações entregam partes das Fases 4 e 6; não completam essas fases nem o produto de produção.
+
 ## Fase 1 — Fundação (implementada)
 
 Cadastro transacional de empresa/OWNER, login/logout, refresh rotativo com hash/replay detection, recuperação/verificação por email, convites seguros, memberships, papéis e permissões, onboarding, configurações da empresa, perfil, sessões, auditoria administrativa e layout responsivo claro/escuro. PostgreSQL/Drizzle, Redis/fila, migrações, seed local, Docker Compose e instruções reproduzíveis.

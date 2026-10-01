@@ -1,3 +1,4 @@
+import { Proposal } from "@/features/sales/proposal";
 import { notFound } from "next/navigation";
 import { SalesBoard } from "@/features/sales/board";
 import { Pipelines, PipelineEditor } from "@/features/sales/pipelines";
@@ -43,6 +44,8 @@ export default async function SalesPage({
     ) : (
       <WorkDetail key={id} kind={kind as "tasks" | "activities"} id={id} />
     );
+  if (kind === "deals" && path.length === 3 && action === "proposal")
+    return <Proposal key={id} id={id} />;
   if (path.length === 3 && action === "edit")
     return kind === "deals" ? (
       <DealForm id={id} key={id} />

@@ -1031,3 +1031,255 @@ test("RLS forçada nas nove tabelas, FKs compostas e referências de vendas prot
     "REFERENCED_RECORD",
   );
 });
+
+test("Apresentação: proposta usa centavos exatos, preserva catálogo, versão, moeda e isolamento", async () => {
+  const a = await register(),
+    b = await register(),
+    p = await pipelineFor(a.client);
+  const d = await sale(a.client, "deals", dealInput(p));
+  let response = await a.client.request("POST", "/sales/products", {
+    name: "Implantação",
+    price: "0.10",
+    currency: "BRL",
+  });
+  status(response, 201);
+  const product = response.json().item;
+  response = await a.client.request("PUT", `/sales/deals/${d.id}/proposal`, {
+    items: [
+      {
+        productId: product.id,
+        name: product.name,
+        quantity: 3,
+        unitPrice: "0.10",
+      },
+    ],
+    discount: "0.01",
+    version: 0,
+  });
+  status(response, 200);
+  assert.equal(response.json().item.total, "0.29");
+  assert.equal((await saleGet(a.client, "deals", d.id)).value, "0.29");
+  status(
+    await a.client.request("PATCH", `/sales/products/${product.id}`, {
+      name: product.name,
+      price: "10.00",
+      currency: "BRL",
+      version: product.version,
+    }),
+    200,
+  );
+  const saved = (
+    await a.client.request("GET", `/sales/deals/${d.id}/proposal`)
+  ).json().item;
+  assert.equal(saved.items[0].unitPrice, "0.10");
+  assert.equal(saved.total, "0.29");
+  errorCode(
+    await a.client.request("PUT", `/sales/deals/${d.id}/proposal`, {
+      items: saved.items,
+      discount: "0",
+      version: 0,
+    }),
+    409,
+    "VERSION_CONFLICT",
+  );
+  errorCode(
+    await a.client.request("PUT", `/sales/deals/${d.id}/proposal`, {
+      items: saved.items,
+      discount: "1.00",
+      version: saved.version,
+    }),
+    400,
+    "INVALID_DISCOUNT",
+  );
+  errorCode(
+    await b.client.request("GET", `/sales/deals/${d.id}/proposal`),
+    404,
+    "NOT_FOUND",
+  );
+  assert.equal(
+    (await b.client.request("GET", "/sales/products")).json().items.length,
+    0,
+  );
+  const pb = await pipelineFor(b.client),
+    db = await sale(b.client, "deals", dealInput(pb));
+  errorCode(
+    await b.client.request("PUT", `/sales/deals/${db.id}/proposal`, {
+      items: saved.items,
+      discount: "0",
+      version: 0,
+    }),
+    404,
+    "NOT_FOUND",
+  );
+  const viewer = await member(a, "VIEWER");
+  errorCode(
+    await viewer.client.request("PUT", `/sales/deals/${d.id}/proposal`, {
+      items: saved.items,
+      discount: "0",
+      version: saved.version,
+    }),
+    403,
+    "FORBIDDEN",
+  );
+  const fresh = await saleGet(a.client, "deals", d.id);
+  errorCode(
+    await a.client.request("PATCH", `/sales/deals/${d.id}`, {
+      version: fresh.version,
+      value: "100.00",
+      status: "WON",
+    }),
+    409,
+    "PROPOSAL_VALUE_MISMATCH",
+  );
+  status(
+    await a.client.request("PATCH", `/sales/deals/${d.id}`, {
+      version: fresh.version,
+      status: "WON",
+    }),
+    200,
+  );
+  errorCode(
+    await a.client.request("PUT", `/sales/deals/${d.id}/proposal`, {
+      items: saved.items,
+      discount: "0",
+      version: saved.version,
+    }),
+    409,
+    "CLOSED_DEAL",
+  );
+});
+
+test("Radar: próxima ação futura remove alerta, tarefa atrasada e ganho atualizam indicadores", async () => {
+  const a = await register(),
+    p = await pipelineFor(a.client),
+    p2 = await pipelineFor(a.client);
+  const d = await sale(a.client, "deals", dealInput(p, { value: "12500.50" }));
+  await sale(a.client, "deals", dealInput(p2, { value: "100.00" }));
+  const dashboard = async () => {
+    const r = await a.client.request(
+      "GET",
+      `/sales/dashboard?pipelineId=${p.id}`,
+    );
+    status(r, 200);
+    return r.json();
+  };
+  let data = await dashboard();
+  assert.equal(data.totals[0].openValue, "12500.50");
+  assert.equal(data.noActionCount, 1);
+  assert.equal(data.deals[0].id, d.id);
+  const overdue = await sale(a.client, "tasks", {
+    dealId: d.id,
+    title: "Atrasada",
+    priority: "HIGH",
+    dueAt: new Date(Date.now() - 86400000).toISOString(),
+  });
+  data = await dashboard();
+  assert.equal(data.overdueCount, 1);
+  assert.equal(data.noActionCount, 1);
+  assert.equal(data.tasks[0].id, overdue.id);
+  await sale(a.client, "tasks", {
+    dealId: d.id,
+    title: "Próximo contato",
+    priority: "MEDIUM",
+    dueAt: new Date(Date.now() + 86400000).toISOString(),
+  });
+  data = await dashboard();
+  assert.equal(data.noActionCount, 0);
+  assert.equal(data.deals.length, 0);
+  status(
+    await a.client.request("PATCH", `/sales/tasks/${overdue.id}`, {
+      status: "DONE",
+      version: overdue.version,
+    }),
+    200,
+  );
+  assert.equal((await dashboard()).overdueCount, 0);
+  status(
+    await a.client.request("PATCH", `/sales/deals/${d.id}`, {
+      status: "WON",
+      version: d.version,
+    }),
+    200,
+  );
+  data = await dashboard();
+  assert.equal(data.totals[0].openValue, "0");
+  assert.equal(data.totals[0].wonValue, "12500.50");
+  assert.equal(data.totals[0].wonCount, 1);
+});
+
+test("Automação demo: só funil dedicado, tarefa real única após reentrada e concorrência", async () => {
+  const a = await register(),
+    p = await pipelineFor(a.client),
+    d = await sale(a.client, "deals", dealInput(p));
+  errorCode(
+    await a.client.request(
+      "PATCH",
+      `/sales/pipelines/${p.id}/demo-automation`,
+      { enabled: true },
+    ),
+    409,
+    "DEMO_ONLY",
+  );
+  await tenantQuery(
+    a.tenant.id,
+    sql`UPDATE sales_pipelines SET demo_fixture=true,demo_followup_enabled=true WHERE tenant_id=${a.tenant.id} AND id=${p.id}`,
+  );
+  const same = await Promise.all([
+    a.client.request("PATCH", `/sales/deals/${d.id}`, {
+      stageId: p.stages[1].id,
+      version: d.version,
+    }),
+    a.client.request("PATCH", `/sales/deals/${d.id}`, {
+      stageId: p.stages[1].id,
+      version: d.version,
+    }),
+  ]);
+  assert.deepEqual(same.map((r) => r.statusCode).sort(), [200, 409]);
+  let tasks = await saleList(a.client, "tasks", `?dealId=${d.id}`);
+  assert.equal(tasks.total, 1);
+  assert.match(tasks.items[0].description, /Nenhum email/);
+  let updated = await saleGet(a.client, "deals", d.id);
+  status(
+    await a.client.request("PATCH", `/sales/deals/${d.id}`, {
+      stageId: p.stages[0].id,
+      version: updated.version,
+    }),
+    200,
+  );
+  updated = await saleGet(a.client, "deals", d.id);
+  status(
+    await a.client.request("PATCH", `/sales/deals/${d.id}`, {
+      stageId: p.stages[1].id,
+      version: updated.version,
+    }),
+    200,
+  );
+  tasks = await saleList(a.client, "tasks", `?dealId=${d.id}`);
+  assert.equal(tasks.total, 1);
+  const executions = (
+    await a.client.request("GET", `/sales/pipelines/${p.id}/demo-automation`)
+  ).json();
+  assert.equal(executions.executions.length, 1);
+  assert.equal(executions.executions[0].taskId, tasks.items[0].id);
+});
+
+test("Apresentação: RLS forçada nas propostas, catálogo e execuções", async () => {
+  const tables = ["sales_products", "sales_proposals", "sales_demo_executions"];
+  const catalog = await rows(
+    db,
+    sql`SELECT relname,relrowsecurity,relforcerowsecurity FROM pg_class WHERE relnamespace=${schemaName}::regnamespace AND relname IN (${sql.join(
+      tables.map((t) => sql`${t}`),
+      sql`,`,
+    )})`,
+  );
+  assert.equal(catalog.length, 3);
+  for (const t of catalog) {
+    assert.equal(t.relrowsecurity, true);
+    assert.equal(t.relforcerowsecurity, true);
+  }
+  for (const t of tables)
+    assert.equal(
+      (await rows(db, sql`SELECT * FROM ${sql.identifier(t)}`)).length,
+      0,
+    );
+});

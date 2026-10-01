@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-01T20:10:48.085400+00:00",
+  "generatedAt": "2026-10-01T21:37:02.880989+00:00",
   "title": "Design System: Desmos CRM",
   "extensions": {
     "colorMeta": {
@@ -623,7 +623,13 @@
         "purpose": "Texto compacto de status."
       }
     },
-    "shadows": [],
+    "shadows": [
+      {
+        "name": "deal-drawer-edge",
+        "value": "-12px 0 40px #102c5026",
+        "purpose": "Separação lateral do painel modal de negócio; cards e superfícies de conteúdo continuam planos."
+      }
+    ],
     "motion": [
       {
         "name": "control-transition",
@@ -654,6 +660,10 @@
       {
         "name": "compact-max",
         "value": "1200px"
+      },
+      {
+        "name": "indicators-two-column-max",
+        "value": "1100px"
       },
       {
         "name": "notebook-max",
@@ -714,7 +724,7 @@
       "name": "Navegação selecionada",
       "kind": "nav",
       "refersTo": "nav-item-current",
-      "description": "Link atual da barra lateral: altura de 44px, texto de 13px, ícone e indicador dourado; o shell agrupa Clientes e Configurações com expansão e rolagem própria.",
+      "description": "Link atual da barra lateral, com altura de 44px, texto de 13px e indicador dourado. Ordem principal: Visão geral, Negócios, Clientes expansível e Tarefas; Atividades e lista de Oportunidades ficam em Configurações.",
       "html": "<nav aria-label=\"Navegação\"><a class=\"ds-nav ds-nav-current\" href=\"#workspace\" aria-current=\"page\"><svg aria-hidden=\"true\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z\"/></svg><span>Visão geral</span><span class=\"ds-nav-dot\" aria-hidden=\"true\"></span></a></nav>",
       "css": ".ds-nav {display:flex;align-items:center;gap:11px;width:100%;min-height:44px;padding:9px 12px;margin:3px 0;border:0;border-radius:7px;color:var(--muted, #5d6b7e);font-family:-apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;font-size:13px;line-height:1.3;text-align:left;text-decoration:none;background:transparent;transition:background-color 150ms ease,border-color 150ms ease,color 150ms ease;} .ds-nav:hover {background:var(--surface-hover, #f0f3f7);color:var(--text, #202d40);} .ds-nav-current,.ds-nav-current:hover {background:var(--primary-soft, #eaf0f7);color:var(--primary-text, #173b68);font-weight:550;} .ds-nav:focus-visible {outline:2px solid var(--focus, #3067a9);outline-offset:3px;} .ds-nav-dot {margin-left:auto;width:5px;height:5px;border-radius:50%;background:var(--brand-gold, #aa8446);} @media (prefers-reduced-motion:reduce) {.ds-nav {transition:none;}} .ds-nav > svg {flex-shrink:0;} .ds-nav > span:not(.ds-nav-dot) {flex:1;}"
     },
@@ -749,6 +759,14 @@
       "description": "Prévia visual do diálogo nativo; abertura modal e callbacks pertencem ao componente React.",
       "html": "<dialog open class=\"ds-dialog\" aria-labelledby=\"ds-dialog-title\"><div class=\"ds-dialog-heading\"><div><h2 id=\"ds-dialog-title\">Confirmar alteração</h2><p>Revise o impacto antes de continuar.</p></div><form method=\"dialog\"><button class=\"ds-dialog-close\" aria-label=\"Fechar janela\"><svg aria-hidden=\"true\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m18 6-12 12M6 6l12 12\"/></svg></button></form></div></dialog>",
       "css": ".ds-dialog {position:relative;margin:auto;max-height:calc(100dvh - 32px);overflow:auto;border:1px solid var(--border, #e1e6ed);border-radius:14px;color:var(--text, #202d40);background:var(--surface, #ffffff);padding:25px;width:min(490px, calc(100vw - 32px));font-family:-apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;} .ds-dialog::backdrop {background:#10132266;} .ds-dialog-heading {display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:24px;gap:16px;} .ds-dialog h2 {margin:0;font-size:16px;line-height:1.4;font-weight:650;letter-spacing:-0.012em;} .ds-dialog p {margin:7px 0 0;font-size:12px;line-height:1.5;color:var(--muted, #5d6b7e);} .ds-dialog-close {display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:7px;width:34px;height:34px;padding:0;color:var(--muted, #5d6b7e);background:transparent;cursor:pointer;transition:background-color 150ms ease,border-color 150ms ease,color 150ms ease;} .ds-dialog-close:hover {color:var(--text, #202d40);background:var(--surface-hover, #f0f3f7);} .ds-dialog-close:focus-visible {outline:2px solid var(--focus, #3067a9);outline-offset:3px;} @media (prefers-reduced-motion:reduce) {.ds-dialog-close {transition:none;}}"
+    },
+    {
+      "name": "Painel lateral de negócio",
+      "kind": "custom",
+      "refersTo": "deal-drawer",
+      "description": "Prévia do painel com cabeçalho sticky e valor/cliente visíveis. Abertura modal, foco e preservação do Kanban pertencem ao componente React.",
+      "html": "<section class=\"ds-deal-drawer\" aria-labelledby=\"ds-deal-drawer-title\"><header class=\"ds-drawer-heading\"><h2 id=\"ds-deal-drawer-title\">Detalhes do negócio</h2><button type=\"button\" class=\"ds-drawer-close\" aria-label=\"Fechar negócio\"><svg aria-hidden=\"true\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m18 6-12 12M6 6l12 12\"/></svg></button></header><div class=\"ds-drawer-content\"><div class=\"ds-deal-essentials\"><div><span>Valor final</span><strong>R$ 25.000,00</strong></div><div><span>Cliente</span><strong>Cliente de demonstração</strong></div></div></div></section>",
+      "css": ".ds-deal-drawer {width:min(760px, 100%);max-height:100dvh;overflow-y:auto;border:0;padding:0;color:var(--text, #202d40);background:var(--surface, #ffffff);box-shadow:-12px 0 40px #102c5026;font-family:-apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;line-height:1.5;} .ds-drawer-heading {display:flex;align-items:center;justify-content:space-between;padding:16px 24px;border-bottom:1px solid var(--border, #e1e6ed);position:sticky;top:0;background:var(--surface, #ffffff);z-index:2;} .ds-drawer-heading h2 {margin:0;font-size:14px;font-weight:600;} .ds-drawer-content {padding:24px;} .ds-deal-essentials {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 24px;padding-bottom:20px;border-bottom:1px solid var(--border, #e1e6ed);} .ds-deal-essentials span {display:block;color:var(--muted, #5d6b7e);font-size:12px;margin-bottom:4px;} .ds-deal-essentials strong {font-size:15px;overflow-wrap:anywhere;font-variant-numeric:tabular-nums;} .ds-drawer-close {display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:7px;width:34px;height:34px;padding:0;color:var(--muted, #5d6b7e);background:transparent;cursor:pointer;transition:background-color 150ms ease,color 150ms ease;} .ds-drawer-close:hover {color:var(--text, #202d40);background:var(--surface-hover, #f0f3f7);} .ds-drawer-close:focus-visible {outline:2px solid var(--focus, #3067a9);outline-offset:3px;} @media(max-width:760px) {.ds-drawer-heading {padding:12px 16px;} .ds-drawer-content {padding:20px 16px;} .ds-deal-essentials {gap:16px;}} @media(prefers-reduced-motion:reduce) {.ds-drawer-close {transition:none;}}"
     }
   ],
   "narrative": {
@@ -762,7 +780,12 @@
     ],
     "rules": [
       "Cada conta pertence a uma única empresa cliente; a barra lateral identifica o ambiente sem seletor ou criação de uma segunda empresa.",
-      "A marca pública usa Desmos CRM e símbolo próprio de laço em azul profundo e dourado fosco; o tema claro é o padrão."
+      "A marca pública usa Desmos CRM e símbolo próprio de laço em azul profundo e dourado fosco; o tema claro é o padrão.",
+      {
+        "name": "The Flat-By-Default Rule",
+        "body": "Superfícies de conteúdo permanecem planas; a sombra lateral pertence ao painel modal de negócio.",
+        "section": "elevation"
+      }
     ],
     "dos": [
       "Do reutilizar os tokens semânticos, manter claro como padrão e verificar os dois temas ao adicionar uma superfície.",

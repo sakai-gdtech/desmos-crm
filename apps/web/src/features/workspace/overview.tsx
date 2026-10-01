@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { SalesDashboard } from "@/features/sales/dashboard";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   ArrowRight,
@@ -44,6 +45,7 @@ export function Overview() {
     mutationFn: () => post("/auth/resend-verification"),
   });
   if (!session) return null;
+  if (session.permissions.includes("deals.view")) return <SalesDashboard />;
   const { user, tenant, permissions } = session;
   const canSettings = permissions.includes("settings.manage");
   const activeMembers =

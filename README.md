@@ -1,10 +1,12 @@
 # Desmos CRM
 
-CRM SaaS para **empresas clientes independentes**, construído em fases. Cada empresa possui um ambiente isolado e cada conta pertence a uma única empresa. Esta versão entrega **fundação, CRM Core e Vendas**: identidade, equipe, permissões, cadastros comerciais, pipelines, oportunidades, Kanban, atividades, tarefas, notas, timeline e lixeira. Gestão comercial e os demais módulos seguem no [roadmap](docs/roadmap.md), com critérios de aceite por fase.
+CRM SaaS para **empresas clientes independentes**, construído em fases. Cada empresa possui um ambiente isolado e cada conta pertence a uma única empresa. Esta versão entrega **fundação, CRM Core e Vendas**: identidade, equipe, permissões, cadastros comerciais, pipelines, oportunidades, Kanban, atividades, tarefas, notas, timeline e lixeira. A jornada de apresentação acrescenta painel/Radar, proposta comercial persistida, catálogo simples e acompanhamento automático restrito à demo. Os demais módulos seguem no [roadmap](docs/roadmap.md).
 
 A referência funcional do núcleo comercial é o RD Station CRM. O [escopo do núcleo](docs/rd-core-scope.md) distingue recursos implementados e pendentes e registra a ordem das próximas entregas para a apresentação.
 
-A identidade atual usa azul profundo e dourado fosco, símbolo próprio de laço e tema claro padrão. A navegação prioriza Funil, Oportunidades, Tarefas e Atividades; Clientes e Configurações são grupos expansíveis. Há também uma [demonstração visual de automações e regras por etapa](docs/automation-demo-contract.md): os exemplos são salvos neste navegador por empresa/pipeline e os envios de email/WhatsApp são simulados.
+A identidade atual usa azul profundo e dourado fosco, símbolo próprio de laço e tema claro padrão. A navegação prioriza Visão geral, Negócios, Clientes e Tarefas; Clientes e Configurações são grupos expansíveis. Há também uma [demonstração visual de automações e regras por etapa](docs/automation-demo-contract.md): os exemplos são salvos neste navegador por empresa/pipeline e os envios de email/WhatsApp são simulados.
+
+O [roteiro de apresentação](docs/presentation-guide.md) descreve as etapas A–D, como restaurar os três negócios fictícios e usar a [gravação de reserva](docs/demo/desmos-apresentacao.webm).
 
 ## Executar localmente
 
@@ -16,6 +18,7 @@ npm run setup:env
 npm run infra:up
 npm run db:migrate
 npm run db:seed
+npm run demo:prepare
 npm run dev
 ```
 
@@ -60,6 +63,10 @@ O primeiro seed reconhece a associação de demonstração, cria Bruno como prop
 - Kanban com drag-and-drop e alternativa por botão/select para teclado e touch; busca, filtros, contagens e valores separados por moeda. Até 100 cartões por coluna, com acesso à lista paginada.
 - Oportunidades com responsável, valor exato, previsão de fechamento, temperatura, tags, ganho/perda/reabertura, notas e histórico integrado ao cliente.
 - Atividades por tipo e agenda; tarefas com prazo, prioridade, status e checklist. Conclusão de atividade pode criar uma única tarefa de follow-up e atualizar os contatos recente/próximo do lead.
+- Painel com valores em aberto, ganhos, tarefas atrasadas e ausência de próxima ação; Radar abre o negócio em painel lateral. Filtro por funil, moedas separadas e indicadores do período inteiro.
+- Tarefa rápida no painel do negócio; o Kanban mantém filtros e rolagem ao fechar.
+- Proposta com cliente, itens, quantidades, preços, desconto absoluto e total calculado em centavos; preços preservados após alteração do catálogo. Salvar sincroniza o valor final do negócio; ganho exige confirmação.
+- Regra única da demo: entrar em Proposta cria uma tarefa real para o dia seguinte, uma vez por negócio. Restrita ao funil de apresentação e ambientes fora de produção.
 - Edição com versão e conflito 409, eventos/auditoria na mesma transação e isolamento adicional por RLS nas tabelas comerciais.
 - Lixeira com restauração; exclusão definitiva manual por OWNER/ADMIN apenas de registros excluídos e sem referências comerciais, inclusive referências também na lixeira. Não há retenção automática.
 - Emails via outbox transacional e worker SMTP com retry; Mailpit captura os emails do ambiente local.
@@ -131,7 +138,7 @@ Esse Compose é de **desenvolvimento local**, inclusive quanto aos cookies HTTP 
 
 ## Antes de atender clientes reais
 
-Fundação, CRM Core e Vendas não equivalem ao produto completo. Ainda faltam dashboard comercial, Radar, relatórios, metas/forecast, calendário, importação/exportação, produtos, propostas, automações e plataforma descritos no roadmap. A timeline cobre cadastros, oportunidades, atividades e tarefas entregues. Atividades de email/WhatsApp registram o histórico e não enviam mensagens externas. A lixeira de Vendas permite restauração, sem purga definitiva nem retenção automática nesta fase.
+Fundação, CRM Core e Vendas não equivalem ao produto completo. Ainda faltam relatórios completos, metas/forecast, calendário, importação/exportação, assinatura/PDF de propostas, motor genérico de automações e plataforma descritos no roadmap. O painel/Radar e a proposta simples da apresentação já estão persistidos; o acompanhamento automático é restrito à demo. A timeline cobre cadastros, oportunidades, atividades e tarefas entregues. Atividades de email/WhatsApp registram o histórico e não enviam mensagens externas. A lixeira de Vendas permite restauração, sem purga definitiva nem retenção automática nesta fase.
 
 Para uma publicação real: HTTPS e `NODE_ENV=production`, `WEB_URL` correto, segredos exclusivos, SMTP autenticado, rede privada para banco/Redis, backups e restauração verificados, monitoramento, alertas do worker e revisão de segurança. O proxy confiável/IP do cliente deve ser definido conforme a infraestrutura; a aplicação não confia indiscriminadamente em `X-Forwarded-For`. O endereço IP visto atrás do proxy Next.js pode ser o do proxy.
 

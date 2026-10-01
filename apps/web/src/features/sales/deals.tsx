@@ -1,7 +1,9 @@
 "use client";
 import Link from "next/link";
+import { NextAction } from "./next-action";
+import { Proposal } from "./proposal";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import {
@@ -97,7 +99,7 @@ export function Deals() {
             {session.permissions.includes("deals.create") && (
               <Link className="btn btn-primary" href="/sales/deals/new">
                 <Plus size={16} />
-                Nova oportunidade
+                Novo negócio
               </Link>
             )}
           </div>
@@ -274,10 +276,19 @@ export function DealForm({ id }: { id?: string }) {
       item={result.data?.item}
       key={id ?? "new"}
       currency={session.tenant.currency}
+      defaultOwner={session.user.id}
     />
   );
 }
-function DealEditor({ item, currency }: { item?: Deal; currency: string }) {
+function DealEditor({
+  item,
+  currency,
+  defaultOwner,
+}: {
+  item?: Deal;
+  currency: string;
+  defaultOwner: string;
+}) {
   const router = useRouter();
   const params = useSearchParams();
   const invalidate = useSalesInvalidation();
@@ -294,7 +305,7 @@ function DealEditor({ item, currency }: { item?: Deal; currency: string }) {
       currency: item?.currency ?? currency,
       probability: String(item?.probability ?? 10),
       expectedCloseDate: item?.expectedCloseDate ?? "",
-      assignedTo: item?.assignedTo ?? "",
+      assignedTo: item ? (item.assignedTo ?? "") : defaultOwner,
       source: item?.source ?? "",
       description: item?.description ?? "",
       temperature: item?.temperature ?? "WARM",
@@ -306,6 +317,10 @@ function DealEditor({ item, currency }: { item?: Deal; currency: string }) {
   const stageId = form.watch("stageId");
   const selectedTags = form.watch("tagIds");
   useEffect(() => {
+    if (!item && !pipelineId) {
+      const first = pipelines.data?.items.find((p) => p.active);
+      if (first) form.setValue("pipelineId", first.id);
+    }
     if (!item && pipelineId && !stageId) {
       const s = pipelines.data?.items.find((p) => p.id === pipelineId)
         ?.stages[0];
@@ -377,14 +392,14 @@ function DealEditor({ item, currency }: { item?: Deal; currency: string }) {
         Voltar para oportunidades
       </Link>
       <PageHeading
-        title={item ? "Editar oportunidade" : "Nova oportunidade"}
+        title={item ? "Editar oportunidade" : "Novo negócio"}
         description="Defina o cliente, o valor e a etapa desta negociação."
       />
       {save.isError && <Alert>{errorMessage(save.error)}</Alert>}
       <Card className="sales-form-section">
         <h2>Negociação</h2>
         <div className="form-grid">
-          {input("title", "Título da oportunidade", {
+          {input("title", "Nome do negócio", {
             required: true,
             maxLength: 200,
           })}
@@ -407,29 +422,32 @@ function DealEditor({ item, currency }: { item?: Deal; currency: string }) {
             if (stage) set("probability", String(stage.probability));
           }}
         />
-        <div className="form-grid">
-          {input("currency", "Moeda", {
-            required: true,
-            maxLength: 3,
-            pattern: "[A-Z]{3}",
-          })}
-          {input("probability", "Probabilidade (%)", {
-            type: "number",
-            min: 0,
-            max: 100,
-            required: true,
-          })}
-          {input("expectedCloseDate", "Previsão de fechamento", {
-            type: "date",
-          })}
-          <Field id="deal-temperature" label="Temperatura">
-            <Select id="deal-temperature" {...form.register("temperature")}>
-              <option value="COLD">Frio</option>
-              <option value="WARM">Morno</option>
-              <option value="HOT">Quente</option>
-            </Select>
-          </Field>
-        </div>
+        <details className="more-details">
+          <summary>Mais detalhes</summary>
+          <div className="form-grid">
+            {input("currency", "Moeda", {
+              required: true,
+              maxLength: 3,
+              pattern: "[A-Z]{3}",
+            })}
+            {input("probability", "Probabilidade (%)", {
+              type: "number",
+              min: 0,
+              max: 100,
+              required: true,
+            })}
+            {input("expectedCloseDate", "Previsão de fechamento", {
+              type: "date",
+            })}
+            <Field id="deal-temperature" label="Temperatura">
+              <Select id="deal-temperature" {...form.register("temperature")}>
+                <option value="COLD">Frio</option>
+                <option value="WARM">Morno</option>
+                <option value="HOT">Quente</option>
+              </Select>
+            </Field>
+          </div>
+        </details>
       </Card>
       <Card className="sales-form-section">
         <h2>Relacionamento</h2>
@@ -454,37 +472,40 @@ function DealEditor({ item, currency }: { item?: Deal; currency: string }) {
             value={form.watch("assignedTo")}
             onChange={(v) => set("assignedTo", v)}
           />
-          {input("source", "Origem", { maxLength: 100 })}
         </div>
-        <fieldset className="crm-tags-field">
-          <legend>Tags</legend>
-          {tags.data?.items.map((t) => (
-            <label className="crm-checkbox" key={t.id}>
-              <input
-                type="checkbox"
-                checked={selectedTags.includes(t.id)}
-                onChange={(e) =>
-                  set(
-                    "tagIds",
-                    e.target.checked
-                      ? [...selectedTags, t.id]
-                      : selectedTags.filter((id) => id !== t.id),
-                  )
-                }
-              />
-              {t.name}
-            </label>
-          ))}
-        </fieldset>
-        <Field id="deal-description" label="Descrição">
-          <textarea
-            className="input"
-            id="deal-description"
-            rows={5}
-            maxLength={10000}
-            {...form.register("description")}
-          />
-        </Field>
+        <details className="more-details">
+          <summary>Outros dados do relacionamento</summary>
+          {input("source", "Origem", { maxLength: 100 })}
+          <fieldset className="crm-tags-field">
+            <legend>Tags</legend>
+            {tags.data?.items.map((t) => (
+              <label className="crm-checkbox" key={t.id}>
+                <input
+                  type="checkbox"
+                  checked={selectedTags.includes(t.id)}
+                  onChange={(e) =>
+                    set(
+                      "tagIds",
+                      e.target.checked
+                        ? [...selectedTags, t.id]
+                        : selectedTags.filter((id) => id !== t.id),
+                    )
+                  }
+                />
+                {t.name}
+              </label>
+            ))}
+          </fieldset>
+          <Field id="deal-description" label="Descrição">
+            <textarea
+              className="input"
+              id="deal-description"
+              rows={5}
+              maxLength={10000}
+              {...form.register("description")}
+            />
+          </Field>
+        </details>
       </Card>
       <div className="form-actions">
         <Link
@@ -498,13 +519,21 @@ function DealEditor({ item, currency }: { item?: Deal; currency: string }) {
           loading={save.isPending}
           disabled={!!item && !form.formState.isDirty}
         >
-          Salvar oportunidade
+          Salvar negócio
         </Button>
       </div>
     </form>
   );
 }
-export function DealDetail({ id }: { id: string }) {
+export function DealDetail({
+  id,
+  embedded = false,
+  onClose,
+}: {
+  id: string;
+  embedded?: boolean;
+  onClose?: () => void;
+}) {
   const { data: session } = useSession();
   const router = useRouter();
   const invalidate = useSalesInvalidation();
@@ -514,6 +543,9 @@ export function DealDetail({ id }: { id: string }) {
     enabled: !!session?.permissions.includes("deals.view"),
   });
   const [tab, setTab] = useState("history");
+  const [proposalOpen, setProposalOpen] = useState(false);
+  const [winOpen, setWinOpen] = useState(false);
+  const gainLocked = useRef(false);
   const [lossOpen, setLossOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [lostReason, setLostReason] = useState("");
@@ -526,16 +558,21 @@ export function DealDetail({ id }: { id: string }) {
       }),
     onSuccess: async () => {
       setLossOpen(false);
+      setWinOpen(false);
       setMessage("Oportunidade atualizada.");
       await invalidate();
     },
     onError: () => invalidate(),
+    onSettled: () => {
+      gainLocked.current = false;
+    },
   });
   const remove = useMutation({
     mutationFn: () => api(`/sales/deals/${id}`, { method: "DELETE" }),
     onSuccess: async () => {
       await invalidate();
-      router.push("/sales/deals");
+      if (onClose) onClose();
+      else router.push("/sales/deals");
     },
   });
   if (!session) return null;
@@ -553,10 +590,12 @@ export function DealDetail({ id }: { id: string }) {
   );
   return (
     <div className="page-stack crm-page">
-      <Link className="back-link" href="/sales/deals">
-        <ArrowLeft size={15} />
-        Oportunidades
-      </Link>
+      {!embedded && (
+        <Link className="back-link" href="/sales/board">
+          <ArrowLeft size={15} />
+          Negócios
+        </Link>
+      )}
       <PageHeading
         title={d.title}
         description={
@@ -591,6 +630,47 @@ export function DealDetail({ id }: { id: string }) {
           editar.
         </Alert>
       )}
+      <div className="deal-essentials">
+        <div>
+          <span>Valor final</span>
+          <strong>{money(d.value, d.currency)}</strong>
+        </div>
+        <div>
+          <span>Etapa</span>
+          <strong>{d.stageName}</strong>
+        </div>
+        <div>
+          <span>Responsável</span>
+          <strong>{d.assignedToName || "Sem responsável"}</strong>
+        </div>
+        <div>
+          <span>Cliente</span>
+          <strong>
+            {d.companyName || d.contactName || d.leadName || "Não informado"}
+          </strong>
+        </div>
+      </div>
+      <NextAction deal={d} />
+      <section className="proposal-access">
+        <div>
+          <h2>Proposta comercial</h2>
+          <p>Itens, preços e valor final desta negociação.</p>
+        </div>
+        <Button
+          variant="secondary"
+          onClick={() => setProposalOpen(!proposalOpen)}
+        >
+          {proposalOpen ? "Fechar proposta" : "Ver proposta"}
+        </Button>
+      </section>
+      {proposalOpen && (
+        <>
+          <Proposal id={id} embedded />
+          <Link className="text-link" href={`/sales/deals/${id}/proposal`}>
+            Abrir proposta e catálogo
+          </Link>
+        </>
+      )}
       <div className="crm-detail-grid">
         <Card className="crm-detail-summary">
           <div className="sales-value-heading">
@@ -601,68 +681,71 @@ export function DealDetail({ id }: { id: string }) {
               {d.probability}%
             </span>
           </div>
-          <dl className="crm-data-list">
-            {dt("Pipeline", d.pipelineName)}
-            {dt("Etapa", d.stageName)}
-            {dt(
-              "Empresa cliente",
-              d.companyId ? (
-                <Link
-                  href={`/crm/companies/${d.companyId}`}
-                  className="text-link"
-                >
-                  {d.companyName || "Abrir empresa"}
-                </Link>
-              ) : null,
-            )}
-            {dt(
-              "Contato",
-              d.contactId ? (
-                <Link
-                  href={`/crm/contacts/${d.contactId}`}
-                  className="text-link"
-                >
-                  {d.contactName || "Abrir contato"}
-                </Link>
-              ) : null,
-            )}
-            {dt("Responsável", d.assignedToName || "Sem responsável")}
-            {dt(
-              "Previsão de fechamento",
-              d.expectedCloseDate
-                ? new Intl.DateTimeFormat("pt-BR", {
-                    dateStyle: "short",
-                    timeZone: "UTC",
-                  }).format(new Date(d.expectedCloseDate + "T12:00:00Z"))
-                : null,
-            )}
-            {dt("Tempo na etapa", `${d.daysInStage} dias`)}
-            {dt("Tempo no pipeline", `${d.daysInPipeline} dias`)}
-            {dt(
-              "Última atividade",
-              d.lastActivityAt
-                ? formatDate(d.lastActivityAt, session.tenant.timezone)
-                : null,
-            )}
-            {dt(
-              "Próxima atividade",
-              d.nextActivityAt
-                ? formatDate(d.nextActivityAt, session.tenant.timezone)
-                : null,
-            )}
-            {dt("Origem", d.source)}
-            {d.lostReason && dt("Motivo da perda", d.lostReason)}
-          </dl>
-          <div className="crm-summary-tags">
-            <TemperatureBadge temperature={d.temperature} />
-            <Tags tags={d.tags} />
-          </div>
-          {d.description && (
-            <div className="crm-summary-description">
-              <h3>Descrição</h3>
-              <p>{d.description}</p>
+          <details className="more-details">
+            <summary>Mais detalhes do negócio</summary>
+            <dl className="crm-data-list">
+              {dt("Pipeline", d.pipelineName)}
+              {dt("Etapa", d.stageName)}
+              {dt(
+                "Empresa cliente",
+                d.companyId ? (
+                  <Link
+                    href={`/crm/companies/${d.companyId}`}
+                    className="text-link"
+                  >
+                    {d.companyName || "Abrir empresa"}
+                  </Link>
+                ) : null,
+              )}
+              {dt(
+                "Contato",
+                d.contactId ? (
+                  <Link
+                    href={`/crm/contacts/${d.contactId}`}
+                    className="text-link"
+                  >
+                    {d.contactName || "Abrir contato"}
+                  </Link>
+                ) : null,
+              )}
+              {dt("Responsável", d.assignedToName || "Sem responsável")}
+              {dt(
+                "Previsão de fechamento",
+                d.expectedCloseDate
+                  ? new Intl.DateTimeFormat("pt-BR", {
+                      dateStyle: "short",
+                      timeZone: "UTC",
+                    }).format(new Date(d.expectedCloseDate + "T12:00:00Z"))
+                  : null,
+              )}
+              {dt("Tempo na etapa", `${d.daysInStage} dias`)}
+              {dt("Tempo no pipeline", `${d.daysInPipeline} dias`)}
+              {dt(
+                "Última atividade",
+                d.lastActivityAt
+                  ? formatDate(d.lastActivityAt, session.tenant.timezone)
+                  : null,
+              )}
+              {dt(
+                "Próxima atividade",
+                d.nextActivityAt
+                  ? formatDate(d.nextActivityAt, session.tenant.timezone)
+                  : null,
+              )}
+              {dt("Origem", d.source)}
+              {d.lostReason && dt("Motivo da perda", d.lostReason)}
+            </dl>
+            <div className="crm-summary-tags">
+              <TemperatureBadge temperature={d.temperature} />
+              <Tags tags={d.tags} />
             </div>
-          )}
+            {d.description && (
+              <div className="crm-summary-description">
+                <h3>Descrição</h3>
+                <p>{d.description}</p>
+              </div>
+            )}
+          </details>
           {canEdit && (
             <div className="sales-deal-controls">
               <PipelineFields
@@ -677,15 +760,16 @@ export function DealDetail({ id }: { id: string }) {
               {d.status === "OPEN" ? (
                 <div className="crm-detail-actions">
                   <Button
+                    variant="secondary"
                     loading={change.isPending}
-                    onClick={() => change.mutate({ status: "WON" })}
+                    onClick={() => setWinOpen(true)}
                   >
                     <Check size={15} />
-                    Marcar como ganha
+                    Marcar como ganho
                   </Button>
                   <Button variant="secondary" onClick={() => setLossOpen(true)}>
                     <X size={15} />
-                    Marcar como perdida
+                    Marcar como perdido
                   </Button>
                 </div>
               ) : (
@@ -695,7 +779,7 @@ export function DealDetail({ id }: { id: string }) {
                   onClick={() => change.mutate({ status: "OPEN" })}
                 >
                   <ArrowRightLeft size={15} />
-                  Reabrir oportunidade
+                  Reabrir negócio
                 </Button>
               )}
             </div>
@@ -745,6 +829,31 @@ export function DealDetail({ id }: { id: string }) {
           )}
         </Card>
       </div>
+      <Dialog
+        open={winOpen}
+        onClose={() => setWinOpen(false)}
+        title="Confirmar negócio ganho"
+        description="Confira o valor final que será incluído nos indicadores."
+      >
+        <p className="final-value">{money(d.value, d.currency)}</p>
+        <p className="muted">{d.title}</p>
+        {change.isError && <Alert>{errorMessage(change.error)}</Alert>}
+        <div className="dialog-actions">
+          <Button variant="secondary" onClick={() => setWinOpen(false)}>
+            Cancelar
+          </Button>
+          <Button
+            loading={change.isPending}
+            onClick={() => {
+              if (gainLocked.current || change.isPending) return;
+              gainLocked.current = true;
+              change.mutate({ status: "WON" });
+            }}
+          >
+            Confirmar ganho
+          </Button>
+        </div>
+      </Dialog>
       <Dialog
         open={lossOpen}
         onClose={() => setLossOpen(false)}

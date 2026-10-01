@@ -20,7 +20,9 @@
     "db:migrate": "npm run db:migrate -w @orbit/api",
     "db:seed": "npm run db:seed -w @orbit/api",
     "check": "npm run typecheck && npm test && npm run build",
-    "format": "prettier --write \"apps/*/src/**/*.{ts,tsx,css}\" \"apps/*/test/**/*.ts\" \"tests/**/*.ts\" \"scripts/*.mjs\""
+    "format": "prettier --write \"apps/*/src/**/*.{ts,tsx,css}\" \"apps/*/test/**/*.ts\" \"tests/**/*.ts\" \"scripts/*.mjs\"",
+    "demo:prepare": "npm run demo:prepare -w @orbit/api",
+    "demo:reset": "npm run demo:reset -w @orbit/api"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",

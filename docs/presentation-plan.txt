@@ -1,0 +1,47 @@
+PLANO — DESMOS CRM PARA APRESENTAÇÃO
+Objetivo: preparar até segunda, 5/10, um protótipo fácil de usar que demonstre o valor do Desmos. Prioridade: clareza, praticidade e um roteiro confiável. Reaproveitar a arquitetura e os módulos existentes.
+1. Escopo principal
+Construir uma jornada curta: abrir o painel → identificar um negócio que precisa de atenção → abrir a oportunidade → registrar próxima ação → visualizar proposta → marcar como ganho → ver os indicadores atualizados.
+Usar uma empresa fictícia e poucos negócios bem preenchidos, incluindo um parado, um com tarefa atrasada e um próximo do fechamento. Manter nomes, valores e históricos coerentes em todas as telas.
+2. Prioridade máxima: UI/UX
+   - Navegação principal enxuta: Visão geral, Negócios, Clientes e Tarefas; configurações e funções secundárias em segundo plano
+   - Uma ação principal clara por tela, com rótulos diretos: “Novo negócio”, “Criar tarefa”, “Ver proposta”
+   - Abrir detalhes do negócio em painel lateral, preservando filtros e posição do Kanban ao fechar
+   - Mostrar cliente, valor, etapa, responsável e próxima ação sem precisar procurar em várias abas
+   - Formulários curtos; campos opcionais em “Mais detalhes”; aproveitar dados já cadastrados
+   - Padronizar botões, espaçamentos, tipografia, cores de status, mensagens de erro e confirmação
+   - Garantir voltar/cancelar, foco de teclado visível, contraste legível e ações acessíveis sem depender de arrastar cartões
+   - No celular, evitar tabelas largas e manter as ações principais fáceis de tocar
+3. Entregas em ordem
+A. Simplificar o fluxo existente — prioridade obrigatória
+Revisar navegação, Kanban, detalhe da oportunidade e criação de tarefa. Corrigir atritos antes de adicionar telas.
+Pronto quando: alguém consegue localizar um negócio e criar sua próxima ação sem orientação.
+B. Painel + Radar Comercial — prioridade obrigatória
+Mostrar poucos indicadores: valor em aberto, negócios ganhos, tarefas atrasadas e negócios sem próxima ação. Cada alerta deve abrir o registro correspondente.
+Pronto quando: o apresentador identifica um problema, age e vê o estado mudar. Pode usar regras simples sobre os dados de demonstração.
+C. Proposta simples — prioridade obrigatória para a jornada
+Criar uma experiência enxuta com cliente, itens, quantidade, preço, desconto e total. Reutilizar os dados do negócio. Preservar os preços da proposta ao alterar o catálogo.
+Pronto quando: a proposta abre com valores coerentes e o fechamento usa um valor final explícito. Assinatura, envio e PDF elaborado podem ficar para depois.
+D. Automação demonstrativa — após o fluxo principal
+Exemplo único: “Ao entrar em Proposta, criar tarefa de acompanhamento”. Reaproveitar a tela existente; identificar claramente execução simulada. Se viável, fazer essa ação funcionar apenas no ambiente de demonstração, evitando duplicação.
+Pronto quando: o efeito mostrado corresponde ao que realmente aconteceu na demo.
+4. O que precisa funcionar e o que pode ser simulado
+Precisa funcionar no roteiro: navegação, abrir registros, alterar etapa, criar tarefa, calcular proposta e refletir fechamento nos indicadores. Os dados da demo devem sobreviver ao recarregar a página ou ser restaurados de forma previsível.
+Pode ser simulado, com identificação: envio de WhatsApp/email, integrações externas, notificações e automações de bastidores.
+Adiar: motor genérico de automação, importação completa, campos personalizados avançados, cobrança, assinatura eletrônica, relatórios extensos e preparação de produção.
+Atenção: o PDF cobra persistência e automação funcional em alguns pontos. Essas simulações servem para apresentar a ideia, mas não comprovam atendimento integral se a avaliação seguir todos os requisitos literalmente.
+5. Sequência sugerida até segunda
+   - Quinta: fechar escopo, roteiro e padrões visuais
+   - Sexta: simplificar navegação, Kanban, detalhes e formulários
+   - Sábado: painel/Radar e proposta simples conectados ao roteiro
+   - Domingo: completar simulações necessárias, testar e corrigir; congelar novas funcionalidades
+   - Segunda: ensaiar, conferir dados e preparar uma gravação de reserva
+É uma ordem de trabalho sugerida; se faltar tempo, cortar a automação demonstrativa e telas secundárias antes de sacrificar a fluidez da jornada principal.
+6. Checklist de apresentação
+   - Executar o roteiro completo duas vezes, restaurando os dados entre ensaios
+   - Testar recarregar, voltar, cancelar e clicar duas vezes nas ações principais
+   - Confirmar que valores da proposta, negócio e painel concordam
+   - Não deixar botões visíveis sem resposta: implementar, identificar como demonstração ou retirar do percurso
+   - Revisar tela de notebook e celular, textos cortados, carregamento, estados vazios e erros
+   - Preparar dados de demonstração restauráveis e uma gravação curta de reserva
+Orientação para a outra IA: entregue uma etapa por vez, preserve o que já funciona e valide o roteiro após cada mudança. Evite reescrever a arquitetura ou expandir o escopo. O critério de sucesso é conseguir apresentar a ideia com clareza e operar o fluxo sem ajuda

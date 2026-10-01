@@ -49,7 +49,7 @@ test("cadastro, onboarding, configurações persistidas e novo login", async ({
   await page.getByRole("button", { name: "Entrar na minha conta" }).click();
   await expect(page).toHaveURL(/\/workspace$/);
   await expect(
-    page.getByRole("heading", { name: "Olá, Pessoa." }),
+    page.getByRole("heading", { name: "Visão geral" }),
   ).toBeVisible();
   const accessibility = await new AxeBuilder({ page })
     .withTags(["wcag2a", "wcag2aa", "wcag21aa"])

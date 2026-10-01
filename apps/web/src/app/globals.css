@@ -3679,3 +3679,385 @@ td .btn {
     margin-top: 12px;
   }
 }
+
+/* Presentation journey: existing Desmos tokens, one working context. */
+.deal-drawer {
+  position: fixed;
+  inset: 0 0 0 auto;
+  margin: 0;
+  border: 0;
+  padding: 0;
+  width: min(760px, 100vw);
+  max-width: 100vw;
+  height: 100dvh;
+  max-height: 100dvh;
+  color: var(--text);
+  background: var(--surface);
+  box-shadow: -12px 0 40px #102c5026;
+  overflow-y: auto;
+}
+.deal-drawer::backdrop {
+  background: #10223866;
+}
+.drawer-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  background: var(--surface);
+  z-index: 2;
+}
+.drawer-heading h2 {
+  font-size: 14px;
+  font-weight: 600;
+}
+.drawer-content {
+  padding: 24px;
+}
+.deal-drawer .page-heading h1 {
+  font-size: 24px;
+}
+.deal-drawer .page-heading {
+  align-items: start;
+  flex-wrap: wrap;
+}
+.deal-drawer .crm-detail-grid {
+  grid-template-columns: 1fr;
+}
+.deal-drawer .crm-detail-summary,
+.deal-drawer .crm-activity-panel {
+  min-width: 0;
+}
+.deal-essentials {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+.deal-essentials span,
+.proposal-client > span {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+.deal-essentials strong {
+  font-size: 15px;
+  overflow-wrap: anywhere;
+}
+.next-action {
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+.next-action h2,
+.radar-section h2 {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 18px;
+}
+.next-action .crm-section-top {
+  margin-bottom: 16px;
+}
+.next-task-list {
+  display: grid;
+  gap: 16px;
+}
+.next-task {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+.next-task p,
+.proposal-access p,
+.radar-row p,
+.radar-row-value span,
+.proposal-client p {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+.task-overdue {
+  color: var(--danger);
+  font-size: 13px;
+}
+.more-details {
+  padding-top: 12px;
+}
+.more-details > summary {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 8px 0;
+  color: var(--primary-text);
+}
+.more-details[open] > summary {
+  margin-bottom: 12px;
+}
+.more-details[open] > .field,
+.more-details[open] > .form-grid {
+  margin-bottom: 16px;
+}
+.proposal-access {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+.proposal-access h2 {
+  font-size: 18px;
+}
+.proposal-panel {
+  padding: 20px 0;
+  border-block: 1px solid var(--border);
+  display: grid;
+  gap: 20px;
+}
+.proposal-client strong {
+  display: block;
+  font-size: 18px;
+}
+.proposal-items {
+  display: grid;
+  gap: 20px;
+}
+.proposal-item {
+  border: 0;
+  padding: 16px 0 0;
+  margin: 0;
+  min-width: 0;
+  border-top: 1px solid var(--border);
+}
+.proposal-item legend {
+  font-size: 13px;
+  font-weight: 600;
+  padding-right: 8px;
+}
+.proposal-item-values {
+  display: grid;
+  grid-template-columns: minmax(70px, 1fr) minmax(120px, 2fr) auto;
+  gap: 12px;
+  align-items: end;
+  margin-top: 12px;
+}
+.proposal-add {
+  display: flex;
+  align-items: end;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.proposal-add .field {
+  flex: 1;
+  min-width: 180px;
+}
+.proposal-totals {
+  margin-left: auto;
+  width: min(320px, 100%);
+  display: grid;
+  gap: 16px;
+  padding-top: 16px;
+}
+.proposal-totals p {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.proposal-total {
+  border-top: 1px solid var(--border);
+  padding-top: 16px;
+  font-size: 18px;
+}
+.final-value {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  font-variant-numeric: tabular-nums;
+}
+.catalog-row {
+  display: grid;
+  grid-template-columns: minmax(120px, 2fr) minmax(90px, 1fr) auto;
+  gap: 12px;
+  align-items: end;
+  padding: 16px 0;
+}
+.catalog-row .alert {
+  grid-column: 1/-1;
+}
+.commercial-indicators {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px 0;
+}
+.commercial-indicators > div {
+  padding: 0 24px;
+  border-right: 1px solid var(--border);
+}
+.commercial-indicators > div:last-child {
+  border-right: 0;
+}
+.commercial-indicators dt {
+  color: var(--muted);
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+.commercial-indicators dd {
+  font-size: 24px;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+.commercial-indicators dd span,
+.commercial-indicators small span {
+  display: block;
+}
+.commercial-indicators small {
+  color: var(--muted);
+  font-size: 12px;
+  display: block;
+  margin-top: 8px;
+}
+.radar-section {
+  padding: 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+.radar-section .section-heading {
+  margin-bottom: 16px;
+}
+.radar-list {
+  display: grid;
+}
+.radar-row {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  padding: 20px 0;
+  border-top: 1px solid var(--border);
+  text-decoration: none;
+  color: var(--text);
+}
+.radar-row > div:first-child {
+  flex: 1;
+  min-width: 0;
+}
+.radar-row strong {
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+.radar-row:hover {
+  background: var(--surface-hover);
+}
+.radar-row-value {
+  text-align: right;
+  white-space: nowrap;
+}
+.radar-row-value span {
+  display: block;
+}
+.radar-reasons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+.demo-followup-section {
+  padding: 24px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  display: grid;
+  gap: 16px;
+}
+@media (max-width: 1100px) {
+  .commercial-indicators {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px 0;
+  }
+  .commercial-indicators > div:nth-child(2) {
+    border-right: 0;
+  }
+}
+@media (max-width: 760px) {
+  .drawer-content {
+    padding: 20px 16px;
+  }
+  .drawer-heading {
+    padding: 12px 16px;
+  }
+  .deal-drawer .page-heading h1 {
+    font-size: 22px;
+  }
+  .deal-essentials {
+    gap: 16px;
+  }
+  .commercial-indicators {
+    padding: 20px 0;
+  }
+  .commercial-indicators > div {
+    padding: 0 16px;
+  }
+  .commercial-indicators dd {
+    font-size: 21px;
+  }
+  .radar-section {
+    padding: 20px 16px;
+  }
+  .radar-section .section-heading {
+    align-items: start;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .radar-row {
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .radar-row > div:first-child {
+    flex-basis: 65%;
+  }
+  .radar-row-value {
+    text-align: left;
+  }
+  .radar-row > svg {
+    display: none;
+  }
+  .catalog-row {
+    grid-template-columns: 1fr 1fr;
+  }
+  .catalog-row .btn {
+    grid-column: 1/-1;
+  }
+  .next-task {
+    align-items: start;
+    flex-wrap: wrap;
+  }
+  .proposal-access {
+    align-items: start;
+    flex-wrap: wrap;
+  }
+  .demo-followup-section {
+    padding: 20px 16px;
+  }
+  .demo-followup-section .section-heading {
+    align-items: start;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+}
+.dashboard-filter {
+  max-width: 320px;
+}
+.commercial-indicators .indicator-caption {
+  font-weight: 400;
+  letter-spacing: normal;
+}

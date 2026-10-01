@@ -1,8 +1,9 @@
 "use client";
 import Link from "next/link";
+import { DealDrawer } from "./deal-drawer";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, keepPreviousData } from "@tanstack/react-query";
 import {
   ArrowRightLeft,
   CalendarClock,
@@ -51,6 +52,7 @@ export function SalesBoard() {
   const [status, setStatus] = useState("OPEN");
   const [dragging, setDragging] = useState<Deal | null>(null);
   const [over, setOver] = useState("");
+  const [openedDeal, setOpenedDeal] = useState<string | null>(null);
   const [notice, setNotice] = useState("");
   const [moving, setMoving] = useState("");
   const { assignees } = useCrmReferences();
@@ -62,6 +64,7 @@ export function SalesBoard() {
         `/sales/board?${new URLSearchParams({ pipelineId, q, ...(assignedTo ? { assignedTo } : {}), status })}`,
       ),
     enabled: !!pipelineId && !!session?.permissions.includes("deals.view"),
+    placeholderData: keepPreviousData,
   });
   const move = useMutation({
     mutationFn: ({ deal, stageId }: { deal: Deal; stageId: string }) =>
@@ -92,8 +95,9 @@ export function SalesBoard() {
   };
   return (
     <div className="page-stack sales-board-page">
+      <DealDrawer id={openedDeal} onClose={() => setOpenedDeal(null)} />
       <PageHeading
-        title="Funil de vendas"
+        title="Negócios"
         description="Acompanhe cada negociação e mantenha o próximo passo em vista."
         action={
           <div className="crm-detail-actions">
@@ -107,7 +111,7 @@ export function SalesBoard() {
                 href={`/sales/deals/new?pipelineId=${pipelineId}`}
               >
                 <Plus size={16} />
-                Nova oportunidade
+                Novo negócio
               </Link>
             )}
           </div>
@@ -150,6 +154,7 @@ export function SalesBoard() {
                 {pipelines.data.items.map((p) => (
                   <option key={p.id} value={p.id}>
                     {p.name}
+                    {p.demoFixture ? " (dados fictícios)" : ""}
                     {!p.active ? " (arquivado)" : ""}
                   </option>
                 ))}
@@ -158,8 +163,8 @@ export function SalesBoard() {
             <div className="search-field">
               <Search size={17} />
               <Input
-                aria-label="Buscar oportunidades"
-                placeholder="Buscar oportunidade"
+                aria-label="Buscar negócios"
+                placeholder="Buscar negócio"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
@@ -285,7 +290,16 @@ export function SalesBoard() {
                             }}
                           >
                             <div className="sales-deal-title">
-                              <Link href={`/sales/deals/${deal.id}`}>
+                              <Link
+                                href={`/sales/deals/${deal.id}`}
+                                onClick={(e) =>
+                                  e.currentTarget.focus({ preventScroll: true })
+                                }
+                                onNavigate={(e) => {
+                                  e.preventDefault();
+                                  setOpenedDeal(deal.id);
+                                }}
+                              >
                                 {deal.title}
                               </Link>
                               {canUpdate && status === "OPEN" && (
