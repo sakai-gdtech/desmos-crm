@@ -1,0 +1,39 @@
+name: orbit-crm
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_PASSWORD: orbit_bootstrap_local_only
+    ports:
+      - "127.0.0.1:5436:5432"
+    volumes:
+      - orbit_postgres:/var/lib/postgresql/data
+      - ./scripts/init-db.sql:/docker-entrypoint-initdb.d/01-orbit.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+  redis:
+    image: redis:7-alpine
+    command: redis-server --appendonly yes
+    ports:
+      - "127.0.0.1:6386:6379"
+    volumes:
+      - orbit_redis:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+  mailpit:
+    image: ghcr.io/axllent/mailpit:v1.30.6
+    ports:
+      - "127.0.0.1:1026:1025"
+      - "127.0.0.1:8026:8025"
+    restart: unless-stopped
+volumes:
+  orbit_postgres:
+  orbit_redis:

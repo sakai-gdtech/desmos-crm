@@ -1,0 +1,32 @@
+{
+  "name": "orbit-crm",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "setup:env": "node scripts/setup-env.mjs",
+    "infra:up": "docker compose up -d --wait",
+    "infra:down": "docker compose down",
+    "dev": "concurrently -k -n API,WEB,MAIL -c blue,magenta,cyan \"npm run dev -w @orbit/api\" \"npm run dev -w @orbit/web\" \"npm run worker -w @orbit/api\"",
+    "build": "npm run build --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "npm run test -w @orbit/api",
+    "test:e2e": "playwright test",
+    "db:migrate": "npm run db:migrate -w @orbit/api",
+    "db:seed": "npm run db:seed -w @orbit/api",
+    "check": "npm run typecheck && npm test && npm run build",
+    "format": "prettier --write \"apps/*/src/**/*.{ts,tsx,css}\" \"apps/*/test/**/*.ts\" \"tests/**/*.ts\" \"scripts/*.mjs\""
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "@playwright/test": "^1.61.1",
+    "concurrently": "^9.2.1",
+    "prettier": "^3.9.9",
+    "typescript": "^5.9.3"
+  }
+}

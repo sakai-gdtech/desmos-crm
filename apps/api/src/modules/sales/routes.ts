@@ -1,0 +1,147 @@
+import type { FastifyInstance } from "fastify";
+import { z } from "zod";
+import { authenticate } from "../iam/application/sessions.js";
+import { noteCreate, notePatch } from "../crm/schemas.js";
+import * as s from "./schemas.js";
+import * as service from "./service.js";
+const params = z.object({ id: z.uuid() });
+export async function salesRoutes(app: FastifyInstance) {
+  app.get("/sales/pipelines", async (req) =>
+    service.pipelines(await authenticate(req)),
+  );
+  app.post("/sales/pipelines", async (req, reply) =>
+    reply
+      .code(201)
+      .send(
+        await service.createPipeline(
+          await authenticate(req),
+          s.pipelineCreate.parse(req.body),
+        ),
+      ),
+  );
+  app.get("/sales/pipelines/:id", async (req) =>
+    service.pipelineDetail(
+      await authenticate(req),
+      params.parse(req.params).id,
+    ),
+  );
+  app.patch("/sales/pipelines/:id", async (req) =>
+    service.updatePipeline(
+      await authenticate(req),
+      params.parse(req.params).id,
+      s.pipelinePatch.parse(req.body),
+    ),
+  );
+  app.delete("/sales/pipelines/:id", async (req, reply) => {
+    await service.deletePipeline(
+      await authenticate(req),
+      params.parse(req.params).id,
+    );
+    return reply.code(204).send();
+  });
+  app.get("/sales/board", async (req) =>
+    service.board(await authenticate(req), s.board.parse(req.query)),
+  );
+  for (const kind of ["deals", "activities", "tasks"] as const) {
+    app.get(`/sales/${kind}`, async (req) =>
+      service.list(await authenticate(req), kind, s.list.parse(req.query)),
+    );
+    app.post(`/sales/${kind}`, async (req, reply) => {
+      const input = (
+        kind === "deals"
+          ? s.dealCreate
+          : kind === "activities"
+            ? s.activityCreate
+            : s.taskCreate
+      ).parse(req.body);
+      const ctx = await authenticate(req);
+      return reply
+        .code(201)
+        .send(
+          kind === "deals"
+            ? await service.createDeal(ctx, input)
+            : await service.createWork(ctx, kind, input),
+        );
+    });
+    app.get(`/sales/${kind}/:id`, async (req) =>
+      service.detail(
+        await authenticate(req),
+        kind,
+        params.parse(req.params).id,
+      ),
+    );
+    app.patch(`/sales/${kind}/:id`, async (req) =>
+      service.update(
+        await authenticate(req),
+        kind,
+        params.parse(req.params).id,
+        (kind === "deals"
+          ? s.dealPatch
+          : kind === "activities"
+            ? s.activityPatch
+            : s.taskPatch
+        ).parse(req.body),
+      ),
+    );
+    app.delete(`/sales/${kind}/:id`, async (req, reply) => {
+      await service.remove(
+        await authenticate(req),
+        kind,
+        params.parse(req.params).id,
+      );
+      return reply.code(204).send();
+    });
+    app.post(`/sales/${kind}/:id/restore`, async (req) => {
+      z.object({})
+        .strict()
+        .parse(req.body ?? {});
+      return service.restore(
+        await authenticate(req),
+        kind,
+        params.parse(req.params).id,
+      );
+    });
+  }
+  app.get("/sales/deals/:id/timeline", async (req) =>
+    service.timeline(
+      await authenticate(req),
+      params.parse(req.params).id,
+      s.pagination.strict().parse(req.query),
+    ),
+  );
+  app.get("/sales/deals/:id/notes", async (req) =>
+    service.notes(await authenticate(req), params.parse(req.params).id),
+  );
+  app.post("/sales/deals/:id/notes", async (req, reply) =>
+    reply
+      .code(201)
+      .send(
+        await service.saveNote(
+          await authenticate(req),
+          params.parse(req.params).id,
+          noteCreate.parse(req.body),
+        ),
+      ),
+  );
+  app.patch("/sales/deals/:id/notes/:noteId", async (req) => {
+    const p = params.extend({ noteId: z.uuid() }).parse(req.params);
+    return service.saveNote(
+      await authenticate(req),
+      p.id,
+      notePatch.parse(req.body),
+      p.noteId,
+    );
+  });
+  app.delete("/sales/deals/:id/notes/:noteId", async (req, reply) => {
+    const p = params.extend({ noteId: z.uuid() }).parse(req.params);
+    await service.deleteNote(await authenticate(req), p.id, p.noteId);
+    return reply.code(204).send();
+  });
+  app.post("/sales/leads/:id/convert", async (req) =>
+    service.convert(
+      await authenticate(req),
+      params.parse(req.params).id,
+      s.conversion.parse(req.body),
+    ),
+  );
+}

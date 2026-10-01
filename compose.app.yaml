@@ -1,0 +1,60 @@
+# Optional: run the applications in containers too.
+# docker compose -f compose.yaml -f compose.app.yaml up --build -d
+services:
+  migrate:
+    build:
+      context: .
+      target: api
+    env_file: .env
+    environment:
+      NODE_ENV: development
+      DATABASE_URL: postgresql://orbit:orbit_local_password@postgres:5432/orbit
+      REDIS_URL: redis://redis:6379
+    command: node dist/infrastructure/migrate.js
+    depends_on:
+      postgres:
+        condition: service_healthy
+  api:
+    build:
+      context: .
+      target: api
+    env_file: .env
+    environment:
+      NODE_ENV: development
+      DATABASE_URL: postgresql://orbit:orbit_local_password@postgres:5432/orbit
+      REDIS_URL: redis://redis:6379
+      SMTP_HOST: mailpit
+      SMTP_PORT: 1025
+    ports:
+      - "127.0.0.1:4000:4000"
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+  worker:
+    build:
+      context: .
+      target: api
+    env_file: .env
+    environment:
+      NODE_ENV: development
+      DATABASE_URL: postgresql://orbit:orbit_local_password@postgres:5432/orbit
+      REDIS_URL: redis://redis:6379
+      SMTP_HOST: mailpit
+      SMTP_PORT: 1025
+    command: node dist/infrastructure/worker.js
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+  web:
+    build:
+      context: .
+      target: web
+      args:
+        API_INTERNAL_URL: http://api:4000
+    ports:
+      - "127.0.0.1:3017:3000"
+    depends_on:
+      api:
+        condition: service_started

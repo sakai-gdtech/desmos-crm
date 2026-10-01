@@ -1,0 +1,2955 @@
+Quero desenvolver um sistema completo de CRM SaaS multiempresa, pronto para ser utilizado por empresas reais.
+
+O sistema deve ser moderno, escalável, seguro, intuitivo e visualmente profissional. Não quero apenas um CRUD de clientes. Quero uma plataforma que possa realmente ser utilizada diariamente por empresas para gerenciar leads, clientes, vendas, equipes comerciais, atividades, negociações, tarefas, relatórios e relacionamento com clientes.
+
+O produto deve ser projetado desde o início como um SaaS multi-tenant.
+
+# CONCEITO DO PRODUTO
+
+Crie um CRM chamado provisoriamente de **Orbit CRM**.
+
+O conceito principal do produto deve ser:
+
+"Todo o relacionamento com o cliente em um único lugar."
+
+Cada empresa terá seu próprio ambiente totalmente isolado.
+
+Dentro de uma empresa existirão:
+
+- usuários;
+- equipes;
+- vendedores;
+- gestores;
+- leads;
+- clientes;
+- empresas clientes;
+- contatos;
+- oportunidades;
+- pipelines;
+- etapas de vendas;
+- atividades;
+- tarefas;
+- reuniões;
+- notas;
+- arquivos;
+- propostas;
+- produtos;
+- histórico de interações;
+- relatórios;
+- automações;
+- configurações.
+
+A principal experiência do sistema deve girar em torno de uma **timeline de relacionamento**.
+
+Ao abrir um lead, cliente ou empresa, o usuário deve conseguir visualizar rapidamente:
+
+- quando o registro foi criado;
+- quem criou;
+- alterações realizadas;
+- ligações;
+- mensagens;
+- emails;
+- reuniões;
+- tarefas;
+- notas;
+- oportunidades;
+- propostas;
+- mudanças de etapa;
+- vendas fechadas;
+- arquivos enviados;
+- próximos compromissos.
+
+O CRM precisa transmitir a sensação de que o usuário consegue entender toda a história daquele cliente em poucos segundos.
+
+---
+
+# STACK
+
+Utilize preferencialmente:
+
+Frontend:
+- Next.js
+- TypeScript
+- React
+- Tailwind CSS
+- shadcn/ui
+- TanStack Query
+- React Hook Form
+- Zod
+
+Backend:
+- Node.js
+- TypeScript
+- NestJS ou Fastify com arquitetura modular
+- REST API
+
+Banco:
+- PostgreSQL
+
+ORM:
+- Drizzle ORM
+
+Infraestrutura:
+- Docker
+- Docker Compose
+- Redis
+- filas para processamento assíncrono
+
+Autenticação:
+- JWT Access Token
+- Refresh Token com rotação
+- Refresh Token armazenado com hash
+- RBAC
+- sessões rastreáveis
+
+Arquitetura:
+- modular
+- Clean Architecture
+- separação clara entre domínio, aplicação e infraestrutura
+- preparada para crescimento sem transformar o projeto em microserviços prematuramente
+
+Inicialmente utilizar um monólito modular.
+
+---
+
+# MULTI-TENANCY
+
+Este é um requisito crítico.
+
+Cada empresa será um Tenant.
+
+Estrutura conceitual:
+
+Tenant
+ ├── Users
+ ├── Teams
+ ├── Contacts
+ ├── Companies
+ ├── Leads
+ ├── Pipelines
+ ├── Deals
+ ├── Activities
+ ├── Tasks
+ ├── Products
+ ├── Proposals
+ ├── Automations
+ └── Settings
+
+Nenhum usuário pode acessar dados de outro tenant.
+
+Todas as entidades de negócio devem possuir tenantId quando necessário.
+
+Nunca confiar em tenantId enviado diretamente pelo frontend sem validar a associação do usuário.
+
+O backend deve identificar a empresa ativa através da sessão/contexto autenticado.
+
+Um mesmo usuário poderá futuramente pertencer a mais de uma empresa.
+
+Criar uma estrutura de membership:
+
+User
+Tenant
+Membership
+
+Membership deve possuir:
+
+- id
+- userId
+- tenantId
+- role
+- status
+- createdAt
+
+Roles iniciais:
+
+OWNER
+ADMIN
+MANAGER
+SALES
+SUPPORT
+VIEWER
+
+Criar sistema de permissões granular para que futuramente seja possível criar cargos personalizados.
+
+Exemplos:
+
+contacts.view
+contacts.create
+contacts.update
+contacts.delete
+
+deals.view
+deals.create
+deals.update
+deals.delete
+
+reports.view
+
+settings.manage
+
+users.manage
+
+pipelines.manage
+
+---
+
+# AUTENTICAÇÃO
+
+Criar:
+
+Cadastro
+
+Login
+
+Logout
+
+Refresh Token
+
+Esqueci minha senha
+
+Redefinição de senha
+
+Convite para usuários
+
+Aceitar convite
+
+Verificação de email
+
+Sessões ativas
+
+Revogar sessão
+
+Fluxo de primeiro acesso.
+
+Durante o cadastro:
+
+1. usuário cria conta;
+2. informa nome da empresa;
+3. tenant é criado;
+4. usuário recebe OWNER;
+5. sistema inicia onboarding.
+
+---
+
+# ONBOARDING
+
+Criar onboarding visual e rápido.
+
+Perguntar:
+
+Nome da empresa
+
+Segmento
+
+Quantidade de funcionários
+
+Quantidade de vendedores
+
+Objetivo principal:
+
+- organizar clientes;
+- acompanhar vendas;
+- controlar leads;
+- aumentar conversão;
+- organizar equipe;
+- substituir planilhas.
+
+Perguntar também:
+
+"Como sua empresa normalmente vende?"
+
+Exemplos:
+
+- venda rápida;
+- venda consultiva;
+- recorrência;
+- projetos;
+- serviços;
+- imóveis;
+- software;
+- agência;
+- distribuição.
+
+Com essas informações o sistema poderá sugerir um pipeline inicial.
+
+Exemplo:
+
+Novo lead
+Contato realizado
+Qualificado
+Proposta
+Negociação
+Fechado
+
+Permitir alterar tudo depois.
+
+---
+
+# DASHBOARD
+
+A home deve ser realmente útil.
+
+Não quero apenas cards genéricos.
+
+Mostrar:
+
+Vendas no período
+
+Receita gerada
+
+Quantidade de oportunidades abertas
+
+Ticket médio
+
+Taxa de conversão
+
+Novos leads
+
+Negócios ganhos
+
+Negócios perdidos
+
+Previsão de receita
+
+Tarefas atrasadas
+
+Atividades de hoje
+
+Leads sem contato
+
+Oportunidades paradas
+
+Metas do mês
+
+Pipeline resumido
+
+Ranking comercial
+
+Gráfico de vendas
+
+Gráfico de conversão por etapa
+
+Principais motivos de perda
+
+Origem dos melhores leads
+
+Adicionar uma área:
+
+"ATENÇÃO NECESSÁRIA"
+
+Exemplos:
+
+8 leads sem contato há mais de 3 dias
+
+5 tarefas atrasadas
+
+R$ 42.000 em oportunidades paradas
+
+3 propostas aguardando retorno
+
+Essa área deve transformar dados em ações concretas.
+
+---
+
+# LEADS
+
+Criar módulo completo de Leads.
+
+Campos:
+
+id
+
+tenantId
+
+name
+
+email
+
+phone
+
+company
+
+jobTitle
+
+source
+
+status
+
+assignedTo
+
+temperature
+
+estimatedValue
+
+notes
+
+createdAt
+
+updatedAt
+
+lastContactAt
+
+nextContactAt
+
+Temperatura:
+
+COLD
+WARM
+HOT
+
+Origem:
+
+Site
+Indicação
+Instagram
+Facebook
+LinkedIn
+Google
+Evento
+Telefone
+WhatsApp
+Importação
+Manual
+Outro
+
+Permitir fontes personalizadas.
+
+Funcionalidades:
+
+Criar lead
+
+Editar lead
+
+Excluir
+
+Arquivar
+
+Atribuir vendedor
+
+Transferir vendedor
+
+Adicionar tags
+
+Adicionar observação
+
+Adicionar atividade
+
+Agendar tarefa
+
+Converter lead em contato
+
+Converter lead em empresa
+
+Converter lead em oportunidade
+
+Registrar motivo de descarte
+
+Filtrar
+
+Pesquisar
+
+Ordenar
+
+Exportar
+
+Importar CSV
+
+Detectar possíveis duplicidades por email ou telefone.
+
+---
+
+# CONTATOS
+
+Contato representa uma pessoa.
+
+Campos:
+
+nome
+
+sobrenome
+
+email
+
+telefone
+
+WhatsApp
+
+cargo
+
+empresa
+
+responsável
+
+tags
+
+origem
+
+endereço
+
+cidade
+
+estado
+
+país
+
+aniversário
+
+observações
+
+campos personalizados
+
+Ao abrir o contato mostrar:
+
+Resumo
+
+Timeline
+
+Negócios
+
+Atividades
+
+Tarefas
+
+Notas
+
+Arquivos
+
+Emails
+
+Dados
+
+---
+
+# EMPRESAS
+
+Criar cadastro de empresas clientes.
+
+Campos:
+
+Razão social
+
+Nome fantasia
+
+CNPJ
+
+Website
+
+Segmento
+
+Número de funcionários
+
+Telefone
+
+Email
+
+Endereço
+
+Cidade
+
+Estado
+
+País
+
+Responsável comercial
+
+Tags
+
+Observações
+
+Permitir associar diversos contatos à empresa.
+
+Exemplo:
+
+Empresa:
+ACME Tecnologia
+
+Contatos:
+João — CEO
+Maria — Financeiro
+Lucas — CTO
+
+Mostrar:
+
+valor total em negócios;
+
+negócios ativos;
+
+última interação;
+
+próxima atividade;
+
+responsável;
+
+timeline completa.
+
+---
+
+# PIPELINE DE VENDAS
+
+Essa deve ser uma das melhores partes do sistema.
+
+Criar interface Kanban.
+
+Exemplo:
+
+NOVO LEAD
+
+QUALIFICAÇÃO
+
+REUNIÃO
+
+PROPOSTA
+
+NEGOCIAÇÃO
+
+FECHADO
+
+Cada coluna deve mostrar:
+
+Quantidade de oportunidades
+
+Valor total
+
+Cards das oportunidades
+
+Card:
+
+Nome
+
+Empresa
+
+Valor
+
+Responsável
+
+Tempo naquela etapa
+
+Próxima atividade
+
+Tags
+
+Temperatura
+
+Permitir drag and drop.
+
+Ao mover oportunidade:
+
+registrar evento na timeline.
+
+Exemplo:
+
+"Oportunidade movida de Proposta para Negociação por Felipe às 14:32."
+
+Permitir múltiplos pipelines.
+
+Exemplos:
+
+Vendas
+
+Renovações
+
+Parcerias
+
+Enterprise
+
+Criar editor de pipeline.
+
+Permitir:
+
+Criar etapa
+
+Renomear
+
+Mudar ordem
+
+Definir probabilidade
+
+Definir cor
+
+Definir regras
+
+---
+
+# OPORTUNIDADES / DEALS
+
+Campos:
+
+title
+
+company
+
+contact
+
+pipeline
+
+stage
+
+value
+
+currency
+
+probability
+
+expectedCloseDate
+
+assignedTo
+
+source
+
+status
+
+lostReason
+
+wonAt
+
+lostAt
+
+createdAt
+
+updatedAt
+
+Status:
+
+OPEN
+WON
+LOST
+
+Mostrar:
+
+valor;
+
+probabilidade;
+
+valor ponderado;
+
+dias no pipeline;
+
+dias na etapa;
+
+última atividade;
+
+próxima atividade.
+
+Valor ponderado:
+
+dealValue * probability.
+
+---
+
+# MOTIVOS DE PERDA
+
+Quando uma oportunidade for perdida exigir opcionalmente um motivo.
+
+Exemplos:
+
+Preço
+
+Concorrente
+
+Sem orçamento
+
+Sem interesse
+
+Timing
+
+Produto inadequado
+
+Sem retorno
+
+Projeto cancelado
+
+Outro
+
+Permitir motivos personalizados.
+
+Criar relatório de motivos de perda.
+
+---
+
+# ATIVIDADES
+
+Criar sistema central de atividades.
+
+Tipos:
+
+CALL
+
+EMAIL
+
+WHATSAPP
+
+MEETING
+
+NOTE
+
+TASK
+
+VISIT
+
+OTHER
+
+Campos:
+
+type
+
+title
+
+description
+
+contact
+
+company
+
+deal
+
+assignedTo
+
+createdBy
+
+scheduledAt
+
+completedAt
+
+status
+
+duration
+
+result
+
+Atividades devem alimentar a timeline.
+
+---
+
+# TAREFAS
+
+Criar módulo completo de tarefas.
+
+Campos:
+
+Título
+
+Descrição
+
+Responsável
+
+Prazo
+
+Prioridade
+
+Status
+
+Contato
+
+Empresa
+
+Oportunidade
+
+Tags
+
+Checklist opcional
+
+Prioridades:
+
+LOW
+MEDIUM
+HIGH
+URGENT
+
+Status:
+
+TODO
+IN_PROGRESS
+DONE
+CANCELED
+
+Criar:
+
+Minha agenda
+
+Hoje
+
+Próximas
+
+Atrasadas
+
+Concluídas
+
+Permitir notificações.
+
+---
+
+# CALENDÁRIO
+
+Criar calendário interno.
+
+Views:
+
+Dia
+
+Semana
+
+Mês
+
+Mostrar:
+
+Reuniões
+
+Ligações
+
+Follow-ups
+
+Tarefas
+
+Visitas
+
+Permitir criar atividade clicando no calendário.
+
+Preparar arquitetura para integração futura com:
+
+Google Calendar
+
+Microsoft Outlook.
+
+---
+
+# FOLLOW-UP
+
+Follow-up deve ser uma funcionalidade central.
+
+Ao registrar contato com cliente perguntar:
+
+"Quando deseja falar com este cliente novamente?"
+
+Exemplos:
+
+Amanhã
+
+Em 3 dias
+
+Semana que vem
+
+Escolher data
+
+Criar automaticamente tarefa de follow-up.
+
+Dashboard deve mostrar:
+
+Follow-ups de hoje.
+
+---
+
+# TIMELINE
+
+Criar timeline universal.
+
+Exemplo:
+
+01/10 14:30
+Felipe adicionou uma nota.
+
+01/10 13:10
+Reunião realizada.
+
+30/09 17:20
+Oportunidade movida:
+Qualificação → Proposta.
+
+29/09 09:00
+Lead criado através do site.
+
+Cada evento deve conter:
+
+ator
+
+tipo
+
+data
+
+referência
+
+metadata.
+
+Não armazenar tudo como texto.
+
+Criar eventos estruturados.
+
+---
+
+# NOTAS
+
+Usuários poderão criar notas em:
+
+Contato
+
+Empresa
+
+Lead
+
+Oportunidade
+
+Permitir:
+
+texto;
+
+menção @usuario;
+
+fixar nota;
+
+editar;
+
+excluir.
+
+Registrar histórico.
+
+---
+
+# TAGS
+
+Criar tags personalizadas.
+
+Exemplos:
+
+VIP
+
+Enterprise
+
+Cliente antigo
+
+Urgente
+
+Indicação
+
+Evento 2026
+
+Permitir cores.
+
+---
+
+# PRODUTOS E SERVIÇOS
+
+Criar catálogo interno.
+
+Produto:
+
+nome
+
+descrição
+
+SKU
+
+preço
+
+categoria
+
+ativo
+
+Permitir adicionar produtos em oportunidades.
+
+Exemplo:
+
+Licença CRM — R$500
+
+Setup — R$1.500
+
+Treinamento — R$800
+
+Oportunidade:
+
+Subtotal
+
+Desconto
+
+Total
+
+---
+
+# PROPOSTAS
+
+Criar sistema de propostas comerciais.
+
+Proposta:
+
+number
+
+customer
+
+deal
+
+items
+
+subtotal
+
+discount
+
+total
+
+validUntil
+
+status
+
+notes
+
+Status:
+
+DRAFT
+
+SENT
+
+VIEWED
+
+ACCEPTED
+
+REJECTED
+
+EXPIRED
+
+Criar visualização profissional da proposta.
+
+Preparar para geração de PDF.
+
+Registrar na timeline:
+
+Proposta criada
+
+Proposta enviada
+
+Proposta visualizada
+
+Proposta aceita
+
+---
+
+# CAMPOS PERSONALIZADOS
+
+Recurso essencial para atender empresas diferentes.
+
+Administradores poderão criar campos personalizados.
+
+Tipos:
+
+Texto
+
+Número
+
+Moeda
+
+Data
+
+Checkbox
+
+Seleção
+
+Seleção múltipla
+
+Email
+
+Telefone
+
+URL
+
+Campos poderão ser criados para:
+
+Leads
+
+Contatos
+
+Empresas
+
+Oportunidades
+
+Exemplo:
+
+Uma imobiliária poderá criar:
+
+Tipo de imóvel desejado.
+
+Uma agência poderá criar:
+
+Orçamento mensal de marketing.
+
+Uma software house:
+
+Tecnologia utilizada pelo cliente.
+
+---
+
+# IMPORTAÇÃO
+
+Criar importador CSV/XLSX.
+
+Fluxo:
+
+Upload
+
+Preview
+
+Mapeamento de colunas
+
+Validação
+
+Detecção de duplicatas
+
+Importação
+
+Resumo
+
+Exemplo:
+
+CSV:
+
+Nome | Telefone | Email | Empresa
+
+Usuário mapeia:
+
+Nome → Contact.name
+
+Telefone → Contact.phone
+
+Email → Contact.email
+
+Empresa → Company.name
+
+Exibir:
+
+890 importados
+
+32 duplicados
+
+5 erros
+
+---
+
+# PESQUISA GLOBAL
+
+Criar busca no topo.
+
+Permitir buscar:
+
+Contato
+
+Empresa
+
+Lead
+
+Oportunidade
+
+Telefone
+
+Email
+
+CNPJ
+
+Produto
+
+Resultados instantâneos.
+
+Atalho:
+
+CMD + K / CTRL + K.
+
+---
+
+# FILTROS
+
+Criar filtros avançados reutilizáveis.
+
+Exemplos:
+
+Vendedor = Felipe
+
+Etapa = Proposta
+
+Valor > 10.000
+
+Último contato > 7 dias
+
+Origem = LinkedIn
+
+Permitir salvar filtros.
+
+Exemplo:
+
+"Meus leads quentes"
+
+"Negócios parados"
+
+"Enterprise"
+
+---
+
+# AUTOMAÇÕES
+
+Criar um automation builder simples baseado em:
+
+TRIGGER
+CONDITIONS
+ACTIONS
+
+Exemplo:
+
+TRIGGER:
+Oportunidade entrou em Proposta.
+
+CONDITION:
+Valor > R$10.000.
+
+ACTION:
+Criar tarefa para gerente.
+
+Outro exemplo:
+
+TRIGGER:
+Lead criado.
+
+ACTION:
+Atribuir automaticamente para vendedor.
+
+Triggers:
+
+lead.created
+
+deal.created
+
+deal.stage.changed
+
+deal.won
+
+deal.lost
+
+task.overdue
+
+contact.created
+
+proposal.accepted
+
+Ações:
+
+Criar tarefa
+
+Adicionar tag
+
+Atribuir usuário
+
+Enviar notificação
+
+Alterar responsável
+
+Mover etapa
+
+Criar atividade
+
+Preparar arquitetura futura para envio de email e webhook.
+
+---
+
+# DISTRIBUIÇÃO AUTOMÁTICA DE LEADS
+
+Criar Round Robin.
+
+Exemplo:
+
+Lead 1 → João
+
+Lead 2 → Maria
+
+Lead 3 → Felipe
+
+Lead 4 → João
+
+Também permitir regras.
+
+Exemplo:
+
+Estado = SP
+→ Equipe Sudeste
+
+Valor estimado > 100.000
+→ Enterprise Sales.
+
+---
+
+# RELATÓRIOS
+
+Criar módulo profissional.
+
+Relatórios:
+
+Vendas por período
+
+Vendas por vendedor
+
+Receita por vendedor
+
+Conversão por vendedor
+
+Conversão por origem
+
+Conversão por pipeline
+
+Conversão por etapa
+
+Tempo médio para fechamento
+
+Ticket médio
+
+Motivos de perda
+
+Leads por origem
+
+Atividades por vendedor
+
+Negócios parados
+
+Forecast
+
+Pipeline velocity
+
+Criar filtros:
+
+Hoje
+
+7 dias
+
+30 dias
+
+Mês atual
+
+Mês anterior
+
+Trimestre
+
+Ano
+
+Personalizado.
+
+---
+
+# FUNIL
+
+Mostrar:
+
+200 leads
+↓
+130 qualificados
+↓
+80 propostas
+↓
+35 negociações
+↓
+20 vendas
+
+Mostrar percentual entre etapas.
+
+---
+
+# FORECAST
+
+Criar previsão de receita.
+
+Categorias:
+
+Pipeline
+
+Best Case
+
+Commit
+
+Closed
+
+Utilizar:
+
+valor
+
+probabilidade
+
+data esperada
+
+etapa.
+
+Exemplo:
+
+Pipeline:
+R$320.000
+
+Receita ponderada:
+R$176.000
+
+Commit:
+R$90.000
+
+Fechado:
+R$62.000
+
+---
+
+# METAS
+
+Permitir criar metas.
+
+Exemplo:
+
+Meta mensal:
+R$100.000
+
+Felipe:
+R$32.000 / R$40.000
+
+Maria:
+R$45.000 / R$40.000
+
+João:
+R$23.000 / R$20.000
+
+Metas por:
+
+receita;
+
+número de vendas;
+
+novos clientes;
+
+atividades.
+
+---
+
+# NOTIFICAÇÕES
+
+Central de notificações.
+
+Eventos:
+
+Nova tarefa
+
+Tarefa vencendo
+
+Tarefa atrasada
+
+Lead atribuído
+
+Menção
+
+Oportunidade alterada
+
+Proposta aceita
+
+Convite
+
+Automação.
+
+Permitir preferências individuais.
+
+---
+
+# AUDITORIA
+
+Essencial para empresas reais.
+
+Registrar:
+
+Usuário
+
+Ação
+
+Entidade
+
+ID da entidade
+
+Antes
+
+Depois
+
+IP quando aplicável
+
+Timestamp
+
+Exemplo:
+
+Felipe alterou o valor da oportunidade:
+
+R$15.000 → R$20.000
+
+Apenas administradores autorizados podem acessar auditoria.
+
+---
+
+# LIXEIRA
+
+Não excluir registros comerciais imediatamente.
+
+Implementar soft delete para entidades importantes.
+
+Criar lixeira.
+
+Permitir:
+
+Restaurar
+
+Excluir permanentemente
+
+Política configurável de retenção.
+
+---
+
+# EQUIPES
+
+Criar Teams.
+
+Exemplo:
+
+Enterprise
+
+SMB
+
+Inside Sales
+
+Customer Success
+
+Equipe terá:
+
+nome;
+
+gestor;
+
+membros.
+
+Permitir relatórios por equipe.
+
+---
+
+# CONFIGURAÇÕES DA EMPRESA
+
+Página:
+
+Configurações > Empresa
+
+Dados:
+
+Logo
+
+Nome
+
+Razão social
+
+CNPJ
+
+Telefone
+
+Email
+
+Website
+
+Endereço
+
+Fuso horário
+
+Moeda
+
+Idioma
+
+Formato de data.
+
+---
+
+# CONFIGURAÇÕES DE CRM
+
+Permitir configurar:
+
+Pipelines
+
+Etapas
+
+Motivos de perda
+
+Tags
+
+Campos personalizados
+
+Fontes de lead
+
+Automações
+
+Produtos
+
+Usuários
+
+Equipes
+
+Permissões.
+
+---
+
+# PERFIL DO USUÁRIO
+
+Nome
+
+Foto
+
+Telefone
+
+Cargo
+
+Idioma
+
+Timezone
+
+Notificações
+
+Senha
+
+Sessões ativas.
+
+---
+
+# PLANO SAAS
+
+Preparar arquitetura para cobrança futura.
+
+Planos:
+
+Starter
+
+Professional
+
+Business
+
+Enterprise
+
+Não precisa integrar pagamento imediatamente.
+
+Criar:
+
+subscription
+
+plan
+
+usage
+
+limits.
+
+Exemplos de limites:
+
+usuários
+
+pipelines
+
+automações
+
+armazenamento
+
+campos personalizados.
+
+Não espalhar condicionais de plano por toda a aplicação.
+
+Criar sistema centralizado de features/entitlements.
+
+---
+
+# API
+
+Criar API REST organizada.
+
+Exemplos:
+
+POST /auth/login
+
+POST /auth/refresh
+
+POST /auth/logout
+
+GET /me
+
+GET /tenants
+
+POST /tenants
+
+GET /contacts
+
+POST /contacts
+
+GET /contacts/:id
+
+PATCH /contacts/:id
+
+DELETE /contacts/:id
+
+GET /companies
+
+GET /leads
+
+GET /deals
+
+POST /deals
+
+PATCH /deals/:id/stage
+
+GET /pipelines
+
+POST /activities
+
+GET /tasks
+
+GET /reports/sales
+
+Evitar controllers enormes.
+
+Utilizar services/use cases.
+
+---
+
+# BANCO DE DADOS
+
+Planejar pelo menos estas entidades:
+
+users
+
+tenants
+
+memberships
+
+roles
+
+permissions
+
+role_permissions
+
+teams
+
+team_members
+
+invitations
+
+sessions
+
+refresh_tokens
+
+contacts
+
+companies
+
+company_contacts
+
+leads
+
+tags
+
+tag_assignments
+
+pipelines
+
+pipeline_stages
+
+deals
+
+deal_products
+
+products
+
+activities
+
+tasks
+
+notes
+
+files
+
+proposals
+
+proposal_items
+
+custom_fields
+
+custom_field_values
+
+lead_sources
+
+lost_reasons
+
+automations
+
+automation_runs
+
+notifications
+
+goals
+
+audit_logs
+
+timeline_events
+
+saved_filters
+
+subscriptions
+
+plans
+
+feature_limits.
+
+Utilizar UUID.
+
+Criar índices adequados.
+
+Sempre indexar campos utilizados frequentemente com tenantId.
+
+Pensar cuidadosamente em unique constraints considerando tenant.
+
+Exemplo:
+
+Não:
+
+UNIQUE(email)
+
+Quando o mesmo contato puder existir em empresas diferentes.
+
+Utilizar isolamento apropriado por tenant.
+
+---
+
+# CONCORRÊNCIA
+
+Evitar problemas de atualizações simultâneas.
+
+Principalmente em:
+
+mudança de responsável;
+
+pipeline;
+
+automação;
+
+importação;
+
+round robin.
+
+Utilizar transações quando necessário.
+
+---
+
+# JOBS ASSÍNCRONOS
+
+Utilizar filas para:
+
+Importação
+
+Exportação
+
+Geração de PDF
+
+Emails
+
+Automações
+
+Webhooks
+
+Relatórios pesados
+
+Processamento de arquivos.
+
+---
+
+# WEBHOOKS
+
+Preparar módulo de webhooks.
+
+Eventos:
+
+contact.created
+
+lead.created
+
+deal.created
+
+deal.stage_changed
+
+deal.won
+
+deal.lost
+
+proposal.accepted.
+
+Registrar:
+
+URL
+
+secret
+
+events
+
+status.
+
+Implementar:
+
+assinatura;
+
+retry;
+
+logs;
+
+status da entrega.
+
+---
+
+# API KEYS
+
+Preparar suporte para integração externa.
+
+Administrador poderá gerar API Key.
+
+Guardar apenas hash da key.
+
+Permitir:
+
+nome;
+
+escopos;
+
+expiração;
+
+último uso;
+
+revogação.
+
+---
+
+# SEGURANÇA
+
+Implementar:
+
+hash seguro de senha;
+
+rate limiting;
+
+validação com Zod;
+
+sanitização;
+
+proteção contra brute force;
+
+JWT curto;
+
+refresh rotation;
+
+revogação de sessão;
+
+RBAC;
+
+tenant isolation;
+
+audit log;
+
+validação de upload;
+
+proteção de endpoints administrativos;
+
+CORS configurável;
+
+headers seguros.
+
+Nunca confiar em permissões do frontend.
+
+Toda autorização deve existir no backend.
+
+---
+
+# PERFORMANCE
+
+Evitar N+1 queries.
+
+Criar paginação.
+
+Preferencialmente cursor pagination em listas grandes.
+
+Adicionar índices.
+
+Não retornar entidades gigantes desnecessariamente.
+
+Utilizar Redis quando realmente necessário.
+
+Preparar cache para relatórios e dashboards.
+
+---
+
+# OBSERVABILIDADE
+
+Criar:
+
+logs estruturados;
+
+request id;
+
+error tracking;
+
+métricas;
+
+health check.
+
+Endpoints:
+
+/health
+
+/ready.
+
+Nunca logar:
+
+senha;
+
+access token;
+
+refresh token;
+
+API key completa.
+
+---
+
+# UX
+
+O sistema precisa ser rápido.
+
+Evitar abrir páginas para tarefas simples.
+
+Utilizar drawers e modais quando fizer sentido.
+
+Exemplo:
+
+Adicionar nota sem sair da página.
+
+Criar tarefa sem sair do cliente.
+
+Mover oportunidade pelo Kanban.
+
+Editar campos rapidamente.
+
+Criar atalhos.
+
+CMD/CTRL + K:
+Busca global.
+
+N:
+Novo registro.
+
+T:
+Nova tarefa.
+
+---
+
+# DESIGN
+
+Não quero aparência genérica de dashboard criado por IA.
+
+Evitar:
+
+gradientes excessivos;
+
+cards em todos os lugares;
+
+ícones gigantes;
+
+cores neon;
+
+excesso de sombras;
+
+interface futurista.
+
+Quero uma interface inspirada em softwares profissionais modernos como:
+
+Linear
+
+Attio
+
+HubSpot
+
+Pipedrive
+
+Notion
+
+Slack
+
+Mas sem copiar nenhum deles.
+
+Estética:
+
+minimalista;
+
+profissional;
+
+premium;
+
+densa o suficiente para uso empresarial;
+
+muito organizada.
+
+Paleta sugerida:
+
+background principal:
+#F8FAFC
+
+cards:
+#FFFFFF
+
+border:
+#E2E8F0
+
+texto principal:
+#0F172A
+
+texto secundário:
+#64748B
+
+cor da marca:
+#4F46E5
+
+accent:
+#6366F1
+
+success:
+#16A34A
+
+warning:
+#F59E0B
+
+danger:
+#DC2626
+
+Sidebar escura opcional:
+
+#0F172A
+
+Criar Dark Mode.
+
+---
+
+# SIDEBAR
+
+Estrutura:
+
+Logo
+
+Visão Geral
+
+CRM
+
+- Leads
+- Contatos
+- Empresas
+- Oportunidades
+
+Vendas
+
+- Pipeline
+- Produtos
+- Propostas
+- Metas
+
+Trabalho
+
+- Tarefas
+- Atividades
+- Calendário
+
+Análises
+
+- Dashboard
+- Relatórios
+
+Automação
+
+- Automações
+
+Administração
+
+- Equipe
+- Usuários
+
+Configurações
+
+No rodapé:
+
+Empresa ativa
+
+Perfil
+
+Ajuda.
+
+---
+
+# HEADER
+
+Mostrar:
+
+Busca global
+
+Botão "+ Criar"
+
+Notificações
+
+Avatar
+
+Empresa ativa.
+
+Botão "+ Criar" deve permitir:
+
+Lead
+
+Contato
+
+Empresa
+
+Oportunidade
+
+Tarefa
+
+Atividade
+
+Proposta.
+
+---
+
+# TELA DO CLIENTE
+
+Essa tela precisa ser um dos destaques do sistema.
+
+Layout:
+
+HEADER
+
+Nome do cliente
+
+Empresa
+
+Tags
+
+Responsável
+
+Status
+
+Ações rápidas:
+
+Email
+
+Ligar
+
+WhatsApp
+
+Criar tarefa
+
+Criar oportunidade
+
+Adicionar nota
+
+Abaixo:
+
+Coluna esquerda:
+
+Dados do cliente
+
+Empresa
+
+Telefone
+
+Email
+
+Cargo
+
+Origem
+
+Responsável
+
+Campos personalizados
+
+Centro:
+
+TIMELINE
+
+Direita:
+
+Oportunidades abertas
+
+Próxima atividade
+
+Tarefas pendentes
+
+Valor total.
+
+---
+
+# EMPTY STATES
+
+Criar empty states úteis.
+
+Exemplo:
+
+"Você ainda não possui oportunidades."
+
+Botão:
+
+"+ Criar primeira oportunidade"
+
+Adicionar pequenas explicações de valor.
+
+Não utilizar textos robóticos.
+
+---
+
+# RESPONSIVIDADE
+
+Desktop deve ser prioridade porque CRM normalmente será utilizado no computador.
+
+Porém deve funcionar bem em:
+
+Desktop
+
+Notebook
+
+Tablet
+
+Mobile.
+
+No mobile priorizar:
+
+Contatos
+
+Tarefas
+
+Timeline
+
+Pipeline simplificado
+
+Calendário.
+
+---
+
+# ACESSIBILIDADE
+
+Implementar:
+
+navegação por teclado;
+
+labels;
+
+contraste;
+
+focus states;
+
+aria attributes;
+
+feedback visual.
+
+---
+
+# ERROS
+
+Criar mensagens compreensíveis.
+
+Ruim:
+
+"Error 500."
+
+Bom:
+
+"Não foi possível salvar o contato. Tente novamente."
+
+Para conflitos:
+
+"Já existe um contato com este email nesta empresa."
+
+---
+
+# CONFIRMAÇÕES
+
+Evitar confirmação para toda ação.
+
+Utilizar confirmação apenas para ações destrutivas importantes.
+
+Exemplo:
+
+Excluir pipeline.
+
+Remover usuário.
+
+Excluir oportunidade.
+
+---
+
+# SKELETONS
+
+Utilizar skeleton loading.
+
+Evitar loaders gigantes no centro da tela.
+
+---
+
+# PERMISSÕES NO FRONTEND
+
+Esconder ou desabilitar ações para usuários sem permissão.
+
+Mas lembrar:
+
+Frontend não é camada de segurança.
+
+Backend sempre deve validar.
+
+---
+
+# DADOS DE DEMONSTRAÇÃO
+
+Criar seed realista.
+
+Empresa:
+
+Nexa Tecnologia.
+
+Usuários:
+
+Ana — Owner
+
+Felipe — Sales Manager
+
+Lucas — Sales
+
+Mariana — Sales.
+
+Criar:
+
+20 empresas
+
+60 contatos
+
+30 leads
+
+20 oportunidades
+
+produtos
+
+tarefas
+
+atividades
+
+propostas.
+
+Isso deve deixar o ambiente imediatamente apresentável para portfolio/demo.
+
+---
+
+# DIFERENCIAL DO SISTEMA
+
+Criar uma funcionalidade chamada:
+
+"Radar Comercial".
+
+O Radar analisa regras simples do próprio sistema e mostra situações que merecem atenção.
+
+Não utilizar IA inicialmente.
+
+Exemplos:
+
+"Esse lead não recebe contato há 8 dias."
+
+"Oportunidade de R$32.000 está parada há 12 dias."
+
+"5 propostas vencem esta semana."
+
+"Cliente importante está sem atividade futura."
+
+"Seu pipeline possui R$180.000 sem próximo follow-up."
+
+Criar regras configuráveis.
+
+Isso deve aparecer na Dashboard.
+
+Cada insight deve conter uma ação.
+
+Exemplo:
+
+"Oportunidade ACME está parada há 12 dias."
+
+[Abrir oportunidade]
+
+[Agendar follow-up]
+
+O objetivo é transformar o CRM de um simples banco de dados para uma ferramenta operacional.
+
+---
+
+# COMMAND PALETTE
+
+CTRL/CMD + K deve abrir central rápida.
+
+Permitir:
+
+Buscar cliente
+
+Buscar empresa
+
+Buscar oportunidade
+
+Criar contato
+
+Criar tarefa
+
+Criar lead
+
+Ir para pipeline
+
+Ir para dashboard.
+
+---
+
+# QUICK ACTIONS
+
+No canto superior:
+
++ Criar
+
+E dentro:
+
+Novo lead
+
+Novo contato
+
+Nova empresa
+
+Nova oportunidade
+
+Nova atividade
+
+Nova tarefa.
+
+---
+
+# ARQUITETURA DE FRONTEND
+
+Organizar por feature.
+
+Exemplo:
+
+features/
+  auth/
+  contacts/
+  companies/
+  leads/
+  deals/
+  pipelines/
+  tasks/
+  activities/
+  reports/
+  automations/
+  settings/
+
+Não criar componentes gigantes.
+
+Separar:
+
+components
+
+hooks
+
+services
+
+schemas
+
+types.
+
+---
+
+# ARQUITETURA DE BACKEND
+
+modules/
+
+iam
+
+tenants
+
+contacts
+
+companies
+
+leads
+
+deals
+
+pipelines
+
+activities
+
+tasks
+
+products
+
+proposals
+
+automations
+
+reports
+
+notifications
+
+audit
+
+billing
+
+integrations.
+
+Cada módulo deve seguir estrutura organizada.
+
+Exemplo:
+
+deals/
+
+domain/
+
+application/
+
+infra/
+
+http/.
+
+---
+
+# TESTES
+
+Criar:
+
+unit tests;
+
+integration tests;
+
+E2E.
+
+Priorizar testes para:
+
+tenant isolation;
+
+RBAC;
+
+login;
+
+refresh token;
+
+criação de usuários;
+
+leads;
+
+mudança de pipeline;
+
+deal won/lost;
+
+automações;
+
+importação;
+
+permissões.
+
+Criar obrigatoriamente testes garantindo:
+
+Usuário do Tenant A NÃO consegue acessar:
+
+contatos;
+
+empresas;
+
+leads;
+
+deals;
+
+tarefas;
+
+relatórios
+
+do Tenant B.
+
+---
+
+# MVP
+
+Não tente implementar tudo imediatamente.
+
+Separar o desenvolvimento em fases.
+
+FASE 1 — Fundação
+
+Autenticação
+
+Multi-tenant
+
+Usuários
+
+Membership
+
+RBAC
+
+Layout
+
+Configurações básicas.
+
+FASE 2 — CRM Core
+
+Contacts
+
+Companies
+
+Leads
+
+Tags
+
+Timeline
+
+Notes.
+
+FASE 3 — Vendas
+
+Pipelines
+
+Stages
+
+Deals
+
+Kanban
+
+Activities
+
+Tasks.
+
+FASE 4 — Gestão Comercial
+
+Dashboard
+
+Reports
+
+Goals
+
+Forecast
+
+Lost Reasons.
+
+FASE 5 — Produtividade
+
+Calendar
+
+Notifications
+
+Saved Filters
+
+Global Search
+
+Import/Export.
+
+FASE 6 — Comercial avançado
+
+Products
+
+Proposals
+
+Custom Fields
+
+Automation
+
+Lead Assignment.
+
+FASE 7 — Plataforma
+
+API Keys
+
+Webhooks
+
+Integrations
+
+Billing
+
+Feature limits.
+
+---
+
+# CRITÉRIOS DE QUALIDADE
+
+Antes de considerar qualquer funcionalidade concluída verificar:
+
+Funciona com vários tenants?
+
+Existe risco de vazamento de dados?
+
+Permissões são validadas?
+
+Existe validação de input?
+
+Erros são tratados?
+
+Existe loading state?
+
+Existe empty state?
+
+Existe feedback de sucesso?
+
+Funciona em diferentes resoluções?
+
+Banco possui índices adequados?
+
+A ação precisa aparecer na timeline?
+
+A ação precisa aparecer no audit log?
+
+Existe teste para o caso principal?
+
+Existe teste de autorização?
+
+---
+
+# OBJETIVO FINAL
+
+O objetivo não é criar apenas um projeto bonito para portfolio.
+
+O objetivo é desenvolver a base de um CRM SaaS que poderia realmente ser vendido e utilizado por pequenas e médias empresas.
+
+O sistema deve conseguir atender, com customizações através de pipelines, campos personalizados, tags e automações, empresas de diferentes segmentos como:
+
+agências;
+
+software houses;
+
+consultorias;
+
+imobiliárias;
+
+distribuidoras;
+
+empresas B2B;
+
+prestadores de serviço;
+
+escritórios;
+
+empresas comerciais.
+
+Toda decisão de arquitetura deve considerar:
+
+segurança;
+
+isolamento de tenants;
+
+manutenibilidade;
+
+performance;
+
+experiência do usuário;
+
+crescimento futuro.
+
+Não criar complexidade prematura.
+
+Priorizar um excelente monólito modular antes de considerar microserviços.
+
+Ao iniciar o projeto:
+
+1. analise todos os requisitos;
+2. proponha a arquitetura;
+3. desenhe os principais fluxos;
+4. modele o banco de dados;
+5. defina módulos e responsabilidades;
+6. apresente a estrutura de pastas;
+7. apresente as principais entidades e relacionamentos;
+8. defina estratégia multi-tenant;
+9. defina autenticação e autorização;
+10. crie um roadmap;
+11. somente depois comece a implementação.
+
+Não implemente centenas de arquivos de uma vez.
+
+Desenvolva módulo por módulo, mantendo sempre o projeto executável e testável.

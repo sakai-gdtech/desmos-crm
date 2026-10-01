@@ -1,0 +1,14 @@
+.git
+.env
+.env.*
+node_modules
+**/node_modules
+**/.next
+**/dist
+.agents
+.impeccable
+test-results
+playwright-report
+docs
+tests
+*.log
