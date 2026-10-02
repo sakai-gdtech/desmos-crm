@@ -1,0 +1,61 @@
+{
+  "clock": "2026-10-02T04:36:48.474Z",
+  "fixtures": [
+    {
+      "mode": "withoutRadar",
+      "pipelineId": "4c96da43-690f-4a99-888a-5585a79fdb08",
+      "deals": [
+        {
+          "id": "c9d5e81d-c155-467e-a4b2-eaa5561c522c",
+          "title": "Cliente 1"
+        },
+        {
+          "id": "4ee54571-036f-4aba-bc6b-1c43298e87ad",
+          "title": "Cliente 2"
+        },
+        {
+          "id": "8341d0ee-75e4-4292-9d6e-94635f116410",
+          "title": "Cliente 3"
+        },
+        {
+          "id": "6c971dd4-747a-4ffc-9b41-560eaac34301",
+          "title": "Cliente 4"
+        }
+      ],
+      "expected": [
+        "Cliente 2",
+        "Cliente 3"
+      ],
+      "past": "2026-10-01T04:36:48.474Z",
+      "future": "2026-10-03T04:36:48.474Z"
+    },
+    {
+      "mode": "withRadar",
+      "pipelineId": "e12ded8c-5778-420a-b3dc-70ba911e0df7",
+      "deals": [
+        {
+          "id": "0dc1f3c1-5b3c-4149-bc6a-ed219663643f",
+          "title": "Cliente 1"
+        },
+        {
+          "id": "5c0be64e-2f2c-4387-a5ca-c46f7f6d2ad5",
+          "title": "Cliente 2"
+        },
+        {
+          "id": "ebd55984-bdc9-42fb-b112-3111f66bb6fb",
+          "title": "Cliente 3"
+        },
+        {
+          "id": "48764f0e-7a0d-47ef-8162-d055c8c6bf4f",
+          "title": "Cliente 4"
+        }
+      ],
+      "expected": [
+        "Cliente 2",
+        "Cliente 3"
+      ],
+      "past": "2026-10-01T04:36:48.474Z",
+      "future": "2026-10-03T04:36:48.474Z"
+    }
+  ]
+}

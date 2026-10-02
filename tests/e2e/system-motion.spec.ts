@@ -1,3 +1,4 @@
+import { selectOption } from "../../scripts/select-option.mjs";
 import { test, expect, type Page } from "@playwright/test";
 
 async function fixture(page: Page, origin: string) {
@@ -143,7 +144,10 @@ test("movimento entre etapas e reordenação interrompível preservam dados e re
   await expect(card).toBeVisible();
   await card.getByRole("button", { name: "Mover", exact: true }).click();
   await sampleLayout(page, [deal.id]);
-  await card.getByLabel("Mover para etapa").selectOption(pipeline.stages[1].id);
+  await selectOption(
+    card.getByLabel("Mover para etapa"),
+    pipeline.stages[1].id,
+  );
   await expect.poll(() => movedWithMotion(page)).toBe(true);
   await expect(
     page

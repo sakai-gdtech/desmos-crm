@@ -1,3 +1,4 @@
+import { selectOption } from "../../scripts/select-option.mjs";
 import { editorStep, library, stageRules } from "./automation-flow-helpers";
 import { test, expect } from "@playwright/test";
 
@@ -40,7 +41,7 @@ test("demonstração de automações e requisitos preserva configurações por p
     .getByLabel("Nome da automação")
     .fill("Enviar proposta personalizada");
   await editorStep(page, 2);
-  await page.getByLabel("Ação da automação").selectOption("WHATSAPP");
+  await selectOption(page.getByLabel("Ação da automação"), "WHATSAPP");
   await editorStep(page, 2);
   await page
     .getByLabel("Mensagem", { exact: true })
@@ -76,7 +77,7 @@ test("demonstração de automações e requisitos preserva configurações por p
   await page.getByText("1 · Entrada", { exact: true }).click();
   await page.getByLabel("Contato vinculado", { exact: true }).first().check();
   await page.getByRole("button", { name: "Salvar regras da etapa" }).click();
-  await page.getByLabel("Pipeline", { exact: true }).selectOption(second.id);
+  await selectOption(page.getByLabel("Pipeline", { exact: true }), second.id);
   await expect(
     page.getByRole("button", { name: /Enviar proposta por email/ }),
   ).toBeVisible();
@@ -85,7 +86,7 @@ test("demonstração de automações e requisitos preserva configurações por p
   await expect(
     page.getByLabel("Contato vinculado", { exact: true }).first(),
   ).not.toBeChecked();
-  await page.getByLabel("Pipeline", { exact: true }).selectOption(first.id);
+  await selectOption(page.getByLabel("Pipeline", { exact: true }), first.id);
   await stageRules(page);
   await page.getByText("1 · Entrada", { exact: true }).click();
   await expect(

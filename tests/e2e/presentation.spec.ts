@@ -1,3 +1,4 @@
+import { selectOption } from "../../scripts/select-option.mjs";
 import { test, expect } from "@playwright/test";
 for (const mobile of [false, true])
   test(`jornada de apresentação ${mobile ? "celular" : "notebook"}: Radar, tarefa, proposta, ganho e filtros`, async ({
@@ -90,7 +91,10 @@ for (const mobile of [false, true])
     ).toBeVisible();
     await page.goto(`/sales/board?pipelineId=${pipeline.id}`);
     await page.getByLabel("Buscar negócios").fill("Projeto");
-    await page.getByLabel("Responsável", { exact: true }).selectOption(user.id);
+    await selectOption(
+      page.getByLabel("Responsável", { exact: true }),
+      user.id,
+    );
     const card = page
       .locator(".sales-deal-card")
       .filter({ hasText: "Projeto Aurora" });
@@ -114,9 +118,9 @@ for (const mobile of [false, true])
       await page.locator(".sales-kanban").evaluate((el) => el.scrollLeft),
     ).toBe(scroll);
     await expect(page.getByLabel("Buscar negócios")).toHaveValue("Projeto");
-    await expect(page.getByLabel("Responsável", { exact: true })).toHaveValue(
-      user.id,
-    );
+    await expect(
+      page.getByLabel("Responsável", { exact: true }),
+    ).toHaveAttribute("data-value", user.id);
     await expect(
       card.getByRole("link", { name: "Projeto Aurora", exact: true }),
     ).toBeFocused();

@@ -1,8 +1,14 @@
 "use client";
 import { MotionCollection } from "@/components/ui/motion";
+import { useRememberedState } from "@/features/workspace/editor-memory";
 import Link from "next/link";
 import { SalesNavigation } from "./navigation";
 import { NextAction } from "./next-action";
+import {
+  CommercialFilters,
+  commercialParams,
+  type CommercialWindow,
+} from "./commercial-filters";
 import { Proposal } from "./proposal";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState, useRef } from "react";
@@ -46,6 +52,7 @@ import {
   useDebounced,
 } from "@/features/crm/shared";
 import { Notes } from "@/features/crm/notes";
+import { CustomFields } from "@/features/crm/fields";
 import { Timeline } from "@/features/crm/timeline";
 import { api, errorMessage, patch, post } from "@/lib/api";
 import { formatDate } from "@/lib/types";
@@ -62,18 +69,29 @@ export function Deals() {
   const { data: session } = useSession();
   const params = useSearchParams();
   const pipelines = usePipelines();
-  const [pipelineId, setPipelineId] = useState(params.get("pipelineId") ?? "");
-  const [search, setSearch] = useState("");
+  const [pipelineId, setPipelineId] = useRememberedState(
+    "deals:pipeline",
+    params.get("pipelineId") ?? "",
+    !!params.get("pipelineId"),
+  );
+  const [search, setSearch] = useRememberedState("deals:search", "");
   const q = useDebounced(search);
-  const [status, setStatus] = useState("");
-  const [page, setPage] = useState(1);
-  const [deleted, setDeleted] = useState(false);
+  const [status, setStatus] = useRememberedState("deals:status", "");
+  const [owner, setOwner] = useRememberedState("deals:owner", "");
+  const [window, setWindow] = useRememberedState<CommercialWindow>(
+    "deals:window",
+    { source: "", from: "", to: "" },
+  );
+  const [page, setPage] = useRememberedState("deals:page", 1);
+  const [deleted, setDeleted] = useRememberedState("deals:deleted", false);
   const query = new URLSearchParams({
     q,
     page: String(page),
     deleted: String(deleted),
     ...(pipelineId ? { pipelineId } : {}),
     ...(status ? { status } : {}),
+    ...(owner ? { assignedTo: owner } : {}),
+    ...commercialParams(window, session?.tenant.timezone ?? "UTC"),
   });
   const result = useQuery({
     queryKey: ["sales", "deals", "list", query.toString()],
@@ -158,6 +176,21 @@ export function Deals() {
               {deleted ? "Voltar à lista" : "Lixeira"}
             </Button>
           )}
+        </div>
+        <div className="sales-filters">
+          <CommercialFilters
+            prefix="deals"
+            value={window}
+            onChange={(value) => {
+              setWindow(value);
+              setPage(1);
+            }}
+            owner={owner}
+            onOwner={(value) => {
+              setOwner(value);
+              setPage(1);
+            }}
+          />
         </div>
         {restore.isError && <Alert>{errorMessage(restore.error)}</Alert>}
         {result.isPending ? (
@@ -796,6 +829,7 @@ export function DealDetail({
           )}
         </Card>
         <Card className="crm-activity-panel">
+          <CustomFields kind="deals" id={id} />
           <div
             className="crm-tabs"
             role="group"
@@ -880,12 +914,13 @@ export function DealDetail({
           className="form-stack"
           onSubmit={(e) => {
             e.preventDefault();
-            change.mutate({ status: "LOST", lostReason: lostReason || null });
+            change.mutate({ status: "LOST", lostReason: lostReason.trim() });
           }}
         >
-          <Field id="deal-lost-reason" label="Motivo da perda (opcional)">
+          <Field id="deal-lost-reason" label="Motivo da perda">
             <Input
               id="deal-lost-reason"
+              required
               value={lostReason}
               onChange={(e) => setLostReason(e.target.value)}
               maxLength={1000}
@@ -911,7 +946,11 @@ export function DealDetail({
             <Button variant="secondary" onClick={() => setLossOpen(false)}>
               Cancelar
             </Button>
-            <Button type="submit" loading={change.isPending}>
+            <Button
+              type="submit"
+              loading={change.isPending}
+              disabled={!lostReason.trim()}
+            >
               Confirmar perda
             </Button>
           </div>

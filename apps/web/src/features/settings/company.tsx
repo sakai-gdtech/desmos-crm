@@ -187,7 +187,11 @@ function CompanyForm({ tenant }: { tenant: Tenant }) {
           id="timezone"
           error={form.formState.errors.timezone?.message}
         >
-          <Select id="timezone" {...form.register("timezone")}>
+          <Select
+            id="timezone"
+            value={form.watch("timezone")}
+            {...form.register("timezone")}
+          >
             {timezones.map((tz) => (
               <option key={tz}>{tz}</option>
             ))}
@@ -195,7 +199,11 @@ function CompanyForm({ tenant }: { tenant: Tenant }) {
         </Field>
         <div className="form-grid">
           <Field label="Moeda" id="currency">
-            <Select id="currency" {...form.register("currency")}>
+            <Select
+              id="currency"
+              value={form.watch("currency")}
+              {...form.register("currency")}
+            >
               {["BRL", "USD", "EUR"].map((c) => (
                 <option key={c} value={c}>
                   {c === "BRL"
@@ -212,7 +220,11 @@ function CompanyForm({ tenant }: { tenant: Tenant }) {
             id="locale"
             hint="A interface está disponível em português."
           >
-            <Select id="locale" {...form.register("locale")}>
+            <Select
+              id="locale"
+              value={form.watch("locale")}
+              {...form.register("locale")}
+            >
               <option value="pt-BR">Brasil (pt-BR)</option>
               <option value="en-US">Estados Unidos (en-US)</option>
               <option value="es-ES">Espanha (es-ES)</option>

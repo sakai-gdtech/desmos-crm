@@ -184,6 +184,7 @@ export const list = pagination
     companyId: id.optional(),
     leadId: id.optional(),
     dealId: id.optional(),
+    source: z.string().trim().max(100).optional(),
     status: z.string().max(30).optional(),
     from: z.iso.datetime({ offset: true }).optional(),
     to: z.iso.datetime({ offset: true }).optional(),
@@ -215,6 +216,9 @@ export const board = z
     q: z.string().trim().max(200).optional(),
     assignedTo: id.optional(),
     status: z.enum(["OPEN", "WON", "LOST"]).default("OPEN"),
+    source: z.string().trim().max(100).optional(),
+    from: z.iso.datetime({ offset: true }).optional(),
+    to: z.iso.datetime({ offset: true }).optional(),
   })
   .strict();
 export const conversion = z

@@ -1,0 +1,104 @@
+
+> orbit-crm@0.1.0 test
+> npm run test -w @orbit/api
+
+
+> @orbit/api@0.1.0 test
+> tsx --test test/*.test.ts
+
+(node:97530) [FSTDEP023] FastifyDeprecation: disableRequestLogging option is deprecated. Use the logController option with disableRequestLogging or isLogDisabled override instead. The disableRequestLogging top-level option will be removed in `fastify@6`.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Migração aplicada: 0001_foundation.sql
+Migração aplicada: 0002_outbox_retention.sql
+Migração aplicada: 0003_one_company_per_account.sql
+Migração aplicada: 0004_crm_core.sql
+Migração aplicada: 0005_sales.sql
+Migração aplicada: 0006_presentation.sql
+Migração aplicada: 0007_demo_stage.sql
+✔ CRM contacts: tenant A não lista, conta, consulta, altera, exclui, restaura ou purga B (752.077667ms)
+✔ CRM companies: tenant A não lista, conta, consulta, altera, exclui, restaura ou purga B (537.35975ms)
+✔ CRM leads: tenant A não lista, conta, consulta, altera, exclui, restaura ou purga B (505.680125ms)
+✔ CRM paginação, filtros e ordenação preservam total e fronteiras do tenant (591.064375ms)
+✔ CRM referências recusam empresas, responsáveis e tags estrangeiros ou inativos sem gravação parcial (756.842417ms)
+✔ CRM alertas de duplicidade normalizam email/telefone, permanecem no tenant e não sobrescrevem (473.907625ms)
+✔ CRM tags são tenant-scoped e exclusão limpa associações sem excluir registros (505.669833ms)
+✔ CRM edição simultânea de tag e registro não deadlocka nem perde a versão (329.451292ms)
+✔ CRM notas validam autor/menções e vínculo do registro, com timeline estruturada e atômica (492.081042ms)
+✔ CRM RBAC: VIEWER só lê, SALES atualiza sem excluir, SUPPORT respeita cada entidade (1497.378ms)
+✔ CRM optimistic locking permite uma única atualização concorrente e um único evento (247.377541ms)
+✔ CRM timeline inclui apenas campos alterados e rótulos legíveis, com snapshot completo na auditoria (573.516958ms)
+✔ CRM conversão concorrente é transacional e idempotente, sem contatos ou empresas duplicados (280.396667ms)
+✔ CRM conversão associa referências existentes e recusa referências de outro tenant ou excluídas (743.533458ms)
+✔ CRM lixeira mantém histórico, restaura com nova versão e purge remove dependências preservando auditoria (400.04175ms)
+✔ CRM purge impede referências comerciais penduradas, inclusive referências de conversão (361.650083ms)
+✔ CRM RLS forçada falha fechada sem contexto e não reutiliza tenant após a transação (559.241667ms)
+✔ CRM FKs compostas bloqueiam associações entre tenants e referências ao tipo incorreto no próprio banco (468.139ms)
+✔ CRM valida estados de leads e campos de sistema na API sem aceitar conversão forjada (218.546042ms)
+✔ scrypt usa salt individual, verifica segredo correto e rejeita hashes malformados (814.411791ms)
+✔ tokens opacos têm alta entropia e persistência por digest fixo (0.386125ms)
+✔ JWT access valida assinatura, issuer/audience e TTL de quinze minutos (4.237875ms)
+✔ política central nega cargos desconhecidos e restringe administração/auditoria (0.13875ms)
+✔ hashes legados são aceitos somente com a senha correta e sinalizam atualização (81.084709ms)
+(node:97532) [FSTDEP023] FastifyDeprecation: disableRequestLogging option is deprecated. Use the logController option with disableRequestLogging or isLogDisabled override instead. The disableRequestLogging top-level option will be removed in `fastify@6`.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Migração aplicada: 0001_foundation.sql
+Migração aplicada: 0002_outbox_retention.sql
+Migração aplicada: 0003_one_company_per_account.sql
+Migração aplicada: 0004_crm_core.sql
+Migração aplicada: 0005_sales.sql
+Migração aplicada: 0006_presentation.sql
+Migração aplicada: 0007_demo_stage.sql
+✔ rate limit retorna 429, separa usuários atrás do proxy e agrega sessões e tokens inválidos (1328.001ms)
+✔ cadastro transacional, cookies seguros, identidade e dados estritos (441.474667ms)
+✔ refresh é atômico; replay revoga família e o access anterior (306.648666ms)
+✔ duas rotações concorrentes: uma vence, replay revoga a família inteira (254.803375ms)
+✔ logout revoga imediatamente; sessões são próprias e revogáveis (434.577208ms)
+✔ isolamento entre empresas em leitura, alteração, auditoria e troca (452.915041ms)
+✔ invariantes de proprietário e alteração concorrente dos últimos donos (456.929084ms)
+✔ RBAC impede escalação de ADMIN e bloqueio tem efeito imediato (505.372458ms)
+✔ convite exige identidade correspondente, nunca sobrescreve senha e é uso único (1704.065375ms)
+✔ conta vinculada a outra empresa não recebe convite, inclusive quando suspensa (683.405666ms)
+✔ convite pendente não transfere uma conta criada depois, mesmo suspensa (1443.243708ms)
+✔ aceites concorrentes em duas empresas vinculam o novo email a somente uma (1057.638833ms)
+✔ restrição no banco impede segundo vínculo, inclusive após suspensão (522.085958ms)
+✔ migração recusa múltiplos vínculos sem escolher ou apagar dados (4.699166ms)
+✔ verificação e reset usam tokens com hash, expiração e consumo único; reset revoga sessões (1228.722708ms)
+✔ cada cadastro possui uma empresa; criação extra é negada e onboarding persiste (424.121583ms)
+✔ readiness verifica dependências reais (0.843709ms)
+✔ login validado antes de reset concorrente não cria sessão sobrevivente com senha antiga (834.124125ms)
+✔ reset concorrente com reenvio não deadlocka e sempre respeita uso único (641.096625ms)
+✔ login migra hash legado para scrypt forte sem alterar a senha (640.986542ms)
+(node:97533) [FSTDEP023] FastifyDeprecation: disableRequestLogging option is deprecated. Use the logController option with disableRequestLogging or isLogDisabled override instead. The disableRequestLogging top-level option will be removed in `fastify@6`.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Migração aplicada: 0001_foundation.sql
+Migração aplicada: 0002_outbox_retention.sql
+Migração aplicada: 0003_one_company_per_account.sql
+Migração aplicada: 0004_crm_core.sql
+Migração aplicada: 0005_sales.sql
+Migração aplicada: 0006_presentation.sql
+Migração aplicada: 0007_demo_stage.sql
+✔ Vendas: pipelines, colunas, contagens, referências e notas isolados por empresa (1045.982292ms)
+✔ Pipelines: regras, ordem, remoção de etapa ocupada e versões preservam histórico (308.851667ms)
+✔ Oportunidade: edição concorrente, valores exatos, ganho, perda, reabertura e lixeira (393.330417ms)
+✔ Kanban: totais separam moedas, filtros e paginação incluem somente registros próprios (414.442625ms)
+✔ Tarefas: checklist e prioridade preservados, vencidos e concluídos filtrados e reabertura (312.750042ms)
+✔ Atividade concluída: follow-up único, contato recente e próximo contato do lead, rollback inválido (296.766625ms)
+✔ Conversão: contato, empresa e negócio atômicos, repetição concorrente retorna a mesma oportunidade (312.46975ms)
+✔ Tags: renomear e remover incrementam versão de vendas, registram snapshots e impedem sobrescrita (280.400667ms)
+✔ Papéis atuais: seis níveis respeitam gerenciamento, escrita, consulta e lixeira (2293.762792ms)
+✔ Notas de oportunidades: autor, fixação, menções locais e trilha de alterações (273.093708ms)
+✔ RLS forçada nas nove tabelas, FKs compostas e referências de vendas protegem purga CRM (528.625333ms)
+✔ Apresentação: proposta usa centavos exatos, preserva catálogo, versão, moeda e isolamento (846.754125ms)
+✔ Radar: próxima ação futura remove alerta, tarefa atrasada e ganho atualizam indicadores (401.529583ms)
+✔ Automação demo: só funil dedicado, tarefa real única após reentrada e concorrência (365.116333ms)
+✔ Apresentação: RLS forçada nas propostas, catálogo e execuções (2.20225ms)
+✔ Automação demo: referência estável, configuração concorrente e etapas de outra empresa (956.843833ms)
+✔ agenda window includes start, excludes end, pages >100, filters pipeline/type and retains tenant boundaries (623.610958ms)
+ℹ tests 61
+ℹ suites 0
+ℹ pass 61
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 14158.282709

@@ -1,3 +1,4 @@
+import { selectOption } from "../../scripts/select-option.mjs";
 import { test, expect, type Page } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
@@ -33,8 +34,8 @@ test("lead, nota, conversão em contato e empresa, exclusão e restauração", a
   await page
     .getByLabel("Nome da empresa (ainda sem cadastro)")
     .fill("Andrade Projetos");
-  await page.getByLabel("Temperatura", { exact: true }).selectOption("HOT");
-  await page.getByLabel("Status", { exact: true }).selectOption("QUALIFIED");
+  await selectOption(page.getByLabel("Temperatura", { exact: true }), "HOT");
+  await selectOption(page.getByLabel("Status", { exact: true }), "QUALIFIED");
   await page.getByLabel("Valor estimado", { exact: true }).fill("12500.50");
   await page.getByRole("button", { name: "Salvar cadastro" }).click();
   await expect(
@@ -100,9 +101,10 @@ test("lead, nota, conversão em contato e empresa, exclusão e restauração", a
   const dialog = page.getByRole("dialog", {
     name: "Converter lead em contato",
   });
-  await dialog
-    .getByLabel("Empresa cliente", { exact: true })
-    .selectOption("new");
+  await selectOption(
+    dialog.getByLabel("Empresa cliente", { exact: true }),
+    "new",
+  );
   await dialog.getByRole("button", { name: "Confirmar conversão" }).click();
   await expect(
     page.getByText("Lead convertido", { exact: true }),
@@ -133,9 +135,10 @@ test("lead, nota, conversão em contato e empresa, exclusão e restauração", a
     (await (await page.request.get("/api/crm/contacts")).json()).total,
   ).toBe(0);
   await page.goto("/crm/trash");
-  await page
-    .getByLabel("Tipo de registro", { exact: true })
-    .selectOption("contacts");
+  await selectOption(
+    page.getByLabel("Tipo de registro", { exact: true }),
+    "contacts",
+  );
   const row = page.getByRole("row").filter({ hasText: "Carolina Andrade" });
   await row.getByRole("button", { name: /Restaurar/ }).click();
   await expect(row).toHaveCount(0);
@@ -188,9 +191,10 @@ test("empresa cliente reúne contatos, tags, busca e alerta de duplicidade", asy
   await page
     .getByLabel("Email", { exact: true })
     .fill(`ricardo-${suffix}@example.test`);
-  await page
-    .getByLabel("Empresa cliente vinculada", { exact: true })
-    .selectOption(companyId);
+  await selectOption(
+    page.getByLabel("Empresa cliente vinculada", { exact: true }),
+    companyId,
+  );
   await page.getByRole("checkbox", { name: "Prioridade", exact: true }).check();
   await page.getByRole("button", { name: "Salvar cadastro" }).click();
   await expect(
@@ -207,9 +211,9 @@ test("empresa cliente reúne contatos, tags, busca e alerta de duplicidade", asy
     page.getByRole("link", { name: "Ricardo Matos", exact: true }),
   ).toBeVisible();
   await page.getByRole("button", { name: /Filtros/ }).click();
-  await page
-    .getByLabel("Tag", { exact: true })
-    .selectOption({ label: "Prioridade" });
+  await selectOption(page.getByLabel("Tag", { exact: true }), {
+    label: "Prioridade",
+  });
   await expect(page.getByText("1–1 de 1", { exact: true })).toBeVisible();
   await page.goto("/crm/contacts/new");
   await page.getByLabel("Nome", { exact: true }).fill("Ricardo duplicado");

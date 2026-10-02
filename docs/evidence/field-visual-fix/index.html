@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="pt-BR">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Desmos — correção de campos</title>
+<style>
+  :root { color-scheme: light; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #202d40; background: #f7f8fa; }
+  body { max-width: 1200px; margin: auto; padding: 28px 20px; }
+  h1 { font-size: 26px; } h2 { font-size: 18px; margin-top: 32px; }
+  p { line-height: 1.6; max-width: 75ch; } a { color: #173b68; }
+  .pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; align-items: start; }
+  figure { margin: 0; } img { width: 100%; height: auto; display: block; border: 1px solid #e1e6ed; border-radius: 12px; }
+  figcaption { padding: 10px 0; font-weight: 600; } details { margin-top: 20px; } summary { cursor: pointer; padding: 12px 0; }
+  @media (max-width: 650px) { .pair { grid-template-columns: 1fr; } }
+</style>
+<main>
+  <h1>Correção de campos e espaçamento</h1>
+  <p>Anexo inspecionado e causa reproduzida: a seção Campos personalizados estava sem margem interna. Também foram corrigidos nomes longos, a lista administrativa e o card de captura. Selects mantêm seu comportamento.</p>
+  <p><a href="validation.md">Validação e limites</a> · <a href="image.png">Anexo original</a> · <a href="e2e-final.json">Resultado E2E final</a></p>
+  <h2>Negócio — desktop claro</h2>
+  <div class="pair"><figure><figcaption>Antes: conteúdo colado à borda</figcaption><img src="before-desktop-light-empty.png" alt="Campos personalizados sem padding"></figure><figure><figcaption>Depois: alinhado ao Histórico</figcaption><img src="after-desktop-light-empty.png" alt="Campos personalizados com margem interna"></figure></div>
+  <h2>Captura pública — mobile</h2>
+  <div class="pair"><figure><figcaption>Antes</figcaption><img src="before-mobile-light-capture.png" alt="Formulário sem padding no card"></figure><figure><figcaption>Depois</figcaption><img src="after-mobile-light-capture.png" alt="Formulário com padding no card"></figure></div>
+  <h2>Nomes longos — gestão de campos</h2>
+  <div class="pair"><figure><figcaption>Antes: transbordamento</figcaption><img src="before-mobile-light-manager.png" alt="Nome longo escapa da lista"></figure><figure><figcaption>Depois: quebra dentro da lista</figcaption><img src="after-mobile-light-manager.png" alt="Nome longo respeita o container e o botão"></figure></div>
+  <details><summary>Mobile escuro: edição e select</summary><img src="after-mobile-dark-editing.png" alt="Edição de campos com select Desmos no mobile escuro"></details>
+  <details><summary>Desktop escuro: erro e recuperação</summary><img src="after-desktop-dark-error.png" alt="Estado de erro com padding e botão de tentar novamente"></details>
+</main>
+</html>

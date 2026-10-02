@@ -523,6 +523,16 @@ test("Oportunidade: edição concorrente, valores exatos, ganho, perda, reabertu
   );
   current = await saleGet(a.client, "deals", d.id);
   assert.equal(current.wonAt, null);
+  errorCode(
+    await a.client.request("PATCH", `/sales/deals/${d.id}`, {
+      version: current.version,
+      status: "LOST",
+      lostReason: "   ",
+    }),
+    400,
+    "LOSS_REASON_REQUIRED",
+  );
+  assert.equal((await saleGet(a.client, "deals", d.id)).status, "OPEN");
   status(
     await a.client.request("PATCH", `/sales/deals/${d.id}`, {
       version: current.version,
@@ -534,6 +544,15 @@ test("Oportunidade: edição concorrente, valores exatos, ganho, perda, reabertu
   current = await saleGet(a.client, "deals", d.id);
   assert.ok(current.lostAt);
   assert.equal(current.lostReason, "Preço");
+  errorCode(
+    await a.client.request("PATCH", `/sales/deals/${d.id}`, {
+      version: current.version,
+      lostReason: null,
+    }),
+    400,
+    "LOSS_REASON_REQUIRED",
+  );
+  assert.equal((await saleGet(a.client, "deals", d.id)).lostReason, "Preço");
   status(
     await a.client.request("PATCH", `/sales/deals/${d.id}`, {
       version: current.version,
@@ -1472,4 +1491,694 @@ test("agenda window includes start, excludes end, pages >100, filters pipeline/t
     ).items[0].id,
     meeting.id,
   );
+});
+
+test("PDF: campos tipados persistem, arquivamento preserva valores, versão e tenant são obrigatórios", async () => {
+  const a = await register(),
+    b = await register(),
+    viewer = await member(a, "VIEWER"),
+    manager = await member(a, "MANAGER"),
+    lead = await create(a.client, "leads");
+  const input = {
+    kind: "leads",
+    name: "Área de interesse",
+    type: "choice",
+    options: ["Serviços", "Software"],
+  };
+  status(await viewer.client.request("POST", "/crm/fields", input), 403);
+  status(await manager.client.request("POST", "/crm/fields", input), 403);
+  const res = await a.client.request("POST", "/crm/fields", input);
+  status(res, 201);
+  const f = res.json().item;
+  status(
+    await a.client.request("POST", "/crm/fields", {
+      ...input,
+      name: "área de interesse",
+    }),
+    409,
+  );
+  status(
+    await a.client.request("PUT", `/crm/leads/${lead.id}/fields`, {
+      version: lead.version,
+      values: { [f.id]: "Inexistente" },
+    }),
+    400,
+  );
+  status(
+    await a.client.request("PUT", `/crm/leads/${lead.id}/fields`, {
+      version: lead.version,
+      values: { [f.id]: "Software" },
+    }),
+    200,
+  );
+  status(
+    await a.client.request("PUT", `/crm/leads/${lead.id}/fields`, {
+      version: lead.version,
+      values: { [f.id]: "Serviços" },
+    }),
+    409,
+  );
+  status(await b.client.request("GET", `/crm/leads/${lead.id}/fields`), 404);
+  status(
+    await viewer.client.request("PUT", `/crm/leads/${lead.id}/fields`, {
+      version: 2,
+      values: { [f.id]: "Serviços" },
+    }),
+    403,
+  );
+  status(
+    await a.client.request("PATCH", `/crm/fields/${f.id}`, {
+      active: false,
+      version: f.version,
+    }),
+    200,
+  );
+  const saved = await a.client.request("GET", `/crm/leads/${lead.id}/fields`);
+  status(saved, 200);
+  assert.equal(saved.json().values[f.id], "Software");
+  status(
+    await a.client.request("PUT", `/crm/leads/${lead.id}/fields`, {
+      version: saved.json().version,
+      values: { [f.id]: null },
+    }),
+    400,
+  );
+  const foreign = (
+    await b.client.request("POST", "/crm/fields", { ...input, name: "Outro" })
+  ).json().item;
+  status(
+    await a.client.request("PUT", `/crm/leads/${lead.id}/fields`, {
+      version: saved.json().version,
+      values: { [foreign.id]: "Software" },
+    }),
+    400,
+  );
+});
+
+test("PDF: CSV prévia, validação, duplicados, rollback, idempotência e exportação filtrada segura", async () => {
+  const a = await register(),
+    viewer = await member(a, "VIEWER");
+  await create(a.client, "leads", {
+    name: "Original",
+    email: "same@example.test",
+    source: "Evento",
+  });
+  const csv =
+    'nome,email,telefone,origem\r\nDuplicado,SAME@example.test,,Evento\r\n"Pessoa, Nova",new@example.test,5511999990000,Evento\r\nRepetido,new@example.test,,Evento';
+  const base = { kind: "leads", csv, duplicatePolicy: "skip" };
+  let response = await a.client.request("POST", "/crm/import", {
+    ...base,
+    mode: "preview",
+  });
+  status(response, 200);
+  assert.equal(response.json().duplicates, 2);
+  assert.equal(response.json().invalid, 0);
+  const requestId = randomUUID();
+  const imports = await Promise.all(
+    [1, 2].map(() =>
+      a.client.request("POST", "/crm/import", {
+        ...base,
+        mode: "import",
+        requestId,
+      }),
+    ),
+  );
+  imports.forEach((r) => status(r, 200));
+  assert.deepEqual(imports[0].json(), { created: 1, skipped: 2, total: 3 });
+  assert.deepEqual(imports[1].json(), imports[0].json());
+  assert.equal((await list(a.client, "leads")).total, 2);
+  status(
+    await a.client.request("POST", "/crm/import", {
+      ...base,
+      csv: csv + "\nOutro,outro@example.test,,",
+      mode: "import",
+      requestId,
+    }),
+    409,
+  );
+  const bad = "nome,email\nVálido,valid@example.test\nInválido,wrong";
+  response = await a.client.request("POST", "/crm/import", {
+    kind: "leads",
+    csv: bad,
+    mode: "preview",
+  });
+  status(response, 200);
+  assert.equal(response.json().invalid, 1);
+  status(
+    await a.client.request("POST", "/crm/import", {
+      kind: "leads",
+      csv: bad,
+      mode: "import",
+      requestId: randomUUID(),
+    }),
+    400,
+  );
+  assert.equal((await list(a.client, "leads")).total, 2);
+  status(
+    await viewer.client.request("POST", "/crm/import", {
+      ...base,
+      mode: "preview",
+    }),
+    403,
+  );
+  response = await a.client.request("POST", "/crm/import", {
+    kind: "leads",
+    csv: "nome,email\n=HYPERLINK(),x@example.test",
+    mode: "preview",
+  });
+  assert.ok(response.json().invalid);
+  await create(a.client, "leads", { name: "＝FÓRMULA", source: "Protegido" });
+  response = await a.client.request(
+    "GET",
+    "/crm/export?kind=leads&source=Protegido",
+  );
+  status(response, 200);
+  assert.equal(response.json().total, 1);
+  assert.match(response.json().csv, /\[texto\]/);
+  assert.doesNotMatch(response.json().csv, /Original/);
+  const { parseCsv, safeCsvCell } = await import("../src/modules/crm/csv.js");
+  assert.equal(
+    parseCsv('\uFEFF"nome","email"\r\nAna,ana@example.test')[0]!.raw!.name,
+    "Ana",
+  );
+  assert.equal(
+    parseCsv('nome;email\n"Pessoa\nNova";n@example.test')[0]!.raw!.name,
+    "Pessoa\nNova",
+  );
+  assert.throws(() => parseCsv('nome,email\n"ab"x,a@example.test'));
+  assert.throws(() => parseCsv("nome\n" + "á".repeat(150001)));
+  assert.match(safeCsvCell("\t+cmd"), /\[texto\]/);
+});
+
+test("PDF: captura anônima preserva origem, round robin, retry e duplicados sem expor CRM", async () => {
+  const a = await register(),
+    sales = await member(a, "SALES"),
+    b = await register();
+  const res = await a.client.request("POST", "/crm/intake", {
+    name: "Evento fictício",
+    source: "Formulário · Evento",
+    ownerIds: [a.user.id, sales.user.id],
+  });
+  status(res, 201);
+  const form = res.json(),
+    anonymous = new Client();
+  status(await anonymous.request("GET", form.path), 200);
+  assert.deepEqual((await anonymous.request("GET", form.path)).json(), {
+    name: "Evento fictício",
+  });
+  const first = {
+    name: "Pessoa captura",
+    email: "capture1@example.test",
+    requestId: randomUUID(),
+  };
+  for (const data of [
+    first,
+    first,
+    { ...first, requestId: randomUUID() },
+    {
+      name: "Segunda captura",
+      email: "capture2@example.test",
+      requestId: randomUUID(),
+    },
+  ]) {
+    const response = await anonymous.request("POST", form.path, data);
+    status(response, 200);
+    assert.deepEqual(response.json(), { received: true });
+  }
+  const items = (await list(a.client, "leads")).items;
+  assert.equal(items.length, 2);
+  assert.equal(
+    items.find((r: any) => r.email === first.email).assignedTo,
+    a.user.id,
+  );
+  assert.equal(
+    items.find((r: any) => r.email === "capture2@example.test").assignedTo,
+    sales.user.id,
+  );
+  items.forEach((r: any) => assert.equal(r.source, "Formulário · Evento"));
+  status(
+    await anonymous.request("GET", form.path.replace(a.tenant.id, b.tenant.id)),
+    404,
+  );
+  status(
+    await sales.client.request("POST", "/crm/intake", {
+      name: "Outro",
+      source: "Outro",
+      ownerIds: [sales.user.id],
+    }),
+    403,
+  );
+  status(
+    await a.client.request("PATCH", `/crm/intake/${form.item.id}`, {
+      active: false,
+      version: form.item.version,
+    }),
+    200,
+  );
+  status(
+    await anonymous.request("POST", form.path, {
+      ...first,
+      requestId: randomUUID(),
+    }),
+    404,
+  );
+});
+
+test("PDF: regra real em qualquer funil cria tarefa+aviso uma vez, pausa/versão/permissões e etapa protegida", async () => {
+  const a = await register(),
+    b = await register(),
+    viewer = await member(a, "VIEWER"),
+    p = await pipelineFor(a.client),
+    d = await sale(a.client, "deals", {
+      ...dealInput(p),
+      assignedTo: a.user.id,
+    });
+  const input = {
+    pipelineId: p.id,
+    stageId: p.stages[1].id,
+    name: "Acompanhar entrada",
+    trigger: "STAGE",
+    days: 1,
+    taskTitle: "Verificar proposta",
+    enabled: true,
+  };
+  status(await viewer.client.request("POST", "/sales/rules", input), 403);
+  status(await b.client.request("POST", "/sales/rules", input), 404);
+  const response = await a.client.request("POST", "/sales/rules", input);
+  status(response, 201);
+  const rule = response.json().item;
+  const move = () =>
+    a.client.request("PATCH", `/sales/deals/${d.id}`, {
+      version: d.version,
+      stageId: p.stages[1].id,
+    });
+  const results = await Promise.all([move(), move()]);
+  assert.deepEqual(results.map((r) => r.statusCode).sort(), [200, 409]);
+  let directory = (
+    await a.client.request("GET", `/sales/rules?pipelineId=${p.id}`)
+  ).json();
+  assert.equal(directory.runs.length, 1);
+  assert.equal(directory.items[0].executions, 1);
+  let current = await saleGet(a.client, "deals", d.id);
+  status(
+    await a.client.request("PATCH", `/sales/deals/${d.id}`, {
+      version: current.version,
+      stageId: p.stages[0].id,
+    }),
+    200,
+  );
+  current = await saleGet(a.client, "deals", d.id);
+  status(
+    await a.client.request("PATCH", `/sales/deals/${d.id}`, {
+      version: current.version,
+      stageId: p.stages[1].id,
+    }),
+    200,
+  );
+  directory = (
+    await a.client.request("GET", `/sales/rules?pipelineId=${p.id}`)
+  ).json();
+  assert.equal(directory.runs.length, 1);
+  const notices = (await a.client.request("GET", "/notifications")).json()
+    .items;
+  assert.ok(notices.some((n: any) => n.workId === directory.runs[0].taskId));
+  assert.equal(
+    (await b.client.request("GET", "/notifications")).json().items.length,
+    0,
+  );
+  assert.equal(
+    (await viewer.client.request("GET", "/notifications")).json().items.length,
+    0,
+  );
+  status(
+    await a.client.request("PATCH", `/sales/rules/${rule.id}`, {
+      ...input,
+      enabled: false,
+      version: rule.version,
+    }),
+    200,
+  );
+  status(
+    await a.client.request("PATCH", `/sales/rules/${rule.id}`, {
+      ...input,
+      version: rule.version,
+    }),
+    409,
+  );
+});
+
+test("PDF: lembretes e atrasos não duplicam nem sobrevivem reagendamento, conclusão ou troca de responsável", async () => {
+  const a = await register(),
+    sales = await member(a, "SALES"),
+    p = await pipelineFor(a.client),
+    d = await sale(a.client, "deals", dealInput(p)),
+    task = await sale(a.client, "tasks", {
+      dealId: d.id,
+      assignedTo: a.user.id,
+      dueAt: new Date(Date.now() + 3600000).toISOString(),
+    });
+  const { scanTenant } = await import("../src/modules/sales/rules.js");
+  await scanTenant(a.tenant.id);
+  await scanTenant(a.tenant.id);
+  let notices = (await a.client.request("GET", "/notifications")).json().items;
+  assert.equal(notices.filter((n: any) => n.workId === task.id).length, 1);
+  let current = await saleGet(a.client, "tasks", task.id);
+  status(
+    await a.client.request("PATCH", `/sales/tasks/${task.id}`, {
+      version: current.version,
+      dueAt: new Date(Date.now() + 7 * 86400000).toISOString(),
+    }),
+    200,
+  );
+  assert.equal(
+    (await a.client.request("GET", "/notifications"))
+      .json()
+      .items.filter((n: any) => n.workId === task.id).length,
+    0,
+  );
+  current = await saleGet(a.client, "tasks", task.id);
+  status(
+    await a.client.request("PATCH", `/sales/tasks/${task.id}`, {
+      version: current.version,
+      assignedTo: sales.user.id,
+      dueAt: new Date(Date.now() - 60000).toISOString(),
+    }),
+    200,
+  );
+  await scanTenant(a.tenant.id);
+  assert.equal(
+    (await a.client.request("GET", "/notifications"))
+      .json()
+      .items.filter((n: any) => n.workId === task.id).length,
+    0,
+  );
+  notices = (await sales.client.request("GET", "/notifications")).json().items;
+  const notification = notices.find((n: any) => n.workId === task.id);
+  assert.ok(notification);
+  assert.equal(notification.reason, "Prazo vencido");
+  status(
+    await a.client.request(
+      "POST",
+      `/notifications/${notification.id}/read`,
+      {},
+    ),
+    404,
+  );
+  status(
+    await sales.client.request(
+      "POST",
+      `/notifications/${notification.id}/read`,
+      {},
+    ),
+    200,
+  );
+  current = await saleGet(a.client, "tasks", task.id);
+  status(
+    await sales.client.request("PATCH", `/sales/tasks/${task.id}`, {
+      version: current.version,
+      status: "DONE",
+    }),
+    200,
+  );
+  assert.equal(
+    (await sales.client.request("GET", "/notifications"))
+      .json()
+      .items.filter((n: any) => n.workId === task.id).length,
+    0,
+  );
+});
+
+test("PDF: métricas reais filtradas, moeda, perdas e proposta na timeline cliente", async () => {
+  const a = await register(),
+    p = await pipelineFor(a.client),
+    contact = await create(a.client, "contacts");
+  const d = await sale(a.client, "deals", {
+    ...dealInput(p),
+    contactId: contact.id,
+    assignedTo: a.user.id,
+    source: "Evento",
+  });
+  status(
+    await a.client.request("PUT", `/sales/deals/${d.id}/proposal`, {
+      items: [{ name: "Serviço", quantity: 2, unitPrice: "100.10" }],
+      discount: "0.01",
+      version: 0,
+    }),
+    200,
+  );
+  const history = await timeline(a.client, "contacts", contact.id);
+  const e = history.items.find((e: any) => e.type === "proposal.saved");
+  assert.ok(e);
+  assert.equal(e.actorName, a.user.name);
+  assert.equal(e.metadata.total, "200.19");
+  assert.ok(e.createdAt);
+  let current = await saleGet(a.client, "deals", d.id);
+  status(
+    await a.client.request("PATCH", `/sales/deals/${d.id}`, {
+      version: current.version,
+      status: "WON",
+    }),
+    200,
+  );
+  const lost = await sale(a.client, "deals", {
+    ...dealInput(p),
+    assignedTo: a.user.id,
+    source: "Evento",
+  });
+  status(
+    await a.client.request("PATCH", `/sales/deals/${lost.id}`, {
+      version: lost.version,
+      status: "LOST",
+      lostReason: "Sem orçamento",
+    }),
+    200,
+  );
+  const dashboard = (
+    await a.client.request(
+      "GET",
+      `/sales/dashboard?pipelineId=${p.id}&source=Evento&assignedTo=${a.user.id}`,
+    )
+  ).json();
+  assert.equal(dashboard.conversion, 50);
+  assert.equal(dashboard.totals[0].averageTicket, "200.19");
+  assert.equal(dashboard.totals[0].wonCount, 1);
+  assert.equal(dashboard.totals[0].lostCount, 1);
+  assert.equal(dashboard.lossReasons[0].reason, "Sem orçamento");
+  assert.equal(dashboard.periodBasis, "createdAt");
+  const empty = (
+    await a.client.request(
+      "GET",
+      `/sales/dashboard?pipelineId=${p.id}&from=2100-01-01T00:00:00Z`,
+    )
+  ).json();
+  assert.equal(empty.totals.length, 0);
+  assert.equal(empty.conversion, null);
+  const board = (
+    await a.client.request(
+      "GET",
+      `/sales/board?pipelineId=${p.id}&source=Outro&status=WON`,
+    )
+  ).json();
+  assert.equal(
+    board.columns.reduce((n: number, c: any) => n + c.total, 0),
+    0,
+  );
+});
+
+test("PDF: campos compartilhados seguem a conversão sem sobrescrever contato existente", async () => {
+  const a = await register();
+  const field = (
+    await a.client.request("POST", "/crm/fields", {
+      kind: "leads",
+      name: "Interesse",
+      type: "text",
+      shareOnConversion: true,
+    })
+  ).json().item;
+  assert.ok(field.id);
+  const lead = await create(a.client, "leads");
+  status(
+    await a.client.request("PUT", `/crm/leads/${lead.id}/fields`, {
+      version: lead.version,
+      values: { [field.id]: "Consultoria" },
+    }),
+    200,
+  );
+  const response = await a.client.request(
+    "POST",
+    `/crm/leads/${lead.id}/convert`,
+    {},
+  );
+  status(response, 200);
+  const contact = response.json().contact;
+  const values = (
+    await a.client.request("GET", `/crm/contacts/${contact.id}/fields`)
+  ).json();
+  assert.equal(values.values[field.id], "Consultoria");
+  const definitions = (
+    await a.client.request("GET", "/crm/fields?kind=contacts")
+  ).json().items;
+  assert.ok(definitions.some((f: any) => f.id === field.id));
+  status(
+    await a.client.request("PUT", `/crm/contacts/${contact.id}/fields`, {
+      version: values.version,
+      values: { [field.id]: "Treinamento" },
+    }),
+    200,
+  );
+  const second = await create(a.client, "leads");
+  status(
+    await a.client.request("PUT", `/crm/leads/${second.id}/fields`, {
+      version: second.version,
+      values: { [field.id]: "Outro" },
+    }),
+    200,
+  );
+  status(
+    await a.client.request("POST", `/crm/leads/${second.id}/convert`, {
+      contactId: contact.id,
+    }),
+    200,
+  );
+  assert.equal(
+    (await a.client.request("GET", `/crm/contacts/${contact.id}/fields`)).json()
+      .values[field.id],
+    "Treinamento",
+  );
+});
+
+test("PDF: varredura de inatividade/atraso registra snapshot, deduplica e para após revogação", async () => {
+  const a = await register(),
+    p = await pipelineFor(a.client),
+    d = await sale(a.client, "deals", {
+      ...dealInput(p),
+      assignedTo: a.user.id,
+    });
+  await tenantQuery(
+    a.tenant.id,
+    sql`UPDATE sales_deals SET updated_at=now()-interval '4 days' WHERE tenant_id=${a.tenant.id} AND id=${d.id}`,
+  );
+  const inactivity = (
+    await a.client.request("POST", "/sales/rules", {
+      pipelineId: p.id,
+      stageId: null,
+      name: "Sem atualização",
+      trigger: "INACTIVITY",
+      days: 3,
+      taskTitle: "Retomar conversa",
+      enabled: true,
+    })
+  ).json().item;
+  assert.ok(inactivity.id);
+  status(
+    await a.client.request("POST", "/sales/rules/scan", { pipelineId: p.id }),
+    200,
+  );
+  status(
+    await a.client.request("POST", "/sales/rules/scan", { pipelineId: p.id }),
+    200,
+  );
+  let directory = (
+    await a.client.request("GET", `/sales/rules?pipelineId=${p.id}`)
+  ).json();
+  assert.equal(directory.runs.length, 1);
+  assert.equal(directory.runs[0].ruleSnapshot.version, 1);
+  assert.equal(directory.runs[0].ruleSnapshot.name, "Sem atualização");
+  status(
+    await a.client.request("PATCH", `/sales/rules/${inactivity.id}`, {
+      pipelineId: p.id,
+      stageId: null,
+      name: "Outro nome",
+      trigger: "INACTIVITY",
+      days: 3,
+      taskTitle: "Outra tarefa",
+      enabled: false,
+      version: 1,
+    }),
+    200,
+  );
+  directory = (
+    await a.client.request("GET", `/sales/rules?pipelineId=${p.id}`)
+  ).json();
+  assert.equal(directory.runs[0].ruleSnapshot.name, "Sem atualização");
+  await sale(a.client, "tasks", {
+    dealId: d.id,
+    assignedTo: a.user.id,
+    dueAt: new Date(Date.now() - 3600000).toISOString(),
+  });
+  const overdue = (
+    await a.client.request("POST", "/sales/rules", {
+      pipelineId: p.id,
+      stageId: null,
+      name: "Em atraso",
+      trigger: "OVERDUE",
+      days: 1,
+      taskTitle: "Resolver atraso",
+      enabled: true,
+    })
+  ).json().item;
+  status(
+    await a.client.request("POST", "/sales/rules/scan", { pipelineId: p.id }),
+    200,
+  );
+  directory = (
+    await a.client.request("GET", `/sales/rules?pipelineId=${p.id}`)
+  ).json();
+  assert.equal(directory.runs.length, 2);
+  assert.ok(directory.runs.some((r: any) => r.ruleId === overdue.id));
+  const another = await sale(a.client, "deals", dealInput(p));
+  await sale(a.client, "tasks", {
+    dealId: another.id,
+    assignedTo: a.user.id,
+    dueAt: new Date(Date.now() - 3600000).toISOString(),
+  });
+  await tenantQuery(
+    a.tenant.id,
+    sql`UPDATE memberships SET role='VIEWER' WHERE tenant_id=${a.tenant.id} AND user_id=${a.user.id}`,
+  );
+  const { scanTenant } = await import("../src/modules/sales/rules.js");
+  await scanTenant(a.tenant.id);
+  const runs = await tenantQuery(
+    a.tenant.id,
+    sql`SELECT * FROM sales_rule_runs WHERE tenant_id=${a.tenant.id}`,
+  );
+  assert.equal(runs.length, 2);
+});
+
+test("PDF: RLS forçada e FKs compostas nas novas tabelas comerciais", async () => {
+  const names = [
+    "crm_fields",
+    "crm_imports",
+    "crm_intake_forms",
+    "crm_intake_entries",
+    "sales_rules",
+    "sales_rule_runs",
+    "internal_notifications",
+  ];
+  const checks = await rows(
+    db,
+    sql`SELECT relname,relrowsecurity,relforcerowsecurity FROM pg_class WHERE relnamespace=${schemaName}::regnamespace AND relname IN (${sql.join(
+      names.map((n) => sql`${n}`),
+      sql`,`,
+    )})`,
+  );
+  assert.equal(checks.length, names.length);
+  checks.forEach((c) => {
+    assert.ok(c.relrowsecurity);
+    assert.ok(c.relforcerowsecurity);
+  });
+  const a = await register(),
+    b = await register();
+  const f = (
+    await a.client.request("POST", "/crm/fields", {
+      kind: "leads",
+      name: "Privado",
+      type: "text",
+    })
+  ).json().item;
+  const hidden = await tenantQuery(
+    b.tenant.id,
+    sql`SELECT * FROM crm_fields WHERE id=${f.id}`,
+  );
+  assert.equal(hidden.length, 0);
 });

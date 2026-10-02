@@ -1,0 +1,371 @@
+{
+  "measuredAt": "2026-10-02T05:30:57.209Z",
+  "baselineCommit": "bbd6fc63b369ed6a18cfc0c272d5546e764437b6",
+  "method": "Fresh production Webpack builds of baseline HEAD and final source, same Mac/API/fictitious account, Chrome headless 1440x1000, no CPU/network throttling. Each build gets a fresh browser context. 1 cold+5 warm common automation editor opens; click to input mounted +2 rAF. 5 input-to-two-rAF samples. 40 rAF frames during common editor step switches with observed Long Tasks. gzip level9 per asset is computed size, not wire traffic. Not field INP, human speed or physical-device FPS. Final reduced-motion runtime sampled separately.",
+  "builds": {
+    "baseline": {
+      "initialAssets": [
+        [
+          "/_next/static/chunks/webpack-6b62944c7e328ede.js",
+          {
+            "raw": 3404,
+            "gzip": 1733
+          }
+        ],
+        [
+          "/_next/static/css/381da98a37668075.css",
+          {
+            "raw": 85522,
+            "gzip": 16292
+          }
+        ],
+        [
+          "/_next/static/chunks/main-app-dc5577d39b759b16.js",
+          {
+            "raw": 514,
+            "gzip": 223
+          }
+        ],
+        [
+          "/_next/static/chunks/app/layout-492ce5092ef62011.js",
+          {
+            "raw": 7152,
+            "gzip": 3036
+          }
+        ],
+        [
+          "/_next/static/chunks/554-328a108e693af121.js",
+          {
+            "raw": 23755,
+            "gzip": 8688
+          }
+        ],
+        [
+          "/_next/static/chunks/867-47ef18ebac42d9d6.js",
+          {
+            "raw": 22891,
+            "gzip": 7148
+          }
+        ],
+        [
+          "/_next/static/chunks/c23dd8b1-fa431e5a668d8a7d.js",
+          {
+            "raw": 201054,
+            "gzip": 63202
+          }
+        ],
+        [
+          "/_next/static/chunks/826-ad69d9ec1e172279.js",
+          {
+            "raw": 14918,
+            "gzip": 5586
+          }
+        ],
+        [
+          "/_next/static/chunks/531-d555412b09003f72.js",
+          {
+            "raw": 9544,
+            "gzip": 3208
+          }
+        ],
+        [
+          "/_next/static/chunks/864-5c3c49ad06ea9750.js",
+          {
+            "raw": 10742,
+            "gzip": 4187
+          }
+        ],
+        [
+          "/_next/static/chunks/232-def58637543e840d.js",
+          {
+            "raw": 10914,
+            "gzip": 3531
+          }
+        ],
+        [
+          "/_next/static/chunks/app/(workspace)/layout-f9855cef84b40a2a.js",
+          {
+            "raw": 15434,
+            "gzip": 5373
+          }
+        ],
+        [
+          "/_next/static/chunks/78-686f906ab24c7594.js",
+          {
+            "raw": 32131,
+            "gzip": 9256
+          }
+        ],
+        [
+          "/_next/static/chunks/211-15ea805588b9dae9.js",
+          {
+            "raw": 52729,
+            "gzip": 14608
+          }
+        ],
+        [
+          "/_next/static/chunks/606-f2d266df63c36490.js",
+          {
+            "raw": 241022,
+            "gzip": 65984
+          }
+        ],
+        [
+          "/_next/static/chunks/424-8c636e86354f28a1.js",
+          {
+            "raw": 38777,
+            "gzip": 13420
+          }
+        ],
+        [
+          "/_next/static/chunks/app/(workspace)/sales/%5B...path%5D/page-ffe5ad31faf91fa9.js",
+          {
+            "raw": 56677,
+            "gzip": 16485
+          }
+        ],
+        [
+          "/_next/static/chunks/693-0cad3e37aed33f4d.js",
+          {
+            "raw": 127753,
+            "gzip": 38043
+          }
+        ]
+      ],
+      "routeScripts": [
+        "/_next/static/chunks/c23dd8b1-fa431e5a668d8a7d.js",
+        "/_next/static/chunks/606-f2d266df63c36490.js",
+        "/_next/static/chunks/main-app-dc5577d39b759b16.js",
+        "/_next/static/chunks/554-328a108e693af121.js",
+        "/_next/static/chunks/867-47ef18ebac42d9d6.js",
+        "/_next/static/chunks/app/layout-492ce5092ef62011.js",
+        "/_next/static/chunks/693-0cad3e37aed33f4d.js",
+        "/_next/static/chunks/826-ad69d9ec1e172279.js",
+        "/_next/static/chunks/531-d555412b09003f72.js",
+        "/_next/static/chunks/864-5c3c49ad06ea9750.js",
+        "/_next/static/chunks/app/(workspace)/layout-f9855cef84b40a2a.js",
+        "/_next/static/chunks/424-8c636e86354f28a1.js",
+        "/_next/static/chunks/232-def58637543e840d.js",
+        "/_next/static/chunks/211-15ea805588b9dae9.js",
+        "/_next/static/chunks/78-686f906ab24c7594.js",
+        "/_next/static/chunks/app/(workspace)/sales/%5B...path%5D/page-ffe5ad31faf91fa9.js",
+        "/_next/static/chunks/webpack-6b62944c7e328ede.js"
+      ],
+      "routeScriptJsGzip": 263711,
+      "initialJsGzip": 263711,
+      "totalJsRaw": 1506592,
+      "totalJsGzip": 464798,
+      "openMs": [
+        323.70000000298023,
+        26.799999997019768,
+        31.099999994039536,
+        30.900000005960464,
+        26.599999994039536,
+        29.900000005960464
+      ],
+      "warmOpenMedianMs": 29.900000005960464,
+      "inputMs": [
+        31.599999994039536,
+        32.70000000298023,
+        33.70000000298023,
+        33.599999994039536,
+        32.79999999701977
+      ],
+      "inputMedianMs": 32.79999999701977,
+      "frames": {
+        "count": 39,
+        "p95FrameGapMs": 16.800000000000182,
+        "maxFrameGapMs": 16.800000000000182,
+        "observedLongTasksMs": []
+      }
+    },
+    "final": {
+      "initialAssets": [
+        [
+          "/_next/static/chunks/webpack-6b62944c7e328ede.js",
+          {
+            "raw": 3404,
+            "gzip": 1733
+          }
+        ],
+        [
+          "/_next/static/css/5295d8168bbfc3b3.css",
+          {
+            "raw": 86816,
+            "gzip": 16549
+          }
+        ],
+        [
+          "/_next/static/chunks/main-app-dc5577d39b759b16.js",
+          {
+            "raw": 514,
+            "gzip": 223
+          }
+        ],
+        [
+          "/_next/static/chunks/554-42a76d66b4469fa2.js",
+          {
+            "raw": 23765,
+            "gzip": 8693
+          }
+        ],
+        [
+          "/_next/static/chunks/app/layout-ec7efbefa39a63ac.js",
+          {
+            "raw": 7152,
+            "gzip": 3034
+          }
+        ],
+        [
+          "/_next/static/chunks/867-47ef18ebac42d9d6.js",
+          {
+            "raw": 22891,
+            "gzip": 7148
+          }
+        ],
+        [
+          "/_next/static/chunks/59-a31163d2e4473c89.js",
+          {
+            "raw": 9817,
+            "gzip": 3316
+          }
+        ],
+        [
+          "/_next/static/chunks/826-ad69d9ec1e172279.js",
+          {
+            "raw": 14918,
+            "gzip": 5586
+          }
+        ],
+        [
+          "/_next/static/chunks/864-5c3c49ad06ea9750.js",
+          {
+            "raw": 10742,
+            "gzip": 4187
+          }
+        ],
+        [
+          "/_next/static/chunks/c23dd8b1-fa431e5a668d8a7d.js",
+          {
+            "raw": 201054,
+            "gzip": 63202
+          }
+        ],
+        [
+          "/_next/static/chunks/536-e59804235de6dd00.js",
+          {
+            "raw": 11415,
+            "gzip": 3766
+          }
+        ],
+        [
+          "/_next/static/chunks/app/(workspace)/layout-b5d2f63cf3e33c32.js",
+          {
+            "raw": 17628,
+            "gzip": 6182
+          }
+        ],
+        [
+          "/_next/static/chunks/606-f2d266df63c36490.js",
+          {
+            "raw": 241022,
+            "gzip": 65984
+          }
+        ],
+        [
+          "/_next/static/chunks/98-9d5d1d1f22ad4d70.js",
+          {
+            "raw": 12549,
+            "gzip": 4684
+          }
+        ],
+        [
+          "/_next/static/chunks/424-8c636e86354f28a1.js",
+          {
+            "raw": 38777,
+            "gzip": 13420
+          }
+        ],
+        [
+          "/_next/static/chunks/693-0cad3e37aed33f4d.js",
+          {
+            "raw": 127753,
+            "gzip": 38043
+          }
+        ],
+        [
+          "/_next/static/chunks/78-fbfdebb85ce12ae7.js",
+          {
+            "raw": 33821,
+            "gzip": 9746
+          }
+        ],
+        [
+          "/_next/static/chunks/823-957e083ffc8a33b8.js",
+          {
+            "raw": 48211,
+            "gzip": 12818
+          }
+        ],
+        [
+          "/_next/static/chunks/app/(workspace)/sales/%5B...path%5D/page-7f7c66af02d31dfd.js",
+          {
+            "raw": 66663,
+            "gzip": 19076
+          }
+        ]
+      ],
+      "routeScripts": [
+        "/_next/static/chunks/c23dd8b1-fa431e5a668d8a7d.js",
+        "/_next/static/chunks/606-f2d266df63c36490.js",
+        "/_next/static/chunks/main-app-dc5577d39b759b16.js",
+        "/_next/static/chunks/554-42a76d66b4469fa2.js",
+        "/_next/static/chunks/867-47ef18ebac42d9d6.js",
+        "/_next/static/chunks/app/layout-ec7efbefa39a63ac.js",
+        "/_next/static/chunks/693-0cad3e37aed33f4d.js",
+        "/_next/static/chunks/826-ad69d9ec1e172279.js",
+        "/_next/static/chunks/59-a31163d2e4473c89.js",
+        "/_next/static/chunks/864-5c3c49ad06ea9750.js",
+        "/_next/static/chunks/app/(workspace)/layout-b5d2f63cf3e33c32.js",
+        "/_next/static/chunks/424-8c636e86354f28a1.js",
+        "/_next/static/chunks/536-e59804235de6dd00.js",
+        "/_next/static/chunks/98-9d5d1d1f22ad4d70.js",
+        "/_next/static/chunks/823-957e083ffc8a33b8.js",
+        "/_next/static/chunks/78-fbfdebb85ce12ae7.js",
+        "/_next/static/chunks/app/(workspace)/sales/%5B...path%5D/page-7f7c66af02d31dfd.js",
+        "/_next/static/chunks/webpack-6b62944c7e328ede.js"
+      ],
+      "routeScriptJsGzip": 270841,
+      "initialJsGzip": 270841,
+      "totalJsRaw": 1543633,
+      "totalJsGzip": 476913,
+      "openMs": [
+        323,
+        31.700000002980232,
+        17.5,
+        18.799999997019768,
+        29.900000005960464,
+        21.799999997019768
+      ],
+      "warmOpenMedianMs": 21.799999997019768,
+      "inputMs": [
+        31.299999997019768,
+        32,
+        33.5,
+        30.700000002980232,
+        33.900000005960464
+      ],
+      "inputMedianMs": 32,
+      "frames": {
+        "count": 39,
+        "p95FrameGapMs": 16.700000000000273,
+        "maxFrameGapMs": 16.799999999999727,
+        "observedLongTasksMs": []
+      }
+    }
+  },
+  "reducedMotion": {
+    "matches": true,
+    "activeAnimations": 0
+  }
+}

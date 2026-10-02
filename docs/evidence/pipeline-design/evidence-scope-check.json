@@ -1,0 +1,427 @@
+{
+  "config": {
+    "argv": [
+      "/opt/homebrew/Cellar/node/26.8.2/bin/node",
+      "/Users/felipesakai/Documents/Projetos/orbit-crm/node_modules/.bin/playwright",
+      "test",
+      "tests/e2e/field-layout.spec.ts",
+      "tests/e2e/pipeline-design.spec.ts",
+      "--reporter=json"
+    ],
+    "configFile": "/Users/felipesakai/Documents/Projetos/orbit-crm/playwright.config.ts",
+    "rootDir": "/Users/felipesakai/Documents/Projetos/orbit-crm/tests/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/felipesakai/Documents/Projetos/orbit-crm/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "/Users/felipesakai/Documents/Projetos/orbit-crm/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "field-layout.spec.ts",
+      "file": "field-layout.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "desktop light",
+          "file": "field-layout.spec.ts",
+          "line": 12,
+          "column": 10,
+          "specs": [
+            {
+              "title": "layout dos campos em quatro entidades, controles e estados",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 9746,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-02T14:51:24.824Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "562c44cae9ad3ef35083-ad72f68281838d2579cc",
+              "file": "field-layout.spec.ts",
+              "line": 14,
+              "column": 11
+            }
+          ]
+        },
+        {
+          "title": "desktop dark",
+          "file": "field-layout.spec.ts",
+          "line": 12,
+          "column": 10,
+          "specs": [
+            {
+              "title": "layout dos campos em quatro entidades, controles e estados",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 8742,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-02T14:51:35.820Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "562c44cae9ad3ef35083-ae76d9e5d16cf1bbfd0d",
+              "file": "field-layout.spec.ts",
+              "line": 14,
+              "column": 11
+            }
+          ]
+        },
+        {
+          "title": "mobile light",
+          "file": "field-layout.spec.ts",
+          "line": 12,
+          "column": 10,
+          "specs": [
+            {
+              "title": "layout dos campos em quatro entidades, controles e estados",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 11766,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-02T14:51:44.569Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "562c44cae9ad3ef35083-38474061e6c4cde84f6f",
+              "file": "field-layout.spec.ts",
+              "line": 14,
+              "column": 11
+            }
+          ]
+        },
+        {
+          "title": "mobile dark",
+          "file": "field-layout.spec.ts",
+          "line": 12,
+          "column": 10,
+          "specs": [
+            {
+              "title": "layout dos campos em quatro entidades, controles e estados",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 180000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 10539,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-02T14:51:56.348Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "562c44cae9ad3ef35083-b2762999adc647f301aa",
+              "file": "field-layout.spec.ts",
+              "line": 14,
+              "column": 11
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "pipeline-design.spec.ts",
+      "file": "pipeline-design.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "desktop light",
+          "file": "pipeline-design.spec.ts",
+          "line": 9,
+          "column": 10,
+          "specs": [
+            {
+              "title": "editor de funil: informações, ordem, estados e retorno",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 6492,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-02T14:52:06.912Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "4f031b57b517c754a73d-513848a66ab1db161af7",
+              "file": "pipeline-design.spec.ts",
+              "line": 11,
+              "column": 11
+            }
+          ]
+        },
+        {
+          "title": "desktop dark",
+          "file": "pipeline-design.spec.ts",
+          "line": 9,
+          "column": 10,
+          "specs": [
+            {
+              "title": "editor de funil: informações, ordem, estados e retorno",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 5785,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-02T14:52:13.414Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "4f031b57b517c754a73d-0014276b0a1fa108451d",
+              "file": "pipeline-design.spec.ts",
+              "line": 11,
+              "column": 11
+            }
+          ]
+        },
+        {
+          "title": "mobile light",
+          "file": "pipeline-design.spec.ts",
+          "line": 9,
+          "column": 10,
+          "specs": [
+            {
+              "title": "editor de funil: informações, ordem, estados e retorno",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3451,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-02T14:52:19.210Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "4f031b57b517c754a73d-2f94b73d7832ece60611",
+              "file": "pipeline-design.spec.ts",
+              "line": 11,
+              "column": 11
+            }
+          ]
+        },
+        {
+          "title": "mobile dark",
+          "file": "pipeline-design.spec.ts",
+          "line": 9,
+          "column": 10,
+          "specs": [
+            {
+              "title": "editor de funil: informações, ordem, estados e retorno",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 90000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3570,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-10-02T14:52:22.669Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "4f031b57b517c754a73d-c5ac5ba09eb1edc7d4b4",
+              "file": "pipeline-design.spec.ts",
+              "line": 11,
+              "column": 11
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-02T14:51:24.511Z",
+    "duration": 61893.171,
+    "expected": 8,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

@@ -1,5 +1,6 @@
 "use client";
 import { MotionCollection } from "@/components/ui/motion";
+import { useRememberedState } from "@/features/workspace/editor-memory";
 import Link from "next/link";
 import { WorkNavigation } from "./navigation";
 import { useMemo, useRef, useState } from "react";
@@ -57,12 +58,15 @@ function useWindow(
 export function SalesAgenda() {
   const { data: session } = useSession();
   const zone = session?.tenant.timezone ?? "UTC";
-  const [date, setDate] = useState("");
-  const [view, setView] = useState("week");
-  const [bucket, setBucket] = useState("period");
-  const [owner, setOwner] = useState("me");
-  const [type, setType] = useState("");
-  const [pipelineId, setPipelineId] = useState("");
+  const [date, setDate] = useRememberedState("agenda:date", "");
+  const [view, setView] = useRememberedState("agenda:view", "week");
+  const [bucket, setBucket] = useRememberedState("agenda:bucket", "period");
+  const [owner, setOwner] = useRememberedState("agenda:owner", "me");
+  const [type, setType] = useRememberedState("agenda:type", "");
+  const [pipelineId, setPipelineId] = useRememberedState(
+    "agenda:pipelineId",
+    "",
+  );
   const [selected, setSelected] = useState<Work | null>(null);
   const [editing, setEditing] = useState(false);
   const { assignees } = useCrmReferences();

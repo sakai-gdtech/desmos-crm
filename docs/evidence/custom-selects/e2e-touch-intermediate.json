@@ -1,0 +1,1429 @@
+{
+  "startedAt": "2026-10-02T11:46:50.646Z",
+  "finishedAt": "2026-10-02T11:49:29.546Z",
+  "exitCode": 1,
+  "delivered": 1,
+  "mailScope": "Only invitations created after runner start, synthetic viewer-<timestamp>-<suffix>@example.test recipients in Empresa de Convites; SMTP hardcoded 127.0.0.1:1026 without credentials. No broad queue worker.",
+  "report": {
+    "config": {
+      "argv": [
+        "/opt/homebrew/Cellar/node/26.8.2/bin/node",
+        "/Users/felipesakai/Documents/Projetos/orbit-crm/node_modules/.bin/playwright",
+        "test",
+        "--reporter=json"
+      ],
+      "configFile": "/Users/felipesakai/Documents/Projetos/orbit-crm/playwright.config.ts",
+      "rootDir": "/Users/felipesakai/Documents/Projetos/orbit-crm/tests/e2e",
+      "failOnFlakyTests": false,
+      "forbidOnly": false,
+      "fullyParallel": false,
+      "globalSetup": null,
+      "globalTeardown": null,
+      "globalTimeout": 0,
+      "grep": {},
+      "grepInvert": null,
+      "maxFailures": 0,
+      "metadata": {
+        "actualWorkers": 1
+      },
+      "preserveOutput": "always",
+      "projects": [
+        {
+          "outputDir": "/Users/felipesakai/Documents/Projetos/orbit-crm/test-results",
+          "repeatEach": 1,
+          "retries": 0,
+          "metadata": {
+            "actualWorkers": 1
+          },
+          "id": "chromium",
+          "name": "chromium",
+          "testDir": "/Users/felipesakai/Documents/Projetos/orbit-crm/tests/e2e",
+          "testIgnore": [],
+          "testMatch": [
+            "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+          ],
+          "timeout": 30000
+        }
+      ],
+      "quiet": false,
+      "reporter": [
+        [
+          "json"
+        ]
+      ],
+      "reportSlowTests": {
+        "max": 5,
+        "threshold": 300000
+      },
+      "shard": null,
+      "tags": [],
+      "updateSnapshots": "missing",
+      "updateSourceMethod": "patch",
+      "version": "1.63.0",
+      "workers": 1,
+      "webServer": null
+    },
+    "suites": [
+      {
+        "title": "automation-demo.spec.ts",
+        "file": "automation-demo.spec.ts",
+        "column": 0,
+        "line": 0,
+        "specs": [
+          {
+            "title": "demonstração de automações e requisitos preserva configurações por pipeline",
+            "ok": true,
+            "tags": [],
+            "tests": [
+              {
+                "timeout": 30000,
+                "annotations": [],
+                "expectedStatus": "passed",
+                "projectId": "chromium",
+                "projectName": "chromium",
+                "results": [
+                  {
+                    "workerIndex": 0,
+                    "parallelIndex": 0,
+                    "status": "passed",
+                    "duration": 5995,
+                    "errors": [],
+                    "stdout": [],
+                    "stderr": [],
+                    "retry": 0,
+                    "startTime": "2026-10-02T11:46:51.711Z",
+                    "annotations": [],
+                    "attachments": []
+                  }
+                ],
+                "status": "expected"
+              }
+            ],
+            "id": "9e0246f88901f2e45481-c688c05fcf5e315ac2c9",
+            "file": "automation-demo.spec.ts",
+            "line": 5,
+            "column": 5
+          }
+        ]
+      },
+      {
+        "title": "automation-workspace.spec.ts",
+        "file": "automation-workspace.spec.ts",
+        "column": 0,
+        "line": 0,
+        "specs": [
+          {
+            "title": "company dates and controlled interpretation preserve boundaries and explicit identities",
+            "ok": true,
+            "tags": [],
+            "tests": [
+              {
+                "timeout": 30000,
+                "annotations": [],
+                "expectedStatus": "passed",
+                "projectId": "chromium",
+                "projectName": "chromium",
+                "results": [
+                  {
+                    "workerIndex": 0,
+                    "parallelIndex": 0,
+                    "status": "passed",
+                    "duration": 19,
+                    "errors": [],
+                    "stdout": [],
+                    "stderr": [],
+                    "retry": 0,
+                    "startTime": "2026-10-02T11:46:58.522Z",
+                    "annotations": [],
+                    "attachments": []
+                  }
+                ],
+                "status": "expected"
+              }
+            ],
+            "id": "1722d4175ff01f6a4e26-748b278e8b333621a084",
+            "file": "automation-workspace.spec.ts",
+            "line": 13,
+            "column": 5
+          },
+          {
+            "title": "workspace templates assistant agenda: desktop",
+            "ok": true,
+            "tags": [],
+            "tests": [
+              {
+                "timeout": 120000,
+                "annotations": [],
+                "expectedStatus": "passed",
+                "projectId": "chromium",
+                "projectName": "chromium",
+                "results": [
+                  {
+                    "workerIndex": 0,
+                    "parallelIndex": 0,
+                    "status": "passed",
+                    "duration": 17113,
+                    "errors": [],
+                    "stdout": [],
+                    "stderr": [],
+                    "retry": 0,
+                    "startTime": "2026-10-02T11:46:58.546Z",
+                    "annotations": [],
+                    "attachments": []
+                  }
+                ],
+                "status": "expected"
+              }
+            ],
+            "id": "1722d4175ff01f6a4e26-f9b96f1de775310f027a",
+            "file": "automation-workspace.spec.ts",
+            "line": 59,
+            "column": 7
+          },
+          {
+            "title": "workspace templates assistant agenda: mobile",
+            "ok": true,
+            "tags": [],
+            "tests": [
+              {
+                "timeout": 120000,
+                "annotations": [],
+                "expectedStatus": "passed",
+                "projectId": "chromium",
+                "projectName": "chromium",
+                "results": [
+                  {
+                    "workerIndex": 0,
+                    "parallelIndex": 0,
+                    "status": "passed",
+                    "duration": 12771,
+                    "errors": [],
+                    "stdout": [],
+                    "stderr": [],
+                    "retry": 0,
+                    "startTime": "2026-10-02T11:47:15.670Z",
+                    "annotations": [],
+                    "attachments": []
+                  }
+                ],
+                "status": "expected"
+              }
+            ],
+            "id": "1722d4175ff01f6a4e26-55bd617a95446dc13436",
+            "file": "automation-workspace.spec.ts",
+            "line": 59,
+            "column": 7
+          }
+        ]
+      },
+      {
+        "title": "crm.spec.ts",
+        "file": "crm.spec.ts",
+        "column": 0,
+        "line": 0,
+        "specs": [
+          {
+            "title": "lead, nota, conversão em contato e empresa, exclusão e restauração",
+            "ok": true,
+            "tags": [],
+            "tests": [
+              {
+                "timeout": 30000,
+                "annotations": [],
+                "expectedStatus": "passed",
+                "projectId": "chromium",
+                "projectName": "chromium",
+                "results": [
+                  {
+                    "workerIndex": 0,
+                    "parallelIndex": 0,
+                    "status": "passed",
+                    "duration": 2890,
+                    "errors": [],
+                    "stdout": [],
+                    "stderr": [],
+                    "retry": 0,
+                    "startTime": "2026-10-02T11:47:28.487Z",
+                    "annotations": [],
+                    "attachments": []
+                  }
+                ],
+                "status": "expected"
+              }
+            ],
+            "id": "1b49a9ede2a2b64a34c9-cb750250bda7cacdebc2",
+            "file": "crm.spec.ts",
+            "line": 21,
+            "column": 5
+          },
+          {
+            "title": "empresa cliente reúne contatos, tags, busca e alerta de duplicidade",
+            "ok": true,
+            "tags": [],
+            "tests": [
+              {
+                "timeout": 30000,
+                "annotations": [],
+                "expectedStatus": "passed",
+                "projectId": "chromium",
+                "projectName": "chromium",
+                "results": [
+                  {
+                    "workerIndex": 0,
+                    "parallelIndex": 0,
+                    "status": "passed",
+                    "duration": 2773,
+                    "errors": [],
+                    "stdout": [],
+                    "stderr": [],
+                    "retry": 0,
+                    "startTime": "2026-10-02T11:47:31.382Z",
+                    "annotations": [],
+                    "attachments": []
+                  }
+                ],
+                "status": "expected"
+              }
+            ],
+            "id": "1b49a9ede2a2b64a34c9-7b6c725adeb4c251c176",
+            "file": "crm.spec.ts",
+            "line": 154,
+            "column": 5
+          }
+        ]
+      },
+      {
+        "title": "custom-select.spec.ts",
+        "file": "custom-select.spec.ts",
+        "column": 0,
+        "line": 0,
+        "specs": [],
+        "suites": [
+          {
+            "title": "mouse",
+            "file": "custom-select.spec.ts",
+            "line": 7,
+            "column": 8,
+            "specs": [
+              {
+                "title": "select Desmos: desktop claro, teclado, form e diálogo",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 60000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "chromium",
+                    "projectName": "chromium",
+                    "results": [
+                      {
+                        "workerIndex": 0,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 3048,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-02T11:47:34.171Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "9cda502d2f76d7417309-799c1001b910fb75b1a6",
+                "file": "custom-select.spec.ts",
+                "line": 9,
+                "column": 9
+              }
+            ]
+          },
+          {
+            "title": "touch",
+            "file": "custom-select.spec.ts",
+            "line": 7,
+            "column": 8,
+            "specs": [
+              {
+                "title": "select Desmos: mobile escuro, teclado, form e diálogo",
+                "ok": false,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 60000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "chromium",
+                    "projectName": "chromium",
+                    "results": [
+                      {
+                        "workerIndex": 0,
+                        "parallelIndex": 0,
+                        "status": "failed",
+                        "duration": 7162,
+                        "error": {
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveAttribute\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByLabel('Moeda', { exact: true })\nExpected: \u001b[32m\"EUR\"\u001b[39m\nReceived: \u001b[31m\"USD\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveAttribute\" getByLabel('Moeda', { exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByLabel('Moeda', { exact: true })\u001b[22m\n\u001b[2m    14 × locator resolved to <button value=\"USD\" type=\"button\" id=\"currency\" role=\"combobox\" data-value=\"USD\" class=\"input select\" aria-expanded=\"false\" aria-haspopup=\"listbox\">…</button>\u001b[22m\n\u001b[2m       - unexpected value \"USD\"\u001b[22m\n",
+                          "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveAttribute\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByLabel('Moeda', { exact: true })\nExpected: \u001b[32m\"EUR\"\u001b[39m\nReceived: \u001b[31m\"USD\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveAttribute\" getByLabel('Moeda', { exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByLabel('Moeda', { exact: true })\u001b[22m\n\u001b[2m    14 × locator resolved to <button value=\"USD\" type=\"button\" id=\"currency\" role=\"combobox\" data-value=\"USD\" class=\"input select\" aria-expanded=\"false\" aria-haspopup=\"listbox\">…</button>\u001b[22m\n\u001b[2m       - unexpected value \"USD\"\u001b[22m\n\n    at /Users/felipesakai/Documents/Projetos/orbit-crm/tests/e2e/custom-select.spec.ts:110:32",
+                          "location": {
+                            "file": "/Users/felipesakai/Documents/Projetos/orbit-crm/tests/e2e/custom-select.spec.ts",
+                            "column": 32,
+                            "line": 110
+                          },
+                          "snippet": "  108 |           .getByRole(\"option\", { name: \"Euro (EUR)\", exact: true })\n  109 |           .tap();\n> 110 |         await expect(currency).toHaveAttribute(\"data-value\", \"EUR\");\n      |                                ^\n  111 |         await expect(menu).toHaveCount(0);\n  112 |       } else await currency.press(\"Escape\");\n  113 |"
+                        },
+                        "errors": [
+                          {
+                            "location": {
+                              "file": "/Users/felipesakai/Documents/Projetos/orbit-crm/tests/e2e/custom-select.spec.ts",
+                              "column": 32,
+                              "line": 110
+                            },
+                            "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveAttribute\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByLabel('Moeda', { exact: true })\nExpected: \u001b[32m\"EUR\"\u001b[39m\nReceived: \u001b[31m\"USD\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveAttribute\" getByLabel('Moeda', { exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByLabel('Moeda', { exact: true })\u001b[22m\n\u001b[2m    14 × locator resolved to <button value=\"USD\" type=\"button\" id=\"currency\" role=\"combobox\" data-value=\"USD\" class=\"input select\" aria-expanded=\"false\" aria-haspopup=\"listbox\">…</button>\u001b[22m\n\u001b[2m       - unexpected value \"USD\"\u001b[22m\n\n\n  108 |           .getByRole(\"option\", { name: \"Euro (EUR)\", exact: true })\n  109 |           .tap();\n> 110 |         await expect(currency).toHaveAttribute(\"data-value\", \"EUR\");\n      |                                ^\n  111 |         await expect(menu).toHaveCount(0);\n  112 |       } else await currency.press(\"Escape\");\n  113 |\n    at /Users/felipesakai/Documents/Projetos/orbit-crm/tests/e2e/custom-select.spec.ts:110:32"
+                          }
+                        ],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-02T11:47:37.225Z",
+                        "annotations": [],
+                        "attachments": [
+                          {
+                            "name": "screenshot",
+                            "contentType": "image/png",
+                            "path": "/Users/felipesakai/Documents/Projetos/orbit-crm/test-results/custom-select-touch-select-b7575-curo-teclado-form-e-diálogo-chromium/test-failed-1.png"
+                          },
+                          {
+                            "name": "error-context",
+                            "contentType": "text/markdown",
+                            "path": "/Users/felipesakai/Documents/Projetos/orbit-crm/test-results/custom-select-touch-select-b7575-curo-teclado-form-e-diálogo-chromium/error-context.md"
+                          },
+                          {
+                            "name": "trace",
+                            "contentType": "application/zip",
+                            "path": "/Users/felipesakai/Documents/Projetos/orbit-crm/test-results/custom-select-touch-select-b7575-curo-teclado-form-e-diálogo-chromium/trace.zip"
+                          }
+                        ],
+                        "errorLocation": {
+                          "file": "/Users/felipesakai/Documents/Projetos/orbit-crm/tests/e2e/custom-select.spec.ts",
+                          "column": 32,
+                          "line": 110
+                        }
+                      }
+                    ],
+                    "status": "unexpected"
+                  }
+                ],
+                "id": "9cda502d2f76d7417309-df201f9208c4e708dd46",
+                "file": "custom-select.spec.ts",
+                "line": 9,
+                "column": 9
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "foundation.spec.ts",
+        "file": "foundation.spec.ts",
+        "column": 0,
+        "line": 0,
+        "specs": [
+          {
+            "title": "cadastro, onboarding, configurações persistidas e novo login",
+            "ok": true,
+            "tags": [],
+            "tests": [
+              {
+                "timeout": 30000,
+                "annotations": [],
+                "expectedStatus": "passed",
+                "projectId": "chromium",
+                "projectName": "chromium",
+                "results": [
+                  {
+                    "workerIndex": 1,
+                    "parallelIndex": 0,
+                    "status": "passed",
+                    "duration": 4291,
+                    "errors": [],
+                    "stdout": [],
+                    "stderr": [],
+                    "retry": 0,
+                    "startTime": "2026-10-02T11:47:44.891Z",
+                    "annotations": [],
+                    "attachments": []
+                  }
+                ],
+                "status": "expected"
+              }
+            ],
+            "id": "6b60d0cacd30be8ae473-0ff6fd6aaf5501b6c035",
+            "file": "foundation.spec.ts",
+            "line": 5,
+            "column": 5
+          },
+          {
+            "title": "convite entregue por email, aceite e permissão de visualizador",
+            "ok": true,
+            "tags": [],
+            "tests": [
+              {
+                "timeout": 30000,
+                "annotations": [],
+                "expectedStatus": "passed",
+                "projectId": "chromium",
+                "projectName": "chromium",
+                "results": [
+                  {
+                    "workerIndex": 1,
+                    "parallelIndex": 0,
+                    "status": "passed",
+                    "duration": 3751,
+                    "errors": [],
+                    "stdout": [],
+                    "stderr": [],
+                    "retry": 0,
+                    "startTime": "2026-10-02T11:47:49.535Z",
+                    "annotations": [],
+                    "attachments": []
+                  }
+                ],
+                "status": "expected"
+              }
+            ],
+            "id": "6b60d0cacd30be8ae473-7d71fe1b5877ff209515",
+            "file": "foundation.spec.ts",
+            "line": 65,
+            "column": 5
+          },
+          {
+            "title": "formulário acessível valida entrada e funciona em tela estreita",
+            "ok": true,
+            "tags": [],
+            "tests": [
+              {
+                "timeout": 30000,
+                "annotations": [],
+                "expectedStatus": "passed",
+                "projectId": "chromium",
+                "projectName": "chromium",
+                "results": [
+                  {
+                    "workerIndex": 1,
+                    "parallelIndex": 0,
+                    "status": "passed",
+                    "duration": 616,
+                    "errors": [],
+                    "stdout": [],
+                    "stderr": [],
+                    "retry": 0,
+                    "startTime": "2026-10-02T11:47:53.296Z",
+                    "annotations": [],
+                    "attachments": []
+                  }
+                ],
+                "status": "expected"
+              }
+            ],
+            "id": "6b60d0cacd30be8ae473-2d192bcc0f4fad80cdce",
+            "file": "foundation.spec.ts",
+            "line": 172,
+            "column": 5
+          },
+          {
+            "title": "contas de empresas independentes permanecem isoladas e não podem trocar de empresa",
+            "ok": true,
+            "tags": [],
+            "tests": [
+              {
+                "timeout": 30000,
+                "annotations": [],
+                "expectedStatus": "passed",
+                "projectId": "chromium",
+                "projectName": "chromium",
+                "results": [
+                  {
+                    "workerIndex": 1,
+                    "parallelIndex": 0,
+                    "status": "passed",
+                    "duration": 2036,
+                    "errors": [],
+                    "stdout": [],
+                    "stderr": [],
+                    "retry": 0,
+                    "startTime": "2026-10-02T11:47:53.919Z",
+                    "annotations": [],
+                    "attachments": []
+                  }
+                ],
+                "status": "expected"
+              }
+            ],
+            "id": "6b60d0cacd30be8ae473-174d6d8a4d6ccdfd2325",
+            "file": "foundation.spec.ts",
+            "line": 192,
+            "column": 5
+          },
+          {
+            "title": "perfil fecha navegação móvel e mudanças no próprio acesso exigem confirmação",
+            "ok": true,
+            "tags": [],
+            "tests": [
+              {
+                "timeout": 30000,
+                "annotations": [],
+                "expectedStatus": "passed",
+                "projectId": "chromium",
+                "projectName": "chromium",
+                "results": [
+                  {
+                    "workerIndex": 1,
+                    "parallelIndex": 0,
+                    "status": "passed",
+                    "duration": 2556,
+                    "errors": [],
+                    "stdout": [],
+                    "stderr": [],
+                    "retry": 0,
+                    "startTime": "2026-10-02T11:47:55.964Z",
+                    "annotations": [],
+                    "attachments": []
+                  }
+                ],
+                "status": "expected"
+              }
+            ],
+            "id": "6b60d0cacd30be8ae473-1ab4243312a1fb4b7413",
+            "file": "foundation.spec.ts",
+            "line": 289,
+            "column": 5
+          }
+        ]
+      },
+      {
+        "title": "global-assistant.spec.ts",
+        "file": "global-assistant.spec.ts",
+        "column": 0,
+        "line": 0,
+        "specs": [
+          {
+            "title": "assistente global, revisão e movimento: desktop",
+            "ok": true,
+            "tags": [],
+            "tests": [
+              {
+                "timeout": 60000,
+                "annotations": [],
+                "expectedStatus": "passed",
+                "projectId": "chromium",
+                "projectName": "chromium",
+                "results": [
+                  {
+                    "workerIndex": 1,
+                    "parallelIndex": 0,
+                    "status": "passed",
+                    "duration": 5349,
+                    "errors": [],
+                    "stdout": [],
+                    "stderr": [],
+                    "retry": 0,
+                    "startTime": "2026-10-02T11:47:58.541Z",
+                    "annotations": [],
+                    "attachments": []
+                  }
+                ],
+                "status": "expected"
+              }
+            ],
+            "id": "4186afff184dcfdf23d9-48ff61c5cd5e57afc159",
+            "file": "global-assistant.spec.ts",
+            "line": 5,
+            "column": 7
+          },
+          {
+            "title": "assistente global, revisão e movimento: mobile",
+            "ok": true,
+            "tags": [],
+            "tests": [
+              {
+                "timeout": 60000,
+                "annotations": [],
+                "expectedStatus": "passed",
+                "projectId": "chromium",
+                "projectName": "chromium",
+                "results": [
+                  {
+                    "workerIndex": 1,
+                    "parallelIndex": 0,
+                    "status": "passed",
+                    "duration": 6366,
+                    "errors": [],
+                    "stdout": [],
+                    "stderr": [],
+                    "retry": 0,
+                    "startTime": "2026-10-02T11:48:03.895Z",
+                    "annotations": [],
+                    "attachments": []
+                  }
+                ],
+                "status": "expected"
+              }
+            ],
+            "id": "4186afff184dcfdf23d9-f9255c2da1f571bb586c",
+            "file": "global-assistant.spec.ts",
+            "line": 5,
+            "column": 7
+          }
+        ]
+      },
+      {
+        "title": "navigation.spec.ts",
+        "file": "navigation.spec.ts",
+        "column": 0,
+        "line": 0,
+        "specs": [
+          {
+            "title": "tema claro padrão, navegação por tarefa e preferência explícita persistida",
+            "ok": true,
+            "tags": [],
+            "tests": [
+              {
+                "timeout": 30000,
+                "annotations": [],
+                "expectedStatus": "passed",
+                "projectId": "chromium",
+                "projectName": "chromium",
+                "results": [
+                  {
+                    "workerIndex": 1,
+                    "parallelIndex": 0,
+                    "status": "passed",
+                    "duration": 2266,
+                    "errors": [],
+                    "stdout": [],
+                    "stderr": [],
+                    "retry": 0,
+                    "startTime": "2026-10-02T11:48:10.270Z",
+                    "annotations": [],
+                    "attachments": []
+                  }
+                ],
+                "status": "expected"
+              }
+            ],
+            "id": "5d2868f7d23420c27cca-9311d09accae2216c6ce",
+            "file": "navigation.spec.ts",
+            "line": 17,
+            "column": 5
+          },
+          {
+            "title": "menu móvel fecha com Escape, devolve foco e fecha ao navegar",
+            "ok": true,
+            "tags": [],
+            "tests": [
+              {
+                "timeout": 30000,
+                "annotations": [],
+                "expectedStatus": "passed",
+                "projectId": "chromium",
+                "projectName": "chromium",
+                "results": [
+                  {
+                    "workerIndex": 1,
+                    "parallelIndex": 0,
+                    "status": "passed",
+                    "duration": 914,
+                    "errors": [],
+                    "stdout": [],
+                    "stderr": [],
+                    "retry": 0,
+                    "startTime": "2026-10-02T11:48:12.543Z",
+                    "annotations": [],
+                    "attachments": []
+                  }
+                ],
+                "status": "expected"
+              }
+            ],
+            "id": "5d2868f7d23420c27cca-05f9b47cbc9d30cc5388",
+            "file": "navigation.spec.ts",
+            "line": 93,
+            "column": 5
+          }
+        ]
+      },
+      {
+        "title": "pdf-completion.spec.ts",
+        "file": "pdf-completion.spec.ts",
+        "column": 0,
+        "line": 0,
+        "specs": [
+          {
+            "title": "PDF jornada conectada: CSV, campos, captura, conversão, proposta, perda, métricas e retorno",
+            "ok": true,
+            "tags": [],
+            "tests": [
+              {
+                "timeout": 120000,
+                "annotations": [],
+                "expectedStatus": "passed",
+                "projectId": "chromium",
+                "projectName": "chromium",
+                "results": [
+                  {
+                    "workerIndex": 1,
+                    "parallelIndex": 0,
+                    "status": "passed",
+                    "duration": 6300,
+                    "errors": [],
+                    "stdout": [],
+                    "stderr": [],
+                    "retry": 0,
+                    "startTime": "2026-10-02T11:48:13.473Z",
+                    "annotations": [],
+                    "attachments": []
+                  }
+                ],
+                "status": "expected"
+              }
+            ],
+            "id": "d4d728dc32e9dd209594-ed4367ccf5cc628b7577",
+            "file": "pdf-completion.spec.ts",
+            "line": 45,
+            "column": 5
+          },
+          {
+            "title": "PDF regra real: criar, revisar, executar, editar/pausar, reabrir e avisos",
+            "ok": true,
+            "tags": [],
+            "tests": [
+              {
+                "timeout": 90000,
+                "annotations": [],
+                "expectedStatus": "passed",
+                "projectId": "chromium",
+                "projectName": "chromium",
+                "results": [
+                  {
+                    "workerIndex": 1,
+                    "parallelIndex": 0,
+                    "status": "passed",
+                    "duration": 4157,
+                    "errors": [],
+                    "stdout": [],
+                    "stderr": [],
+                    "retry": 0,
+                    "startTime": "2026-10-02T11:48:19.778Z",
+                    "annotations": [],
+                    "attachments": []
+                  }
+                ],
+                "status": "expected"
+              }
+            ],
+            "id": "d4d728dc32e9dd209594-3b032df88e416c844a9c",
+            "file": "pdf-completion.spec.ts",
+            "line": 305,
+            "column": 5
+          },
+          {
+            "title": "PDF mobile escuro/reduced motion: importação, regra e painel sem overflow",
+            "ok": true,
+            "tags": [],
+            "tests": [
+              {
+                "timeout": 90000,
+                "annotations": [],
+                "expectedStatus": "passed",
+                "projectId": "chromium",
+                "projectName": "chromium",
+                "results": [
+                  {
+                    "workerIndex": 1,
+                    "parallelIndex": 0,
+                    "status": "passed",
+                    "duration": 1970,
+                    "errors": [],
+                    "stdout": [],
+                    "stderr": [],
+                    "retry": 0,
+                    "startTime": "2026-10-02T11:48:23.942Z",
+                    "annotations": [],
+                    "attachments": []
+                  }
+                ],
+                "status": "expected"
+              }
+            ],
+            "id": "d4d728dc32e9dd209594-fb182d0fcf8505f1ea28",
+            "file": "pdf-completion.spec.ts",
+            "line": 439,
+            "column": 5
+          }
+        ]
+      },
+      {
+        "title": "presentation.spec.ts",
+        "file": "presentation.spec.ts",
+        "column": 0,
+        "line": 0,
+        "specs": [
+          {
+            "title": "jornada de apresentação notebook: Radar, tarefa, proposta, ganho e filtros",
+            "ok": true,
+            "tags": [],
+            "tests": [
+              {
+                "timeout": 120000,
+                "annotations": [],
+                "expectedStatus": "passed",
+                "projectId": "chromium",
+                "projectName": "chromium",
+                "results": [
+                  {
+                    "workerIndex": 1,
+                    "parallelIndex": 0,
+                    "status": "passed",
+                    "duration": 4628,
+                    "errors": [],
+                    "stdout": [],
+                    "stderr": [],
+                    "retry": 0,
+                    "startTime": "2026-10-02T11:48:25.927Z",
+                    "annotations": [],
+                    "attachments": []
+                  }
+                ],
+                "status": "expected"
+              }
+            ],
+            "id": "57a964c83dbf6a737e02-1822a7e8416166b936a4",
+            "file": "presentation.spec.ts",
+            "line": 4,
+            "column": 7
+          },
+          {
+            "title": "jornada de apresentação celular: Radar, tarefa, proposta, ganho e filtros",
+            "ok": true,
+            "tags": [],
+            "tests": [
+              {
+                "timeout": 120000,
+                "annotations": [],
+                "expectedStatus": "passed",
+                "projectId": "chromium",
+                "projectName": "chromium",
+                "results": [
+                  {
+                    "workerIndex": 1,
+                    "parallelIndex": 0,
+                    "status": "passed",
+                    "duration": 4676,
+                    "errors": [],
+                    "stdout": [],
+                    "stderr": [],
+                    "retry": 0,
+                    "startTime": "2026-10-02T11:48:30.561Z",
+                    "annotations": [],
+                    "attachments": []
+                  }
+                ],
+                "status": "expected"
+              }
+            ],
+            "id": "57a964c83dbf6a737e02-973a0d5b0f142caa14d3",
+            "file": "presentation.spec.ts",
+            "line": 4,
+            "column": 7
+          }
+        ]
+      },
+      {
+        "title": "rules-and-stages.spec.ts",
+        "file": "rules-and-stages.spec.ts",
+        "column": 0,
+        "line": 0,
+        "specs": [
+          {
+            "title": "automações e etapas: notebook",
+            "ok": true,
+            "tags": [],
+            "tests": [
+              {
+                "timeout": 30000,
+                "annotations": [],
+                "expectedStatus": "passed",
+                "projectId": "chromium",
+                "projectName": "chromium",
+                "results": [
+                  {
+                    "workerIndex": 1,
+                    "parallelIndex": 0,
+                    "status": "passed",
+                    "duration": 14481,
+                    "errors": [],
+                    "stdout": [],
+                    "stderr": [],
+                    "retry": 0,
+                    "startTime": "2026-10-02T11:48:35.252Z",
+                    "annotations": [],
+                    "attachments": []
+                  }
+                ],
+                "status": "expected"
+              }
+            ],
+            "id": "3aa603a97980c99456ee-afa47dae317b36ad6e57",
+            "file": "rules-and-stages.spec.ts",
+            "line": 5,
+            "column": 7
+          },
+          {
+            "title": "automações e etapas: celular",
+            "ok": true,
+            "tags": [],
+            "tests": [
+              {
+                "timeout": 30000,
+                "annotations": [],
+                "expectedStatus": "passed",
+                "projectId": "chromium",
+                "projectName": "chromium",
+                "results": [
+                  {
+                    "workerIndex": 1,
+                    "parallelIndex": 0,
+                    "status": "passed",
+                    "duration": 15953,
+                    "errors": [],
+                    "stdout": [],
+                    "stderr": [],
+                    "retry": 0,
+                    "startTime": "2026-10-02T11:48:49.744Z",
+                    "annotations": [],
+                    "attachments": []
+                  }
+                ],
+                "status": "expected"
+              }
+            ],
+            "id": "3aa603a97980c99456ee-608ada336a8f0e131eb3",
+            "file": "rules-and-stages.spec.ts",
+            "line": 5,
+            "column": 7
+          }
+        ]
+      },
+      {
+        "title": "sales.spec.ts",
+        "file": "sales.spec.ts",
+        "column": 0,
+        "line": 0,
+        "specs": [
+          {
+            "title": "pipeline pela interface, oportunidade, Kanban, ganho/perda, tarefas e follow-up",
+            "ok": true,
+            "tags": [],
+            "tests": [
+              {
+                "timeout": 90000,
+                "annotations": [],
+                "expectedStatus": "passed",
+                "projectId": "chromium",
+                "projectName": "chromium",
+                "results": [
+                  {
+                    "workerIndex": 1,
+                    "parallelIndex": 0,
+                    "status": "passed",
+                    "duration": 5038,
+                    "errors": [],
+                    "stdout": [],
+                    "stderr": [],
+                    "retry": 0,
+                    "startTime": "2026-10-02T11:49:05.715Z",
+                    "annotations": [],
+                    "attachments": []
+                  }
+                ],
+                "status": "expected"
+              }
+            ],
+            "id": "9732fc60f5589579a1d1-d7713b8cfa3d20d2cc1c",
+            "file": "sales.spec.ts",
+            "line": 39,
+            "column": 5
+          },
+          {
+            "title": "lead convertido gera contato, empresa e oportunidade pelo mesmo diálogo",
+            "ok": true,
+            "tags": [],
+            "tests": [
+              {
+                "timeout": 30000,
+                "annotations": [],
+                "expectedStatus": "passed",
+                "projectId": "chromium",
+                "projectName": "chromium",
+                "results": [
+                  {
+                    "workerIndex": 1,
+                    "parallelIndex": 0,
+                    "status": "passed",
+                    "duration": 1274,
+                    "errors": [],
+                    "stdout": [],
+                    "stderr": [],
+                    "retry": 0,
+                    "startTime": "2026-10-02T11:49:10.759Z",
+                    "annotations": [],
+                    "attachments": []
+                  }
+                ],
+                "status": "expected"
+              }
+            ],
+            "id": "9732fc60f5589579a1d1-8512d384cdda6493fe51",
+            "file": "sales.spec.ts",
+            "line": 194,
+            "column": 5
+          },
+          {
+            "title": "Kanban: mover acessível, conflito sem sobrescrita, tema escuro e mobile sem overflow",
+            "ok": true,
+            "tags": [],
+            "tests": [
+              {
+                "timeout": 30000,
+                "annotations": [],
+                "expectedStatus": "passed",
+                "projectId": "chromium",
+                "projectName": "chromium",
+                "results": [
+                  {
+                    "workerIndex": 1,
+                    "parallelIndex": 0,
+                    "status": "passed",
+                    "duration": 2459,
+                    "errors": [],
+                    "stdout": [],
+                    "stderr": [],
+                    "retry": 0,
+                    "startTime": "2026-10-02T11:49:12.042Z",
+                    "annotations": [],
+                    "attachments": []
+                  }
+                ],
+                "status": "expected"
+              }
+            ],
+            "id": "9732fc60f5589579a1d1-069ac5d74d773be2085d",
+            "file": "sales.spec.ts",
+            "line": 255,
+            "column": 5
+          }
+        ]
+      },
+      {
+        "title": "system-motion.spec.ts",
+        "file": "system-motion.spec.ts",
+        "column": 0,
+        "line": 0,
+        "specs": [
+          {
+            "title": "movimento entre etapas e reordenação interrompível preservam dados e reduced motion runtime",
+            "ok": true,
+            "tags": [],
+            "tests": [
+              {
+                "timeout": 90000,
+                "annotations": [],
+                "expectedStatus": "passed",
+                "projectId": "chromium",
+                "projectName": "chromium",
+                "results": [
+                  {
+                    "workerIndex": 1,
+                    "parallelIndex": 0,
+                    "status": "passed",
+                    "duration": 1599,
+                    "errors": [],
+                    "stdout": [],
+                    "stderr": [],
+                    "retry": 0,
+                    "startTime": "2026-10-02T11:49:14.516Z",
+                    "annotations": [],
+                    "attachments": []
+                  }
+                ],
+                "status": "expected"
+              }
+            ],
+            "id": "a4fba46239180944c26f-2a0d9e529d2482febee5",
+            "file": "system-motion.spec.ts",
+            "line": 133,
+            "column": 5
+          },
+          {
+            "title": "mobile: painéis repetidos/interrompidos, foco e contexto continuam utilizáveis",
+            "ok": true,
+            "tags": [],
+            "tests": [
+              {
+                "timeout": 30000,
+                "annotations": [],
+                "expectedStatus": "passed",
+                "projectId": "chromium",
+                "projectName": "chromium",
+                "results": [
+                  {
+                    "workerIndex": 1,
+                    "parallelIndex": 0,
+                    "status": "passed",
+                    "duration": 1650,
+                    "errors": [],
+                    "stdout": [],
+                    "stderr": [],
+                    "retry": 0,
+                    "startTime": "2026-10-02T11:49:16.121Z",
+                    "annotations": [],
+                    "attachments": []
+                  }
+                ],
+                "status": "expected"
+              }
+            ],
+            "id": "a4fba46239180944c26f-2df13b134da3e67868b1",
+            "file": "system-motion.spec.ts",
+            "line": 220,
+            "column": 5
+          },
+          {
+            "title": "reduced motion inicial: autenticação e formulários permanecem visíveis sem animações",
+            "ok": true,
+            "tags": [],
+            "tests": [
+              {
+                "timeout": 30000,
+                "annotations": [],
+                "expectedStatus": "passed",
+                "projectId": "chromium",
+                "projectName": "chromium",
+                "results": [
+                  {
+                    "workerIndex": 1,
+                    "parallelIndex": 0,
+                    "status": "passed",
+                    "duration": 811,
+                    "errors": [],
+                    "stdout": [],
+                    "stderr": [],
+                    "retry": 0,
+                    "startTime": "2026-10-02T11:49:17.780Z",
+                    "annotations": [],
+                    "attachments": []
+                  }
+                ],
+                "status": "expected"
+              }
+            ],
+            "id": "a4fba46239180944c26f-781aa48702f36304cc55",
+            "file": "system-motion.spec.ts",
+            "line": 291,
+            "column": 5
+          }
+        ]
+      },
+      {
+        "title": "workflow-navigation-chat.spec.ts",
+        "file": "workflow-navigation-chat.spec.ts",
+        "column": 0,
+        "line": 0,
+        "specs": [
+          {
+            "title": "funil no contexto de negócios: retorno, cancelar e recuperar histórico desktop",
+            "ok": true,
+            "tags": [],
+            "tests": [
+              {
+                "timeout": 30000,
+                "annotations": [],
+                "expectedStatus": "passed",
+                "projectId": "chromium",
+                "projectName": "chromium",
+                "results": [
+                  {
+                    "workerIndex": 1,
+                    "parallelIndex": 0,
+                    "status": "passed",
+                    "duration": 2689,
+                    "errors": [],
+                    "stdout": [],
+                    "stderr": [],
+                    "retry": 0,
+                    "startTime": "2026-10-02T11:49:18.601Z",
+                    "annotations": [],
+                    "attachments": []
+                  }
+                ],
+                "status": "expected"
+              }
+            ],
+            "id": "c4a92de7e2242adb8c75-e7d492550ab774472f15",
+            "file": "workflow-navigation-chat.spec.ts",
+            "line": 54,
+            "column": 7
+          },
+          {
+            "title": "chat: composer, revisão, frames sem overflow e reload desktop",
+            "ok": true,
+            "tags": [],
+            "tests": [
+              {
+                "timeout": 30000,
+                "annotations": [],
+                "expectedStatus": "passed",
+                "projectId": "chromium",
+                "projectName": "chromium",
+                "results": [
+                  {
+                    "workerIndex": 1,
+                    "parallelIndex": 0,
+                    "status": "passed",
+                    "duration": 1672,
+                    "errors": [],
+                    "stdout": [],
+                    "stderr": [],
+                    "retry": 0,
+                    "startTime": "2026-10-02T11:49:21.297Z",
+                    "annotations": [],
+                    "attachments": []
+                  }
+                ],
+                "status": "expected"
+              }
+            ],
+            "id": "c4a92de7e2242adb8c75-3e4e74f2ae1b0ab48d9c",
+            "file": "workflow-navigation-chat.spec.ts",
+            "line": 136,
+            "column": 7
+          },
+          {
+            "title": "funil no contexto de negócios: retorno, cancelar e recuperar histórico mobile",
+            "ok": true,
+            "tags": [],
+            "tests": [
+              {
+                "timeout": 30000,
+                "annotations": [],
+                "expectedStatus": "passed",
+                "projectId": "chromium",
+                "projectName": "chromium",
+                "results": [
+                  {
+                    "workerIndex": 1,
+                    "parallelIndex": 0,
+                    "status": "passed",
+                    "duration": 3032,
+                    "errors": [],
+                    "stdout": [],
+                    "stderr": [],
+                    "retry": 0,
+                    "startTime": "2026-10-02T11:49:22.975Z",
+                    "annotations": [],
+                    "attachments": []
+                  }
+                ],
+                "status": "expected"
+              }
+            ],
+            "id": "c4a92de7e2242adb8c75-431e30d041fc2d32c74b",
+            "file": "workflow-navigation-chat.spec.ts",
+            "line": 54,
+            "column": 7
+          },
+          {
+            "title": "chat: composer, revisão, frames sem overflow e reload mobile",
+            "ok": true,
+            "tags": [],
+            "tests": [
+              {
+                "timeout": 30000,
+                "annotations": [],
+                "expectedStatus": "passed",
+                "projectId": "chromium",
+                "projectName": "chromium",
+                "results": [
+                  {
+                    "workerIndex": 1,
+                    "parallelIndex": 0,
+                    "status": "passed",
+                    "duration": 1657,
+                    "errors": [],
+                    "stdout": [],
+                    "stderr": [],
+                    "retry": 0,
+                    "startTime": "2026-10-02T11:49:26.014Z",
+                    "annotations": [],
+                    "attachments": []
+                  }
+                ],
+                "status": "expected"
+              }
+            ],
+            "id": "c4a92de7e2242adb8c75-1074e0542d226cf92b18",
+            "file": "workflow-navigation-chat.spec.ts",
+            "line": 136,
+            "column": 7
+          },
+          {
+            "title": "descoberta operacional respeita permissões e URLs existentes",
+            "ok": true,
+            "tags": [],
+            "tests": [
+              {
+                "timeout": 30000,
+                "annotations": [],
+                "expectedStatus": "passed",
+                "projectId": "chromium",
+                "projectName": "chromium",
+                "results": [
+                  {
+                    "workerIndex": 1,
+                    "parallelIndex": 0,
+                    "status": "passed",
+                    "duration": 1532,
+                    "errors": [],
+                    "stdout": [],
+                    "stderr": [],
+                    "retry": 0,
+                    "startTime": "2026-10-02T11:49:27.681Z",
+                    "annotations": [],
+                    "attachments": []
+                  }
+                ],
+                "status": "expected"
+              }
+            ],
+            "id": "c4a92de7e2242adb8c75-158c9bdc980dba83c911",
+            "file": "workflow-navigation-chat.spec.ts",
+            "line": 206,
+            "column": 5
+          }
+        ]
+      }
+    ],
+    "errors": [],
+    "stats": {
+      "startTime": "2026-10-02T11:46:51.244Z",
+      "duration": 158265.05,
+      "expected": 34,
+      "skipped": 0,
+      "unexpected": 1,
+      "flaky": 0
+    }
+  }
+}

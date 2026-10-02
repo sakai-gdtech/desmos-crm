@@ -371,6 +371,12 @@ function Workspace({
             className="automation-secondary-nav"
             aria-label="Recursos de automações"
           >
+            <Link
+              className="btn btn-ghost"
+              href={`/sales/automations/internal?pipelineId=${pipeline.id}`}
+            >
+              Tarefas e avisos automáticos
+            </Link>
             <Button
               variant={view === "templates" ? "secondary" : "ghost"}
               onClick={() => protect(() => setView("templates"))}
@@ -426,8 +432,10 @@ function Workspace({
             />
           </div>
           <p className="automation-capability-note">
-            Rascunhos ficam neste navegador. Somente o acompanhamento
-            identificado como funcional cria tarefas na demo.
+            Rascunhos de mensagens ficam neste navegador, sem execução. Tarefas
+            e avisos automáticos têm configuração própria e persistência no
+            servidor. O acompanhamento de proposta do funil demo continua
+            disponível.
           </p>
           <MotionCollection
             motionKey={`${pipeline.id}:${search}:${rules.map((r) => `${r.id}:${r.name}`).join("|")}`}

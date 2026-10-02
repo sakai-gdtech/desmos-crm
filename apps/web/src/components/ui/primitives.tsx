@@ -11,7 +11,6 @@ import {
   type HTMLAttributes,
   type InputHTMLAttributes,
   type ReactNode,
-  type SelectHTMLAttributes,
 } from "react";
 import { AlertCircle, CheckCircle2, Loader2, X } from "lucide-react";
 import { clsx, type ClassValue } from "clsx";
@@ -59,14 +58,7 @@ export const Input = forwardRef<
 >(function Input({ className, ...props }, ref) {
   return <input ref={ref} className={cn("input", className)} {...props} />;
 });
-export const Select = forwardRef<
-  HTMLSelectElement,
-  SelectHTMLAttributes<HTMLSelectElement>
->(function Select({ className, ...props }, ref) {
-  return (
-    <select ref={ref} className={cn("input select", className)} {...props} />
-  );
-});
+export { Select } from "./select";
 export function Field({
   label,
   id,

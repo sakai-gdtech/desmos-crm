@@ -1,0 +1,131 @@
+{
+  "commit": "bbd6fc63b369ed6a18cfc0c272d5546e764437b6",
+  "e2e": {
+    "command": "PLAYWRIGHT_CHANNEL=chrome npx playwright test tests/e2e/crm.spec.ts tests/e2e/sales.spec.ts tests/e2e/presentation.spec.ts tests/e2e/automation-workspace.spec.ts tests/e2e/workflow-navigation-chat.spec.ts --reporter=json",
+    "stats": {
+      "startTime": "2026-10-02T03:32:14.331Z",
+      "duration": 57730.201,
+      "expected": 15,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "errors": [],
+    "tests": [
+      {
+        "title": "company dates and controlled interpretation preserve boundaries and explicit identities",
+        "ok": true,
+        "statuses": [
+          "passed"
+        ]
+      },
+      {
+        "title": "workspace templates assistant agenda: desktop",
+        "ok": true,
+        "statuses": [
+          "passed"
+        ]
+      },
+      {
+        "title": "workspace templates assistant agenda: mobile",
+        "ok": true,
+        "statuses": [
+          "passed"
+        ]
+      },
+      {
+        "title": "lead, nota, conversão em contato e empresa, exclusão e restauração",
+        "ok": true,
+        "statuses": [
+          "passed"
+        ]
+      },
+      {
+        "title": "empresa cliente reúne contatos, tags, busca e alerta de duplicidade",
+        "ok": true,
+        "statuses": [
+          "passed"
+        ]
+      },
+      {
+        "title": "jornada de apresentação notebook: Radar, tarefa, proposta, ganho e filtros",
+        "ok": true,
+        "statuses": [
+          "passed"
+        ]
+      },
+      {
+        "title": "jornada de apresentação celular: Radar, tarefa, proposta, ganho e filtros",
+        "ok": true,
+        "statuses": [
+          "passed"
+        ]
+      },
+      {
+        "title": "pipeline pela interface, oportunidade, Kanban, ganho/perda, tarefas e follow-up",
+        "ok": true,
+        "statuses": [
+          "passed"
+        ]
+      },
+      {
+        "title": "lead convertido gera contato, empresa e oportunidade pelo mesmo diálogo",
+        "ok": true,
+        "statuses": [
+          "passed"
+        ]
+      },
+      {
+        "title": "Kanban: mover acessível, conflito sem sobrescrita, tema escuro e mobile sem overflow",
+        "ok": true,
+        "statuses": [
+          "passed"
+        ]
+      },
+      {
+        "title": "funil no contexto de negócios: retorno, cancelar e recuperar histórico desktop",
+        "ok": true,
+        "statuses": [
+          "passed"
+        ]
+      },
+      {
+        "title": "chat: composer, revisão, frames sem overflow e reload desktop",
+        "ok": true,
+        "statuses": [
+          "passed"
+        ]
+      },
+      {
+        "title": "funil no contexto de negócios: retorno, cancelar e recuperar histórico mobile",
+        "ok": true,
+        "statuses": [
+          "passed"
+        ]
+      },
+      {
+        "title": "chat: composer, revisão, frames sem overflow e reload mobile",
+        "ok": true,
+        "statuses": [
+          "passed"
+        ]
+      },
+      {
+        "title": "descoberta operacional respeita permissões e URLs existentes",
+        "ok": true,
+        "statuses": [
+          "passed"
+        ]
+      }
+    ]
+  },
+  "api": {
+    "command": "npm test",
+    "pass": 61,
+    "fail": 0,
+    "skipped": 0,
+    "durationMs": 14158.282709,
+    "rawLog": "api-smoke.txt"
+  },
+  "limits": "Local fixtures only. Smoke subset is15 E2E, not a rerun of all30. Existing demo fixture was not reset. No external communication worker or source edits."
+}

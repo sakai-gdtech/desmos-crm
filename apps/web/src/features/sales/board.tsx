@@ -1,5 +1,11 @@
 "use client";
 import Link from "next/link";
+import {
+  CommercialFilters,
+  commercialParams,
+  type CommercialWindow,
+} from "./commercial-filters";
+import { useRememberedState } from "@/features/workspace/editor-memory";
 import { SalesNavigation } from "./navigation";
 import { DealDrawer } from "./deal-drawer";
 import { useSearchParams } from "next/navigation";
@@ -44,14 +50,26 @@ export function SalesBoard() {
   const { data: session } = useSession();
   const params = useSearchParams();
   const pipelines = usePipelines();
-  const [selected, setSelected] = useState(params.get("pipelineId") ?? "");
+  const [selected, setSelected] = useRememberedState(
+    "board:pipeline",
+    params.get("pipelineId") ?? "",
+    !!params.get("pipelineId"),
+  );
   const active = pipelines.data?.items.filter((p) => p.active) ?? [];
   const pipelineId =
     selected || active[0]?.id || pipelines.data?.items[0]?.id || "";
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useRememberedState("board:q", "");
   const q = useDebounced(search);
-  const [assignedTo, setAssignedTo] = useState("");
-  const [status, setStatus] = useState("OPEN");
+  const [assignedTo, setAssignedTo] = useRememberedState("board:owner", "");
+  const [status, setStatus] = useRememberedState("board:status", "OPEN");
+  const [window, setWindow] = useRememberedState<CommercialWindow>(
+    "board:window",
+    { source: "", from: "", to: "" },
+  );
+  const windowParams = commercialParams(
+    window,
+    session?.tenant.timezone ?? "UTC",
+  );
   const [dragging, setDragging] = useState<Deal | null>(null);
   const [over, setOver] = useState("");
   const [openedDeal, setOpenedDeal] = useState<string | null>(null);
@@ -60,10 +78,18 @@ export function SalesBoard() {
   const { assignees } = useCrmReferences();
   const invalidate = useSalesInvalidation();
   const result = useQuery({
-    queryKey: ["sales", "board", pipelineId, q, assignedTo, status],
+    queryKey: [
+      "sales",
+      "board",
+      pipelineId,
+      q,
+      assignedTo,
+      status,
+      windowParams,
+    ],
     queryFn: () =>
       api<Board>(
-        `/sales/board?${new URLSearchParams({ pipelineId, q, ...(assignedTo ? { assignedTo } : {}), status })}`,
+        `/sales/board?${new URLSearchParams({ pipelineId, q, ...(assignedTo ? { assignedTo } : {}), status, ...windowParams })}`,
       ),
     enabled: !!pipelineId && !!session?.permissions.includes("deals.view"),
     placeholderData: keepPreviousData,
@@ -204,6 +230,11 @@ export function SalesBoard() {
                 <option value="LOST">Perdidas</option>
               </Select>
             </Field>
+            <CommercialFilters
+              value={window}
+              onChange={setWindow}
+              prefix="board"
+            />
             {canManage && (
               <Link
                 href={`/sales/pipelines/${pipelineId}/edit?from=board`}

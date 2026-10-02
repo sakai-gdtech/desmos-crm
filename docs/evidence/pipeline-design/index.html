@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="pt-BR">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Desmos — editor de funil</title>
+<style>
+  :root { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #202d40; background: #f7f8fa; }
+  body { max-width: 1280px; margin: auto; padding: 28px 20px; } h1 { font-size: 26px; } h2 { font-size: 18px; margin-top: 32px; }
+  p { line-height: 1.6; max-width: 75ch; } a { color: #173b68; } .pair { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 20px; align-items: start; }
+  figure { margin: 0; } figcaption { padding: 10px 0; font-weight: 600; } img { width: 100%; height: auto; border: 1px solid #e1e6ed; border-radius: 12px; }
+  details { margin-top: 24px; } summary { cursor: pointer; padding: 12px 0; } @media(max-width:650px) { .pair { grid-template-columns:1fr; } }
+</style>
+<main>
+  <h1>Editor de funil</h1>
+  <p>Etapas mais compactas, orientações em i acionável, avançados recolhidos e dourado discreto. Estado e ações ficam juntos, sem cobrir o conteúdo.</p>
+  <p><a href="validation.md">Validação e limites</a> · <a href="../../specs/pipeline-editor-design.md">Decisões de design</a> · <a href="e2e-final.json">43 testes finais</a></p>
+  <h2>Desktop claro</h2><div class="pair"><figure><figcaption>Antes</figcaption><img src="before-desktop-light.png" alt="Editor anterior, desktop claro"></figure><figure><figcaption>Depois</figcaption><img src="after-desktop-light.png" alt="Editor refinado, desktop claro"></figure></div>
+  <h2>Mobile escuro</h2><div class="pair"><figure><figcaption>Antes</figcaption><img src="before-mobile-dark.png" alt="Editor anterior, mobile escuro"></figure><figure><figcaption>Depois</figcaption><img src="after-mobile-dark.png" alt="Editor refinado, mobile escuro"></figure></div>
+  <details><summary>Desktop escuro</summary><div class="pair"><img src="before-desktop-dark.png" alt="Antes, desktop escuro"><img src="after-desktop-dark.png" alt="Depois, desktop escuro"></div></details>
+  <details><summary>Mobile claro</summary><div class="pair"><img src="before-mobile-light.png" alt="Antes, mobile claro"><img src="after-mobile-light.png" alt="Depois, mobile claro"></div></details>
+  <details><summary>Avançados e informação aberta</summary><div class="pair"><img src="after-desktop-light-advanced-help.png" alt="Avançados e ajuda, desktop"><img src="after-mobile-dark-advanced-help.png" alt="Avançados e ajuda, mobile"></div></details>
+</main>
+</html>

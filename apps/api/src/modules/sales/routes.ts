@@ -2,16 +2,75 @@ import type { FastifyInstance } from "fastify";
 import { z } from "zod";
 import { authenticate } from "../iam/application/sessions.js";
 import { noteCreate, notePatch } from "../crm/schemas.js";
+import * as rules from "./rules.js";
+import * as fields from "../crm/fields.js";
 import * as s from "./schemas.js";
 import * as presentation from "./presentation.js";
 import * as service from "./service.js";
 const params = z.object({ id: z.uuid() });
 export async function salesRoutes(app: FastifyInstance) {
+  app.get("/sales/rules", async (req) =>
+    rules.rules(
+      await authenticate(req),
+      z.object({ pipelineId: z.uuid() }).strict().parse(req.query).pipelineId,
+    ),
+  );
+  app.post("/sales/rules", async (req, reply) =>
+    reply
+      .code(201)
+      .send(
+        await rules.saveRule(
+          await authenticate(req),
+          rules.ruleInput.parse(req.body),
+        ),
+      ),
+  );
+  app.patch("/sales/rules/:id", async (req) =>
+    rules.saveRule(
+      await authenticate(req),
+      rules.ruleInput.parse(req.body),
+      params.parse(req.params).id,
+    ),
+  );
+  app.post("/sales/rules/scan", async (req) =>
+    rules.scan(
+      await authenticate(req),
+      z.object({ pipelineId: z.uuid() }).strict().parse(req.body).pipelineId,
+    ),
+  );
+  app.get("/notifications", async (req) =>
+    rules.notifications(await authenticate(req)),
+  );
+  app.post("/notifications/:id/read", async (req) => {
+    z.object({})
+      .strict()
+      .parse(req.body ?? {});
+    return rules.readNotification(
+      await authenticate(req),
+      params.parse(req.params).id,
+    );
+  });
+
+  app.get("/sales/deals/:id/fields", async (req) =>
+    fields.fieldValues(
+      await authenticate(req),
+      "deals",
+      params.parse(req.params).id,
+    ),
+  );
+  app.put("/sales/deals/:id/fields", async (req) =>
+    fields.fieldValues(
+      await authenticate(req),
+      "deals",
+      params.parse(req.params).id,
+      fields.valuesInput.parse(req.body),
+    ),
+  );
+
   app.get("/sales/dashboard", async (req) =>
     presentation.dashboard(
       await authenticate(req),
-      z.object({ pipelineId: z.uuid().optional() }).strict().parse(req.query)
-        .pipelineId,
+      presentation.dashboardQuery.parse(req.query),
     ),
   );
   app.get("/sales/products", async (req) =>

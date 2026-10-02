@@ -1,0 +1,22 @@
+{
+  "checks": [],
+  "tokens": {
+    "background": "#f7f8fa",
+    "surface": "#fff",
+    "primary": "#173b68",
+    "primary-soft": "#eaf0f7",
+    "primary-text": "#173b68",
+    "focus": "#3067a9",
+    "brand-gold": "#aa8446",
+    "brand-gold-soft": "",
+    "brand-gold-text": "",
+    "brand-gold-border": "",
+    "success": "#217550",
+    "success-soft": "#e8f4ed",
+    "warning": "#8a5b16",
+    "warning-soft": "#fbf1df",
+    "danger": "#b63b44",
+    "danger-soft": "#fdf0f0"
+  },
+  "pageErrors": []
+}

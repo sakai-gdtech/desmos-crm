@@ -16,6 +16,12 @@ import {
 } from "@/components/ui/primitives";
 import { api } from "@/lib/api";
 import { formatDate } from "@/lib/types";
+import { useRememberedState } from "@/features/workspace/editor-memory";
+import {
+  CommercialFilters,
+  commercialParams,
+  type CommercialWindow,
+} from "./commercial-filters";
 import { money } from "./types";
 import { usePipelines } from "./shared";
 import { DealDrawer } from "./deal-drawer";
@@ -26,7 +32,12 @@ type Dashboard = {
     wonValue: string;
     wonCount: number;
     openCount: number;
+    lostCount: number;
+    averageTicket: string | null;
+    salesCycleDays: string | null;
   }[];
+  conversion: number | null;
+  lossReasons: { reason: string; total: number }[];
   noActionCount: number;
   overdueCount: number | null;
   deals: {
@@ -53,15 +64,25 @@ export function SalesDashboard() {
   const { data: session } = useSession();
   const [deal, setDeal] = useState<string | null>(null);
   const pipelines = usePipelines();
-  const [selected, setSelected] = useState<string | null>(null);
+  const [selected, setSelected] = useRememberedState<string | null>(
+    "dashboard:pipeline",
+    null,
+  );
   const pipelineId =
     selected ?? pipelines.data?.items.find((p) => p.demoFixture)?.id ?? "";
+  const [owner, setOwner] = useRememberedState("dashboard:owner", "");
+  const [window, setWindow] = useRememberedState<CommercialWindow>(
+    "dashboard:window",
+    { source: "", from: "", to: "" },
+  );
+  const filters = new URLSearchParams({
+    ...(pipelineId ? { pipelineId } : {}),
+    ...(owner ? { assignedTo: owner } : {}),
+    ...commercialParams(window, session?.tenant.timezone ?? "UTC"),
+  });
   const result = useQuery({
-    queryKey: ["sales", "dashboard", pipelineId],
-    queryFn: () =>
-      api<Dashboard>(
-        `/sales/dashboard${pipelineId ? `?pipelineId=${pipelineId}` : ""}`,
-      ),
+    queryKey: ["sales", "dashboard", filters.toString()],
+    queryFn: () => api<Dashboard>(`/sales/dashboard?${filters}`),
     enabled: !pipelines.isPending,
   });
   if (!session) return null;
@@ -100,6 +121,13 @@ export function SalesDashboard() {
             ))}
           </Select>
         </Field>
+        <CommercialFilters
+          value={window}
+          onChange={setWindow}
+          owner={owner}
+          onOwner={setOwner}
+          prefix="dashboard"
+        />
       </div>
       <dl className="commercial-indicators">
         <div>
@@ -147,6 +175,72 @@ export function SalesDashboard() {
           </dd>
         </div>
       </dl>
+      <section className="radar-section">
+        <div className="section-heading">
+          <div>
+            <h2>Resultados dos negócios</h2>
+            <p>
+              Negócios criados no período selecionado. Conversão: ganhos ÷
+              (ganhos + perdidos).
+            </p>
+          </div>
+          <strong>
+            {data.conversion === null
+              ? "Sem fechamentos"
+              : `${data.conversion}% de conversão`}
+          </strong>
+        </div>
+        <div
+          className="table-scroll"
+          role="region"
+          aria-label="Resultados por moeda"
+          tabIndex={0}
+        >
+          <table className="crm-table">
+            <thead>
+              <tr>
+                <th>Moeda</th>
+                <th>Ganhos</th>
+                <th>Perdidos</th>
+                <th>Ticket médio ganho</th>
+                <th>Ciclo até o ganho</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.totals.map((t) => (
+                <tr key={t.currency}>
+                  <td>{t.currency}</td>
+                  <td>{t.wonCount}</td>
+                  <td>{t.lostCount}</td>
+                  <td>
+                    {t.averageTicket ? money(t.averageTicket, t.currency) : "—"}
+                  </td>
+                  <td>
+                    {t.salesCycleDays === null
+                      ? "—"
+                      : `${t.salesCycleDays} dias`}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <h3>Motivos de perda</h3>
+        {data.lossReasons.length ? (
+          <dl className="crm-data-list">
+            {data.lossReasons.map((r) => (
+              <div key={r.reason}>
+                <dt>{r.reason}</dt>
+                <dd>
+                  {r.total} {r.total === 1 ? "negócio" : "negócios"}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        ) : (
+          <p className="muted">Nenhuma perda nos filtros selecionados.</p>
+        )}
+      </section>
       <section className="radar-section">
         <div className="section-heading">
           <div>
@@ -251,8 +345,10 @@ export function SalesDashboard() {
       </section>
       <p className="field-hint">
         Indicadores calculados sobre os registros ativos do funil selecionado,
-        em todo o período. O Radar considera ações futuras e o prazo de
-        permanência definido em cada etapa; mostra até 20 negócios e 10 tarefas.
+        criados no período selecionado, no fuso da empresa. Sem datas, considera
+        todo o histórico. O ciclo mede criação até ganho; moedas são calculadas
+        separadamente. O Radar considera ações futuras e o prazo de permanência
+        definido em cada etapa; mostra até 20 negócios e 10 tarefas.
       </p>
     </div>
   );

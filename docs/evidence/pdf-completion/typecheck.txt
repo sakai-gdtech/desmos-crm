@@ -1,0 +1,12 @@
+
+> orbit-crm@0.1.0 typecheck
+> npm run typecheck --workspaces --if-present
+
+
+> @orbit/api@0.1.0 typecheck
+> tsc --noEmit
+
+
+> @orbit/web@0.1.0 typecheck
+> tsc --noEmit
+

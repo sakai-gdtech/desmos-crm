@@ -90,7 +90,8 @@ for (const mobile of [false, true]) {
       .getByRole("button", { name: "Salvar funil", exact: true })
       .click();
     await expect(page).toHaveURL(board);
-    await expect(page.getByLabel("Funil", { exact: true })).toHaveValue(
+    await expect(page.getByLabel("Funil", { exact: true })).toHaveAttribute(
+      "data-value",
       pipeline.id,
     );
     const saved = (
@@ -175,9 +176,9 @@ for (const mobile of [false, true]) {
       name: "Revisão do rascunho de automação",
     });
     await expect(review).toBeVisible();
-    await expect(review.getByLabel("Destinatário interpretado")).toHaveValue(
-      "USER",
-    );
+    await expect(
+      review.getByLabel("Destinatário interpretado"),
+    ).toHaveAttribute("data-value", "USER");
     await expect(request).toBeInViewport();
     await page.getByRole("button", { name: "Fechar assistente" }).click();
     await expect(entry).toBeFocused();

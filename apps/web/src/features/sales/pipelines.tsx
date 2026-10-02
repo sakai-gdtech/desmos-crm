@@ -1,5 +1,6 @@
 "use client";
 import { useLayoutMotion, MotionCollection } from "@/components/ui/motion";
+import { InfoHelp } from "@/components/ui/info-help";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEditorMemory } from "@/features/workspace/editor-memory";
@@ -196,7 +197,10 @@ function Editor({ item }: { item?: Pipeline }) {
     [],
   );
   const [leaveTo, setLeaveTo] = useState("");
-  const leave = () => (dirty ? setLeaveTo(returnTo) : router.push(returnTo));
+  const leave = () => {
+    if (saveLocked.current) return;
+    dirty ? setLeaveTo(returnTo) : router.push(returnTo);
+  };
   useEffect(() => {
     if (!dirty) return;
     const clicked = (event: MouseEvent) => {
@@ -223,6 +227,7 @@ function Editor({ item }: { item?: Pipeline }) {
       )
         return;
       event.preventDefault();
+      if (saveLocked.current) return;
       setLeaveTo(`${target.pathname}${target.search}${target.hash}`);
     };
     document.addEventListener("click", clicked, true);
@@ -365,7 +370,7 @@ function Editor({ item }: { item?: Pipeline }) {
   }
   return (
     <form
-      className="page-stack crm-record-form sales-record-form"
+      className="page-stack crm-record-form sales-record-form pipeline-editor"
       onSubmit={(e) => {
         e.preventDefault();
         setFormError("");
@@ -383,7 +388,12 @@ function Editor({ item }: { item?: Pipeline }) {
         save.mutate();
       }}
     >
-      <button type="button" className="back-link" onClick={leave}>
+      <button
+        type="button"
+        className="back-link"
+        onClick={leave}
+        disabled={save.isPending}
+      >
         <ArrowLeft size={15} />
         {params.get("from") === "board"
           ? "Voltar para negócios"
@@ -391,7 +401,7 @@ function Editor({ item }: { item?: Pipeline }) {
       </button>
       <PageHeading
         title={item ? "Editar funil" : "Novo funil"}
-        description="Organize as etapas e defina a probabilidade de cada uma."
+        description={item?.name ?? "Seu processo de vendas."}
         action={
           item && (
             <Link
@@ -407,14 +417,12 @@ function Editor({ item }: { item?: Pipeline }) {
       {formError && <Alert>{formError}</Alert>}
       {recovered && (
         <Alert success>
-          Retomamos as alterações desta sessão. Salve para aplicar ao funil;
-          este rascunho permanece somente em memória até sair da conta ou
-          recarregar.
+          Retomamos as alterações desta sessão. Salve para aplicar.
         </Alert>
       )}
       {save.isError && <Alert>{errorMessage(save.error)}</Alert>}
-      <Card className="sales-form-section">
-        <div className="form-grid">
+      <Card className="sales-form-section pipeline-basics">
+        <fieldset className="pipeline-basics-grid" disabled={save.isPending}>
           <Field id="pipeline-name" label="Nome do funil">
             <Input
               id="pipeline-name"
@@ -432,70 +440,46 @@ function Editor({ item }: { item?: Pipeline }) {
               maxLength={2000}
             />
           </Field>
-        </div>
-        {item && (
-          <label className="crm-checkbox">
-            <input
-              type="checkbox"
-              checked={active}
-              onChange={(e) => setActive(e.target.checked)}
-            />
-            Funil ativo
-          </label>
-        )}
+          {item && (
+            <div className="pipeline-active">
+              <label className="crm-checkbox">
+                <input
+                  type="checkbox"
+                  checked={active}
+                  onChange={(e) => setActive(e.target.checked)}
+                />
+                Funil ativo
+              </label>
+              <InfoHelp title="Funil ativo" disabled={save.isPending}>
+                Desativar impede criar novos negócios neste funil. Os registros
+                existentes permanecem disponíveis.
+              </InfoHelp>
+            </div>
+          )}
+        </fieldset>
       </Card>
-      <Card className="sales-form-section">
-        <div className="crm-section-top">
+      <Card className="sales-form-section pipeline-stages-panel">
+        <div className="pipeline-stages-heading">
           <div>
+            <GitBranch size={18} aria-hidden="true" />
             <h2>Etapas de vendas</h2>
-            <p>
-              Arraste pela alça ou use as setas. Salvar aplica a ordem ao
-              Kanban.
-            </p>
+            <span>{stages.length} etapas</span>
           </div>
-          <div className="stage-insert-controls">
-            <Field id="stage-insert-position" label="Posição da nova etapa">
-              <Select
-                id="stage-insert-position"
-                value={insertAt}
-                onChange={(e) => setInsertAt(e.target.value)}
-                disabled={save.isPending}
-              >
-                {stages.map((stage, i) => (
-                  <option key={stage.localKey} value={stage.localKey}>
-                    {i + 1} · Antes de {stage.name || "nova etapa"}
-                  </option>
-                ))}
-                <option value="end">{stages.length + 1} · No final</option>
-              </Select>
-            </Field>
-            <Button
-              variant="secondary"
-              disabled={stages.length >= 20 || save.isPending}
-              onClick={insert}
-            >
-              <Plus size={15} />
-              Adicionar etapa
-            </Button>
-          </div>
+          <InfoHelp title="Ordem das etapas" disabled={save.isPending}>
+            Arraste pela alça ou use as setas para reordenar. Escolha uma
+            posição abaixo para inserir. Salvar aplica a sequência ao Kanban;
+            renomear ou reordenar mantém os vínculos dos negócios e das regras.
+          </InfoHelp>
         </div>
         {orderNotice && (
-          <p className="info-note" role="status">
+          <p className="sr-only" role="status">
             {orderNotice}
           </p>
         )}
-        <p className="field-hint">
-          Sequência:{" "}
-          {stages
-            .map((s, i) => `${i + 1}. ${s.name || "Nova etapa"}`)
-            .join(" → ")}
-        </p>
-        {dirty && (
-          <p className="info-note" role="status">
-            Alterações não salvas. Salve para aplicar ou cancele para manter a
-            versão anterior.
-          </p>
-        )}
+        <div className="pipeline-stage-columns" aria-hidden="true">
+          <span>Cor</span>
+          <span>Nome da etapa</span>
+        </div>
         <div ref={stagesRef} className="sales-stage-editor sales-stage-compact">
           {stages.map((s, i) => (
             <fieldset
@@ -555,6 +539,7 @@ function Editor({ item }: { item?: Pipeline }) {
                     <Input
                       id={`stage-name-${i}`}
                       value={s.name}
+                      placeholder="Nome da etapa"
                       onChange={(e) => change(i, "name", e.target.value)}
                       required
                       maxLength={100}
@@ -586,6 +571,15 @@ function Editor({ item }: { item?: Pipeline }) {
                       onClick={() => {
                         captureStages();
                         setStages((v) => v.filter((_, j) => j !== i));
+                        if (insertAt === s.localKey) setInsertAt("end");
+                        setFocusKey(
+                          stages[i + 1]?.localKey ??
+                            stages[i - 1]?.localKey ??
+                            "",
+                        );
+                        setOrderNotice(
+                          `${s.name || "Etapa"} removida. Salve para aplicar.`,
+                        );
                       }}
                     >
                       <Trash2 size={16} />
@@ -594,63 +588,141 @@ function Editor({ item }: { item?: Pipeline }) {
                 </div>
               </div>
               <details className="stage-advanced">
-                <summary>Detalhes avançados</summary>
-                <div className="form-grid">
-                  {" "}
-                  <Field id={`stage-prob-${i}`} label="Probabilidade (%)">
-                    <Input
-                      id={`stage-prob-${i}`}
-                      type="number"
-                      min={0}
-                      max={100}
-                      value={s.probability}
-                      onChange={(e) =>
-                        change(i, "probability", Number(e.target.value))
-                      }
-                    />
-                  </Field>
-                  <Field id={`stage-days-${i}`} label="Dias sem avanço">
-                    <Input
-                      id={`stage-days-${i}`}
-                      type="number"
-                      min={1}
-                      max={365}
-                      value={s.staleDays}
-                      onChange={(e) =>
-                        change(i, "staleDays", Number(e.target.value))
-                      }
-                    />
-                  </Field>
-                </div>{" "}
-                <label className="crm-checkbox">
-                  <input
-                    type="checkbox"
-                    checked={s.requireActivity}
-                    onChange={(e) =>
-                      change(i, "requireActivity", e.target.checked)
-                    }
-                  />
-                  Exigir próxima atividade ao mover para esta etapa
-                </label>
+                <summary
+                  aria-label={`Detalhes avançados de ${s.name || `etapa ${i + 1}`}`}
+                >
+                  Detalhes avançados
+                </summary>
+                <div className="pipeline-advanced-body">
+                  <div className="form-grid">
+                    <div className="pipeline-advanced-field">
+                      <Field id={`stage-prob-${i}`} label="Probabilidade (%)">
+                        <Input
+                          id={`stage-prob-${i}`}
+                          type="number"
+                          min={0}
+                          max={100}
+                          value={s.probability}
+                          onChange={(e) =>
+                            change(i, "probability", Number(e.target.value))
+                          }
+                        />
+                      </Field>
+                      <InfoHelp title="Probabilidade" disabled={save.isPending}>
+                        Estimativa de chance de ganho nesta etapa. Compõe o
+                        valor ponderado do negócio; não garante uma venda.
+                      </InfoHelp>
+                    </div>
+                    <div className="pipeline-advanced-field">
+                      <Field id={`stage-days-${i}`} label="Dias sem avanço">
+                        <Input
+                          id={`stage-days-${i}`}
+                          type="number"
+                          min={1}
+                          max={365}
+                          value={s.staleDays}
+                          onChange={(e) =>
+                            change(i, "staleDays", Number(e.target.value))
+                          }
+                        />
+                      </Field>
+                      <InfoHelp
+                        title="Dias sem avanço"
+                        disabled={save.isPending}
+                      >
+                        Tempo parado na etapa para sinalizar atenção no Radar
+                        Comercial. Não envia mensagens nem move o negócio
+                        automaticamente.
+                      </InfoHelp>
+                    </div>
+                  </div>
+                  <div className="pipeline-activity-setting">
+                    <label className="crm-checkbox">
+                      <input
+                        type="checkbox"
+                        checked={s.requireActivity}
+                        onChange={(e) =>
+                          change(i, "requireActivity", e.target.checked)
+                        }
+                      />
+                      Exigir próxima atividade ao mover para esta etapa
+                    </label>
+                    <InfoHelp
+                      title="Próxima atividade"
+                      disabled={save.isPending}
+                    >
+                      Exige uma tarefa ou atividade futura pendente antes de
+                      mover o negócio para esta etapa. Concluir ou reagendar o
+                      compromisso pode exigir outra próxima ação.
+                    </InfoHelp>
+                  </div>
+                </div>
               </details>
             </fieldset>
           ))}
         </div>
+        <div className="stage-insert-controls pipeline-insert">
+          <Field id="stage-insert-position" label="Posição da nova etapa">
+            <Select
+              id="stage-insert-position"
+              value={insertAt}
+              onChange={(e) => setInsertAt(e.target.value)}
+              disabled={save.isPending}
+            >
+              {stages.map((stage, i) => (
+                <option key={stage.localKey} value={stage.localKey}>
+                  {i + 1} · Antes de {stage.name || "nova etapa"}
+                </option>
+              ))}
+              <option value="end">{stages.length + 1} · No final</option>
+            </Select>
+          </Field>
+          <Button
+            variant="secondary"
+            disabled={stages.length >= 20 || save.isPending}
+            onClick={insert}
+          >
+            <Plus size={15} />
+            Adicionar etapa
+          </Button>
+        </div>
       </Card>
-      <div className="form-actions">
-        <div>
-          <Button variant="secondary" onClick={leave}>
+      <div className="form-actions pipeline-actions">
+        <div className="pipeline-save-summary">
+          <span
+            className="pipeline-save-status"
+            role="status"
+            data-dirty={dirty}
+          >
+            {save.isPending
+              ? "Salvando…"
+              : dirty
+                ? "Alterações não salvas"
+                : "Sem alterações"}
+          </span>
+          <InfoHelp title="Alterações do funil" disabled={save.isPending}>
+            Salvar aplica os dados e a ordem ao Kanban. O rascunho desta sessão
+            pode ser retomado ao navegar; recarregar ou sair da conta encerra
+            essa recuperação.
+          </InfoHelp>
+        </div>
+        <div className="pipeline-actions-buttons">
+          <Button variant="secondary" onClick={leave} disabled={save.isPending}>
             Cancelar
           </Button>
           {item && (
-            <Button variant="danger" onClick={() => setRemoveOpen(true)}>
+            <Button
+              variant="danger"
+              onClick={() => setRemoveOpen(true)}
+              disabled={save.isPending}
+            >
               Excluir funil
             </Button>
           )}
+          <Button type="submit" loading={save.isPending}>
+            Salvar funil
+          </Button>
         </div>
-        <Button type="submit" loading={save.isPending}>
-          Salvar funil
-        </Button>
       </div>
       <Dialog
         open={!!leaveTo}

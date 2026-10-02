@@ -1,3 +1,4 @@
+import { OperationalRules } from "@/features/sales/operational-rules";
 import { SalesAgenda } from "@/features/sales/agenda";
 import { Proposal } from "@/features/sales/proposal";
 import { notFound } from "next/navigation";
@@ -15,6 +16,8 @@ export default async function SalesPage({
   const [kind, id, action] = path;
   if (path.length === 1 && kind === "agenda") return <SalesAgenda />;
   if (path.length === 1 && kind === "board") return <SalesBoard />;
+  if (path.length === 2 && kind === "automations" && id === "internal")
+    return <OperationalRules />;
   if (path.length === 1 && kind === "automations") return <SalesAutomations />;
   if (kind === "pipelines") {
     if (path.length === 1) return <Pipelines />;

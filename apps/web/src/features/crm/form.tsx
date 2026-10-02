@@ -335,6 +335,7 @@ function RecordForm({ kind, item }: { kind: CrmKind; item?: CrmItem }) {
             <Field id="crm-status" label="Status">
               <Select
                 id="crm-status"
+                value={form.watch("status")}
                 {...form.register("status")}
                 disabled={item?.status === "CONVERTED"}
               >
@@ -351,7 +352,11 @@ function RecordForm({ kind, item }: { kind: CrmKind; item?: CrmItem }) {
               </Select>
             </Field>
             <Field id="crm-temperature" label="Temperatura">
-              <Select id="crm-temperature" {...form.register("temperature")}>
+              <Select
+                id="crm-temperature"
+                value={form.watch("temperature")}
+                {...form.register("temperature")}
+              >
                 {Object.entries(temperatureLabels).map(([value, text]) => (
                   <option value={value} key={value}>
                     {text}
@@ -418,6 +423,7 @@ function RecordForm({ kind, item }: { kind: CrmKind; item?: CrmItem }) {
           >
             <Select
               id="crm-assignedTo"
+              value={form.watch("assignedTo")}
               {...form.register("assignedTo")}
               disabled={assignees.isPending}
             >

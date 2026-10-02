@@ -72,17 +72,21 @@ for (const mobile of [false, true])
     page.on("request", (r) => {
       if (["POST", "PATCH", "PUT", "DELETE"].includes(r.method())) mutations++;
     });
-    await page.getByRole("button", { name: "Preparar aviso por email" }).click();
+    await page
+      .getByRole("button", { name: "Preparar aviso por email" })
+      .click();
     await page
       .getByRole("button", { name: "Enviar pedido", exact: true })
       .click();
-    await expect(page.getByLabel("Escolher etapa")).toHaveValue(
+    await expect(page.getByLabel("Escolher etapa")).toHaveAttribute(
+      "data-value",
       pipeline.stages[1].id,
     );
-    await expect(page.getByLabel("Escolher modelo de mensagem")).toHaveValue(
-      "",
-    );
-    await expect(page.getByLabel("Destinatário interpretado")).toHaveValue(
+    await expect(
+      page.getByLabel("Escolher modelo de mensagem"),
+    ).toHaveAttribute("data-value", "");
+    await expect(page.getByLabel("Destinatário interpretado")).toHaveAttribute(
+      "data-value",
       "USER",
     );
     await page

@@ -14,6 +14,7 @@ import { type Context, authorize } from "../iam/application/sessions.js";
 import { hasPermission } from "../iam/domain/permissions.js";
 import { crmTransaction } from "../crm/tenant.js";
 import { money } from "./schemas.js";
+import { fanout } from "./service.js";
 
 export const productInput = z
   .object({
@@ -140,6 +141,13 @@ export async function saveProposal(
     await tx.execute(
       sql`INSERT INTO sales_events(tenant_id,deal_id,actor_id,type,metadata) VALUES(${ctx.tenantId},${id},${ctx.userId},'proposal.saved',${JSON.stringify({ total, currency: d.currency })}::jsonb)`,
     );
+    await fanout(tx, ctx, camel(d), "proposal.saved", {
+      dealId: id,
+      title: d.title,
+      total,
+      currency: d.currency,
+      proposalVersion: saved!.version,
+    });
     await audit(tx, ctx, "proposal.saved", id, old, saved);
     return { item: camel(saved!) };
   });
@@ -179,15 +187,34 @@ export async function saveProduct(
     return { item: camel(p) };
   });
 }
-export async function dashboard(ctx: Context, pipelineId?: string) {
+export const dashboardQuery = z
+  .object({
+    pipelineId: z.uuid().optional(),
+    assignedTo: z.uuid().optional(),
+    from: z.iso.datetime({ offset: true }).optional(),
+    to: z.iso.datetime({ offset: true }).optional(),
+    source: z.string().trim().max(100).optional(),
+  })
+  .strict()
+  .refine(
+    (q) => !q.from || !q.to || new Date(q.from) < new Date(q.to),
+    "A janela deve terminar depois de começar.",
+  );
+export async function dashboard(
+  ctx: Context,
+  query: z.infer<typeof dashboardQuery> = {},
+) {
+  const { pipelineId, assignedTo, from, to, source } = query;
   return crmTransaction(ctx, "deals.view", async (tx, ctx) => {
-    const filter = pipelineId ? sql` AND d.pipeline_id=${pipelineId}` : sql``;
-    const workFilter = pipelineId
-      ? sql` AND EXISTS(SELECT 1 FROM sales_deals d WHERE d.tenant_id=w.tenant_id AND d.id=w.deal_id AND d.pipeline_id=${pipelineId} AND d.deleted_at IS NULL)`
-      : sql``;
+    const filter = sql`${pipelineId ? sql` AND d.pipeline_id=${pipelineId}` : sql``}${assignedTo ? sql` AND d.assigned_to=${assignedTo}` : sql``}${source ? sql` AND d.source=${source}` : sql``}${from ? sql` AND d.created_at>=${from}::timestamptz` : sql``}${to ? sql` AND d.created_at<${to}::timestamptz` : sql``}`;
+    const workFilter = sql`${assignedTo ? sql` AND w.assigned_to=${assignedTo}` : sql``}${pipelineId || from || to || source ? sql` AND EXISTS(SELECT 1 FROM sales_deals d WHERE d.tenant_id=w.tenant_id AND d.id=w.deal_id AND d.deleted_at IS NULL ${filter})` : sql``}`;
     const totals = await rows(
       tx,
-      sql`SELECT currency,coalesce(sum(value) FILTER(WHERE status='OPEN'),0)::text AS open_value,coalesce(sum(value) FILTER(WHERE status='WON'),0)::text AS won_value,count(*) FILTER(WHERE status='WON')::int AS won_count,count(*) FILTER(WHERE status='OPEN')::int AS open_count FROM sales_deals d WHERE d.tenant_id=${ctx.tenantId} AND d.deleted_at IS NULL ${filter} GROUP BY currency ORDER BY currency`,
+      sql`SELECT currency,coalesce(sum(value) FILTER(WHERE status='OPEN'),0)::text AS open_value,coalesce(sum(value) FILTER(WHERE status='WON'),0)::text AS won_value,count(*) FILTER(WHERE status='WON')::int AS won_count,count(*) FILTER(WHERE status='OPEN')::int AS open_count,count(*) FILTER(WHERE status='LOST')::int AS lost_count,round(avg(value) FILTER(WHERE status='WON'),2)::text AS average_ticket,round(avg(extract(epoch FROM won_at-created_at)/86400) FILTER(WHERE status='WON'),1)::text AS sales_cycle_days FROM sales_deals d WHERE d.tenant_id=${ctx.tenantId} AND d.deleted_at IS NULL ${filter} GROUP BY currency ORDER BY currency`,
+    );
+    const lossReasons = await rows(
+      tx,
+      sql`SELECT coalesce(nullif(trim(lost_reason),''),'Sem motivo (histórico)') AS reason,count(*)::int AS total FROM sales_deals d WHERE d.tenant_id=${ctx.tenantId} AND d.deleted_at IS NULL AND d.status='LOST' ${filter} GROUP BY reason ORDER BY total DESC,reason LIMIT 20`,
     );
     const noAction = sql`NOT EXISTS(SELECT 1 FROM sales_work w WHERE w.tenant_id=d.tenant_id AND w.deal_id=d.id AND w.deleted_at IS NULL AND w.status IN ('TODO','IN_PROGRESS','PLANNED') AND coalesce(w.due_at,w.scheduled_at)>=now())`;
     const counts = await one(
@@ -213,6 +240,13 @@ export async function dashboard(ctx: Context, pipelineId?: string) {
       : [];
     return {
       totals: totals.map(camel),
+      lossReasons,
+      periodBasis: "createdAt",
+      conversion: (() => {
+        const won = totals.reduce((n, t) => n + t.won_count, 0),
+          lost = totals.reduce((n, t) => n + t.lost_count, 0);
+        return won + lost ? Math.round((won / (won + lost)) * 1000) / 10 : null;
+      })(),
       noActionCount: counts!.no_action_count,
       overdueCount: overdue,
       deals: deals.map(camel),

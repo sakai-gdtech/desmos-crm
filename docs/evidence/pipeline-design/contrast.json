@@ -1,0 +1,12 @@
+{
+  "light": {
+    "goldIconOnSurface": 3.44,
+    "bodyOnSurface": 13.9,
+    "helpOnSurface": 5.43
+  },
+  "dark": {
+    "goldIconOnSurface": 6.81,
+    "bodyOnSurface": 13.39,
+    "helpOnSurface": 7.76
+  }
+}

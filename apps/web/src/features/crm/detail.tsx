@@ -1,5 +1,6 @@
 "use client";
 import { MotionCollection } from "@/components/ui/motion";
+import { CustomFields } from "./fields";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, type ReactNode } from "react";
@@ -125,7 +126,22 @@ function RecordData({
             </a>
           ) : null,
         )}
-        {kind === "contacts" && field("WhatsApp", item.whatsapp)}
+        {kind === "contacts" &&
+          field(
+            "WhatsApp",
+            item.whatsapp &&
+              /^[0-9]{8,15}$/.test(item.whatsapp.replace(/\D/g, "")) ? (
+              <a
+                href={`https://wa.me/${item.whatsapp.replace(/\D/g, "")}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {item.whatsapp} · Abrir conversa
+              </a>
+            ) : (
+              item.whatsapp
+            ),
+          )}
         {kind !== "companies" &&
           field(
             "Empresa cliente",
@@ -201,6 +217,13 @@ function RecordData({
           </>
         )}
       </dl>
+      {(item.email || (kind === "contacts" && item.whatsapp)) && (
+        <p className="muted">
+          Os links abrem seu aplicativo de email ou WhatsApp. Nenhuma mensagem é
+          enviada ou registrada automaticamente; registre a interação em
+          Atividades.
+        </p>
+      )}
       <div className="crm-summary-tags">
         <h3>Tags</h3>
         {item.tags.length ? <Tags tags={item.tags} /> : <p>Nenhuma tag</p>}
@@ -211,6 +234,7 @@ function RecordData({
           <p>{item.description}</p>
         </div>
       )}
+      <CustomFields kind={kind} id={item.id} />
       <div className="crm-record-dates">
         <span>Criado em {formatDate(item.createdAt, timezone)}</span>
         <span>Atualizado em {formatDate(item.updatedAt, timezone)}</span>

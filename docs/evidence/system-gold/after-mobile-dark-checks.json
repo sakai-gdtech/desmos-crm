@@ -1,0 +1,55 @@
+{
+  "checks": [
+    {
+      "route": "/workspace",
+      "axeViolations": 0
+    },
+    {
+      "route": "/sales/board?pipelineId=d5a9e981-8ba0-407a-bde3-ff760a4b1d82",
+      "axeViolations": 0
+    },
+    {
+      "route": "/sales/agenda",
+      "axeViolations": 0
+    },
+    {
+      "route": "/sales/automations?pipelineId=d5a9e981-8ba0-407a-bde3-ff760a4b1d82",
+      "axeViolations": 0
+    },
+    {
+      "route": "automation-editor",
+      "axeViolations": 0
+    },
+    {
+      "route": "/sales/deals/new",
+      "axeViolations": 0
+    },
+    {
+      "route": "/sales/pipelines/d5a9e981-8ba0-407a-bde3-ff760a4b1d82/edit",
+      "axeViolations": 0
+    },
+    {
+      "route": "assistant",
+      "axeViolations": 0
+    }
+  ],
+  "tokens": {
+    "background": "#141c28",
+    "surface": "#1c2736",
+    "primary": "#91baf0",
+    "primary-soft": "#263d59",
+    "primary-text": "#bad3f5",
+    "focus": "#91baf0",
+    "brand-gold": "#c9aa73",
+    "brand-gold-soft": "#343125",
+    "brand-gold-text": "#e4c58e",
+    "brand-gold-border": "#706044",
+    "success": "#89d7ae",
+    "success-soft": "#253d34",
+    "warning": "#e6c286",
+    "warning-soft": "#3e3428",
+    "danger": "#ffacb2",
+    "danger-soft": "#422a33"
+  },
+  "pageErrors": []
+}

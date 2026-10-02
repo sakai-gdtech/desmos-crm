@@ -1,7 +1,8 @@
 "use client";
 import { MotionCollection } from "@/components/ui/motion";
+import { ExportRecords } from "./import";
 import Link from "next/link";
-import { useState } from "react";
+import { useRememberedState } from "@/features/workspace/editor-memory";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import {
   Building2,
@@ -47,11 +48,14 @@ import {
 export function CrmList({ kind }: { kind: CrmKind }) {
   const { data: session } = useSession();
   const { tags, assignees } = useCrmReferences();
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useRememberedState(`crm:${kind}:search`, "");
   const query = useDebounced(search);
-  const [page, setPage] = useState(1);
-  const [showFilters, setShowFilters] = useState(false);
-  const [filters, setFilters] = useState({
+  const [page, setPage] = useRememberedState(`crm:${kind}:page`, 1);
+  const [showFilters, setShowFilters] = useRememberedState(
+    `crm:${kind}:show-filters`,
+    false,
+  );
+  const [filters, setFilters] = useRememberedState(`crm:${kind}:filters`, {
     status: "",
     temperature: "",
     assignedTo: "",
@@ -59,7 +63,10 @@ export function CrmList({ kind }: { kind: CrmKind }) {
     source: "",
     companyId: "",
   });
-  const [sort, setSort] = useState("updatedAt:desc");
+  const [sort, setSort] = useRememberedState(
+    `crm:${kind}:sort`,
+    "updatedAt:desc",
+  );
   const [sortBy, order] = sort.split(":");
   const params = new URLSearchParams({
     q: query,
@@ -123,6 +130,18 @@ export function CrmList({ kind }: { kind: CrmKind }) {
             />
           </div>
           <div className="crm-toolbar-actions">
+            {canCreate && (
+              <Link href={`/crm/import?kind=${kind}`} className="btn btn-ghost">
+                Importar CSV
+              </Link>
+            )}
+            <ExportRecords kind={kind} query={params} />
+            {kind === "leads" &&
+              session.permissions.includes("settings.manage") && (
+                <Link href="/crm/intake" className="btn btn-ghost">
+                  Entrada de leads
+                </Link>
+              )}
             <Button
               variant={showFilters || activeFilters ? "secondary" : "ghost"}
               onClick={() => setShowFilters(!showFilters)}

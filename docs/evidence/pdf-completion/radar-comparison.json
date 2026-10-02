@@ -1,0 +1,55 @@
+{
+  "measuredAt": "2026-10-02T04:36:52.121Z",
+  "operator": "Playwright script, prepared fixture and routes; no human participant",
+  "method": "One equivalent A/B pair, Chrome headless dev server, reduced motion, no throttling. One interaction is a navigation, select, click, form-value fill or submit. Count includes start navigation and pipeline selection. Baseline inspects the oldest-date ambiguity (Client 1 also has a future task); Radar filters by future pending actions. Task: find records with no valid next action and create one for each. Times include load/network and automated input, not human speed; order A then B, no generalized usability claim.",
+  "results": [
+    {
+      "mode": "withoutRadar",
+      "durationMs": 1260,
+      "interactions": 15,
+      "omissions": 0,
+      "falsePositives": 0,
+      "persistedTasks": 2,
+      "logs": [
+        "Navegar à tela inicial",
+        "Abrir Cliente 1 (data anterior no cartão)",
+        "Inspecionar tarefas do Cliente 1",
+        "Fechar Cliente 1 com próxima ação válida",
+        "Abrir Cliente 2",
+        "Criar próxima tarefa Cliente 2",
+        "Preencher próxima ação",
+        "Salvar tarefa",
+        "Fechar negócio",
+        "Abrir Cliente 3",
+        "Conferir compromisso vencido de Cliente 3",
+        "Criar próxima tarefa Cliente 3",
+        "Preencher próxima ação",
+        "Salvar tarefa",
+        "Fechar negócio"
+      ]
+    },
+    {
+      "mode": "withRadar",
+      "durationMs": 904.8,
+      "interactions": 12,
+      "omissions": 0,
+      "falsePositives": 0,
+      "persistedTasks": 2,
+      "logs": [
+        "Navegar à tela inicial",
+        "Selecionar funil",
+        "Abrir Cliente 2",
+        "Criar próxima tarefa Cliente 2",
+        "Preencher próxima ação",
+        "Salvar tarefa",
+        "Fechar negócio",
+        "Abrir Cliente 3",
+        "Criar próxima tarefa Cliente 3",
+        "Preencher próxima ação",
+        "Salvar tarefa",
+        "Fechar negócio"
+      ]
+    }
+  ],
+  "interactionDifference": 3
+}

@@ -1,3 +1,4 @@
+import { selectOption } from "../../scripts/select-option.mjs";
 import { test, expect, type Page } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 test.use({ reducedMotion: "reduce" });
@@ -44,9 +45,7 @@ test("pipeline pela interface, oportunidade, Kanban, ganho/perda, tarefas e foll
   await page.goto("/sales/pipelines");
   await page.getByRole("link", { name: "Novo funil", exact: true }).click();
   await page.getByLabel("Nome do funil", { exact: true }).fill("Comercial");
-  await page
-    .getByRole("button", { name: "Salvar funil", exact: true })
-    .click();
+  await page.getByRole("button", { name: "Salvar funil", exact: true }).click();
   await expect(page).toHaveURL("/sales/pipelines");
   const p = (await (await page.request.get("/api/sales/pipelines")).json())
     .items[0];
@@ -89,7 +88,7 @@ test("pipeline pela interface, oportunidade, Kanban, ganho/perda, tarefas e foll
   await page
     .getByRole("button", { name: "Marcar como perdido", exact: true })
     .click();
-  await page.getByLabel("Motivo da perda (opcional)").fill("Preço");
+  await page.getByLabel("Motivo da perda", { exact: true }).fill("Preço");
   await page
     .getByRole("button", { name: "Confirmar perda", exact: true })
     .click();
@@ -113,7 +112,7 @@ test("pipeline pela interface, oportunidade, Kanban, ganho/perda, tarefas e foll
   await page.getByRole("link", { name: "Criar tarefa", exact: true }).click();
   await page.getByLabel("Título", { exact: true }).fill("Preparar proposta");
   await page.getByText("Mais detalhes", { exact: true }).click();
-  await page.getByLabel("Prioridade", { exact: true }).selectOption("HIGH");
+  await selectOption(page.getByLabel("Prioridade", { exact: true }), "HIGH");
   await page.getByLabel("Prazo", { exact: true }).fill(localTomorrow());
   await page
     .getByRole("button", { name: "Adicionar item", exact: true })
@@ -143,7 +142,7 @@ test("pipeline pela interface, oportunidade, Kanban, ganho/perda, tarefas e foll
   await page.getByRole("button", { name: "Atividades", exact: true }).click();
   await page.getByRole("link", { name: "Nova atividade", exact: true }).click();
   await page.getByLabel("Título", { exact: true }).fill("Ligação com cliente");
-  await page.getByLabel("Status", { exact: true }).selectOption("COMPLETED");
+  await selectOption(page.getByLabel("Status", { exact: true }), "COMPLETED");
   await page
     .getByLabel("Resultado da interação", { exact: true })
     .fill("Apresentação confirmada");
@@ -218,7 +217,7 @@ test("lead convertido gera contato, empresa e oportunidade pelo mesmo diálogo",
   await dialog
     .getByRole("checkbox", { name: "Criar oportunidade no funil" })
     .check();
-  await dialog.getByLabel("Pipeline", { exact: true }).selectOption(p.id);
+  await selectOption(dialog.getByLabel("Pipeline", { exact: true }), p.id);
   await dialog
     .getByRole("button", { name: "Confirmar conversão", exact: true })
     .click();
@@ -285,9 +284,10 @@ test("Kanban: mover acessível, conflito sem sobrescrita, tema escuro e mobile s
     ).status(),
   ).toBe(200);
   await card.getByRole("button", { name: "Mover", exact: true }).click();
-  await card
-    .getByLabel("Mover para etapa", { exact: true })
-    .selectOption(p.stages[1].id);
+  await selectOption(
+    card.getByLabel("Mover para etapa", { exact: true }),
+    p.stages[1].id,
+  );
   await expect(
     page.getByText(/Este registro foi alterado por outra pessoa/).first(),
   ).toBeVisible();
@@ -298,9 +298,10 @@ test("Kanban: mover acessível, conflito sem sobrescrita, tema escuro e mobile s
     .locator(".sales-deal-card")
     .filter({ hasText: "Oportunidade atualizada" });
   await nextCard.getByRole("button", { name: "Mover", exact: true }).click();
-  await nextCard
-    .getByLabel("Mover para etapa", { exact: true })
-    .selectOption(p.stages[1].id);
+  await selectOption(
+    nextCard.getByLabel("Mover para etapa", { exact: true }),
+    p.stages[1].id,
+  );
   await expect
     .poll(
       async () =>

@@ -83,7 +83,11 @@ function OnboardingForm({ tenant }: { tenant: Tenant }) {
         id="segment"
         error={form.formState.errors.segment?.message}
       >
-        <Select id="segment" {...form.register("segment")}>
+        <Select
+          id="segment"
+          value={form.watch("segment")}
+          {...form.register("segment")}
+        >
           <option value="">Selecione o segmento</option>
           {[
             "Tecnologia",
@@ -131,7 +135,11 @@ function OnboardingForm({ tenant }: { tenant: Tenant }) {
         id="salesMotion"
         error={form.formState.errors.salesMotion?.message}
       >
-        <Select id="salesMotion" {...form.register("salesMotion")}>
+        <Select
+          id="salesMotion"
+          value={form.watch("salesMotion")}
+          {...form.register("salesMotion")}
+        >
           <option value="">Selecione o modelo de vendas</option>
           {[
             "Consultiva",

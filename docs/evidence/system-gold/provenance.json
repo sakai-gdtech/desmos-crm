@@ -1,0 +1,1136 @@
+{
+  "generatedAt": "2026-10-02T15:21:11.808422+00:00",
+  "head": "bbd6fc63b369ed6a18cfc0c272d5546e764437b6",
+  "published": false,
+  "sourceFilesComparedToTaskStart": 108,
+  "changedApplicationSources": [
+    {
+      "path": "apps/web/src/app/globals.css",
+      "beforeSha256": "18b8803906004472df10cc7728f1a48934f82ab5e1d7ed829e861e5e691d4981",
+      "afterSha256": "26a7f1b627de3ce6b6a753563dc6714b5dc35802a06c5e334c150cecf34b9471"
+    }
+  ],
+  "unchangedApplicationSources": 107,
+  "documents": [
+    "DESIGN.md",
+    "docs/specs/system-gold-accent.md"
+  ],
+  "test": {
+    "path": "tests/e2e/system-gold.spec.ts",
+    "sha256": "e4a77839f900a5d0a1178d90e7d02278eacafe018a57729e359561afae8326a5"
+  },
+  "webSnapshotMatchesSource": true,
+  "webBuildSnapshot": "/tmp/desmos-gold-build-8mxsuh1k/apps/web/src",
+  "sourceFiles": [
+    {
+      "path": "apps/web/src/app/(auth)/[flow]/page.tsx",
+      "sha256": "86cb5c6434bd4ed323e05dcab2932c7bdf0b9e18dc64a9a6eda84fe8751e5cca"
+    },
+    {
+      "path": "apps/web/src/app/(workspace)/crm/[...path]/page.tsx",
+      "sha256": "a1b2301f3ac5255fab0d00678fba5ed64419bcc7e45963f1e3b28ab86ce347af"
+    },
+    {
+      "path": "apps/web/src/app/(workspace)/layout.tsx",
+      "sha256": "43133f306b0538af01882ecc554acf2da836198efa3c4a6dc07cdf9458d51fe9"
+    },
+    {
+      "path": "apps/web/src/app/(workspace)/onboarding/page.tsx",
+      "sha256": "806dd4c6ac19212a7ff8aa350582a790f4f936bad7fed43e3149880cb820bd6e"
+    },
+    {
+      "path": "apps/web/src/app/(workspace)/sales/[...path]/page.tsx",
+      "sha256": "64077b94783ff605b4761cf9a056d61fb94a92ef9a0a363f9e65e7e22988332b"
+    },
+    {
+      "path": "apps/web/src/app/(workspace)/settings/[section]/page.tsx",
+      "sha256": "c7f14fe912ce46c5dece4ef58034b399627e8e3ca3c5e855721979db8e8ebc2c"
+    },
+    {
+      "path": "apps/web/src/app/(workspace)/workspace/page.tsx",
+      "sha256": "0f5ef1446835091425f4ba218ff7489e2c857bccc12b1cfb46682acdd11cd3ec"
+    },
+    {
+      "path": "apps/web/src/app/capture/[tenantId]/[token]/page.tsx",
+      "sha256": "2d853b94f3502b2b02e82c377735825e6d195ee9b241183e61ff45f27c4a53aa"
+    },
+    {
+      "path": "apps/web/src/app/globals.css",
+      "sha256": "26a7f1b627de3ce6b6a753563dc6714b5dc35802a06c5e334c150cecf34b9471"
+    },
+    {
+      "path": "apps/web/src/app/icon.png",
+      "sha256": "2a7a53ac8a83d5cf5504eb62caea42b65561aa15ce33b1d5ad8dd51d4dc216a8"
+    },
+    {
+      "path": "apps/web/src/app/layout.tsx",
+      "sha256": "de49f972a019076ed3709e0642a2eb7d86d787a2ec1ca74449828a2a2bc605c9"
+    },
+    {
+      "path": "apps/web/src/app/page.tsx",
+      "sha256": "3afa55a51c9f4b6e5aa224c32b0da8d230bb759266ebfb55294953ca21f7146e"
+    },
+    {
+      "path": "apps/web/src/components/brand.tsx",
+      "sha256": "82821c241bbdb5d339b745317305261523d65918c73a331932350b6b2a35b636"
+    },
+    {
+      "path": "apps/web/src/components/providers.tsx",
+      "sha256": "451250a8e47d8855d5992151d2d665473933a69922558f7ba30af8090ac6a70e"
+    },
+    {
+      "path": "apps/web/src/components/ui/info-help.tsx",
+      "sha256": "33131092d444e616cf1710d93d0df2243868fe3e5ef2590b588d628dbd835d77"
+    },
+    {
+      "path": "apps/web/src/components/ui/motion.tsx",
+      "sha256": "66e15deb4ef5e12e63f8e57e3910bf99ef829f4483ccc8b2cb7ceb3d2f33c7a0"
+    },
+    {
+      "path": "apps/web/src/components/ui/primitives.tsx",
+      "sha256": "69a11e068bf2f41a34307cc446b0cbdc456bf9cb6d714b09185da08f1194a291"
+    },
+    {
+      "path": "apps/web/src/components/ui/select.tsx",
+      "sha256": "673da365abca2457228852b2306559b228cbc3cd077f912f560eaad6a7186b3a"
+    },
+    {
+      "path": "apps/web/src/features/auth/auth-screen.tsx",
+      "sha256": "ba976e2451b887c3571d8c243445b65af9d54078cb500221898b29d1494a806e"
+    },
+    {
+      "path": "apps/web/src/features/crm/detail.tsx",
+      "sha256": "49ad717a3b9d860b076f8275dadf833c2d4d5809c46f33f5e4ff71edf6a69f92"
+    },
+    {
+      "path": "apps/web/src/features/crm/fields.tsx",
+      "sha256": "197ab32b10f70fadb55209fa15bafdf61c666cb21066c50ced5089c5828efb7b"
+    },
+    {
+      "path": "apps/web/src/features/crm/form.tsx",
+      "sha256": "b33832995d8ac68d25f6ab5aba610361ec560f8ffdb9e02516250ea10c7b795a"
+    },
+    {
+      "path": "apps/web/src/features/crm/import.tsx",
+      "sha256": "e935e40fb7dfbfa593b97cd32b5cf871a2ce1208fef71e2a02d7498d9b854648"
+    },
+    {
+      "path": "apps/web/src/features/crm/intake.tsx",
+      "sha256": "4e05dd11b6d733aa5962bafa5bd5f9d0d493a994546bbce41b9806b6f28d1ede"
+    },
+    {
+      "path": "apps/web/src/features/crm/list.tsx",
+      "sha256": "67ad79aed0830c4a577402c78c3b37c1eac789f397293d6ab7df110bbd1a48d0"
+    },
+    {
+      "path": "apps/web/src/features/crm/notes.tsx",
+      "sha256": "4993857870d3e4faae8e7f4cf5db45693670830feb5b2eb70874219d4cb0aff7"
+    },
+    {
+      "path": "apps/web/src/features/crm/shared.tsx",
+      "sha256": "ebb83a4a768d73f5b5c0d5aec7ead36ab0b8cf41c345df49841e28a006ef65e1"
+    },
+    {
+      "path": "apps/web/src/features/crm/tags.tsx",
+      "sha256": "a8f3c1f8711ce20df9c71a832a85b76e8dc080757c8b1ca6ab2cd31e95046e0f"
+    },
+    {
+      "path": "apps/web/src/features/crm/timeline.tsx",
+      "sha256": "79e23446643853a8b221362e60fa9aeb281c2ecd70b0daed44815aeac12881ff"
+    },
+    {
+      "path": "apps/web/src/features/crm/trash.tsx",
+      "sha256": "d54c4795f55f67e197b010596f89ca97b044efc6639b0dfe5e5d6e8650469299"
+    },
+    {
+      "path": "apps/web/src/features/crm/types.ts",
+      "sha256": "859e0d5b59211765476535529b6a0bc98b124431f532ae3b8f405a48f5fca50f"
+    },
+    {
+      "path": "apps/web/src/features/sales/agenda.tsx",
+      "sha256": "3089c0ee5da8be89677980f071557db70c5182f72e5e180f636a5bc1cc9c2f24"
+    },
+    {
+      "path": "apps/web/src/features/sales/automation-assistant.tsx",
+      "sha256": "5667d5f816da95438700d248bc511c63891e2877910c3ac067692ae7c6737c56"
+    },
+    {
+      "path": "apps/web/src/features/sales/automation-editor.tsx",
+      "sha256": "dc1faea903ad48572afa9a02bd0f9e40c9f444404250ef7cb71d7f8c0dd61ade"
+    },
+    {
+      "path": "apps/web/src/features/sales/automation-model.ts",
+      "sha256": "fd7327f5c9c22b04ed68043f5dc279418647300cbed6955ed6e61f858c642b5d"
+    },
+    {
+      "path": "apps/web/src/features/sales/automations.tsx",
+      "sha256": "4f7dc83a306845e7db33a8baa980b526c904967d7455bbfba618d715e5229e8a"
+    },
+    {
+      "path": "apps/web/src/features/sales/board.tsx",
+      "sha256": "e540f433b8ae9a541dc49e80661e6e1f2a504d1448f153b05172c6d02073237a"
+    },
+    {
+      "path": "apps/web/src/features/sales/commercial-filters.tsx",
+      "sha256": "151547dce82bd62e8d8b7ab1454dbf4b1914fc5684ace2d6454ed98a3f6f0c3b"
+    },
+    {
+      "path": "apps/web/src/features/sales/dashboard.tsx",
+      "sha256": "e1cc54cac55b70dad249b4b8ff269961a1c0086cea7e6ba4a8fc8d72afa04094"
+    },
+    {
+      "path": "apps/web/src/features/sales/deal-drawer.tsx",
+      "sha256": "d4821a696b9b48bc427a643fefd3e64d63b6689f5466127a47b5710715473812"
+    },
+    {
+      "path": "apps/web/src/features/sales/deals.tsx",
+      "sha256": "c9ffe4f46d5d8aac16f4e978e4418ade214e9a53a8c3292848dddc9266c6d242"
+    },
+    {
+      "path": "apps/web/src/features/sales/demo-followup.tsx",
+      "sha256": "17c4e86a11d857251d9b8f321759c23fa431653afd751651ee740e124666b5c5"
+    },
+    {
+      "path": "apps/web/src/features/sales/message-model.ts",
+      "sha256": "97e24fd9697bf22a656505c62b8e3770c1682bf470144da25ac37a0dad66f3e2"
+    },
+    {
+      "path": "apps/web/src/features/sales/message-templates.tsx",
+      "sha256": "81489b535bf14107c9815736cc9fe976a021745c7a323e5277b7b3f130aec1f2"
+    },
+    {
+      "path": "apps/web/src/features/sales/navigation.tsx",
+      "sha256": "8e4de302e9bd1f52c3bf9da5e10f2a683913c26d680d3b410a9384745868b6a8"
+    },
+    {
+      "path": "apps/web/src/features/sales/next-action.tsx",
+      "sha256": "d1daf983b93acea1b8de4ed6ccdc04a2e4617e84492e28eeba9ddc52564e7f40"
+    },
+    {
+      "path": "apps/web/src/features/sales/operational-rules.tsx",
+      "sha256": "e7b5f19508bb4a6f06a68c0df9635e21c6ac4670a71b33e713786d432fc11553"
+    },
+    {
+      "path": "apps/web/src/features/sales/pipelines.tsx",
+      "sha256": "1eb35d6dfe4d32d612717e6582ad7e71bdc44a6efd42e09fd67b40fa7dade5a2"
+    },
+    {
+      "path": "apps/web/src/features/sales/proposal.tsx",
+      "sha256": "a590b5a7738b5ce0f2cafc3639210d90db2f3fa686c5f809a7f5b0db8f9e924c"
+    },
+    {
+      "path": "apps/web/src/features/sales/shared.tsx",
+      "sha256": "6d97d4ea6401e897f99b873feb8caff3f6eaf9e281562e07b6d72782c649f7d8"
+    },
+    {
+      "path": "apps/web/src/features/sales/types.ts",
+      "sha256": "7c3cd7a3bbb7de4eba053c477d5d1bbf737a82d74f6db4f09f4d6a3329be6918"
+    },
+    {
+      "path": "apps/web/src/features/sales/work.tsx",
+      "sha256": "3b61b98dac3cbb2a87faa3b37b9c7c1330b92d1b5f8a63630102a15666f2e6fa"
+    },
+    {
+      "path": "apps/web/src/features/settings/audit.tsx",
+      "sha256": "7a30042c28d29549e101464bc2f1c16a725318138dc17ca9f43158e6d6eee279"
+    },
+    {
+      "path": "apps/web/src/features/settings/company.tsx",
+      "sha256": "d5feb8681c194e0e90a4f330ad226509c164a8ea91e8eba807c3fa4d9333ad9f"
+    },
+    {
+      "path": "apps/web/src/features/settings/profile.tsx",
+      "sha256": "165f1089ec51afaa9ed93ea18e507ab4d4be3e0633cea44d5085e5f4f9247ea3"
+    },
+    {
+      "path": "apps/web/src/features/settings/sessions.tsx",
+      "sha256": "6389ab4dbf71e384fc52d059d1ec3c8e9bfd57190bb9f32a4c3309cb4bcd0372"
+    },
+    {
+      "path": "apps/web/src/features/settings/team.tsx",
+      "sha256": "633784b1d37dde439ef8aae78783459fae49cb6e09513178b2e4446ee3b6d48b"
+    },
+    {
+      "path": "apps/web/src/features/workspace/assistant-context.tsx",
+      "sha256": "e166ff24aa540efb7058b9e3da0b275315345ebea66b38fc28b416b5973a6d06"
+    },
+    {
+      "path": "apps/web/src/features/workspace/editor-memory.tsx",
+      "sha256": "0738890cfc82b36c1af147c9aa365dba0566390eb17a34806fe5486217ea73ce"
+    },
+    {
+      "path": "apps/web/src/features/workspace/global-assistant.tsx",
+      "sha256": "3a80e58c203cd20960f7e05b69f83c53e763c4547349dfddb24e33f60032544f"
+    },
+    {
+      "path": "apps/web/src/features/workspace/notifications.tsx",
+      "sha256": "4f59cc9ab3a28b0103d3a989d98470e7a66be94ba71f13fee3d0dcc79751ea77"
+    },
+    {
+      "path": "apps/web/src/features/workspace/onboarding.tsx",
+      "sha256": "23afbe010cf130646d904da11ba9633b3b09975a76c0b5d4deeb7701f8365262"
+    },
+    {
+      "path": "apps/web/src/features/workspace/overview.tsx",
+      "sha256": "d2626a34f78617eb72bc1017f0b7277ccc93b5660c9356a3379eae98c2b2d60d"
+    },
+    {
+      "path": "apps/web/src/features/workspace/shell.tsx",
+      "sha256": "99628bd75065b5f7a8951d7414301e57d517d3a940b1af6286ec611aa39b1eb2"
+    },
+    {
+      "path": "apps/web/src/lib/api.ts",
+      "sha256": "44d7fb3de3344d2b2500da5ca038d06a997e3148703d0b9630650634c7c106ed"
+    },
+    {
+      "path": "apps/web/src/lib/company-time.ts",
+      "sha256": "2b31da6ccb5f5414aa90ece40896b87665e3d80f89219b7fa5c886ba57dabab4"
+    },
+    {
+      "path": "apps/web/src/lib/types.ts",
+      "sha256": "e4c9edfb1f5897a0aedc93d38e95ba689fb2756ee2558acfd2bb8721ebf6b02c"
+    }
+  ],
+  "tests": {
+    "startTime": "2026-10-02T15:15:20.267Z",
+    "duration": 219519.553,
+    "expected": 47,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "visualRound": {
+    "startTime": "2026-10-02T15:13:50.417Z",
+    "duration": 23379.445,
+    "expected": 4,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "baselineRound": {
+    "startTime": "2026-10-02T15:12:06.264Z",
+    "duration": 14428.605,
+    "expected": 4,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "dependencyChanges": false,
+  "artifacts": [
+    {
+      "path": "docs/evidence/system-gold/01-import-preview-desktop.png",
+      "bytes": 108218,
+      "sha256": "72277dc4bbfc4840d92322ec61dbfaeb6bf2b6b229eb8ac1fec06b1f5909e2a9"
+    },
+    {
+      "path": "docs/evidence/system-gold/02-client-timeline-desktop.png",
+      "bytes": 218372,
+      "sha256": "2e4ad52be488c8f57de74250bbaaa5825f9e7468fb91aa2ec001692f4b158c05"
+    },
+    {
+      "path": "docs/evidence/system-gold/03-dashboard-desktop.png",
+      "bytes": 160422,
+      "sha256": "d400cb2a35284b086978da3cd069874d4549580dfea444fbfd8b7cbb2fb5b6c0"
+    },
+    {
+      "path": "docs/evidence/system-gold/04-rule-review-desktop.png",
+      "bytes": 104866,
+      "sha256": "f73052e9f09c94f1bb53fb6a6c7563c18f73e494ce3b38ee8e52d8b700b1319d"
+    },
+    {
+      "path": "docs/evidence/system-gold/05-internal-notifications-desktop.png",
+      "bytes": 125893,
+      "sha256": "0c07ef1b41993a5c2a7f08886d317043e18fb6981382b0a56381d86b7bbe5430"
+    },
+    {
+      "path": "docs/evidence/system-gold/06-import-mobile-dark.png",
+      "bytes": 69663,
+      "sha256": "9362e779fef5bb1895203727e5b8f5c2fc84e527eebb4beed04c86348a5a947d"
+    },
+    {
+      "path": "docs/evidence/system-gold/07-rule-mobile-dark.png",
+      "bytes": 69414,
+      "sha256": "da697299f7adb3260be78efc7d2d5a011a26a5f2608d9f40ff22d4c874fd1e27"
+    },
+    {
+      "path": "docs/evidence/system-gold/08-dashboard-mobile-dark.png",
+      "bytes": 121847,
+      "sha256": "9b0f97344aa1d496d572b376f879b055b4b5241948d93e6fefc6f931b3dff163"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-desktop-dark-advanced-help.png",
+      "bytes": 142393,
+      "sha256": "7e4f6c9004712d8f2a71bde0b89e828e2e4cbdc55cd12b866668212ebc3a8be8"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-desktop-dark-agenda.png",
+      "bytes": 95003,
+      "sha256": "73a43cb95d194fcc20f4449b5a86f095377b6fee0e0c7423310713bd5fccb46e"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-desktop-dark-assistant.png",
+      "bytes": 126923,
+      "sha256": "fe7faee4541f6b50cd10648b84d32b123edc1ca01c9a51b13a78c718b82a4b39"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-desktop-dark-automation-editor.png",
+      "bytes": 92265,
+      "sha256": "d5618d20ccf8b02ef1642082afbdb6a146f03d422fef2ce7bd2f38ca7aa5adcc"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-desktop-dark-automations.png",
+      "bytes": 112887,
+      "sha256": "6d50634da0bf9f81be1777f9a7147094103c34c148ba017443a0b75629aee424"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-desktop-dark-board.png",
+      "bytes": 110338,
+      "sha256": "237ca707ef9c6b9c798674089ec7d97f9927c89172f79a16fa8cc05de23010c6"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-desktop-dark-capture.png",
+      "bytes": 31291,
+      "sha256": "589553de0064ce0115bdf76f51113b4719bf94c3ad0bcb6ecf123887b4be13f8"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-desktop-dark-checks.json",
+      "bytes": 1232,
+      "sha256": "feb45f542e81cebcffb6bc4629f3abee1f431142f3693ac50d4e76f2a75a31ff"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-desktop-dark-dashboard.png",
+      "bytes": 178423,
+      "sha256": "f84df0edb52593331f4e2b7a9119b99e003c0579ea307b00cb9e8fc3ccf3cf36"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-desktop-dark-deals-saved.png",
+      "bytes": 238669,
+      "sha256": "5574448bae43d5cb5ac01bcf1ee5f90219f71a639728d9f3d25205bc176dcdf4"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-desktop-dark-drawer.png",
+      "bytes": 66359,
+      "sha256": "9e308f2ee3ef51913cb8bdeab334e02f2c7b888012aac59fea427a67d167da01"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-desktop-dark-editing.png",
+      "bytes": 176979,
+      "sha256": "2970dc86dec47d39e4c1abd821e0b8dc43a2ee04e0bb607b28091a23568fb48e"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-desktop-dark-empty.png",
+      "bytes": 32138,
+      "sha256": "26d4369087401910e515f8b87d94a7e06a4760084cdc24cd7fd3d37939a22723"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-desktop-dark-error.png",
+      "bytes": 12116,
+      "sha256": "f074c65a93537b4b575bb26194866133de1e1323d27beb42edca43f095dd185f"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-desktop-dark-form.png",
+      "bytes": 96794,
+      "sha256": "00afb6cd97b93814600c678739720b3830aed690cca013685e5b352867d8c14a"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-desktop-dark-leads-saved.png",
+      "bytes": 240267,
+      "sha256": "e3bf3469894df8a863704652f8c2a282ec7aa1a5f45f708d2bd64cdf9bf020c5"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-desktop-dark-manager.png",
+      "bytes": 93102,
+      "sha256": "35dbcbb06cdad94d982b3eef8aab96ca131111b1ef611e9c43384637f2d48917"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-desktop-dark-measurements.json",
+      "bytes": 2023,
+      "sha256": "69c41dbb253eaa786fda121021c7732c40ef7f599837631af849f09b6f1427c8"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-desktop-dark-navigation.png",
+      "bytes": 87303,
+      "sha256": "b5cd30559a10afb166ba302f31d2245a7358134d51af5790cd0489d2353a6df2"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-desktop-dark-pipeline.png",
+      "bytes": 91460,
+      "sha256": "fa7b413c05217ac6bf1b5e016465921164dcaed975d3c9d477efa4b1f6932465"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-desktop-dark-select.png",
+      "bytes": 136005,
+      "sha256": "28034a8ac0105622b2591aad4dfe260abb0981cbba4997d7cfe3d62dacc7f324"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-desktop-dark.png",
+      "bytes": 112769,
+      "sha256": "99feb36ac6ae7a9b7292071047c81817785bc0fa3c7969aa3ca283bed8b4f088"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-desktop-light-advanced-help.png",
+      "bytes": 142253,
+      "sha256": "8eda6e6ece041c513ca999ec4d087c5bd8efd05eae1116c123699e763f3fdbc7"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-desktop-light-agenda.png",
+      "bytes": 93705,
+      "sha256": "28756a963f7a770eb82aaf233a5937765b305fefba6bf957e1cada6ce7e97bfa"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-desktop-light-assistant.png",
+      "bytes": 129775,
+      "sha256": "8237fe37ec7cff44635101cd89cbee88534a994d68fd81f93875e1cb11495265"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-desktop-light-automation-editor.png",
+      "bytes": 91657,
+      "sha256": "48266538bfd8ae004f9ac2d9bb55922d48d3602131aadad16cd4d9d0cfb1413b"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-desktop-light-automations.png",
+      "bytes": 113600,
+      "sha256": "319aed59f456a193200ef0dfe230d785abef8acad081cdfbc8edde761f6ffdcb"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-desktop-light-board.png",
+      "bytes": 109265,
+      "sha256": "a5a330243eb7c727ad847d6e5fb4d1f6bfdde29b73e11b1309e681e32e71ccd6"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-desktop-light-capture.png",
+      "bytes": 31346,
+      "sha256": "05562e9601121e7b4b5cdd87b71576f9b208a38761a627104c57c7d4d44e4289"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-desktop-light-checks.json",
+      "bytes": 1229,
+      "sha256": "6007c15f586e91e521cdf0835de14f5a1ebf05fd917b472ea77437b6b5c0bd40"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-desktop-light-dashboard.png",
+      "bytes": 176955,
+      "sha256": "bf7bb19ab910e5e621ec88acb1c5efa0243b581e9ea5ff3884633dae24ca8546"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-desktop-light-deals-saved.png",
+      "bytes": 238502,
+      "sha256": "3dcdbace44c4a065e4a414d68f1bbb7135890f0f03ec92c7bf22fbf462c995f9"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-desktop-light-drawer.png",
+      "bytes": 65825,
+      "sha256": "914ae719d84555ecefc8f92ccd0ef95aa693c98ffdd30159f1196124ab83a541"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-desktop-light-editing.png",
+      "bytes": 177170,
+      "sha256": "b90b5936cbfef0b57f899e3e954864aa6cd34419e22b9b7cbf44123275d07ca5"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-desktop-light-empty.png",
+      "bytes": 31962,
+      "sha256": "86a81ab4d02afe1ebf9e085f3eaed292a8a8ebd655fb3874ebb9b80529850911"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-desktop-light-error.png",
+      "bytes": 11999,
+      "sha256": "515df1d3eafa80493fd2be36b4bd4f25d343fd07198757048e4fa1de2ecc4440"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-desktop-light-form.png",
+      "bytes": 96740,
+      "sha256": "6b48626a5caaf880bf7e78ee43bcfeb6f95bb809c86995fa6238e5654e97d6ef"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-desktop-light-leads-saved.png",
+      "bytes": 239422,
+      "sha256": "38dcb45c7f2660de543fa6f27b9a26079a50160f683f686a1030e45fc1235ed0"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-desktop-light-manager.png",
+      "bytes": 92250,
+      "sha256": "e9d2ac354f6395147213c0ec93fed25516a7ea1ae66042c11589759b10a62837"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-desktop-light-measurements.json",
+      "bytes": 2023,
+      "sha256": "69c41dbb253eaa786fda121021c7732c40ef7f599837631af849f09b6f1427c8"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-desktop-light-navigation.png",
+      "bytes": 86599,
+      "sha256": "318b0561f3f5958896b0772a68cc66d36c5fcc74cb3a56970b02341b28ebcee1"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-desktop-light-pipeline.png",
+      "bytes": 90685,
+      "sha256": "84ec180c803ff1ed1dfc00b303e6f0d116aa58778a406d6b7098c8835ad23f9d"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-desktop-light-select.png",
+      "bytes": 135762,
+      "sha256": "3e0a5a703c3b9aa9687ba324dc6a33289a56aa6a40c0803d74d91e1729983b17"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-desktop-light.png",
+      "bytes": 113337,
+      "sha256": "6044f93dfcc53bdecb858b251b1e86303ed316a6976e21c93959ce5ca5ecd7a0"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-mobile-dark-advanced-help.png",
+      "bytes": 96348,
+      "sha256": "38d85908d96d2f2d7b8fb4557d2674933206b1b0ce4e7eb0aad3de368cddc8ab"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-mobile-dark-agenda.png",
+      "bytes": 62597,
+      "sha256": "4c34ad949137037ab838ef4c9f138f9df2e081131733ad08d726754ea34b15a6"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-mobile-dark-assistant.png",
+      "bytes": 44343,
+      "sha256": "bd2cd3b4fe46197ab8a598f556cc4225e0dd2eae71f4bac73f06546e7ac7a79c"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-mobile-dark-automation-editor.png",
+      "bytes": 58072,
+      "sha256": "148f0f5738ad1f99f4deb4ac46a6fc032f318213bc02f079d92ae4c550797f8d"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-mobile-dark-automations.png",
+      "bytes": 73596,
+      "sha256": "9ec1fab459a81573c205131f88d380e4d5f10e0bdf6ed94d3e9fb013d1c14f47"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-mobile-dark-board.png",
+      "bytes": 66530,
+      "sha256": "3463de088764068e06301f70a17bbf9d1189480fa95a83af5e5c1a0a146789d9"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-mobile-dark-capture.png",
+      "bytes": 24912,
+      "sha256": "d42fb567277e06a0aa7e4ebb1a30f21b791628047859366006db03c537e302a2"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-mobile-dark-checks.json",
+      "bytes": 1232,
+      "sha256": "b4c37c5a216de258554b2b73f6722ee38fcee91d634b93fdeb45862713b703af"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-mobile-dark-dashboard.png",
+      "bytes": 137698,
+      "sha256": "15522bafaaa547c2e4270b681f28965fa3d25f1bc30fdccd154a6db8d23e6df3"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-mobile-dark-deals-saved.png",
+      "bytes": 140336,
+      "sha256": "90e92e0f10e07ca377cf277c4b8cc9cec3677a919d51da76345cc91dc4b0d404"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-mobile-dark-drawer.png",
+      "bytes": 53936,
+      "sha256": "87bb8b34a97e8301ffe48918d7be3e8eeec7e48fe2ab01dcde8733ef87fcd20d"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-mobile-dark-editing.png",
+      "bytes": 134544,
+      "sha256": "2ecaca186f316128637739627c363f2ba249344c1a52b9c72746242492b77d99"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-mobile-dark-empty.png",
+      "bytes": 31938,
+      "sha256": "6c838504e646341c20427adc52d9015b8202ec8949a11b0a82b896e36605fd00"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-mobile-dark-error.png",
+      "bytes": 11881,
+      "sha256": "c93e5829bf5a7ef8e9b8c91144cabf8adcde7097050489fb4d03700512054829"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-mobile-dark-form.png",
+      "bytes": 65527,
+      "sha256": "7cdde311b3b9324336c43a6c7669699052c687ff71ed24a33e106acf276c4c7e"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-mobile-dark-leads-saved.png",
+      "bytes": 101818,
+      "sha256": "5eb665ef279dd03f08584f5e81d2afa054802bc6579036bf7f6eca1406610eb7"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-mobile-dark-manager.png",
+      "bytes": 53589,
+      "sha256": "588d70470d24e2a35874c7b3975c242301dae8aa362acb19fa43c2628a93ffc5"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-mobile-dark-measurements.json",
+      "bytes": 1996,
+      "sha256": "d44c35b9c6e463c9e0379626e0c1fd57f7f1ece284667d9616b34fbc0800d4a8"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-mobile-dark-navigation.png",
+      "bytes": 29662,
+      "sha256": "2d246c9df3147d473762d51b564b74df17c182702100ee1f3cc4c6c07db787b3"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-mobile-dark-pipeline.png",
+      "bytes": 59053,
+      "sha256": "fda64a5daaa5ffca4e2189356e11cb98539e4694432cbcc7ad1071f964f4da6f"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-mobile-dark-select.png",
+      "bytes": 47974,
+      "sha256": "509ea07b7ab9e0b9b08b92bbbcb9080c92375b6c562f2168ed3d9b5a1278260b"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-mobile-dark.png",
+      "bytes": 76213,
+      "sha256": "c30156114b73b4a3c3b010bda3be865eb9ab207e49804601f9bc44582dae3274"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-mobile-light-advanced-help.png",
+      "bytes": 95120,
+      "sha256": "16beffaff47dc17c75571b29a671ba5e93cde1e6f7aab640ef1a4d4bdc691d92"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-mobile-light-agenda.png",
+      "bytes": 61491,
+      "sha256": "79e20e2ed11061386df98f3f9873b2095a801366d58f7df7d4816aaacc961ec4"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-mobile-light-assistant.png",
+      "bytes": 44169,
+      "sha256": "0e12d7a6c8defe2a01937cf582c3b6bc71ecda78c8b62b20b9be66df54f82f06"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-mobile-light-automation-editor.png",
+      "bytes": 57120,
+      "sha256": "82acbe8628760ebe0a083db58263ece1865137f8eaf414d9d1071bdaadbdef42"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-mobile-light-automations.png",
+      "bytes": 72196,
+      "sha256": "d5d10d193f6156a9d36157b0ede98ca812b248af760188874186d5a108b9b8c6"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-mobile-light-board.png",
+      "bytes": 65642,
+      "sha256": "59bf10268f0f98156706365fa2b047b1ae00c838d372d61ca0d2d657830b851a"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-mobile-light-capture.png",
+      "bytes": 24858,
+      "sha256": "c6ce966b2ec20c03df5001e7a231b784d14e37466ddc870fc30857ba8245c842"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-mobile-light-checks.json",
+      "bytes": 1229,
+      "sha256": "b711f0d84b7e9ca3b0b079652ac30d2b2785ba10779de7cbd09e268a1846656e"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-mobile-light-dashboard.png",
+      "bytes": 135039,
+      "sha256": "e1dff9098978df0a56a45608d4e203f7d3d35623772d9c4378b21fb11d55deab"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-mobile-light-deals-saved.png",
+      "bytes": 134103,
+      "sha256": "3b9cc9f4025e8377243225bb37c06cbbf7272ccce8ad503d8a02b4e1f7ccd510"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-mobile-light-drawer.png",
+      "bytes": 53126,
+      "sha256": "d1525eade3a59365184b73be971f8fa9abce7aa1b2f82620d4227c83c32baa68"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-mobile-light-editing.png",
+      "bytes": 133176,
+      "sha256": "fae3f641b7d81958a6795422d7fa92496cdb831db1b71b2215eb1bef75e04e25"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-mobile-light-empty.png",
+      "bytes": 30809,
+      "sha256": "c765d75f87fd9606702c3558b446cc0152a8527f800c34c9ada38a7371be03af"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-mobile-light-error.png",
+      "bytes": 11512,
+      "sha256": "0ca36622b3a989d6fe4c2388711111707ca40335386de125a02285308510b9da"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-mobile-light-form.png",
+      "bytes": 64929,
+      "sha256": "c2b087b97053d82e646760561d23b937176fd37fb3af6c8a4506442a290949e1"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-mobile-light-leads-saved.png",
+      "bytes": 100492,
+      "sha256": "ec25d4925872deeb4d6468db1b04470733d48357069d81fc4e8f5a874014e5de"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-mobile-light-manager.png",
+      "bytes": 53119,
+      "sha256": "e21a3dbe77208abf96591738917431a4cb997fe10eef6fedd274542469085d72"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-mobile-light-measurements.json",
+      "bytes": 1996,
+      "sha256": "d44c35b9c6e463c9e0379626e0c1fd57f7f1ece284667d9616b34fbc0800d4a8"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-mobile-light-navigation.png",
+      "bytes": 29079,
+      "sha256": "5e8118367fe46c86f27a46789ff0366b60e3f1b41474550fb43b50b28c8bad95"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-mobile-light-pipeline.png",
+      "bytes": 58096,
+      "sha256": "a2c7fd46dfa953b51c6a8bba66b7761dc50bc0a348c367f2c34487b41eaf53f1"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-mobile-light-select.png",
+      "bytes": 48120,
+      "sha256": "99bb7e4ecfdae6273cec798910f8a785a21007dec01c40fa4e44d34e3937784f"
+    },
+    {
+      "path": "docs/evidence/system-gold/after-mobile-light.png",
+      "bytes": 75223,
+      "sha256": "63a7d27ec26880f78a0971056e7bd2e2a1418f26f80932231a555c1ea4e58a06"
+    },
+    {
+      "path": "docs/evidence/system-gold/before-desktop-dark-agenda.png",
+      "bytes": 94112,
+      "sha256": "fcde64d49e9a8d6960c583a089824f9454c9b845ac563f9ba2d0e54cfff76000"
+    },
+    {
+      "path": "docs/evidence/system-gold/before-desktop-dark-assistant.png",
+      "bytes": 126848,
+      "sha256": "4c969168b0a3fa71be57248eab1cfd7c030fea977dd9a96f04fe1b19f3cdeb10"
+    },
+    {
+      "path": "docs/evidence/system-gold/before-desktop-dark-automation-editor.png",
+      "bytes": 92223,
+      "sha256": "d43d7b4f12cee5b65213fd6012cf8621718f045949dbb70eccc965f046f70d15"
+    },
+    {
+      "path": "docs/evidence/system-gold/before-desktop-dark-automations.png",
+      "bytes": 112603,
+      "sha256": "72749fdcbc2ce97e10ee0fc720495726018f0686c6717d8bc28da3207a786cc1"
+    },
+    {
+      "path": "docs/evidence/system-gold/before-desktop-dark-board.png",
+      "bytes": 109958,
+      "sha256": "26db493ad410843527d99c3b860170bdad44810bf3f7324ac7d7518d8786534f"
+    },
+    {
+      "path": "docs/evidence/system-gold/before-desktop-dark-checks.json",
+      "bytes": 504,
+      "sha256": "ed7cb8861e1191380a6ec42784f3d77b1b93b9fc11b54d7a3bace1f7f11f8106"
+    },
+    {
+      "path": "docs/evidence/system-gold/before-desktop-dark-dashboard.png",
+      "bytes": 178166,
+      "sha256": "e9912402879ac6551d9762d8cb1ac50d572cd63e40aedf75704245b0834b3f2c"
+    },
+    {
+      "path": "docs/evidence/system-gold/before-desktop-dark-form.png",
+      "bytes": 97680,
+      "sha256": "b5c3b346cd71ec8e4188a113f507f0ad9864d7f361a7238d8b86d1952ba7fc50"
+    },
+    {
+      "path": "docs/evidence/system-gold/before-desktop-dark-navigation.png",
+      "bytes": 88809,
+      "sha256": "14c6e5fd4e93d5e666536d4f0665cb95c2c0ca9bc2a49f37c556ecd2a81e5341"
+    },
+    {
+      "path": "docs/evidence/system-gold/before-desktop-dark-pipeline.png",
+      "bytes": 91474,
+      "sha256": "18e4bcce705b6bbea9ba055083133895873f8e1c261ed00d95585c14484b5b7e"
+    },
+    {
+      "path": "docs/evidence/system-gold/before-desktop-dark-select.png",
+      "bytes": 141518,
+      "sha256": "1e0c5d8b01b33e4d16f5caf4ce6135408efcff069ed0d969a983298e66609dd3"
+    },
+    {
+      "path": "docs/evidence/system-gold/before-desktop-light-agenda.png",
+      "bytes": 93155,
+      "sha256": "54ec5fe63a6f0ec412f2eea443b6f0292e001543442dbd6f22dd7cc612f9b665"
+    },
+    {
+      "path": "docs/evidence/system-gold/before-desktop-light-assistant.png",
+      "bytes": 128993,
+      "sha256": "76907ae835b4a98fe57ed5729c2857d4e6cca50a87e71171afb7d4d8d714ec3d"
+    },
+    {
+      "path": "docs/evidence/system-gold/before-desktop-light-automation-editor.png",
+      "bytes": 91475,
+      "sha256": "6fc4ae1fc3138f76ae7e7d47ad556c5afaeae5dc19d296c0a7d7535b3f911576"
+    },
+    {
+      "path": "docs/evidence/system-gold/before-desktop-light-automations.png",
+      "bytes": 111467,
+      "sha256": "25764c0a608b77ad854e7143f123d4224e3219dbd0ae049f0838d52af6bcead8"
+    },
+    {
+      "path": "docs/evidence/system-gold/before-desktop-light-board.png",
+      "bytes": 108892,
+      "sha256": "05f42e76702976162949ea19aa9a0f593fd5c2050734e99a7d4c5f9124d81e0b"
+    },
+    {
+      "path": "docs/evidence/system-gold/before-desktop-light-checks.json",
+      "bytes": 501,
+      "sha256": "d1b4ff65681716edfcdf8e063c69466d9a0468c876cdc05af8f147ee4ee1bdfd"
+    },
+    {
+      "path": "docs/evidence/system-gold/before-desktop-light-dashboard.png",
+      "bytes": 176166,
+      "sha256": "8b3855d20b5deb0d5680fcdca9ca5906f55d0457dd28a81628d6b81540fdf3da"
+    },
+    {
+      "path": "docs/evidence/system-gold/before-desktop-light-form.png",
+      "bytes": 96547,
+      "sha256": "136c86f5b4c7644a0c5c6bc3983d2d54cde04734f1f78d94fdf6357e04fd8b30"
+    },
+    {
+      "path": "docs/evidence/system-gold/before-desktop-light-navigation.png",
+      "bytes": 87248,
+      "sha256": "63efa8c202e65132b7a0244e74574ab544f09c87dd3ca43f03da3df85c5d0ee9"
+    },
+    {
+      "path": "docs/evidence/system-gold/before-desktop-light-pipeline.png",
+      "bytes": 90488,
+      "sha256": "2bf37b1c5537268e1f16fa009fbc627463042932804b7d61d947d5ae3b33e2d7"
+    },
+    {
+      "path": "docs/evidence/system-gold/before-desktop-light-select.png",
+      "bytes": 141236,
+      "sha256": "4cd4ff29eff2167c01cb05bc0a8f758402a9abc9b72bf4b3225e8ac0cd6c4148"
+    },
+    {
+      "path": "docs/evidence/system-gold/before-mobile-dark-agenda.png",
+      "bytes": 62472,
+      "sha256": "47ba8b121d7b1502db618648689b3aa0f712f5c932d9663d1e0ba65b5fa25b30"
+    },
+    {
+      "path": "docs/evidence/system-gold/before-mobile-dark-assistant.png",
+      "bytes": 44296,
+      "sha256": "d5c6d997958d7522ddf144364e652dbe8a730f7abe68eb432d5022e0cb2c6f92"
+    },
+    {
+      "path": "docs/evidence/system-gold/before-mobile-dark-automation-editor.png",
+      "bytes": 58009,
+      "sha256": "2dbce330ea10f0bed947e4b4e6744c6c2e89e52631a06001290582809798d0ce"
+    },
+    {
+      "path": "docs/evidence/system-gold/before-mobile-dark-automations.png",
+      "bytes": 73500,
+      "sha256": "0ed4e4f7c23473bbf78b03988cbf33e2beb7ec3f746b609478c1c511b8a78d0d"
+    },
+    {
+      "path": "docs/evidence/system-gold/before-mobile-dark-board.png",
+      "bytes": 66465,
+      "sha256": "c2b445d8439bfc27430151d8bf43542e39b9a0fe6229b6334aed8c58b533188d"
+    },
+    {
+      "path": "docs/evidence/system-gold/before-mobile-dark-checks.json",
+      "bytes": 504,
+      "sha256": "ed7cb8861e1191380a6ec42784f3d77b1b93b9fc11b54d7a3bace1f7f11f8106"
+    },
+    {
+      "path": "docs/evidence/system-gold/before-mobile-dark-dashboard.png",
+      "bytes": 136797,
+      "sha256": "fe6a0f419bf19fcbf7c7afa005b7c07d65e4331fea77208df4aee87783a64e90"
+    },
+    {
+      "path": "docs/evidence/system-gold/before-mobile-dark-form.png",
+      "bytes": 65461,
+      "sha256": "92c115710e91e5e3543ee49d5dc831463cfc3b3068f6b0ee54b85341d91c87cd"
+    },
+    {
+      "path": "docs/evidence/system-gold/before-mobile-dark-navigation.png",
+      "bytes": 29658,
+      "sha256": "b5ab7423f9bfc2f29be243a56ad615b60f045003d797e3f6b86c20208e9c7c6a"
+    },
+    {
+      "path": "docs/evidence/system-gold/before-mobile-dark-pipeline.png",
+      "bytes": 58887,
+      "sha256": "0ecb59ebf660465ea4d7c13a527a458c3df8df19cf2f7554202260bc6710483f"
+    },
+    {
+      "path": "docs/evidence/system-gold/before-mobile-dark-select.png",
+      "bytes": 47194,
+      "sha256": "1bb5356330c86afde2f08a5f3f88272127191acab8c518c0b6330ec0a62240d9"
+    },
+    {
+      "path": "docs/evidence/system-gold/before-mobile-light-agenda.png",
+      "bytes": 61347,
+      "sha256": "9edbec58264337c775ad7daf966f44ddf56ea7bb08e915ad11e86817592b7a9e"
+    },
+    {
+      "path": "docs/evidence/system-gold/before-mobile-light-assistant.png",
+      "bytes": 44067,
+      "sha256": "eb97f0ddec0abe544aa1127de148e9df847394cee16c21062e198ebc29afb3cf"
+    },
+    {
+      "path": "docs/evidence/system-gold/before-mobile-light-automation-editor.png",
+      "bytes": 56960,
+      "sha256": "fc7094acde51fbf45e704723b2536454f4381b3ca127067aa295fd5b1fc07fcd"
+    },
+    {
+      "path": "docs/evidence/system-gold/before-mobile-light-automations.png",
+      "bytes": 72202,
+      "sha256": "330074dd9828fa73f6e4131925ab6e110ca6e46957d910a0839120d5455b28ef"
+    },
+    {
+      "path": "docs/evidence/system-gold/before-mobile-light-board.png",
+      "bytes": 65774,
+      "sha256": "7f16465f00f7da083966748e65e1e58877a0ecd74cd7168923dfc7ba576d04f0"
+    },
+    {
+      "path": "docs/evidence/system-gold/before-mobile-light-checks.json",
+      "bytes": 501,
+      "sha256": "d1b4ff65681716edfcdf8e063c69466d9a0468c876cdc05af8f147ee4ee1bdfd"
+    },
+    {
+      "path": "docs/evidence/system-gold/before-mobile-light-dashboard.png",
+      "bytes": 133677,
+      "sha256": "0cf2460b966d4cdc2b547373a829a02e676f9ba74839286e1dd97ae814857fd1"
+    },
+    {
+      "path": "docs/evidence/system-gold/before-mobile-light-form.png",
+      "bytes": 64848,
+      "sha256": "5660123caeba20ae24114345bc77480beeca8b8fa2af351b1c8fe775c02e2ce3"
+    },
+    {
+      "path": "docs/evidence/system-gold/before-mobile-light-navigation.png",
+      "bytes": 29036,
+      "sha256": "1af5363aed881c1218fd7e084771cfd00868b11dbacbac2f6e0b248488bf7341"
+    },
+    {
+      "path": "docs/evidence/system-gold/before-mobile-light-pipeline.png",
+      "bytes": 57961,
+      "sha256": "fe52133be5f8adfe2e3de5220758d8b4c976a97a5b3d4e34a91214f57185407a"
+    },
+    {
+      "path": "docs/evidence/system-gold/before-mobile-light-select.png",
+      "bytes": 47135,
+      "sha256": "96f416b370963e7c4eb5287acb6c99cb75ce0f2a82b3a3ea23945a19c5dda0e2"
+    },
+    {
+      "path": "docs/evidence/system-gold/bundle.json",
+      "bytes": 539,
+      "sha256": "d1af59730bc3d6999d68867e0d32e22cbc0817ea56f67c9d7a4b1a744825c7bc"
+    },
+    {
+      "path": "docs/evidence/system-gold/contrast.json",
+      "bytes": 3507,
+      "sha256": "031c3d1f009ef6791d2094e7abed14863bf4e93b7e5d38f389b23ae93e24c0c3"
+    },
+    {
+      "path": "docs/evidence/system-gold/css.diff",
+      "bytes": 4418,
+      "sha256": "47f04ef824e374120b181b83a1f7044cff73356db8e1caad8add381a1f50802d"
+    },
+    {
+      "path": "docs/evidence/system-gold/desktop-dark-checks.json",
+      "bytes": 98,
+      "sha256": "b1aa538927a33e3dc8eaed82979e946407c2256a8545aab0e66e4225c3b44ba2"
+    },
+    {
+      "path": "docs/evidence/system-gold/desktop-light-checks.json",
+      "bytes": 98,
+      "sha256": "263a79b0dc0b5a7271c09c7609fe415f969a7af6103c68ca7b33ac4a5c7a1385"
+    },
+    {
+      "path": "docs/evidence/system-gold/e2e-before.json",
+      "bytes": 7396,
+      "sha256": "8fa36789422bcfa802efd68002b2ac2415061dc8b1848afe0b61b292c2ec6380"
+    },
+    {
+      "path": "docs/evidence/system-gold/e2e-design.json",
+      "bytes": 7396,
+      "sha256": "75601e8cd8fb21ad8cea02f8fc15718f09506b15b3ac9e0572b72a485a83cf5a"
+    },
+    {
+      "path": "docs/evidence/system-gold/e2e-final.json",
+      "bytes": 63155,
+      "sha256": "14509e03cc0e0c6428c5ee61e88747199e4026f7b4ded2148def85126dbb5c4a"
+    },
+    {
+      "path": "docs/evidence/system-gold/index.html",
+      "bytes": 3330,
+      "sha256": "183a90cd4c66ec2e4de77dba9392e8fa0f4b417f6e90000713b1d482bdaa2f8d"
+    },
+    {
+      "path": "docs/evidence/system-gold/mobile-dark-checks.json",
+      "bytes": 98,
+      "sha256": "3b6af150ec8f03168300111ecf1cb6f2661190b123b1770d44c1e628a9c59cac"
+    },
+    {
+      "path": "docs/evidence/system-gold/mobile-light-checks.json",
+      "bytes": 98,
+      "sha256": "16e1ba5307455682061a9d8f7376a708b03cc0108dfc495e4681bf57e7ba4207"
+    },
+    {
+      "path": "docs/evidence/system-gold/select-desktop-light.png",
+      "bytes": 134376,
+      "sha256": "cc6202adb82235b886a0f0e1a193d8a19e4ddf7122a97a596959c3daf6eda02e"
+    },
+    {
+      "path": "docs/evidence/system-gold/select-dialog-desktop-light.png",
+      "bytes": 117431,
+      "sha256": "b31d9f116d9bedc628cc6fe3de5433856443f9358baee350d4ccdda15b462a27"
+    },
+    {
+      "path": "docs/evidence/system-gold/select-dialog-mobile-dark.png",
+      "bytes": 56532,
+      "sha256": "a60f7d5178adbee8daea43a2ce4c20db442b712c3f47075f88a502d2b49a6432"
+    },
+    {
+      "path": "docs/evidence/system-gold/select-mobile-dark.png",
+      "bytes": 44556,
+      "sha256": "862039bc8460900848edd5b8cebf7cbb8ca54ec93f0d773c0a3b4b3010404916"
+    },
+    {
+      "path": "docs/evidence/system-gold/validation.md",
+      "bytes": 4165,
+      "sha256": "cf8ab6333dee4d68f5d3f91e7a0f8a6e84656a71653cdb2cb391d213a26e29cb"
+    },
+    {
+      "path": "docs/evidence/system-gold/vision-check.mjs",
+      "bytes": 1824,
+      "sha256": "ff2fc1e14692f040b177d538eb6e327d6bdebca92c210ffc05fab14ddb61f5f8"
+    },
+    {
+      "path": "docs/evidence/system-gold/vision-checks.json",
+      "bytes": 554,
+      "sha256": "edc4c88e35b3b3ed5018e5cd179337b7d43fd318f074067ee82d7166b12f2078"
+    },
+    {
+      "path": "docs/evidence/system-gold/vision-dark-deuteranopia.png",
+      "bytes": 157392,
+      "sha256": "4539b8d41e5f4dbbf15df78c2b3a321bd1f195eee7f64fb86a2b4ed9cc8cce8b"
+    },
+    {
+      "path": "docs/evidence/system-gold/vision-dark-protanopia.png",
+      "bytes": 157359,
+      "sha256": "00a729bcfc4ceb0e27d9ba01aca4311bb6cfd22e09308a144d058c50246eda9d"
+    },
+    {
+      "path": "docs/evidence/system-gold/vision-light-deuteranopia.png",
+      "bytes": 154621,
+      "sha256": "e10e84704dee52045bde7eebe2a4628c9671be3ee167239711e43577bfaa046d"
+    },
+    {
+      "path": "docs/evidence/system-gold/vision-light-protanopia.png",
+      "bytes": 154148,
+      "sha256": "8526a682b7d62adb7b0d127453c7b74f9886ed38e4bf639d093769408fd7cbe6"
+    },
+    {
+      "path": "docs/evidence/system-gold/web-build.txt",
+      "bytes": 937,
+      "sha256": "0d64a4908e6f254abc0c7733c40176866089a97ac9a56c5369e1e879e25d31b4"
+    }
+  ]
+}

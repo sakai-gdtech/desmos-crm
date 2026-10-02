@@ -1,0 +1,188 @@
+{
+  "startedAt": "2026-10-02T05:33:10.462Z",
+  "finishedAt": "2026-10-02T05:33:23.489Z",
+  "method": "Current PDF rehearsal; three UI scenarios with isolated fictional companies, no fixture reset, no external sending.",
+  "exitCode": 0,
+  "report": {
+    "config": {
+      "argv": [
+        "/opt/homebrew/Cellar/node/26.8.2/bin/node",
+        "/Users/felipesakai/Documents/Projetos/orbit-crm/node_modules/.bin/playwright",
+        "test",
+        "tests/e2e/pdf-completion.spec.ts",
+        "--reporter=json"
+      ],
+      "configFile": "/Users/felipesakai/Documents/Projetos/orbit-crm/playwright.config.ts",
+      "rootDir": "/Users/felipesakai/Documents/Projetos/orbit-crm/tests/e2e",
+      "failOnFlakyTests": false,
+      "forbidOnly": false,
+      "fullyParallel": false,
+      "globalSetup": null,
+      "globalTeardown": null,
+      "globalTimeout": 0,
+      "grep": {},
+      "grepInvert": null,
+      "maxFailures": 0,
+      "metadata": {
+        "actualWorkers": 1
+      },
+      "preserveOutput": "always",
+      "projects": [
+        {
+          "outputDir": "/Users/felipesakai/Documents/Projetos/orbit-crm/test-results",
+          "repeatEach": 1,
+          "retries": 0,
+          "metadata": {
+            "actualWorkers": 1
+          },
+          "id": "chromium",
+          "name": "chromium",
+          "testDir": "/Users/felipesakai/Documents/Projetos/orbit-crm/tests/e2e",
+          "testIgnore": [],
+          "testMatch": [
+            "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+          ],
+          "timeout": 30000
+        }
+      ],
+      "quiet": false,
+      "reporter": [
+        [
+          "json"
+        ]
+      ],
+      "reportSlowTests": {
+        "max": 5,
+        "threshold": 300000
+      },
+      "shard": null,
+      "tags": [],
+      "updateSnapshots": "missing",
+      "updateSourceMethod": "patch",
+      "version": "1.63.0",
+      "workers": 1,
+      "webServer": null
+    },
+    "suites": [
+      {
+        "title": "pdf-completion.spec.ts",
+        "file": "pdf-completion.spec.ts",
+        "column": 0,
+        "line": 0,
+        "specs": [
+          {
+            "title": "PDF jornada conectada: CSV, campos, captura, conversão, proposta, perda, métricas e retorno",
+            "ok": true,
+            "tags": [],
+            "tests": [
+              {
+                "timeout": 120000,
+                "annotations": [],
+                "expectedStatus": "passed",
+                "projectId": "chromium",
+                "projectName": "chromium",
+                "results": [
+                  {
+                    "workerIndex": 0,
+                    "parallelIndex": 0,
+                    "status": "passed",
+                    "duration": 5886,
+                    "errors": [],
+                    "stdout": [],
+                    "stderr": [],
+                    "retry": 0,
+                    "startTime": "2026-10-02T05:33:11.179Z",
+                    "annotations": [],
+                    "attachments": []
+                  }
+                ],
+                "status": "expected"
+              }
+            ],
+            "id": "d4d728dc32e9dd209594-ed4367ccf5cc628b7577",
+            "file": "pdf-completion.spec.ts",
+            "line": 44,
+            "column": 5
+          },
+          {
+            "title": "PDF regra real: criar, revisar, executar, editar/pausar, reabrir e avisos",
+            "ok": true,
+            "tags": [],
+            "tests": [
+              {
+                "timeout": 90000,
+                "annotations": [],
+                "expectedStatus": "passed",
+                "projectId": "chromium",
+                "projectName": "chromium",
+                "results": [
+                  {
+                    "workerIndex": 0,
+                    "parallelIndex": 0,
+                    "status": "passed",
+                    "duration": 3843,
+                    "errors": [],
+                    "stdout": [],
+                    "stderr": [],
+                    "retry": 0,
+                    "startTime": "2026-10-02T05:33:17.800Z",
+                    "annotations": [],
+                    "attachments": []
+                  }
+                ],
+                "status": "expected"
+              }
+            ],
+            "id": "d4d728dc32e9dd209594-3b032df88e416c844a9c",
+            "file": "pdf-completion.spec.ts",
+            "line": 303,
+            "column": 5
+          },
+          {
+            "title": "PDF mobile escuro/reduced motion: importação, regra e painel sem overflow",
+            "ok": true,
+            "tags": [],
+            "tests": [
+              {
+                "timeout": 90000,
+                "annotations": [],
+                "expectedStatus": "passed",
+                "projectId": "chromium",
+                "projectName": "chromium",
+                "results": [
+                  {
+                    "workerIndex": 0,
+                    "parallelIndex": 0,
+                    "status": "passed",
+                    "duration": 1745,
+                    "errors": [],
+                    "stdout": [],
+                    "stderr": [],
+                    "retry": 0,
+                    "startTime": "2026-10-02T05:33:21.650Z",
+                    "annotations": [],
+                    "attachments": []
+                  }
+                ],
+                "status": "expected"
+              }
+            ],
+            "id": "d4d728dc32e9dd209594-fb182d0fcf8505f1ea28",
+            "file": "pdf-completion.spec.ts",
+            "line": 436,
+            "column": 5
+          }
+        ]
+      }
+    ],
+    "errors": [],
+    "stats": {
+      "startTime": "2026-10-02T05:33:10.965Z",
+      "duration": 12509.509,
+      "expected": 3,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    }
+  }
+}

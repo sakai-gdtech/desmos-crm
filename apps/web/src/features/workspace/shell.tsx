@@ -33,6 +33,7 @@ import {
 import { useSession, useTheme } from "@/components/providers";
 import { AssistantProvider } from "./assistant-context";
 import { EditorMemoryProvider } from "./editor-memory";
+import { Notifications } from "./notifications";
 import { GlobalAssistant } from "./global-assistant";
 import { BrandSymbol } from "@/components/brand";
 import { Alert, ErrorState, LoadingPage, cn } from "@/components/ui/primitives";
@@ -194,7 +195,8 @@ function WorkspaceShell({
     const item = nav.find(
       (item) => pathname === item.href || pathname.startsWith(`${item.href}/`),
     );
-    if (item?.group === "CLIENTES") setClientsOpen(true);
+    if (item?.group === "CLIENTES" || pathname.startsWith("/crm/"))
+      setClientsOpen(true);
     if (item && ["CONFIGURAÇÕES", "MINHA CONTA"].includes(item.group))
       setSettingsOpen(true);
   }, [pathname]);
@@ -273,7 +275,13 @@ function WorkspaceShell({
   );
   const current =
     nav.find((n) => n.href === pathname || pathname.startsWith(`${n.href}/`))
-      ?.label ?? "Configuração inicial";
+      ?.label ??
+    {
+      "/crm/import": "Importar cadastros",
+      "/crm/fields": "Campos personalizados",
+      "/crm/intake": "Entrada de leads",
+    }[pathname] ??
+    "Configuração inicial";
   const renderLink = ({ href, icon: Icon, label }: (typeof nav)[number]) => {
     const active =
       pathname === href ||
@@ -459,6 +467,7 @@ function WorkspaceShell({
             <span>{current}</span>
           </div>
           <div className="topbar-actions">
+            <Notifications />
             <GlobalAssistant session={session} />
             <button
               type="button"

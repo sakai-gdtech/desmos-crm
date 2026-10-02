@@ -1,0 +1,103 @@
+[
+  {
+    "name": "deal-empty",
+    "paddingLeft": 0,
+    "x": 17,
+    "contentX": 17,
+    "overflow": 0,
+    "alignedX": 36
+  },
+  {
+    "name": "deals-editing",
+    "paddingLeft": 0,
+    "x": 17,
+    "contentX": 17,
+    "overflow": 305
+  },
+  {
+    "name": "deals-saved",
+    "paddingLeft": 0,
+    "x": 17,
+    "contentX": 17,
+    "overflow": 233,
+    "alignedX": 36
+  },
+  {
+    "name": "leads-editing",
+    "paddingLeft": 0,
+    "x": 36,
+    "contentX": 36,
+    "overflow": 343
+  },
+  {
+    "name": "leads-saved",
+    "paddingLeft": 0,
+    "x": 36,
+    "contentX": 36,
+    "overflow": 271
+  },
+  {
+    "name": "contacts-editing",
+    "paddingLeft": 0,
+    "x": 36,
+    "contentX": 36,
+    "overflow": 343
+  },
+  {
+    "name": "contacts-saved",
+    "paddingLeft": 0,
+    "x": 36,
+    "contentX": 36,
+    "overflow": 271
+  },
+  {
+    "name": "companies-editing",
+    "paddingLeft": 0,
+    "x": 36,
+    "contentX": 36,
+    "overflow": 343
+  },
+  {
+    "name": "companies-saved",
+    "paddingLeft": 0,
+    "x": 36,
+    "contentX": 36,
+    "overflow": 271
+  },
+  {
+    "route": "/crm/fields?kind=deals",
+    "horizontal": 548
+  },
+  {
+    "route": "/crm/leads/new",
+    "horizontal": 0
+  },
+  {
+    "route": "/sales/deals/new",
+    "horizontal": 0
+  },
+  {
+    "route": "/sales/tasks/new",
+    "horizontal": 0
+  },
+  {
+    "route": "/sales/activities/new",
+    "horizontal": 0
+  },
+  {
+    "route": "/settings/company",
+    "horizontal": 0
+  },
+  {
+    "route": "/sales/automations",
+    "horizontal": 0
+  },
+  {
+    "route": "/crm/import",
+    "horizontal": 0
+  },
+  {
+    "route": "/crm/intake",
+    "horizontal": 0
+  }
+]

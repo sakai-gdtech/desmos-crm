@@ -1,3 +1,4 @@
+import { selectOption } from "./select-option.mjs";
 // Local QA only: fictional account/data, no invitation or communication sends.
 import { chromium } from "playwright";
 import AxeBuilder from "@axe-core/playwright";
@@ -325,7 +326,7 @@ await page
 const card = page.locator(`[data-motion-key="${deals[0].id}"]`);
 await card.getByRole("button", { name: "Mover", exact: true }).click();
 await frames(page, "kanban", [`[data-motion-key="${deals[0].id}"]`]);
-await card.getByLabel("Mover para etapa").selectOption(pipeline.stages[1].id);
+await selectOption(card.getByLabel("Mover para etapa"), pipeline.stages[1].id);
 await page.waitForFunction(
   (id) =>
     document.querySelector(`[data-motion-key="${id}"]`)?.dataset
@@ -403,9 +404,9 @@ await page
   .click();
 await page.getByLabel("Nome da automação").fill("Preparar próximo contato");
 await page.getByRole("button", { name: "Continuar", exact: true }).click();
-await page
-  .getByLabel("Modelo de mensagem", { exact: true })
-  .selectOption({ label: "Proposta pronta · revisão 1" });
+await selectOption(page.getByLabel("Modelo de mensagem", { exact: true }), {
+  label: "Proposta pronta · revisão 1",
+});
 await shot(page, "desktop-automation-action");
 await page.getByRole("button", { name: "Continuar", exact: true }).click();
 await shot(page, "desktop-automation-review");

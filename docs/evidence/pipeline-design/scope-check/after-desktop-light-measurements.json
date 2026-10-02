@@ -1,0 +1,129 @@
+[
+  {
+    "name": "deal-empty",
+    "paddingLeft": 24,
+    "x": 639,
+    "contentX": 663,
+    "overflow": 0,
+    "alignedX": 662
+  },
+  {
+    "name": "deals-editing",
+    "paddingLeft": 24,
+    "x": 639,
+    "contentX": 663,
+    "overflow": 0
+  },
+  {
+    "name": "deals-saved",
+    "paddingLeft": 24,
+    "x": 639,
+    "contentX": 663,
+    "overflow": 0,
+    "alignedX": 662
+  },
+  {
+    "name": "leads-editing",
+    "paddingLeft": 0,
+    "x": 309,
+    "contentX": 309,
+    "overflow": 0
+  },
+  {
+    "name": "leads-saved",
+    "paddingLeft": 0,
+    "x": 309,
+    "contentX": 309,
+    "overflow": 0
+  },
+  {
+    "name": "contacts-editing",
+    "paddingLeft": 0,
+    "x": 309,
+    "contentX": 309,
+    "overflow": 0
+  },
+  {
+    "name": "contacts-saved",
+    "paddingLeft": 0,
+    "x": 309,
+    "contentX": 309,
+    "overflow": 0
+  },
+  {
+    "name": "companies-editing",
+    "paddingLeft": 0,
+    "x": 309,
+    "contentX": 309,
+    "overflow": 0
+  },
+  {
+    "name": "companies-saved",
+    "paddingLeft": 0,
+    "x": 309,
+    "contentX": 309,
+    "overflow": 0
+  },
+  {
+    "route": "/crm/fields?kind=deals",
+    "horizontal": 0
+  },
+  {
+    "route": "/crm/leads/new",
+    "horizontal": 0
+  },
+  {
+    "route": "/sales/deals/new",
+    "horizontal": 0
+  },
+  {
+    "route": "/sales/tasks/new",
+    "horizontal": 0
+  },
+  {
+    "route": "/sales/activities/new",
+    "horizontal": 0
+  },
+  {
+    "route": "/settings/company",
+    "horizontal": 0
+  },
+  {
+    "route": "/sales/automations",
+    "horizontal": 0
+  },
+  {
+    "route": "/crm/import",
+    "horizontal": 0
+  },
+  {
+    "route": "/crm/intake",
+    "horizontal": 0
+  },
+  {
+    "name": "capture",
+    "paddingLeft": 24
+  },
+  {
+    "name": "drawer",
+    "paddingLeft": 24,
+    "x": 705,
+    "contentX": 729,
+    "overflow": 0,
+    "alignedX": 728
+  },
+  {
+    "name": "loading",
+    "paddingLeft": 24,
+    "x": 639,
+    "contentX": 663,
+    "overflow": 0
+  },
+  {
+    "name": "error",
+    "paddingLeft": 24,
+    "x": 639,
+    "contentX": 663,
+    "overflow": 0
+  }
+]

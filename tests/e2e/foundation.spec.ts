@@ -1,3 +1,4 @@
+import { selectOption } from "../../scripts/select-option.mjs";
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
@@ -14,14 +15,16 @@ test("cadastro, onboarding, configurações persistidas e novo login", async ({
   await page.getByLabel("Crie uma senha").fill(password);
   await page.getByRole("button", { name: "Criar conta e empresa" }).click();
   await expect(page).toHaveURL(/\/onboarding$/);
-  await page
-    .getByLabel("Em qual segmento vocês atuam?")
-    .selectOption("Tecnologia");
+  await selectOption(
+    page.getByLabel("Em qual segmento vocês atuam?"),
+    "Tecnologia",
+  );
   await page.getByLabel("Pessoas na empresa").fill("12");
   await page.getByLabel("Pessoas no time de vendas").fill("4");
-  await page
-    .getByLabel("Como funciona a venda de vocês?")
-    .selectOption("Consultiva");
+  await selectOption(
+    page.getByLabel("Como funciona a venda de vocês?"),
+    "Consultiva",
+  );
   await page
     .getByLabel("Qual é o principal objetivo com o CRM?")
     .fill("Organizar clientes e acompanhar cada negociação.");
@@ -81,7 +84,7 @@ test("convite entregue por email, aceite e permissão de visualizador", async ({
   expect(registered.status()).toBe(201);
   await page.goto("/settings/team");
   await page.getByLabel("Email da pessoa").fill(invitee);
-  await page.getByLabel("Papel de acesso").selectOption("VIEWER");
+  await selectOption(page.getByLabel("Papel de acesso"), "VIEWER");
   await page.getByRole("button", { name: "Enviar convite" }).click();
   await expect(
     page.getByText(
@@ -314,7 +317,7 @@ test("perfil fecha navegação móvel e mudanças no próprio acesso exigem conf
   });
   await page.setViewportSize({ width: 1440, height: 1000 });
   await page.goto("/settings/team");
-  await page.getByLabel("Papel de Pessoa Responsável").selectOption("SALES");
+  await selectOption(page.getByLabel("Papel de Pessoa Responsável"), "SALES");
   const confirmation = page.getByRole("dialog", {
     name: "Alterar seu próprio acesso?",
   });
@@ -329,7 +332,8 @@ test("perfil fecha navegação móvel e mudanças no próprio acesso exigem conf
   ).toBe("OWNER");
   await page.getByRole("button", { name: "Manter meu acesso" }).click();
   await expect(confirmation).not.toBeVisible();
-  await expect(page.getByLabel("Papel de Pessoa Responsável")).toHaveValue(
+  await expect(page.getByLabel("Papel de Pessoa Responsável")).toHaveAttribute(
+    "data-value",
     "OWNER",
   );
   await page.getByRole("button", { name: "Suspender", exact: true }).click();

@@ -1,3 +1,4 @@
+import { selectOption } from "./select-option.mjs";
 // Local visual evidence. Creates a fictional test account; sends no communication.
 import { chromium } from "playwright";
 import fs from "node:fs/promises";
@@ -90,9 +91,9 @@ await page
   .fill("Enviar proposta ao entrar na etapa");
 await shot("desktop-trigger");
 await page.getByRole("button", { name: "Continuar", exact: true }).click();
-await page
-  .getByLabel("Modelo de mensagem", { exact: true })
-  .selectOption({ label: "Proposta pronta · revisão 1" });
+await selectOption(page.getByLabel("Modelo de mensagem", { exact: true }), {
+  label: "Proposta pronta · revisão 1",
+});
 await shot("desktop-action");
 await page.getByRole("button", { name: "Continuar", exact: true }).click();
 await page.getByRole("button", { name: "Simular envio", exact: true }).click();

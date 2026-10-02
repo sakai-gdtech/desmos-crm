@@ -1,3 +1,4 @@
+import { selectOption } from "../../scripts/select-option.mjs";
 import { editorStep, library, stageRules } from "./automation-flow-helpers";
 import { test, expect } from "@playwright/test";
 import {
@@ -89,9 +90,10 @@ for (const mobile of [false, true])
     expect(create.status()).toBe(201);
     const pipeline = (await create.json()).item;
     await page.goto(`/sales/pipelines/${pipeline.id}/edit`);
-    await page
-      .getByLabel("Posição da nova etapa")
-      .selectOption(pipeline.stages[2].id);
+    await selectOption(
+      page.getByLabel("Posição da nova etapa"),
+      pipeline.stages[2].id,
+    );
     await page
       .getByRole("button", { name: "Adicionar etapa", exact: true })
       .click();
@@ -124,10 +126,12 @@ for (const mobile of [false, true])
     await page
       .getByRole("button", { name: "Enviar pedido", exact: true })
       .click();
-    await expect(page.getByLabel("Escolher etapa")).toHaveValue(
+    await expect(page.getByLabel("Escolher etapa")).toHaveAttribute(
+      "data-value",
       pipeline.stages[2].id,
     );
-    await expect(page.getByLabel("Destinatário interpretado")).toHaveValue(
+    await expect(page.getByLabel("Destinatário interpretado")).toHaveAttribute(
+      "data-value",
       "USER",
     );
     await page
@@ -168,7 +172,8 @@ for (const mobile of [false, true])
     await page
       .getByRole("button", { name: /Email ao entrar em Reunião/ })
       .click();
-    await expect(page.getByLabel("Etapa de entrada")).toHaveValue(
+    await expect(page.getByLabel("Etapa de entrada")).toHaveAttribute(
+      "data-value",
       pipeline.stages[2].id,
     );
     await library(page);
@@ -213,9 +218,9 @@ for (const mobile of [false, true])
     await page
       .getByRole("button", { name: /Email ao entrar em Reunião/ })
       .click();
-    await expect(page.getByLabel("Destinatário", { exact: true })).toHaveValue(
-      "USER",
-    );
+    await expect(
+      page.getByLabel("Destinatário", { exact: true }),
+    ).toHaveAttribute("data-value", "USER");
     await expect(
       page.getByLabel("Destinatário", { exact: true }),
     ).toContainText(me.user.email);
@@ -303,12 +308,18 @@ for (const mobile of [false, true])
     await page
       .getByRole("button", { name: "Enviar pedido", exact: true })
       .click();
-    await expect(page.getByLabel("Escolher funil")).toHaveValue("");
+    await expect(page.getByLabel("Escolher funil")).toHaveAttribute(
+      "data-value",
+      "",
+    );
     await expect(
       page.getByRole("button", { name: "Gerar rascunho para revisão" }),
     ).toBeDisabled();
-    await page.getByLabel("Escolher funil").selectOption(pipeline.id);
-    await page.getByLabel("Escolher etapa").selectOption(pipeline.stages[2].id);
+    await selectOption(page.getByLabel("Escolher funil"), pipeline.id);
+    await selectOption(
+      page.getByLabel("Escolher etapa"),
+      pipeline.stages[2].id,
+    );
     await expect(
       page.getByRole("button", { name: "Gerar rascunho para revisão" }),
     ).toBeEnabled();

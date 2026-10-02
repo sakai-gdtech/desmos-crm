@@ -1,0 +1,20 @@
+{
+  "method": "gzip level9 mtime0, sum of every Webpack .next/static JS/CSS file; comparison to final pipeline build. Not initial transfer size or interaction latency.",
+  "baseline": "/tmp/desmos-pipeline-build-_mgylkvd",
+  "current": "/tmp/desmos-gold-build-8mxsuh1k",
+  "dependencyChanges": false,
+  "assets": {
+    ".js": {
+      "before": 479346,
+      "after": 479333,
+      "delta": -13,
+      "percent": -0.003
+    },
+    ".css": {
+      "before": 17928,
+      "after": 18136,
+      "delta": 208,
+      "percent": 1.16
+    }
+  }
+}

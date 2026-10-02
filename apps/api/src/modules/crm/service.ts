@@ -21,6 +21,7 @@ const commonFields = [
   "assignedTo",
   "source",
   "description",
+  "customFields",
   "createdAt",
   "updatedAt",
   "deletedAt",
@@ -248,7 +249,12 @@ async function lockTagMemberships(tx: Executor, context: Context) {
     sql`SELECT pg_advisory_xact_lock(hashtextextended(${"crm-tags:" + context.tenantId}, 0))`,
   );
 }
-async function insert(tx: Executor, context: Context, kind: Kind, input: Row) {
+export async function insert(
+  tx: Executor,
+  context: Context,
+  kind: Kind,
+  input: Row,
+) {
   await validateReferences(tx, context, input);
   const data: Row = { ...input };
   delete data.tagIds;
@@ -287,6 +293,37 @@ async function insert(tx: Executor, context: Context, kind: Kind, input: Row) {
   );
   return created;
 }
+export const crmJoins = joins;
+export function crmWhere(context: Context, kind: Kind, query: ListQuery) {
+  const filters: SQL[] = [
+    sql`r.tenant_id=${context.tenantId}`,
+    sql`r.kind=${kind}`,
+    query.deleted === "true"
+      ? sql`r.deleted_at IS NOT NULL`
+      : sql`r.deleted_at IS NULL`,
+  ];
+  if (query.q) {
+    const match = `%${query.q.replace(/[\\%_]/g, "\\$&")}%`;
+    filters.push(
+      sql`(r.name ILIKE ${match} ESCAPE '\\' OR r.last_name ILIKE ${match} ESCAPE '\\' OR r.email ILIKE ${match} ESCAPE '\\' OR r.phone ILIKE ${match} ESCAPE '\\' OR r.company_name ILIKE ${match} ESCAPE '\\' OR company.name ILIKE ${match} ESCAPE '\\')`,
+    );
+  }
+  for (const key of [
+    "status",
+    "assignedTo",
+    "companyId",
+    "source",
+    "temperature",
+  ] as const)
+    if (query[key])
+      filters.push(sql`r.${sql.identifier(column(key))}=${query[key]}`);
+  if (query.tagId)
+    filters.push(
+      sql`EXISTS(SELECT 1 FROM crm_record_tags rt WHERE rt.tenant_id=r.tenant_id AND rt.record_id=r.id AND rt.tag_id=${query.tagId})`,
+    );
+
+  return sql.join(filters, sql` AND `);
+}
 export async function list(context: Context, kind: Kind, query: ListQuery) {
   return crmTransaction(
     context,
@@ -299,33 +336,7 @@ export async function list(context: Context, kind: Kind, query: ListQuery) {
           "FORBIDDEN",
           "Seu perfil não tem acesso à lixeira.",
         );
-      const filters: SQL[] = [
-        sql`r.tenant_id=${context.tenantId}`,
-        sql`r.kind=${kind}`,
-        query.deleted === "true"
-          ? sql`r.deleted_at IS NOT NULL`
-          : sql`r.deleted_at IS NULL`,
-      ];
-      if (query.q) {
-        const match = `%${query.q.replace(/[\\%_]/g, "\\$&")}%`;
-        filters.push(
-          sql`(r.name ILIKE ${match} ESCAPE '\\' OR r.last_name ILIKE ${match} ESCAPE '\\' OR r.email ILIKE ${match} ESCAPE '\\' OR r.phone ILIKE ${match} ESCAPE '\\' OR r.company_name ILIKE ${match} ESCAPE '\\' OR company.name ILIKE ${match} ESCAPE '\\')`,
-        );
-      }
-      for (const key of [
-        "status",
-        "assignedTo",
-        "companyId",
-        "source",
-        "temperature",
-      ] as const)
-        if (query[key])
-          filters.push(sql`r.${sql.identifier(column(key))}=${query[key]}`);
-      if (query.tagId)
-        filters.push(
-          sql`EXISTS(SELECT 1 FROM crm_record_tags rt WHERE rt.tenant_id=r.tenant_id AND rt.record_id=r.id AND rt.tag_id=${query.tagId})`,
-        );
-      const where = sql.join(filters, sql` AND `),
+      const where = crmWhere(context, kind, query),
         direction = query.order === "asc" ? sql`ASC` : sql`DESC`,
         sort =
           query.sort === "name"
@@ -545,6 +556,15 @@ export async function purge(context: Context, kind: Kind, id: string) {
       409,
       "REFERENCED_RECORD",
       "Este registro possui vínculos comerciais. Remova os vínculos antes de excluí-lo permanentemente.",
+    );
+    invariant(
+      !(await one(
+        tx,
+        sql`SELECT record_id FROM crm_intake_entries WHERE tenant_id=${context.tenantId} AND record_id=${id} LIMIT 1`,
+      )),
+      409,
+      "REFERENCED_RECORD",
+      "Este lead tem um registro de captura. Mantenha-o na lixeira para conservar a entrada e a proteção contra repetição.",
     );
     const salesReference = await one(
       tx,
@@ -939,6 +959,51 @@ export async function convert(
         companyId: company?.id ?? null,
         tagIds: leadTags.map((t) => t.tag_id),
       });
+    }
+    const shared = await rows(
+      tx,
+      sql`SELECT id FROM crm_fields WHERE tenant_id=${context.tenantId} AND kind='leads' AND active AND share_on_conversion`,
+    );
+    const contactBefore = await record(
+      tx,
+      fresh,
+      "contacts",
+      contact.id,
+      true,
+      true,
+    );
+    const copied = Object.fromEntries(
+      shared
+        .filter(
+          (f) =>
+            lead.custom_fields[f.id] !== undefined &&
+            contactBefore.custom_fields[f.id] == null,
+        )
+        .map((f) => [f.id, lead.custom_fields[f.id]]),
+    );
+    if (Object.keys(copied).length) {
+      const values = { ...contactBefore.custom_fields, ...copied };
+      await tx.execute(
+        sql`UPDATE crm_records SET custom_fields=${JSON.stringify(values)}::jsonb,version=version+1,updated_at=now() WHERE tenant_id=${context.tenantId} AND id=${contact.id}`,
+      );
+      await event(
+        tx,
+        context,
+        "contacts",
+        contact.id,
+        "updated",
+        {
+          title: "Campos compartilhados na conversão",
+          changes: Object.keys(copied).map((field) => ({
+            field,
+            before: null,
+            after: copied[field],
+          })),
+        },
+        contactBefore,
+        values,
+      );
+      contact = await item(tx, context, "contacts", contact.id);
     }
     await tx.execute(
       sql`UPDATE crm_records SET status='CONVERTED',converted_contact_id=${contact.id},converted_company_id=${company?.id ?? null},version=version+1,updated_at=now() WHERE tenant_id=${context.tenantId} AND kind='leads' AND id=${id}`,

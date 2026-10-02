@@ -1,0 +1,111 @@
+{
+  "at": "2026-10-02T03:35:53.799Z",
+  "commit": "bbd6fc63b369ed6a18cfc0c272d5546e764437b6",
+  "method": "New fictional local tenant; no existing presentation fixture/reset, external communications, worker, source edit or publication. Focused live UI/API observations supplement rerun E2E/API assertions.",
+  "observations": {
+    "duplicates": {
+      "count": 1,
+      "originalId": "9f1cb200-2080-4f6a-a1ab-2732b2d15f7f",
+      "duplicateId": "7fccadce-1fed-4e62-98c1-108380ba5c8a",
+      "nonBlocking": true
+    },
+    "conversion": {
+      "contactId": "77e3057e-a988-4c25-9413-24be734eae53",
+      "companyId": "b25bf4fc-931c-4d2d-ada5-e8d7eca07058",
+      "dealId": "1dbf3746-3a3b-4280-83c3-6e7ec1d23f8d",
+      "source": "LinkedIn",
+      "assignedTo": "262b3fc0-9834-4974-8a7e-006b6144af9c"
+    },
+    "independentDeals": {
+      "count": 2,
+      "ids": [
+        "3d611203-2448-4640-b8f0-749724c67187",
+        "1dbf3746-3a3b-4280-83c3-6e7ec1d23f8d"
+      ]
+    },
+    "proposal": {
+      "total": "200.19",
+      "snapshotPriceAfterCatalogChange": "100.10"
+    },
+    "task": {
+      "id": "3f8ec095-fd59-4962-84c3-cb1199095cb5",
+      "dealId": "1dbf3746-3a3b-4280-83c3-6e7ec1d23f8d",
+      "assignedTo": "262b3fc0-9834-4974-8a7e-006b6144af9c",
+      "dueAt": "2026-10-03 03:35:54.173+00"
+    },
+    "catalogUI": {
+      "newProduct": 1,
+      "updatePrice": 1
+    },
+    "communication": {
+      "mailtoLinks": 1,
+      "whatsappLaunchLinks": 0,
+      "whatsappShown": 2
+    },
+    "listReturn": {
+      "searchAfterReturn": ""
+    },
+    "boardFilters": [
+      "Funil",
+      "Responsável",
+      "Status"
+    ],
+    "lossInput": {
+      "required": false,
+      "value": ""
+    },
+    "lossWithoutReason": {
+      "status": "LOST",
+      "reason": null,
+      "lostAt": "2026-10-02 03:35:56.297+00"
+    },
+    "indicators": {
+      "before": [
+        {
+          "currency": "BRL",
+          "openValue": "200.19",
+          "wonValue": "0",
+          "wonCount": 0,
+          "openCount": 1
+        }
+      ],
+      "after": [
+        {
+          "currency": "BRL",
+          "openValue": "0",
+          "wonValue": "200.19",
+          "wonCount": 1,
+          "openCount": 0
+        }
+      ],
+      "responseKeys": [
+        "totals",
+        "noActionCount",
+        "overdueCount",
+        "deals",
+        "tasks"
+      ]
+    },
+    "dashboardFilters": [
+      "Funil"
+    ],
+    "commandPalette": {
+      "dialogs": 0,
+      "searchInputs": 0
+    },
+    "persistence": {
+      "status": 200,
+      "dealStatus": "WON"
+    }
+  },
+  "errors": [],
+  "fixture": {
+    "tenantId": "6d57b8cb-f9ff-4538-b638-031827683d1c",
+    "pipelineId": "1639e25e-02f5-449d-9012-6ce580550e9e",
+    "leadId": "9f1cb200-2080-4f6a-a1ab-2732b2d15f7f",
+    "dealIds": [
+      "1dbf3746-3a3b-4280-83c3-6e7ec1d23f8d",
+      "3d611203-2448-4640-b8f0-749724c67187"
+    ]
+  }
+}

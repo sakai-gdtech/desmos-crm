@@ -176,7 +176,11 @@ function TeamContent({
             id="invite-role"
             error={form.formState.errors.role?.message}
           >
-            <Select id="invite-role" {...form.register("role")}>
+            <Select
+              id="invite-role"
+              value={form.watch("role")}
+              {...form.register("role")}
+            >
               {roles
                 .filter((r) => owner || r !== "OWNER")
                 .map((r) => (

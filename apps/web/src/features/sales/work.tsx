@@ -1,5 +1,6 @@
 "use client";
 import { MotionCollection } from "@/components/ui/motion";
+import { useRememberedState } from "@/features/workspace/editor-memory";
 import Link from "next/link";
 import { WorkNavigation } from "./navigation";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -65,11 +66,17 @@ const names = {
 };
 export function WorkList({ kind }: { kind: WorkKind }) {
   const { data: session } = useSession();
-  const [bucket, setBucket] = useState("all");
-  const [assigned, setAssigned] = useState("all");
-  const [deleted, setDeleted] = useState(false);
-  const [search, setSearch] = useState("");
-  const [page, setPage] = useState(1);
+  const [bucket, setBucket] = useRememberedState(`work:${kind}:bucket`, "all");
+  const [assigned, setAssigned] = useRememberedState(
+    `work:${kind}:assigned`,
+    "all",
+  );
+  const [deleted, setDeleted] = useRememberedState(
+    `work:${kind}:deleted`,
+    false,
+  );
+  const [search, setSearch] = useRememberedState(`work:${kind}:search`, "");
+  const [page, setPage] = useRememberedState(`work:${kind}:page`, 1);
   const q = useDebounced(search);
   const { assignees } = useCrmReferences();
   const query = new URLSearchParams({

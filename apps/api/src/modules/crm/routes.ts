@@ -2,12 +2,123 @@ import type { FastifyInstance, FastifyRequest } from "fastify";
 import { z } from "zod";
 import { authenticate } from "../iam/application/sessions.js";
 import * as schema from "./schemas.js";
+import * as intake from "./intake.js";
+import * as fields from "./fields.js";
+import * as csv from "./csv.js";
 import * as crm from "./service.js";
 const params = z.object({ kind: schema.kindSchema, id: schema.idSchema });
 const entity = (request: FastifyRequest) => params.parse(request.params);
 const tagId = (request: FastifyRequest) =>
   z.object({ id: schema.idSchema }).parse(request.params).id;
 export async function crmRoutes(app: FastifyInstance) {
+  app.get("/crm/intake", async (req) =>
+    intake.intakeForms(await authenticate(req)),
+  );
+  app.post("/crm/intake", async (req, reply) =>
+    reply
+      .code(201)
+      .send(
+        await intake.createIntake(
+          await authenticate(req),
+          intake.intakeInput.parse(req.body),
+        ),
+      ),
+  );
+  app.patch("/crm/intake/:id", async (req) => {
+    const input = z
+      .object({ version: z.number().int().positive(), active: z.boolean() })
+      .strict()
+      .parse(req.body);
+    return intake.toggleIntake(
+      await authenticate(req),
+      tagId(req),
+      input.version,
+      input.active,
+    );
+  });
+  const captureParams = z.object({
+    tenantId: z.uuid(),
+    token: z.string().regex(/^[a-f0-9]{48}$/),
+  });
+  app.get(
+    "/capture/:tenantId/:token",
+    { config: { rateLimit: { max: 30, timeWindow: "1 minute" } } },
+    async (req) => {
+      const p = captureParams.parse(req.params);
+      return intake.capture(p.tenantId, p.token);
+    },
+  );
+  app.post(
+    "/capture/:tenantId/:token",
+    { config: { rateLimit: { max: 20, timeWindow: "1 minute" } } },
+    async (req) => {
+      const p = captureParams.parse(req.params);
+      return intake.capture(
+        p.tenantId,
+        p.token,
+        intake.captureInput.parse(req.body),
+      );
+    },
+  );
+
+  app.get("/crm/fields", async (req) =>
+    fields.listFields(
+      await authenticate(req),
+      fields.fieldKind.parse(
+        z.object({ kind: fields.fieldKind }).strict().parse(req.query).kind,
+      ),
+    ),
+  );
+  app.post("/crm/fields", async (req, reply) =>
+    reply
+      .code(201)
+      .send(
+        await fields.createField(
+          await authenticate(req),
+          fields.fieldInput.parse(req.body),
+        ),
+      ),
+  );
+  app.patch("/crm/fields/:id", async (req) => {
+    const input = z
+      .object({ version: z.number().int().positive(), active: z.boolean() })
+      .strict()
+      .parse(req.body);
+    return fields.toggleField(
+      await authenticate(req),
+      tagId(req),
+      input.version,
+      input.active,
+    );
+  });
+  app.post("/crm/import", { bodyLimit: 400000 }, async (req) =>
+    csv.importCsv(await authenticate(req), csv.importInput.parse(req.body)),
+  );
+  app.get("/crm/export", async (req) => {
+    const { kind, ...query } = z
+      .object({ kind: schema.kindSchema })
+      .passthrough()
+      .parse(req.query);
+    return csv.exportCsv(
+      await authenticate(req),
+      kind,
+      schema.listSchema.parse(query),
+    );
+  });
+  app.get("/crm/:kind/:id/fields", async (req) => {
+    const { kind, id } = entity(req);
+    return fields.fieldValues(await authenticate(req), kind, id);
+  });
+  app.put("/crm/:kind/:id/fields", async (req) => {
+    const { kind, id } = entity(req);
+    return fields.fieldValues(
+      await authenticate(req),
+      kind,
+      id,
+      fields.valuesInput.parse(req.body),
+    );
+  });
+
   app.get("/crm/assignees", async (request) =>
     crm.assignees(await authenticate(request)),
   );

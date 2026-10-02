@@ -1,0 +1,149 @@
+{
+  "method": "WCAG relative luminance sRGB, browser-computed CSS token values from after/before checks; thresholds text4.5 and indicators3. Not a WCAG certification.",
+  "semanticAndBlueTokensUnchanged": [
+    "primary",
+    "primary-soft",
+    "primary-text",
+    "focus",
+    "success",
+    "success-soft",
+    "warning",
+    "warning-soft",
+    "danger",
+    "danger-soft"
+  ],
+  "themes": {
+    "light": [
+      {
+        "pair": "gold text / selected",
+        "foreground": "#76551f",
+        "background": "#f6f0e4",
+        "ratio": 5.989,
+        "minimum": 4.5,
+        "pass": true
+      },
+      {
+        "pair": "gold text / surface",
+        "foreground": "#76551f",
+        "background": "#fff",
+        "ratio": 6.797,
+        "minimum": 4.5,
+        "pass": true
+      },
+      {
+        "pair": "blue selected label",
+        "foreground": "#173b68",
+        "background": "#f6f0e4",
+        "ratio": 9.938,
+        "minimum": 4.5,
+        "pass": true
+      },
+      {
+        "pair": "gold indicator / selected",
+        "foreground": "#aa8446",
+        "background": "#f6f0e4",
+        "ratio": 3.034,
+        "minimum": 3,
+        "pass": true
+      },
+      {
+        "pair": "gold underline / canvas",
+        "foreground": "#aa8446",
+        "background": "#f8f7f4",
+        "ratio": 3.214,
+        "minimum": 3,
+        "pass": true
+      },
+      {
+        "pair": "gold underline / surface",
+        "foreground": "#aa8446",
+        "background": "#fff",
+        "ratio": 3.444,
+        "minimum": 3,
+        "pass": true
+      },
+      {
+        "pair": "blue focus / selected",
+        "foreground": "#3067a9",
+        "background": "#f6f0e4",
+        "ratio": 5.085,
+        "minimum": 3,
+        "pass": true
+      },
+      {
+        "pair": "blue focus / canvas",
+        "foreground": "#3067a9",
+        "background": "#f8f7f4",
+        "ratio": 5.387,
+        "minimum": 3,
+        "pass": true
+      }
+    ],
+    "dark": [
+      {
+        "pair": "gold text / selected",
+        "foreground": "#e4c58e",
+        "background": "#343125",
+        "ratio": 7.863,
+        "minimum": 4.5,
+        "pass": true
+      },
+      {
+        "pair": "gold text / surface",
+        "foreground": "#e4c58e",
+        "background": "#1c2736",
+        "ratio": 9.101,
+        "minimum": 4.5,
+        "pass": true
+      },
+      {
+        "pair": "blue selected label",
+        "foreground": "#bad3f5",
+        "background": "#343125",
+        "ratio": 8.513,
+        "minimum": 4.5,
+        "pass": true
+      },
+      {
+        "pair": "gold indicator / selected",
+        "foreground": "#c9aa73",
+        "background": "#343125",
+        "ratio": 5.881,
+        "minimum": 3,
+        "pass": true
+      },
+      {
+        "pair": "gold underline / canvas",
+        "foreground": "#c9aa73",
+        "background": "#141c28",
+        "ratio": 7.73,
+        "minimum": 3,
+        "pass": true
+      },
+      {
+        "pair": "gold underline / surface",
+        "foreground": "#c9aa73",
+        "background": "#1c2736",
+        "ratio": 6.807,
+        "minimum": 3,
+        "pass": true
+      },
+      {
+        "pair": "blue focus / selected",
+        "foreground": "#91baf0",
+        "background": "#343125",
+        "ratio": 6.505,
+        "minimum": 3,
+        "pass": true
+      },
+      {
+        "pair": "blue focus / canvas",
+        "foreground": "#91baf0",
+        "background": "#141c28",
+        "ratio": 8.549,
+        "minimum": 3,
+        "pass": true
+      }
+    ]
+  }
+}

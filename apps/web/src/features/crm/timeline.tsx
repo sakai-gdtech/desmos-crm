@@ -27,6 +27,7 @@ import {
 } from "./types";
 const eventLabels: Record<string, string> = {
   created: "criou o cadastro",
+  "proposal.saved": "salvou a proposta",
   "stage.changed": "moveu a oportunidade de etapa",
   "status.won": "marcou a oportunidade como ganha",
   "status.lost": "marcou a oportunidade como perdida",
@@ -185,6 +186,18 @@ export function Timeline({
                         {String(event.metadata.title)}
                       </p>
                     )}
+                    {event.type === "proposal.saved" &&
+                      typeof event.metadata?.total === "string" &&
+                      typeof event.metadata?.currency === "string" &&
+                      /^[A-Z]{3}$/.test(event.metadata.currency) && (
+                        <p className="crm-event-preview">
+                          Total:{" "}
+                          {new Intl.NumberFormat("pt-BR", {
+                            style: "currency",
+                            currency: event.metadata.currency,
+                          }).format(Number(event.metadata.total))}
+                        </p>
+                      )}
                     {event.metadata?.bodyPreview && (
                       <p className="crm-event-preview">
                         {event.metadata.bodyPreview}

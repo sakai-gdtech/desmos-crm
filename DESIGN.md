@@ -2,19 +2,22 @@
 name: "Desmos CRM"
 description: "Interface profissional, minimalista e organizada para o trabalho diário."
 colors:
-  background: "#f7f8fa"
+  background: "#f8f7f4"
   surface: "#ffffff"
   sidebar: "#ffffff"
-  surface-hover: "#f0f3f7"
+  surface-hover: "#f2f1ed"
   text: "#202d40"
   muted: "#5d6b7e"
   subtle: "#6b788a"
-  border: "#e1e6ed"
+  border: "#e4e3de"
   primary: "#173b68"
   primary-hover: "#102c50"
   primary-soft: "#eaf0f7"
   primary-text: "#173b68"
   brand-gold: "#aa8446"
+  brand-gold-soft: "#f6f0e4"
+  brand-gold-text: "#76551f"
+  brand-gold-border: "#dac7a3"
   success: "#217550"
   success-soft: "#e8f4ed"
   warning: "#8a5b16"
@@ -35,6 +38,9 @@ colors:
   primary-soft-dark: "#263d59"
   primary-text-dark: "#bad3f5"
   brand-gold-dark: "#c9aa73"
+  brand-gold-soft-dark: "#343125"
+  brand-gold-text-dark: "#e4c58e"
+  brand-gold-border-dark: "#706044"
   success-dark: "#89d7ae"
   success-soft-dark: "#253d34"
   warning-dark: "#e6c286"
@@ -184,7 +190,7 @@ components:
 
 **Creative North Star: "Minimalista, profissional e muito organizada"**
 
-O Desmos CRM adota a direção confirmada no briefing: minimalista, profissional, premium, muito organizada e densa o suficiente para uso empresarial. A hierarquia aparece na tipografia, no alinhamento e nas divisórias; o azul profundo concentra ações e seleção sobre superfícies claras, com dourado fosco em detalhes de conexão. As referências de software do produto orientam a clareza do trabalho sem reproduzir a identidade de outra marca.
+O Desmos CRM adota a direção confirmada no briefing: minimalista, profissional, premium, muito organizada e densa o suficiente para uso empresarial. A hierarquia aparece na tipografia, no alinhamento e nas divisórias; o azul profundo concentra ações e foco sobre superfícies claras; o dourado fosco orienta a navegação e destaca pontos de conexão. As referências de software do produto orientam a clareza do trabalho sem reproduzir a identidade de outra marca.
 
 A marca Desmos mantém a referência grega a laço e conexão. O símbolo próprio é uma imagem raster gerada em azul profundo e dourado fosco, sem brilho ou efeito metálico, compartilhada pela autenticação, barra lateral e ícone da aplicação. A identificação da empresa na barra lateral é estática: cada conta pertence a uma única empresa cliente do SaaS.
 
@@ -194,27 +200,27 @@ Este documento registra os padrões reutilizados na autenticação, onboarding, 
 
 - Superfícies claras por padrão, separadas por tom e borda fina.
 - Densidade operacional com títulos curtos e controles compactos.
-- Azul profundo para ação e seleção; dourado fosco no símbolo e no indicador atual.
+- Azul profundo para ação e foco; dourado fosco no símbolo, navegação ativa, abas, seletores e Assistente.
 - Tema escuro por escolha explícita e navegação agrupada, adaptada a telas pequenas.
 
 ## Colors
 
-A paleta combina neutros frios claros com azul profundo, dourado fosco e cores semânticas contidas. A primeira visita inicia no claro, independentemente do sistema operacional. Uma escolha salva em `orbit-theme` é respeitada; o controle da barra superior alterna e salva claro/escuro. Os tokens sem sufixo correspondem ao tema claro; `-dark` registra o valor que a mesma variável CSS recebe quando a raiz possui `data-theme="dark"`. O código continua consumindo as variáveis semânticas sem sufixo em ambos os temas.
+A paleta combina neutros claros levemente aquecidos com azul profundo, dourado fosco e cores semânticas contidas. A primeira visita inicia no claro, independentemente do sistema operacional. Uma escolha salva em `orbit-theme` é respeitada; o controle da barra superior alterna e salva claro/escuro. Os tokens sem sufixo correspondem ao tema claro; `-dark` registra o valor que a mesma variável CSS recebe quando a raiz possui `data-theme="dark"`. O código continua consumindo as variáveis semânticas sem sufixo em ambos os temas.
 
 ### Primary
 
 - **Azul profundo de ação** (`primary`, `primary-hover`): preenchimento do botão principal e indicação de progresso.
-- **Azul suave** (`primary-soft`, `primary-text`): navegação selecionada, badges de contexto, avatars e links. O fundo suave não substitui o contraste de texto.
+- **Azul suave** (`primary-soft`, `primary-text`): badges de contexto, avatars, links e texto das seleções. O fundo suave não substitui o contraste de texto.
 - **Azul de foco** (`focus`): contorno de teclado compartilhado por links, botões e campos.
 - **Tinta do botão no tema escuro** (`primary-ink-dark`): texto escuro sobre o azul mais claro do botão principal.
 
 ### Secondary
 
-- **Dourado fosco de conexão** (`brand-gold` e `brand-gold-dark`): pequeno indicador do destino atual. O símbolo raster também combina azul e dourado; seus pixels são um asset fixo, não uma aplicação dinâmica dos tokens CSS.
+- **Dourado fosco de conexão** (`brand-gold`): indicador atual e linha da aba selecionada. `brand-gold-soft` sustenta navegação/opção selecionada, passo atual e entrada do Assistente. `brand-gold-text` mantém legíveis texto pequeno e ícones nesses fundos; `brand-gold-border` é uma divisória suave. Resumo financeiro, ícones do Radar, contagem de etapas e marcador Hoje da Agenda recebem o mesmo acento. Cores de etapas e badges semânticos permanecem próprias. O símbolo raster também combina azul e dourado; seus pixels são um asset fixo, não uma aplicação dinâmica dos tokens CSS.
 
 ### Neutral
 
-- **Fundo frio** (`background`): plano de trabalho, cabeçalhos e rodapés de tabela.
+- **Fundo levemente aquecido** (`background`): plano de trabalho, cabeçalhos e rodapés de tabela.
 - **Superfície** (`surface`): campos, cards, barra superior e diálogo.
 - **Navegação clara** (`sidebar`): plano branco contínuo da barra lateral no tema padrão, com adaptação tonal no escuro.
 - **Superfície de interação** (`surface-hover`): hover de linhas, navegação e botões secundários; também badges neutros.
@@ -290,7 +296,9 @@ O primário muda para o azul de hover; o secundário muda superfície e borda; o
 
 ### Inputs / Fields
 
-Campos de texto e selects compartilham superfície, borda e raio; o select é nativo. Placeholders usam o tom auxiliar. Hover altera a borda, foco mostra contorno e erro usa borda semântica. Campos desabilitados ou somente leitura usam fundo de página e texto secundário.
+Campos de texto e selects compartilham superfície, borda e raio. O `Select` compartilhado usa botão combobox e lista de opções desenhada pelo Desmos, com seta, indicador de seleção e estados de foco próprios nos dois temas; não abre o menu do sistema operacional. Placeholders usam o tom auxiliar. Hover altera a borda, foco mostra contorno e erro usa borda semântica. Campos desabilitados ou somente leitura usam fundo de página e texto secundário.
+
+O menu do Select sobe para a camada de popover do navegador, com portal no mesmo diálogo ou landmark, evitando cortes em tabelas, painéis e modais. A largura e a abertura acima/abaixo acompanham o viewport. Setas, Home/End e PageUp/PageDown movem a opção ativa; digitar encontra o prefixo sem distinguir acentos; Enter/Espaço ou Tab confirmam, Escape cancela. Clique fora fecha sem alterar a escolha. O foco permanece no combobox, e `aria-activedescendant` identifica a opção ativa. O select oculto preserva valores, eventos e integração com formulários, sem participar do teclado ou da árvore acessível. O contrato está em `docs/specs/custom-selects.md`.
 
 Field mantém label associado e liga mensagens de erro ou ajuda ao controle por `aria-describedby`; erros também marcam `aria-invalid`. As mensagens ficam abaixo do campo. A altura padrão é registrada no frontmatter; autenticação aumenta para (44px). Textarea permite expansão vertical.
 
@@ -369,6 +377,10 @@ O diálogo usa o elemento nativo `dialog` aberto por `showModal()`, título asso
 O painel lateral de negócio também usa `dialog` com `showModal()`, título associado e fechamento por Escape, botão ou backdrop. Tem cantos retos, cabeçalho sticky e largura/altura registradas em `deal-drawer`. Ao fechar, devolve foco ao link de origem com `preventScroll`; abrir normalmente intercepta o link do Kanban ou Radar, enquanto o destino completo continua disponível para uma nova aba. A rolagem do corpo fica bloqueada durante a abertura.
 
 ## Do's and Don'ts
+
+As ferramentas acrescidas para a conclusão mínima do PDF reutilizam superfícies e controles do sistema: campos personalizados no contexto do registro, gestão administrativa contextual, CSV em Arquivo → Prévia → Confirmação → Resumo e captura separada de cadastro manual. A revisão valida o arquivo inteiro e identifica o limite visível de 20 linhas; a política de duplicados e o arquivo ficam bloqueados durante requisições. Tabelas permitem rolagem horizontal em região identificada com foco, preservando o layout mobile.
+
+Tarefas e avisos automáticos têm diretório do servidor e editor progressivo de dois passos, com revisão explícita antes de ativar. Cancelar alterações pede descarte somente quando necessário; a edição fica em memória na mesma sessão isolada e requisições em andamento conservam o bloqueio ao navegar/reabrir. Avisos internos usam um único sino no topo do shell, separados do Assistente global. O painel explica a coorte de criação, a fórmula da conversão e a separação de moedas. Identidade, tema escuro, motion central e reduced motion permanecem.
 
 ### Do:
 

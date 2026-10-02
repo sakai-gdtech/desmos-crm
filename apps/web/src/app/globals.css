@@ -1,19 +1,22 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f7f8fa;
+  --background: #f8f7f4;
   --surface: #ffffff;
   --sidebar: #ffffff;
-  --surface-hover: #f0f3f7;
+  --surface-hover: #f2f1ed;
   --text: #202d40;
   --muted: #5d6b7e;
   --subtle: #6b788a;
-  --border: #e1e6ed;
+  --border: #e4e3de;
   --primary: #173b68;
   --primary-hover: #102c50;
   --primary-soft: #eaf0f7;
   --primary-text: #173b68;
   --brand-gold: #aa8446;
+  --brand-gold-soft: #f6f0e4;
+  --brand-gold-text: #76551f;
+  --brand-gold-border: #dac7a3;
   --success: #217550;
   --success-soft: #e8f4ed;
   --warning: #8a5b16;
@@ -37,6 +40,9 @@
   --primary-soft: #263d59;
   --primary-text: #bad3f5;
   --brand-gold: #c9aa73;
+  --brand-gold-soft: #343125;
+  --brand-gold-text: #e4c58e;
+  --brand-gold-border: #706044;
   --success: #89d7ae;
   --success-soft: #253d34;
   --warning: #e6c286;
@@ -249,7 +255,110 @@ a,
   border-color: var(--danger);
 }
 .select {
-  padding-right: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-right: 10px;
+  text-align: left;
+  cursor: pointer;
+}
+.select:disabled {
+  cursor: not-allowed;
+}
+.select[aria-expanded="true"] {
+  border-color: var(--focus);
+}
+.select-value {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
+.select-chevron {
+  flex: 0 0 auto;
+  color: var(--muted);
+  transition: transform 150ms ease-out;
+}
+.select[aria-expanded="true"] .select-chevron {
+  transform: rotate(180deg);
+}
+.select-popup {
+  margin: 0;
+  padding: 6px;
+  inset: auto;
+  z-index: 100;
+  border: 0;
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: 0 8px 28px rgb(0 0 0 / 18%);
+  outline: 1px solid var(--border);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  touch-action: pan-y pinch-zoom;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+.select-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 40px;
+  padding: 8px 10px;
+  border-radius: 4px;
+  font-size: 13px;
+  line-height: 1.45;
+  cursor: pointer;
+}
+.select-option > span {
+  overflow-wrap: anywhere;
+}
+.select-option > svg {
+  flex-shrink: 0;
+  color: var(--brand-gold-text);
+}
+.select-option[aria-selected="true"] {
+  font-weight: 550;
+  color: var(--primary-text);
+  background: var(--brand-gold-soft);
+}
+.select-option[data-active="true"] {
+  background: var(--primary-soft);
+  outline: 1px solid var(--focus);
+  outline-offset: -1px;
+}
+.select-option[aria-selected="true"][data-active="true"] {
+  background: var(--brand-gold-soft);
+}
+.select-option[aria-disabled="true"] {
+  color: var(--subtle);
+  cursor: not-allowed;
+}
+.select-empty,
+.select-group {
+  padding: 8px 10px;
+  color: var(--muted);
+  font-size: 12px;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .select-popup {
+    animation: select-arrive 130ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+}
+@keyframes select-arrive {
+  from {
+    transform: translateY(-4px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+@media (pointer: coarse) {
+  .select-option {
+    min-height: 44px;
+  }
 }
 .textarea {
   height: auto;
@@ -266,6 +375,7 @@ a,
   color: var(--text);
   font-size: 12px;
   font-weight: 550;
+  overflow-wrap: anywhere;
 }
 .field-error,
 .field-hint {
@@ -672,9 +782,12 @@ a,
 }
 .nav-active,
 .nav-active:hover {
-  background: var(--primary-soft);
+  background: var(--brand-gold-soft);
   color: var(--primary-text);
   font-weight: 550;
+}
+.nav-active > svg:not(.nav-chevron) {
+  color: var(--brand-gold-text);
 }
 .nav-current-dot {
   margin-left: auto;
@@ -2310,7 +2423,7 @@ td .btn {
   color: var(--text);
 }
 .crm-tabs > button[aria-pressed="true"] {
-  border-bottom-color: var(--primary);
+  border-bottom-color: var(--brand-gold);
   color: var(--primary-text);
   font-weight: 550;
 }
@@ -2531,6 +2644,14 @@ td .btn {
   align-items: center;
   border-top: 1px solid var(--border);
   padding: 18px 0;
+}
+.crm-related-list li > div {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.crm-related-list li > .btn {
+  flex-shrink: 0;
 }
 .crm-related-list p {
   font-size: 11px;
@@ -3319,7 +3440,7 @@ td .btn {
 }
 .automation-tabs button[aria-selected="true"] {
   color: var(--primary-text);
-  border-bottom-color: var(--primary);
+  border-bottom-color: var(--brand-gold);
 }
 .automation-notice {
   color: var(--success);
@@ -3893,7 +4014,7 @@ td .btn {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   background: var(--surface);
-  border: 1px solid var(--border);
+  border: 1px solid var(--brand-gold-border);
   border-radius: 12px;
   padding: 24px 0;
 }
@@ -4055,7 +4176,9 @@ td .btn {
   }
 }
 .dashboard-filter {
-  max-width: 320px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr));
+  gap: 16px;
 }
 .commercial-indicators .indicator-caption {
   font-weight: 400;
@@ -4663,7 +4786,8 @@ td .btn {
   font-weight: 650;
 }
 .automation-progress [aria-current="step"] > span {
-  background: var(--primary-soft);
+  background: var(--brand-gold-soft);
+  color: var(--brand-gold-text);
   border-color: var(--brand-gold);
 }
 .automation-workspace-v3 .automation-builder {
@@ -5023,7 +5147,7 @@ td .btn {
 }
 .work-navigation a[aria-current="page"] {
   color: var(--primary-text);
-  border-bottom-color: var(--primary);
+  border-bottom-color: var(--brand-gold);
 }
 .sales-view-navigation {
   display: flex;
@@ -5108,8 +5232,8 @@ button.back-link {
   width: 48px;
   height: 48px;
   border-radius: 12px;
-  color: var(--primary-text);
-  background: var(--primary-soft);
+  color: var(--brand-gold-text);
+  background: var(--brand-gold-soft);
   margin-bottom: 18px;
 }
 .assistant-welcome h3 {
@@ -5349,4 +5473,271 @@ button.back-link {
 }
 .assistant-draft-details .field-hint {
   margin-top: 8px;
+}
+
+/* Commercial extensions use the incumbent controls and theme tokens. */
+.custom-fields-section {
+  min-width: 0;
+  padding-block: 20px;
+  border-top: 1px solid var(--border);
+  overflow-wrap: anywhere;
+}
+.crm-activity-panel > .custom-fields-section {
+  padding-inline: 24px;
+  border-top: 0;
+}
+.custom-fields-retry {
+  margin-top: 16px;
+}
+.custom-fields-section .crm-section-top {
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.capture-page {
+  max-width: 560px;
+  margin: 8vh auto;
+  padding: 24px;
+}
+.capture-page h1 {
+  font-size: 1.75rem;
+  line-height: 1.2;
+}
+.capture-page > .card {
+  padding: 24px;
+}
+.notification-list {
+  max-height: 60dvh;
+  overflow-y: auto;
+}
+.notice-count {
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.commercial-tools-page > .card {
+  max-width: 860px;
+  padding: 24px;
+}
+.commercial-tools-page > .field {
+  max-width: 320px;
+}
+.commercial-tools-page .card .crm-section-top {
+  padding: 0;
+}
+.commercial-tools-page .card .crm-data-list {
+  margin: 0;
+  padding: 0;
+  border-top: 0;
+}
+.commercial-tools-page .crm-related-list {
+  padding-inline: 0;
+}
+.commercial-tools-page .checkbox-label {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.custom-fields-section .crm-section-top {
+  padding: 0;
+  margin-bottom: 16px;
+}
+.custom-fields-section .crm-data-list {
+  margin: 0;
+  padding: 0;
+  border-top: 0;
+}
+.custom-fields-section > .text-link {
+  display: inline-flex;
+  margin-top: 12px;
+}
+.sales-filters {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  padding: 0 20px 20px;
+}
+@media (max-width: 760px) {
+  .crm-activity-panel > .custom-fields-section {
+    padding-inline: 19px;
+  }
+}
+@media (max-width: 900px) {
+  .sales-filters {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 600px) {
+  .sales-filters {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 0 14px 16px;
+  }
+  .commercial-tools-page > .card {
+    padding: 20px 16px;
+  }
+  .capture-page > .card {
+    padding: 20px 16px;
+  }
+}
+
+/* Pipeline editing: compact rows, progressive settings and contextual help. */
+.info-help-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--brand-gold);
+}
+.info-help-trigger:hover:not(:disabled),
+.info-help-trigger[aria-expanded="true"] {
+  background: var(--surface-hover);
+}
+.info-help-popover {
+  position: fixed;
+  inset: auto;
+  margin: 0;
+  padding: 16px;
+  overflow: auto;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+.info-help-popover strong { font-size: 13px; font-weight: 600; }
+.info-help-popover p { margin-top: 6px; color: var(--muted); }
+.info-help-popover:not(:popover-open) { display: none; }
+.info-help-popover:popover-open { display: block; }
+.pipeline-editor { max-width: 1040px; gap: 20px; }
+.pipeline-editor > .back-link { justify-self: start; align-self: start; }
+.pipeline-editor .page-heading { gap: 16px; }
+.pipeline-editor .page-heading h1 { font-size: 26px; margin-bottom: 4px; }
+.pipeline-editor .sales-form-section { padding: 20px 24px; gap: 16px; }
+.pipeline-basics-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 20px;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+}
+.pipeline-active { display: flex; align-items: center; min-height: 40px; }
+.pipeline-stages-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.pipeline-stages-heading > div:first-child { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.pipeline-stages-heading > div:first-child > svg { color: var(--brand-gold); }
+.pipeline-stages-heading h2 { font-size: 16px; font-weight: 600; }
+.pipeline-stages-heading span { color: var(--muted); font-size: 12px; }
+.pipeline-stage-columns { display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 10px; margin-left: 72px; padding-right: 112px; color: var(--muted); font-size: 12px; }
+.pipeline-editor .sales-stage-compact > fieldset { padding: 14px 0; min-width: 0; }
+.pipeline-editor .stage-compact-line { gap: 8px; }
+.pipeline-editor .stage-position { width: 24px; flex-shrink: 0; font-size: 12px; text-align: center; }
+.pipeline-editor .stage-drag-handle { margin: 0; padding: 0; width: 32px; height: 40px; justify-content: center; border-radius: 7px; flex-shrink: 0; }
+.pipeline-editor .sales-stage-fields { grid-template-columns: 36px minmax(0, 1fr); gap: 10px; min-width: 0; }
+.pipeline-editor .sales-stage-fields label {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip-path: inset(50%); white-space: nowrap;
+}
+.pipeline-editor .sales-stage-fields input[type="color"] { height: 40px; padding: 4px; cursor: pointer; }
+.pipeline-editor .sales-stage-controls .btn { padding: 0; width: 32px; height: 40px; }
+.pipeline-editor .sales-stage-controls .btn:last-child:hover:not(:disabled) { color: var(--danger); background: var(--danger-soft); }
+.pipeline-editor .stage-advanced { margin: 4px 0 0 74px; }
+.pipeline-editor .stage-advanced > summary { font-size: 12px; color: var(--muted); min-height: 32px; display: list-item; width: fit-content; padding: 8px 0; }
+.pipeline-editor .stage-advanced > summary:hover,
+.pipeline-editor .stage-advanced[open] > summary { color: var(--primary-text); }
+.pipeline-advanced-body { padding: 12px 16px 16px; margin-top: 4px; background: var(--background); border-radius: 7px; }
+.pipeline-editor .stage-advanced .form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; max-width: 540px; margin: 0 0 12px; }
+.pipeline-advanced-field { display: grid; grid-template-columns: minmax(0, 1fr) 32px; align-items: end; gap: 4px; }
+.pipeline-advanced-field .info-help-trigger { margin-bottom: 4px; }
+.pipeline-activity-setting { display: flex; align-items: start; gap: 4px; }
+.pipeline-editor .pipeline-activity-setting .crm-checkbox { flex: 1; font-size: 12px; line-height: 1.5; min-width: 0; align-items: start; padding-top: 6px; }
+.pipeline-activity-setting input { margin-top: 3px; flex-shrink: 0; }
+.pipeline-editor .pipeline-insert { padding-top: 16px; border-top: 1px solid var(--border); gap: 12px; }
+.pipeline-editor .pipeline-insert .field { min-width: 0; width: min(340px, 100%); flex: 1; }
+.pipeline-editor .pipeline-insert .btn { min-height: 40px; }
+.pipeline-editor .pipeline-actions {
+  position: relative;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  margin: 0; padding: 14px 18px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+}
+.pipeline-save-status { font-size: 12px; color: var(--muted); display: inline-flex; align-items: center; gap: 8px; }
+.pipeline-save-status[data-dirty="true"]::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--brand-gold); flex-shrink: 0; }
+.pipeline-editor .pipeline-actions-buttons { gap: 8px; }
+.pipeline-editor .pipeline-save-summary { gap: 4px; align-items: center; flex-wrap: nowrap; }
+@media (max-width: 900px) {
+  .pipeline-basics-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .pipeline-active { grid-column: 1 / -1; }
+}
+@media (max-width: 600px) {
+  .pipeline-editor { gap: 16px; }
+  .pipeline-editor .page-heading { align-items: start; flex-wrap: wrap; }
+  .pipeline-editor .page-heading h1 { font-size: 24px; }
+  .pipeline-editor .sales-form-section { padding: 16px; }
+  .pipeline-basics-grid { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  .pipeline-active { grid-column: auto; }
+  .pipeline-editor .sales-stage-compact > fieldset { display: grid; grid-template-columns: 20px 28px minmax(0, 1fr); gap: 6px; }
+  .pipeline-editor .stage-compact-line { display: contents; }
+  .pipeline-editor .stage-position { grid-column: 1; grid-row: 1; align-self: center; width: 20px; }
+  .pipeline-editor .stage-drag-handle { width: 28px; }
+  .pipeline-editor .stage-drag-handle { grid-column: 2; grid-row: 1; }
+  .pipeline-editor .sales-stage-fields { grid-template-columns: 32px minmax(0, 1fr); min-width: 0; gap: 8px; }
+  .pipeline-editor .sales-stage-fields { grid-column: 3; grid-row: 1; }
+  .pipeline-stage-columns { grid-template-columns: 32px minmax(0, 1fr); gap: 8px; margin-left: 60px; padding-right: 0; }
+  .pipeline-editor .sales-stage-controls { grid-column: 2 / -1; grid-row: 2; justify-self: end; align-self: start; }
+  .pipeline-editor .sales-stage-controls .btn { width: 44px; height: 44px; }
+  .pipeline-editor .stage-advanced { grid-column: 1 / -1; grid-row: 2; margin: 0; min-width: 0; pointer-events: none; }
+  .pipeline-editor .stage-advanced > summary,
+  .pipeline-editor .pipeline-advanced-body { pointer-events: auto; }
+  .pipeline-editor .stage-advanced > summary { min-height: 44px; padding: 14px 0; font-size: 12px; max-width: calc(100% - 132px); }
+  .pipeline-advanced-body { padding: 12px; }
+  .pipeline-editor .stage-advanced .form-grid { gap: 12px; grid-template-columns: minmax(0, 1fr); }
+  .pipeline-editor .pipeline-insert { flex-wrap: wrap; gap: 12px; }
+  .pipeline-editor .pipeline-insert .field { width: 100%; flex-basis: 100%; }
+  .pipeline-editor .pipeline-insert .btn { width: 100%; min-height: 44px; }
+  .info-help-trigger { width: 44px; height: 44px; }
+  .pipeline-advanced-field { grid-template-columns: minmax(0, 1fr) 44px; }
+  .pipeline-editor .pipeline-actions { padding: 12px; flex-wrap: wrap; gap: 10px; }
+  .pipeline-editor .pipeline-save-summary { width: 100%; }
+  .pipeline-editor .pipeline-actions-buttons { width: 100%; justify-content: flex-end; }
+  .pipeline-editor .pipeline-actions-buttons .btn { min-height: 44px; padding-inline: 10px; }
+}
+
+/* Brand gold marks orientation; blue continues to own action and keyboard focus. */
+.assistant-entry {
+  background: var(--brand-gold-soft);
+  border-color: var(--brand-gold-border);
+  color: var(--primary-text);
+}
+.assistant-entry > svg,
+.select[aria-expanded="true"] .select-chevron,
+.section-heading h2 > svg {
+  color: var(--brand-gold-text);
+}
+.assistant-entry:hover:not(:disabled),
+.assistant-entry[aria-expanded="true"] {
+  background: var(--brand-gold-soft);
+  border-color: var(--brand-gold);
+}
+.assistant-status {
+  background: var(--brand-gold-soft);
+}
+.commercial-indicators > div:first-child > dt,
+.commercial-indicators > div:first-child > dd:not(.indicator-caption),
+.sales-column-count {
+  color: var(--brand-gold-text);
+}
+.agenda-days h2 .badge-indigo {
+  color: var(--brand-gold-text);
+  background: var(--brand-gold-soft);
 }

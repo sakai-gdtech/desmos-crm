@@ -1,0 +1,25 @@
+{
+  "method": "Chrome DevTools Protocol Emulation.setEmulatedVisionDeficiency; simulated, not a user study.",
+  "checks": [
+    {
+      "theme": "light",
+      "type": "protanopia",
+      "currentRouteHasTextAndAria": true
+    },
+    {
+      "theme": "light",
+      "type": "deuteranopia",
+      "currentRouteHasTextAndAria": true
+    },
+    {
+      "theme": "dark",
+      "type": "protanopia",
+      "currentRouteHasTextAndAria": true
+    },
+    {
+      "theme": "dark",
+      "type": "deuteranopia",
+      "currentRouteHasTextAndAria": true
+    }
+  ]
+}

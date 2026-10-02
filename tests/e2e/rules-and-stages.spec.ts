@@ -1,3 +1,4 @@
+import { selectOption } from "../../scripts/select-option.mjs";
 import { editorStep, library, stageRules } from "./automation-flow-helpers";
 import { test, expect } from "@playwright/test";
 for (const mobile of [false, true]) {
@@ -52,11 +53,14 @@ for (const mobile of [false, true]) {
     await page
       .getByText("Começar com uma receita de automação", { exact: true })
       .click();
-    await page.getByLabel("Receita de automação").selectOption("TASK");
+    await selectOption(page.getByLabel("Receita de automação"), "TASK");
     await page
       .getByRole("button", { name: "Usar receita", exact: true })
       .click();
-    await expect(page.getByLabel("O que acontece")).toHaveValue("DEAL_CREATED");
+    await expect(page.getByLabel("O que acontece")).toHaveAttribute(
+      "data-value",
+      "DEAL_CREATED",
+    );
     await editorStep(page, 1);
     await page.getByLabel("Nome da automação").fill("Acompanhar cadastro");
     await editorStep(page, 3);
@@ -84,11 +88,12 @@ for (const mobile of [false, true]) {
     );
     // Select a saved rule and bind to an ID that must survive insertion, drag and rename.
     await editorStep(page, 1);
-    await page.getByLabel("O que acontece").selectOption("STAGE_CHANGED");
+    await selectOption(page.getByLabel("O que acontece"), "STAGE_CHANGED");
     await editorStep(page, 1);
-    await page
-      .getByLabel("Etapa de entrada")
-      .selectOption(pipeline.stages[2].id);
+    await selectOption(
+      page.getByLabel("Etapa de entrada"),
+      pipeline.stages[2].id,
+    );
     await editorStep(page, 3);
     await page
       .getByRole("button", { name: "Salvar rascunho", exact: true })
@@ -96,13 +101,15 @@ for (const mobile of [false, true]) {
     await page.reload();
     // First rule remains the incumbent email; select the saved task explicitly.
     await page.getByRole("button", { name: /Acompanhar cadastro/ }).click();
-    await expect(page.getByLabel("Etapa de entrada")).toHaveValue(
+    await expect(page.getByLabel("Etapa de entrada")).toHaveAttribute(
+      "data-value",
       pipeline.stages[2].id,
     );
     await page.goto(`/sales/pipelines/${pipeline.id}/edit`);
-    await page
-      .getByLabel("Posição da nova etapa")
-      .selectOption(pipeline.stages[2].id);
+    await selectOption(
+      page.getByLabel("Posição da nova etapa"),
+      pipeline.stages[2].id,
+    );
     await page
       .getByRole("button", { name: "Adicionar etapa", exact: true })
       .click();
@@ -192,7 +199,8 @@ for (const mobile of [false, true]) {
     );
     await page.goto(`/sales/automations?pipelineId=${pipeline.id}`);
     await page.getByRole("button", { name: /Acompanhar cadastro/ }).click();
-    await expect(page.getByLabel("Etapa de entrada")).toHaveValue(
+    await expect(page.getByLabel("Etapa de entrada")).toHaveAttribute(
+      "data-value",
       pipeline.stages[2].id,
     );
     await editorStep(page, 3);
@@ -202,11 +210,12 @@ for (const mobile of [false, true]) {
         .getByText("Negócio entrar em Proposta revisada"),
     ).toBeVisible();
     await editorStep(page, 2);
-    await page.getByLabel("Ação da automação").selectOption("MOVE");
+    await selectOption(page.getByLabel("Ação da automação"), "MOVE");
     await editorStep(page, 2);
-    await page
-      .getByLabel("Etapa de destino")
-      .selectOption(pipeline.stages[2].id);
+    await selectOption(
+      page.getByLabel("Etapa de destino"),
+      pipeline.stages[2].id,
+    );
     await editorStep(page, 3);
     await page
       .getByRole("button", { name: "Testar com prévia", exact: true })
@@ -215,9 +224,10 @@ for (const mobile of [false, true]) {
       page.locator(".automation-builder").getByRole("alert"),
     ).toContainText("evitar um ciclo");
     await editorStep(page, 2);
-    await page
-      .getByLabel("Etapa de destino")
-      .selectOption(pipeline.stages[0].id);
+    await selectOption(
+      page.getByLabel("Etapa de destino"),
+      pipeline.stages[0].id,
+    );
     await editorStep(page, 1);
     await page.getByText("Adicionar condições", { exact: true }).click();
     await editorStep(page, 1);
@@ -232,11 +242,11 @@ for (const mobile of [false, true]) {
     await editorStep(page, 1);
     await page.getByLabel("Valor mínimo (R$)").fill("");
     await editorStep(page, 2);
-    await page.getByLabel("Ação da automação").selectOption("ASSIGN");
+    await selectOption(page.getByLabel("Ação da automação"), "ASSIGN");
     await editorStep(page, 2);
-    await page.getByLabel("Atribuir a").selectOption({ index: 1 });
+    await selectOption(page.getByLabel("Atribuir a"), { index: 1 });
     await editorStep(page, 1);
-    await page.getByLabel("O que acontece").selectOption("LEAD_CREATED");
+    await selectOption(page.getByLabel("O que acontece"), "LEAD_CREATED");
     await editorStep(page, 3);
     await page
       .getByRole("button", { name: "Testar com prévia", exact: true })
@@ -250,7 +260,9 @@ for (const mobile of [false, true]) {
       .first()
       .fill("Cancelada");
     await page.getByRole("button", { name: "Cancelar", exact: true }).click();
-    await page.getByRole("button", { name: "Descartar alterações", exact: true }).click();
+    await page
+      .getByRole("button", { name: "Descartar alterações", exact: true })
+      .click();
     await page.goto(`/sales/pipelines/${pipeline.id}/edit`);
     await expect(
       page.getByLabel("Nome da etapa", { exact: true }).first(),

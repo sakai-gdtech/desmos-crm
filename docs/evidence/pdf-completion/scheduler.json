@@ -1,0 +1,59 @@
+{
+  "startedAt": "2026-10-02T05:16:17.498Z",
+  "observedAt": "2026-10-02T05:16:59.865Z",
+  "method": "New fictional tenant, real pending task with past due date, persisted OVERDUE rule. Poll read-only rules/notifications until automatic API scheduler creates run and overdue reminder; NEVER call manual scan endpoint. No external messages.",
+  "tenantId": "7497e38b-1f41-417b-ae20-239deec69adf",
+  "pipelineId": "e5bc208c-df8d-46ea-b087-f68162e82f19",
+  "dealId": "17c4c17b-d1f9-44f3-83b4-522b65cd744c",
+  "workId": "c207aab8-6ed6-45d2-9045-93b04a786851",
+  "ruleId": "da859e28-8d4f-4e3c-bb72-0bffefe26ace",
+  "runs": [
+    {
+      "tenantId": "7497e38b-1f41-417b-ae20-239deec69adf",
+      "ruleId": "da859e28-8d4f-4e3c-bb72-0bffefe26ace",
+      "dealId": "17c4c17b-d1f9-44f3-83b4-522b65cd744c",
+      "taskId": "96fe305c-9396-47af-b2b5-75df274c0c90",
+      "createdAt": "2026-10-02 05:16:59.056625+00",
+      "ruleSnapshot": {
+        "id": "da859e28-8d4f-4e3c-bb72-0bffefe26ace",
+        "days": 1,
+        "name": "Aviso automático de atraso",
+        "actorId": "28f1bc24-6ff3-4fe7-bd88-aaaf6506feb1",
+        "stageId": null,
+        "trigger": "OVERDUE",
+        "version": 1,
+        "taskTitle": "Reagendar compromisso fictício"
+      },
+      "dealTitle": "Negócio fictício com prazo vencido",
+      "taskTitle": "Reagendar compromisso fictício"
+    }
+  ],
+  "notifications": [
+    {
+      "id": "055f13f6-2543-4d7e-bc29-cb47f71d9a95",
+      "tenantId": "7497e38b-1f41-417b-ae20-239deec69adf",
+      "userId": "28f1bc24-6ff3-4fe7-bd88-aaaf6506feb1",
+      "workId": "96fe305c-9396-47af-b2b5-75df274c0c90",
+      "dealId": "17c4c17b-d1f9-44f3-83b4-522b65cd744c",
+      "title": "Reagendar compromisso fictício",
+      "reason": "Automação: Aviso automático de atraso",
+      "dedupeKey": "rule:da859e28-8d4f-4e3c-bb72-0bffefe26ace:17c4c17b-d1f9-44f3-83b4-522b65cd744c",
+      "readAt": null,
+      "createdAt": "2026-10-02 05:16:59.056625+00",
+      "workKind": "tasks"
+    },
+    {
+      "id": "ee9d53e7-7602-459b-a2dc-b2313d4521eb",
+      "tenantId": "7497e38b-1f41-417b-ae20-239deec69adf",
+      "userId": "28f1bc24-6ff3-4fe7-bd88-aaaf6506feb1",
+      "workId": "c207aab8-6ed6-45d2-9045-93b04a786851",
+      "dealId": "17c4c17b-d1f9-44f3-83b4-522b65cd744c",
+      "title": "Compromisso fictício vencido",
+      "reason": "Prazo vencido",
+      "dedupeKey": "overdue:c207aab8-6ed6-45d2-9045-93b04a786851:2026-10-02T05:15:17.479Z",
+      "readAt": null,
+      "createdAt": "2026-10-02 05:16:59.056625+00",
+      "workKind": "tasks"
+    }
+  ]
+}

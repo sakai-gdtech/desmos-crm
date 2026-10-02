@@ -14,6 +14,7 @@ import { hasPermission, type Permission } from "../iam/domain/permissions.js";
 import { crmTransaction } from "../crm/tenant.js";
 import { convert as convertCrm } from "../crm/service.js";
 import type { WorkKind } from "./schemas.js";
+import { stageRules } from "./rules.js";
 import { maybeDemoFollowup } from "./presentation.js";
 const table = (kind: string) =>
   kind === "deals" ? "sales_deals" : "sales_work";
@@ -207,7 +208,7 @@ async function event(
   );
   await audit(tx, ctx, `${kind}.${type}`, id, before, after ?? metadata);
 }
-async function fanout(
+export async function fanout(
   tx: Executor,
   ctx: Context,
   data: Row,
@@ -303,6 +304,15 @@ export async function updatePipeline(ctx: Context, id: string, input: Row) {
             "REFERENCED_STAGE",
             "Mova as oportunidades desta etapa antes de removê-la, incluindo as da lixeira.",
           );
+          invariant(
+            !(await one(
+              tx,
+              sql`SELECT id FROM sales_rules WHERE tenant_id=${ctx.tenantId} AND stage_id=${old.id} LIMIT 1`,
+            )),
+            409,
+            "AUTOMATION_STAGE",
+            "Esta etapa é usada por uma regra interna. Escolha outra etapa em Tarefas e avisos automáticos antes de removê-la.",
+          );
           await tx.execute(
             sql`DELETE FROM sales_stages WHERE tenant_id=${ctx.tenantId} AND id=${old.id}`,
           );
@@ -337,6 +347,15 @@ export async function deletePipeline(ctx: Context, id: string) {
       409,
       "REFERENCED_PIPELINE",
       "Este pipeline possui oportunidades. Arquive-o ou mova os registros antes de excluir.",
+    );
+    invariant(
+      !(await one(
+        tx,
+        sql`SELECT id FROM sales_rules WHERE tenant_id=${ctx.tenantId} AND pipeline_id=${id} LIMIT 1`,
+      )),
+      409,
+      "REFERENCED_PIPELINE",
+      "Este funil possui regras internas. Arquive-o para conservar suas configurações e histórico.",
     );
     await audit(tx, ctx, "pipelines.deleted", id, before, null);
     await tx.execute(
@@ -382,6 +401,11 @@ export async function list(ctx: Context, kind: string, q: Row) {
         (key !== "dealId" || kind !== "deals")
       )
         filters.push(sql`${field(column(key))}=${q[key]}`);
+    if (kind === "deals") {
+      if (q.source) filters.push(sql`d.source=${q.source}`);
+      if (q.from) filters.push(sql`d.created_at>=${q.from}::timestamptz`);
+      if (q.to) filters.push(sql`d.created_at<${q.to}::timestamptz`);
+    }
     if (kind !== "deals") {
       if (q.pipelineId)
         filters.push(
@@ -461,6 +485,9 @@ export async function board(ctx: Context, q: Row) {
       sql`d.status=${q.status}`,
     ];
     if (q.assignedTo) filters.push(sql`d.assigned_to=${q.assignedTo}`);
+    if (q.source) filters.push(sql`d.source=${q.source}`);
+    if (q.from) filters.push(sql`d.created_at>=${q.from}::timestamptz`);
+    if (q.to) filters.push(sql`d.created_at<${q.to}::timestamptz`);
     if (q.q)
       filters.push(sql`d.title ILIKE ${`%${q.q.replace(/[\\%_]/g, "\\$&")}%`}`);
     const where = sql.join(filters, sql` AND `);
@@ -688,6 +715,17 @@ export async function update(
           );
       }
       const status = input.status ?? old.status;
+      if (
+        status === "LOST" &&
+        (old.status !== "LOST" || input.lostReason !== undefined)
+      )
+        invariant(
+          typeof input.lostReason === "string" &&
+            input.lostReason.trim().length > 0,
+          400,
+          "LOSS_REASON_REQUIRED",
+          "Informe o motivo da perda antes de fechar a oportunidade.",
+        );
       if (status !== old.status) {
         data.wonAt = status === "WON" ? new Date() : null;
         data.lostAt = status === "LOST" ? new Date() : null;
@@ -740,8 +778,10 @@ export async function update(
         changes: diff,
       },
     );
-    if (kind === "deals")
+    if (kind === "deals") {
       await maybeDemoFollowup(tx, ctx, before, after, insertWork);
+      await stageRules(tx, ctx, before, after);
+    }
     if (kind === "activities") await followup(tx, ctx, after, input.followUpAt);
     return { item: after };
   });
