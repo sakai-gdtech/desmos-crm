@@ -31,6 +31,8 @@ import {
   X,
 } from "lucide-react";
 import { useSession, useTheme } from "@/components/providers";
+import { AssistantProvider } from "./assistant-context";
+import { GlobalAssistant } from "./global-assistant";
 import { BrandSymbol } from "@/components/brand";
 import { Alert, ErrorState, LoadingPage, cn } from "@/components/ui/primitives";
 import {
@@ -187,6 +189,7 @@ function WorkspaceShell({
     ),
   );
   useEffect(() => {
+    setMobileOpen(false);
     const item = nav.find(
       (item) => pathname === item.href || pathname.startsWith(`${item.href}/`),
     );
@@ -460,6 +463,7 @@ function WorkspaceShell({
             <span>{current}</span>
           </div>
           <div className="topbar-actions">
+            <GlobalAssistant session={session} />
             <button
               type="button"
               className="icon-button"
@@ -503,5 +507,9 @@ export function AuthenticatedLayout({ children }: { children: ReactNode }) {
         </Link>
       </div>
     );
-  return <WorkspaceShell session={data}>{children}</WorkspaceShell>;
+  return (
+    <AssistantProvider key={`${data.tenant.id}:${data.user.id}`}>
+      <WorkspaceShell session={data}>{children}</WorkspaceShell>
+    </AssistantProvider>
+  );
 }

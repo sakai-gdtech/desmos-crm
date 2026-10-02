@@ -1,3 +1,4 @@
+import { editorStep, library, stageRules } from "./automation-flow-helpers";
 import { test, expect } from "@playwright/test";
 import {
   companyDay,
@@ -104,9 +105,7 @@ for (const mobile of [false, true])
     await expect(page).toHaveURL(/\/sales\/pipelines$/);
     await page.goto(`/sales/automations?pipelineId=${pipeline.id}`);
     await expect(page.getByLabel("Nome da automação")).toHaveCount(0);
-    await page
-      .getByRole("button", { name: "Modelos de mensagem", exact: true })
-      .click();
+    await library(page);
     await page
       .getByRole("button", { name: "Criar modelo", exact: true })
       .click();
@@ -121,7 +120,7 @@ for (const mobile of [false, true])
     await page.getByRole("button", { name: "Assistente", exact: true }).click();
     await page.getByRole("button", { name: "Usar exemplo de reunião" }).click();
     await page
-      .getByRole("button", { name: "Interpretar pedido", exact: true })
+      .getByRole("button", { name: "Enviar pedido", exact: true })
       .click();
     await expect(page.getByLabel("Escolher etapa")).toHaveValue(
       pipeline.stages[2].id,
@@ -133,6 +132,7 @@ for (const mobile of [false, true])
       .getByRole("button", { name: "Gerar rascunho para revisão" })
       .click();
     await expect(page.getByLabel("Nome da automação")).toBeVisible();
+    await editorStep(page, 2);
     await expect(
       page.getByText(`${me.user.name} · ${me.user.email} (criador fixo)`, {
         exact: true,
@@ -142,10 +142,12 @@ for (const mobile of [false, true])
     page.on("request", (r) => {
       if (["POST", "PATCH", "PUT"].includes(r.method())) mutations++;
     });
+    await editorStep(page, 3);
     await page
       .getByRole("button", { name: "Simular envio", exact: true })
       .dblclick();
     await expect(page.getByText("Resultados dos testes (1)")).toBeVisible();
+    await editorStep(page, 3);
     await page
       .getByRole("button", { name: "Salvar rascunho", exact: true })
       .dblclick();
@@ -167,9 +169,7 @@ for (const mobile of [false, true])
     await expect(page.getByLabel("Etapa de entrada")).toHaveValue(
       pipeline.stages[2].id,
     );
-    await page
-      .getByRole("button", { name: "Modelos de mensagem", exact: true })
-      .click();
+    await library(page);
     await page
       .getByRole("button", {
         name: "Editar modelo Aviso de reunião",
@@ -180,13 +180,16 @@ for (const mobile of [false, true])
     await page
       .getByRole("button", { name: "Salvar modelo", exact: true })
       .click();
-    await page.getByRole("button", { name: "Automações", exact: true }).click();
+    await page
+      .getByRole("button", { name: "Voltar às automações", exact: true })
+      .click();
     await page
       .getByRole("button", { name: /Email ao entrar em Reunião/ })
       .click();
     await expect(page.getByLabel("Mensagem", { exact: true })).toHaveValue(
       "Olá {contato}, vamos conversar sobre {negociacao}?",
     );
+    await editorStep(page, 2);
     await expect(
       page.getByRole("button", { name: "Atualizar versão do modelo" }),
     ).toBeVisible();
@@ -215,20 +218,34 @@ for (const mobile of [false, true])
       page.getByLabel("Destinatário", { exact: true }),
     ).toContainText(me.user.email);
     await page.unroute("**/api/me");
+    await editorStep(page, 2);
     await page
       .getByRole("button", { name: "Atualizar versão do modelo" })
       .click();
     await expect(page.getByLabel("Mensagem", { exact: true })).toHaveValue(
       "Versão nova {contato}",
     );
+    await editorStep(page, 1);
     await page.getByLabel("Nome da automação").fill("Não substituir");
     await page.getByRole("button", { name: "Assistente", exact: true }).click();
+    await expect(
+      page.getByRole("complementary", { name: "Assistente Desmos" }),
+    ).toBeVisible();
+    await page.getByRole("button", { name: "Usar exemplo de reunião" }).click();
+    await page
+      .getByRole("button", { name: "Enviar pedido", exact: true })
+      .click();
+    await page
+      .getByRole("button", { name: "Gerar rascunho para revisão" })
+      .click();
     await expect(page.getByRole("dialog")).toBeVisible();
     await page.getByRole("button", { name: "Continuar editando" }).click();
     await expect(page.getByLabel("Nome da automação")).toHaveValue(
       "Não substituir",
     );
     await page.getByRole("button", { name: "Cancelar alterações" }).click();
+    if (await page.getByRole("dialog").isVisible())
+      await page.getByRole("button", { name: "Descartar e continuar" }).click();
     if (!mobile) {
       const savedTemplates = await page.evaluate(
         (tenantId) =>
@@ -247,15 +264,14 @@ for (const mobile of [false, true])
       await page
         .getByRole("button", { name: /Email ao entrar em Reunião/ })
         .click();
+      await editorStep(page, 3);
       await expect(
-        page.locator(".automation-builder").getByRole("alert"),
-      ).toContainText("Modelo removido");
-      await page
-        .getByRole("button", { name: "Salvar rascunho", exact: true })
-        .click();
+        page.getByRole("alert").filter({ hasText: "Modelo removido" }),
+      ).toBeVisible();
       await expect(
-        page.locator(".automation-builder").getByRole("alert"),
-      ).toContainText("Modelo removido");
+        page.getByRole("button", { name: "Salvar rascunho", exact: true }),
+      ).toBeDisabled();
+      await editorStep(page, 2);
       await page
         .getByRole("button", { name: "Personalizar só nesta regra" })
         .click();
@@ -263,6 +279,10 @@ for (const mobile of [false, true])
         page.getByLabel("Mensagem", { exact: true }),
       ).not.toHaveAttribute("readonly", "");
       await page.getByRole("button", { name: "Cancelar alterações" }).click();
+      if (await page.getByRole("dialog").isVisible())
+        await page
+          .getByRole("button", { name: "Descartar e continuar" })
+          .click();
       await page.evaluate(
         ({ tenantId, raw }) =>
           localStorage.setItem(`desmos-message-templates:${tenantId}:v1`, raw!),
@@ -272,12 +292,12 @@ for (const mobile of [false, true])
     }
     await page.getByRole("button", { name: "Assistente", exact: true }).click();
     await page
-      .getByLabel("Descreva sua automação")
+      .getByLabel("Pergunte ou descreva uma automação")
       .fill(
         "na pipeline inexistente quando chegar na etapa da reunião me enviar um email",
       );
     await page
-      .getByRole("button", { name: "Interpretar pedido", exact: true })
+      .getByRole("button", { name: "Enviar pedido", exact: true })
       .click();
     await expect(page.getByLabel("Escolher funil")).toHaveValue("");
     await expect(
@@ -289,10 +309,10 @@ for (const mobile of [false, true])
       page.getByRole("button", { name: "Gerar rascunho para revisão" }),
     ).toBeEnabled();
     await page
-      .getByLabel("Descreva sua automação")
+      .getByLabel("Pergunte ou descreva uma automação")
       .fill("apagar todos os contatos");
     await page
-      .getByRole("button", { name: "Interpretar pedido", exact: true })
+      .getByRole("button", { name: "Enviar pedido", exact: true })
       .click();
     await expect(page.getByRole("log")).toContainText("Não executo comandos");
     await page.reload();

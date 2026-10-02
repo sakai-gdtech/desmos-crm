@@ -1,0 +1,39 @@
+{
+  "activeMotionAnimations": 1,
+  "afterRuntimeReducedMotion": 0,
+  "interrupted": {
+    "animations": 1,
+    "visibleAction": true
+  },
+  "errors": [],
+  "audits": [
+    {
+      "name": "directory",
+      "violations": []
+    },
+    {
+      "name": "trigger",
+      "violations": []
+    },
+    {
+      "name": "action",
+      "violations": []
+    },
+    {
+      "name": "review",
+      "violations": []
+    },
+    {
+      "name": "assistant",
+      "violations": []
+    },
+    {
+      "name": "assistant-mobile",
+      "violations": []
+    },
+    {
+      "name": "dark-mobile",
+      "violations": []
+    }
+  ]
+}

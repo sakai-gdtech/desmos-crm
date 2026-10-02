@@ -1,3 +1,4 @@
+import { editorStep, library, stageRules } from "./automation-flow-helpers";
 import { test, expect } from "@playwright/test";
 
 test("demonstração de automações e requisitos preserva configurações por pipeline", async ({
@@ -34,10 +35,13 @@ test("demonstração de automações e requisitos preserva configurações por p
   const second = await create("Renovações");
   await page.goto(`/sales/automations?pipelineId=${first.id}`);
   await page.getByRole("button", { name: /Enviar proposta por email/ }).click();
+  await editorStep(page, 1);
   await page
     .getByLabel("Nome da automação")
     .fill("Enviar proposta personalizada");
+  await editorStep(page, 2);
   await page.getByLabel("Ação da automação").selectOption("WHATSAPP");
+  await editorStep(page, 2);
   await page
     .getByLabel("Mensagem", { exact: true })
     .fill("Olá, {contato}! Segue a proposta da {empresa}.");
@@ -50,9 +54,11 @@ test("demonstração de automações e requisitos preserva configurações por p
   page.on("request", (request) => {
     if (["POST", "PATCH", "PUT"].includes(request.method())) outboundCalls++;
   });
+  await editorStep(page, 3);
   await page
     .getByRole("button", { name: "Salvar rascunho", exact: true })
     .click();
+  await editorStep(page, 3);
   await page
     .getByRole("button", { name: "Simular envio", exact: true })
     .click();
@@ -66,9 +72,7 @@ test("demonstração de automações e requisitos preserva configurações por p
   await expect(page.getByLabel("Nome da automação")).toHaveValue(
     "Enviar proposta personalizada",
   );
-  await page
-    .getByRole("button", { name: "Regras por etapa", exact: true })
-    .click();
+  await stageRules(page);
   await page.getByText("1 · Entrada", { exact: true }).click();
   await page.getByLabel("Contato vinculado", { exact: true }).first().check();
   await page.getByRole("button", { name: "Salvar regras da etapa" }).click();
@@ -76,17 +80,13 @@ test("demonstração de automações e requisitos preserva configurações por p
   await expect(
     page.getByRole("button", { name: /Enviar proposta por email/ }),
   ).toBeVisible();
-  await page
-    .getByRole("button", { name: "Regras por etapa", exact: true })
-    .click();
+  await stageRules(page);
   await page.getByText("1 · Entrada", { exact: true }).click();
   await expect(
     page.getByLabel("Contato vinculado", { exact: true }).first(),
   ).not.toBeChecked();
   await page.getByLabel("Pipeline", { exact: true }).selectOption(first.id);
-  await page
-    .getByRole("button", { name: "Regras por etapa", exact: true })
-    .click();
+  await stageRules(page);
   await page.getByText("1 · Entrada", { exact: true }).click();
   await expect(
     page.getByLabel("Contato vinculado", { exact: true }).first(),

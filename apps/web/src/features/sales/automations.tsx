@@ -1,9 +1,10 @@
 "use client";
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { GitBranch, Plus } from "lucide-react";
+import { GitBranch, Plus, ArrowLeft, Mail, Workflow } from "lucide-react";
+import { useAssistantDraft } from "@/features/workspace/assistant-context";
 import { useSession } from "@/components/providers";
 import {
   Alert,
@@ -13,6 +14,7 @@ import {
   EmptyState,
   ErrorState,
   Field,
+  Input,
   LoadingPage,
   PageHeading,
   Select,
@@ -28,10 +30,6 @@ import type { TestResult } from "./automation-editor";
 const AutomationEditor = dynamic(() => import("./automation-editor"), {
   loading: () => <LoadingPage />,
 });
-const Assistant = dynamic(
-  () => import("./automation-assistant").then((m) => m.AutomationAssistant),
-  { loading: () => <LoadingPage /> },
-);
 export function newRule(pipeline: Pipeline, action: Rule["action"] = "EMAIL") {
   return readRule({
     id: crypto.randomUUID(),
@@ -100,6 +98,7 @@ export function SalesAutomations() {
       tenantId={session.tenant.id}
       incoming={incoming?.pipelineId === pipeline.id ? incoming.rule : null}
       onPipeline={setSelected}
+      onIncomingRead={() => setIncoming(null)}
       onGenerated={(rule, pipelineId) => {
         setIncoming({ rule, pipelineId });
         setSelected(pipelineId);
@@ -114,6 +113,7 @@ function Workspace({
   onPipeline,
   onGenerated,
   incoming,
+  onIncomingRead,
 }: {
   pipeline: Pipeline;
   pipelines: Pipeline[];
@@ -121,8 +121,12 @@ function Workspace({
   onPipeline: (id: string) => void;
   onGenerated: (rule: Rule, pid: string) => void;
   incoming: Rule | null;
+  onIncomingRead: () => void;
 }) {
   const { data: session } = useSession();
+  const { pendingDraft, consumeDraft } = useAssistantDraft();
+  const router = useRouter();
+  const [search, setSearch] = useState("");
   const key = `desmos-demo-automations:${tenantId}:${pipeline.id}`;
   const templateKey = `desmos-message-templates:${tenantId}:v1`;
   const [rules, setRules] = useState<Rule[]>([]);
@@ -141,7 +145,8 @@ function Workspace({
   const [error, setError] = useState("");
   const [recipe, setRecipe] = useState<Rule["action"]>("TASK");
   const [pending, setPending] = useState<(() => void) | null>(null);
-  const dirty = !!draft && JSON.stringify(draft) !== baseline;
+  const [libraryDirty, setLibraryDirty] = useState(false);
+  const dirty = libraryDirty || (!!draft && JSON.stringify(draft) !== baseline);
   useEffect(() => {
     try {
       const raw = localStorage.getItem(key);
@@ -198,14 +203,65 @@ function Workspace({
       setDraft(incoming);
       setBaseline("");
       setView("editor");
+      onIncomingRead();
     }
+    // The handoff is read once; navigation back to a pipeline opens its directory.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [incoming]);
   useEffect(() => {
+    if (!pendingDraft) return;
+    const handoff = pendingDraft;
+    consumeDraft();
+    protect(() => onGenerated(handoff.rule, handoff.pipelineId));
+    // One reviewed handoff, consumed once even when replacing a dirty editor.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pendingDraft]);
+  useEffect(() => {
     if (!dirty) return;
-    const handler = (e: BeforeUnloadEvent) => e.preventDefault();
+    const handler = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+      e.returnValue = "";
+    };
+    const navigate = (event: MouseEvent) => {
+      if (
+        event.defaultPrevented ||
+        event.button !== 0 ||
+        event.metaKey ||
+        event.ctrlKey ||
+        event.shiftKey ||
+        event.altKey
+      )
+        return;
+      const target =
+        event.target instanceof Element
+          ? event.target.closest<HTMLAnchorElement>("a[href]")
+          : null;
+      if (
+        !target ||
+        target.target === "_blank" ||
+        target.hasAttribute("download") ||
+        target.getAttribute("href")?.startsWith("#")
+      )
+        return;
+      const url = new URL(target.href);
+      if (
+        url.origin !== window.location.origin ||
+        url.href === window.location.href
+      )
+        return;
+      event.preventDefault();
+      event.stopPropagation();
+      setPending(
+        () => () => router.push(`${url.pathname}${url.search}${url.hash}`),
+      );
+    };
     window.addEventListener("beforeunload", handler);
-    return () => window.removeEventListener("beforeunload", handler);
-  }, [dirty]);
+    window.addEventListener("click", navigate, true);
+    return () => {
+      window.removeEventListener("beforeunload", handler);
+      window.removeEventListener("click", navigate, true);
+    };
+  }, [dirty, router]);
   function protect(action: () => void) {
     if (dirty) setPending(() => action);
     else action();
@@ -248,8 +304,9 @@ function Workspace({
         JSON.stringify({ version: 1, items: next }),
       );
       setTemplates(next);
+      window.dispatchEvent(new Event("desmos:templates-updated"));
       setNotice(
-        "Modelo salvo neste navegador. Snapshots existentes foram mantidos.",
+        "Modelo salvo neste navegador. Automações salvas mantêm o conteúdo anterior.",
       );
       return true;
     } catch {
@@ -258,53 +315,88 @@ function Workspace({
     }
   }
   return (
-    <div className="page-stack automation-page automation-workspace-v2">
+    <div className="page-stack automation-page automation-workspace-v2 automation-workspace-v3">
       <PageHeading
-        title="Automações de vendas"
-        description="Organize regras, revise o próximo passo e teste antes de usar."
-        action={<Badge tone="amber">Demonstração</Badge>}
+        title={
+          view === "templates"
+            ? "Biblioteca de mensagens"
+            : view === "editor"
+              ? "Configurar automação"
+              : "Automações de vendas"
+        }
+        description={
+          view === "templates"
+            ? "Guarde conteúdo para reutilizar em email e WhatsApp."
+            : view === "editor"
+              ? "Defina o gatilho, prepare a ação e confira o resultado."
+              : "Seu processo comercial, com cada próximo passo no lugar."
+        }
+        action={
+          view === "list" ? (
+            <Button onClick={() => start(newRule(pipeline))}>
+              <Plus size={16} />
+              Criar automação
+            </Button>
+          ) : (
+            <Button
+              variant="ghost"
+              onClick={() => protect(() => setView("list"))}
+            >
+              <ArrowLeft size={16} />
+              Voltar às automações
+            </Button>
+          )
+        }
       />
-      <div className="automation-toolbar">
-        <Field id="automation-pipeline" label="Pipeline">
-          <Select
-            id="automation-pipeline"
-            value={pipeline.id}
-            onChange={(e) => {
-              const id = e.target.value;
-              protect(() => onPipeline(id));
-            }}
+      {view !== "editor" && (
+        <div className="automation-toolbar automation-directory-toolbar">
+          <Field id="automation-pipeline" label="Pipeline">
+            <Select
+              id="automation-pipeline"
+              value={pipeline.id}
+              onChange={(e) => {
+                const id = e.target.value;
+                protect(() => onPipeline(id));
+              }}
+            >
+              {pipelines.map((p) => (
+                <option key={p.id} value={p.id}>
+                  {p.name}
+                </option>
+              ))}
+            </Select>
+          </Field>
+          <div
+            className="automation-secondary-nav"
+            aria-label="Recursos de automações"
           >
-            {pipelines.map((p) => (
-              <option key={p.id} value={p.id}>
-                {p.name}
-              </option>
-            ))}
-          </Select>
-        </Field>
-        <Link
-          className="btn btn-secondary"
-          href={`/sales/pipelines/${pipeline.id}/edit`}
-        >
-          Editar etapas
-        </Link>
-      </div>
-      <nav className="crm-tabs" aria-label="Área de automações">
-        {[
-          ["list", "Automações"],
-          ["templates", "Modelos de mensagem"],
-          ["assistant", "Assistente"],
-          ["stages", "Regras por etapa"],
-        ].map(([id, label]) => (
-          <button
-            type="button"
-            key={id}
-            aria-pressed={view === id}
-            onClick={() => protect(() => setView(id))}
-          >
-            {label}
-          </button>
-        ))}
-      </nav>
+            <Button
+              variant={view === "templates" ? "secondary" : "ghost"}
+              onClick={() => protect(() => setView("templates"))}
+            >
+              <Mail size={16} />
+              Biblioteca de mensagens
+            </Button>
+            <details className="automation-settings-menu">
+              <summary>Ajustes do funil</summary>
+              <div>
+                <Link
+                  className="btn btn-ghost"
+                  href={`/sales/pipelines/${pipeline.id}/edit`}
+                >
+                  Editar etapas
+                </Link>
+                <Button
+                  variant="ghost"
+                  onClick={() => protect(() => setView("stages"))}
+                >
+                  Regras por etapa
+                </Button>
+              </div>
+            </details>
+          </div>
+        </div>
+      )}
       {error && <Alert>{error}</Alert>}
       {notice && (
         <p role="status" className="info-note">
@@ -318,67 +410,101 @@ function Workspace({
           <div className="crm-section-top">
             <div>
               <h2>Regras do funil</h2>
-              <p>{pipeline.name} · simulações salvas neste navegador.</p>
+              <p>
+                {rules.length} rascunhos
+                {pipeline.demoFixture
+                  ? " e 1 acompanhamento funcional"
+                  : ""} · {pipeline.name}
+              </p>
             </div>
-            <Button onClick={() => start(newRule(pipeline))}>
-              <Plus size={16} />
-              Criar automação
-            </Button>
+            <Input
+              aria-label="Buscar automação"
+              placeholder="Buscar automação"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
           </div>
-          {pipeline.demoFixture && (
-            <button
-              type="button"
-              className="automation-directory-row"
-              onClick={() => setView("real")}
-            >
-              <span>
-                <strong>Acompanhamento de proposta</strong>
-                <small>
-                  Entrada em{" "}
-                  {pipeline.stages.find(
-                    (s) => s.id === pipeline.demoFollowupStageId,
-                  )?.name ?? "etapa configurada"}{" "}
-                  → tarefa no dia seguinte · {pipeline.name}
-                </small>
-              </span>
-              <span>
-                <Badge tone="green">Funciona nesta demo</Badge>
-                <small>
-                  {pipeline.demoFollowupEnabled ? "Ativa" : "Pausada"}
-                </small>
-              </span>
-            </button>
-          )}
-          {rules.map((r) => (
-            <button
-              type="button"
-              className="automation-directory-row"
-              key={r.id}
-              onClick={() => start(r)}
-            >
-              <span>
-                <strong>{r.name}</strong>
-                <small>
-                  {r.trigger === "STAGE_CHANGED"
-                    ? `Entrada em ${pipeline.stages.find((s) => s.id === r.stageId)?.name ?? "etapa indisponível"}`
-                    : r.trigger === "DEAL_CREATED"
-                      ? "Novo negócio"
-                      : r.trigger === "LEAD_CREATED"
-                        ? "Novo lead"
-                        : r.trigger === "DEAL_WON"
-                          ? "Negócio ganho"
-                          : "Negócio perdido"}{" "}
-                  → {actions[r.action]} · {pipeline.name}
-                </small>
-              </span>
-              <span>
-                <Badge tone="amber">Simulação</Badge>
-                <small>Rascunho salvo · não executável</small>
-              </span>
-            </button>
-          ))}
+          <p className="automation-capability-note">
+            Rascunhos ficam neste navegador. Somente o acompanhamento
+            identificado como funcional cria tarefas na demo.
+          </p>
+          {pipeline.demoFixture &&
+            (!search ||
+              "Acompanhamento de proposta"
+                .toLocaleLowerCase()
+                .includes(search.toLocaleLowerCase())) && (
+              <button
+                type="button"
+                className="automation-directory-row"
+                onClick={() => setView("real")}
+              >
+                <span>
+                  <strong>Acompanhamento de proposta</strong>
+                  <small>
+                    Entrada em{" "}
+                    {pipeline.stages.find(
+                      (s) => s.id === pipeline.demoFollowupStageId,
+                    )?.name ?? "etapa configurada"}{" "}
+                    → tarefa no dia seguinte · {pipeline.name}
+                  </small>
+                </span>
+                <span>
+                  <Badge tone="green">Funciona nesta demo</Badge>
+                  <small>
+                    {pipeline.demoFollowupEnabled ? "Ativa" : "Pausada"}
+                  </small>
+                </span>
+              </button>
+            )}
+          {rules
+            .filter((r) =>
+              r.name.toLocaleLowerCase().includes(search.toLocaleLowerCase()),
+            )
+            .map((r) => (
+              <button
+                type="button"
+                className="automation-directory-row"
+                key={r.id}
+                onClick={() => start(r)}
+              >
+                <span>
+                  <strong>{r.name}</strong>
+                  <small>
+                    {r.trigger === "STAGE_CHANGED"
+                      ? `Entrada em ${pipeline.stages.find((s) => s.id === r.stageId)?.name ?? "etapa indisponível"}`
+                      : r.trigger === "DEAL_CREATED"
+                        ? "Novo negócio"
+                        : r.trigger === "LEAD_CREATED"
+                          ? "Novo lead"
+                          : r.trigger === "DEAL_WON"
+                            ? "Negócio ganho"
+                            : "Negócio perdido"}{" "}
+                    → {actions[r.action]} · {pipeline.name}
+                  </small>
+                </span>
+                <span>
+                  <Badge tone="amber">Simulação</Badge>
+                  <small>Rascunho local</small>
+                </span>
+              </button>
+            ))}
+          {!!search &&
+            !rules.some((r) =>
+              r.name.toLocaleLowerCase().includes(search.toLocaleLowerCase()),
+            ) && (
+              <p className="automation-capability-note">
+                Nenhum rascunho encontrado. Tente outro nome.
+              </p>
+            )}
           <details className="automation-recipes">
-            <summary>Começar com uma receita</summary>
+            <summary>
+              <Workflow size={16} />
+              Começar com uma receita de automação
+            </summary>
+            <p className="field-hint">
+              Um ponto de partida com gatilho e ação. O conteúdo da mensagem é
+              escolhido no editor.
+            </p>
             <Field id="automation-template" label="Receita de automação">
               <Select
                 id="automation-template"
@@ -402,19 +528,19 @@ function Workspace({
         </section>
       ) : view === "editor" && draft ? (
         <>
-          <div className="crm-section-top">
-            <h2>Editar automação</h2>
-            <Button
-              variant="ghost"
-              onClick={() => protect(() => setView("list"))}
-            >
-              Voltar às automações
-            </Button>
-          </div>
           {dirty && <p className="field-hint">Alterações não salvas.</p>}
           <AutomationEditor
+            key={draft.id}
             draft={draft}
-            setDraft={setDraft}
+            setDraft={(update) =>
+              setDraft((current) =>
+                current
+                  ? typeof update === "function"
+                    ? update(current)
+                    : update
+                  : current,
+              )
+            }
             pipeline={pipeline}
             templates={templates}
             history={history}
@@ -423,9 +549,11 @@ function Workspace({
               if (persist(rules, next)) setHistory(next);
             }}
             onCancel={() => {
-              setDraft(null);
-              setView("list");
-              setNotice("Alterações canceladas.");
+              protect(() => {
+                setDraft(null);
+                setView("list");
+                setNotice("Alterações canceladas.");
+              });
             }}
             onSave={() => {
               const saved = { ...draft, enabled: false };
@@ -444,13 +572,10 @@ function Workspace({
           />
         </>
       ) : view === "templates" ? (
-        <MessageTemplates items={templates} onSave={saveTemplates} />
-      ) : view === "assistant" && session ? (
-        <Assistant
-          pipelines={pipelines}
-          templates={templates}
-          user={session.user}
-          onDraft={(r, pid) => protect(() => onGenerated(r, pid))}
+        <MessageTemplates
+          items={templates}
+          onSave={saveTemplates}
+          onDirtyChange={setLibraryDirty}
         />
       ) : view === "real" ? (
         <>
@@ -520,6 +645,8 @@ function Workspace({
               const action = pending;
               setPending(null);
               setDraft(null);
+              setLibraryDirty(false);
+              setBaseline("");
               action?.();
             }}
           >

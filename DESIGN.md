@@ -262,11 +262,15 @@ No mobile, abrir o drawer de navegação prende o foco dentro da navegação, bl
 
 A autenticação usa duas áreas no desktop e formulário com largura máxima (385px); a área narrativa desaparece no mobile.
 
+Na superfície de automações, o diretório ocupa a área de trabalho com largura máxima de (1240px). Abrir uma regra substitui a lista por um editor central de uma coluna, limitado a (850px); a revisão pertence ao mesmo fluxo, sem painel lateral sticky. O formulário dedicado da biblioteca limita a leitura a (760px). Até (760px), pesquisa e cabeçalhos se empilham, os passos mantêm três posições compactas e as ações do editor passam a uma sequência vertical. Esses limites são específicos dessas superfícies; a composição aprovada está em `docs/specs/automation-redesign-global-assistant.md`.
+
+O assistente é uma sobreposição ancorada à direita, abaixo da barra superior: largura até (440px), distância lateral de (16px), topo de (76px) e rolagem interna. Até (760px), ocupa a largura disponível com margens de (8px), topo de (68px) e altura máxima de `calc(100dvh - 76px)`. A página permanece disponível no fundo; o painel não usa backdrop nem se apresenta como diálogo modal.
+
 ## Elevation & Depth
 
-As superfícies de trabalho são planas. A profundidade vem de fundos tonais, bordas de (1px) e sobreposição de diálogo ou navegação mobile. Cards não sobem no hover; tabelas e controles mudam de tom. O diálogo central tem backdrop translúcido e a navegação mobile tem scrim, sem blur. O painel lateral de negócio acrescenta uma sombra suave lateral, registrada no sidecar, para separar o registro do contexto preservado; isso não estende sombras aos cards.
+As superfícies de trabalho são planas. A profundidade vem de fundos tonais, bordas de (1px) e sobreposição de diálogo ou navegação mobile. Cards não sobem no hover; tabelas e controles mudam de tom. O diálogo central tem backdrop translúcido e a navegação mobile tem scrim, sem blur. O painel lateral de negócio acrescenta uma sombra suave lateral, registrada no sidecar. O assistente usa uma sombra difusa (`0 14px 42px rgb(0 0 0 / 18%)`) para separar a conversa da página; isso não estende sombras aos cards.
 
-**The Flat-By-Default Rule.** Superfícies de conteúdo permanecem planas; a sombra lateral pertence ao painel modal de negócio.
+**The Flat-By-Default Rule.** Superfícies de conteúdo permanecem planas; sombras separam as sobreposições de negócio e assistente do contexto preservado.
 
 O foco aparece com contorno de (2px), deslocado (3px) nos controles gerais e (1px) nos campos. Esse contorno comunica interação, não elevação. Os valores de backdrop, contorno e camadas ficam nos snippets do sidecar, pois não são propriedades do schema de componentes do frontmatter.
 
@@ -312,6 +316,8 @@ Alert de erro usa `role="alert"`; sucesso usa `role="status"`. Ícone e texto co
 
 Skeletons usam a cor de borda e pulsação de (1,8s); spinners giram em (1s). Transições de cor, fundo e borda duram (150ms); a seta dos expansores gira em (160ms) com `ease-out`. `prefers-reduced-motion: reduce` remove animações e transições. Movimento serve ao estado da operação.
 
+A extensão de movimento dos controles acrescenta pressão curta de (1px) em (120ms), feedback tonal nas linhas em (160ms), entrada curta de diálogo em (180ms) e de painéis em (220ms). A troca de passos usa WAAPI em (180ms), opacidade e deslocamento horizontal de (10px) na direção da progressão, com `cubic-bezier(0.16, 1, 0.3, 1)`. A troca move o foco para o título do passo sem esperar a animação. O efeito é cancelado ao trocar de passo, desmontar o editor ou alterar a preferência de redução de movimento em runtime; a regra CSS de redução também desativa transições e animações. O conteúdo é renderizado antes do efeito, sem coreografia de entrada da página.
+
 ### Commercial context
 
 O painel comercial usa uma faixa única de indicadores com divisórias, seguida de listas do Radar. Valores têm algarismos tabulares; alertas combinam motivo textual, cliente, valor e etapa. A faixa usa quatro colunas, passando a duas até (1100px); listas refluem até (760px), sem exigir tabela larga. Esses números representam registros persistidos do funil escolhido, com a origem e o período informados na tela. A composição específica da apresentação está no contrato da superfície.
@@ -320,15 +326,31 @@ O registro mostra valor final, etapa, responsável e cliente antes da próxima a
 
 ### Rule configuration and stage editor
 
-A configuração de automações reutiliza campos com labels persistentes, botões compactos, superfície branca e divisórias entre três grupos numerados: “Quando acontecer”, “Se atender às condições” e “Fazer”. Modelos iniciam a configuração; condições opcionais ficam no disclosure “Adicionar condições”. Os campos da ação aparecem conforme a seleção. O resumo usa termos e descrições em uma lista de definição; a prévia do exemplo e “Resultados dos testes” ficam no mesmo contexto, com feedback textual de conclusão ou condição não atendida.
+A configuração de automações começa pelo diretório: funil, “Criar automação”, pesquisa e linhas com nome, resumo do gatilho/ação e status textual. “Biblioteca de mensagens” é acesso secundário; “Ajustes do funil” reúne recursos auxiliares. Receitas de automação ficam em disclosure próprio e iniciam um rascunho com gatilho e ação.
 
-“Simulação neste navegador” identifica o resumo, e cada opção de ação informa “simulação”, inclusive tarefa, atribuição de responsável e movimentação de etapa. Os exemplos de email e WhatsApp compartilham essa identificação. Salvar conserva a configuração local; testar apresenta uma prévia sem alterar registros. O estado ativo da configuração de exemplo não comunica execução automática. O histórico de até oito testes aparece em disclosure com nome, horário e resultado.
+O editor substitui o diretório e mostra apenas os campos do passo atual: “Gatilho e condições” → “Ação e mensagem” → “Revisar e testar”. Labels persistentes, campos compactos e divisórias preservam a identidade. A navegação dos passos usa `aria-current="step"`, número, texto e contorno dourado no passo atual. Condições e prazo de exemplo ficam em disclosures; a ação selecionada determina seus campos. Na ação de mensagem, a seleção de modelo, sua revisão e a prévia aparecem no mesmo fluxo vertical. O resumo de revisão usa lista de definição Quando → Se → Fazer, teste e histórico de até oito resultados.
 
-O acompanhamento real de proposta ocupa um disclosure separado, identificado por “Funciona nesta demo”. A etapa selecionável, os controles de salvar, pausar/ativar, a prévia e os links às tarefas criadas deixam o efeito real explícito no funil fictício. O estado ativo/pausado recebe texto, e a prévia informa que não altera registros. A identidade da etapa é preservada ao renomear ou reordenar; a apresentação do seu nome acompanha a configuração, sem assumir “Proposta” como gatilho fixo.
+“Rascunho de simulação”, “Sem efeitos reais” e os textos das ações distinguem exemplos de execução. “Salvar rascunho” aparece na revisão e conserva a configuração local sem ativar regra real; testar apresenta resultado textual sem enviar mensagens ou alterar registros. O retorno ao diretório e o cancelamento preservam a distinção entre conteúdo editado e salvo. Alterações pendentes em regra ou modelo exigem confirmação de descarte nos controles locais e nos links internos; recarregar ou sair da página usa o aviso do navegador. O histórico nativo de voltar/avançar não recebe interceptação específica.
+
+O acompanhamento real de proposta aparece como linha própria do diretório, identificado por “Funciona nesta demo”, e abre sua configuração dedicada. A etapa selecionável, os controles de salvar, pausar/ativar, a prévia e os links às tarefas criadas deixam o efeito real explícito no funil fictício. O estado ativo/pausado recebe texto, e a prévia informa que não altera registros. A identidade da etapa é preservada ao renomear ou reordenar; a apresentação do seu nome acompanha a configuração, sem assumir “Proposta” como gatilho fixo.
 
 No editor de etapas, a posição de inserção e “Adicionar etapa” precedem a sequência de fieldsets separados por divisórias. A numeração acompanha a posição atual. A alça “Arrastar” combina ícone de linha e texto; as setas oferecem a mesma reordenação por teclado ou touch, com labels acessíveis. O alvo de arraste recebe o contorno de foco existente, sem nova cor ou elevação. O nome da etapa inserida recebe foco e o resultado da mudança de ordem aparece em uma mensagem de status.
 
-A composição de automações usa lista, formulário e resumo em três colunas no desktop; até (1200px) a lista ocupa a linha superior e até (980px) os grupos passam a uma coluna, com resumo sem posição sticky. Até (600px), campos e cabeçalho do builder se empilham. O seletor de posição e a ação de inserção de etapa se empilham até (760px); as setas preservam alvos de (44px). Essas medidas descrevem esta configuração, sem substituir o layout das demais superfícies.
+O seletor de posição e a ação de inserção de etapa se empilham até (760px); as setas preservam alvos de (44px). O editor de etapas mantém sua composição própria, independente dos passos de automação.
+
+### Message library
+
+A biblioteca mostra pesquisa por nome, filtro de canal, nome, revisão e amostra do conteúdo em linhas separadas por divisórias. “Criar modelo” e “Editar modelo” substituem a lista por formulário dedicado com nome, canal, assunto de email e corpo. Variáveis têm controles de inserção, e a prévia usa exemplo identificado como fictício. Salvar e cancelar são ações explícitas. No mobile, linhas e ações se empilham sem perder o canal ou a revisão.
+
+A biblioteca guarda mensagens reutilizáveis; receitas iniciam regras. Uma automação mantém ID, revisão e snapshot do modelo escolhido. Atualizar a biblioteca não altera o conteúdo salvo da regra; o editor informa a nova revisão e oferece atualização explícita ou personalização somente nessa regra. Referência ausente recebe aviso e caminho de reparo antes de salvar.
+
+### Global assistant
+
+“Assistente” permanece na barra superior do shell autenticado, com ícone e texto também no mobile. Abrir mostra contexto legível da rota, sugestões de ajuda, conversa e formulário. O botão expõe `aria-expanded` e `aria-controls`; a abertura leva o foco ao controle de fechar, Escape fecha quando não há outro diálogo aberto e o botão de fechar devolve o foco à entrada. É um painel não modal, sem aprisionamento de foco.
+
+A conversa usa fundos tonais diferentes para usuário e resposta, texto com quebra de linha e rolagem interna. Após a primeira abertura, permanece montada ao fechar ou navegar no mesmo workspace. A sessão é memória React ligada à identidade tenant + user e reinicia quando essa identidade muda; conversas não são gravadas em armazenamento compartilhado.
+
+“Interpretação local · sem envio” informa o alcance. A ajuda contextual e a interpretação demonstrativa de entrada em etapa para email/WhatsApp não usam LLM externo nem aplicam dados. Escolhas pendentes de funil, etapa e destinatário precedem um resumo e “Gerar rascunho para revisão”; modelo é opcional. “Eu” mostra nome/email autenticados e fixa o criador no destinatário. O botão abre o editor para revisão e salvamento humanos. Sem `pipelines.manage`, a superfície oferece ajuda sem carregar funis/modelos ou preparar rascunhos.
 
 ### Dialogs
 

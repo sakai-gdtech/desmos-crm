@@ -1,3 +1,4 @@
+import { editorStep, library, stageRules } from "./automation-flow-helpers";
 import { test, expect } from "@playwright/test";
 for (const mobile of [false, true]) {
   test(`automações e etapas: ${mobile ? "celular" : "notebook"}`, async ({
@@ -48,16 +49,21 @@ for (const mobile of [false, true]) {
     expect(dealResponse.status()).toBe(201);
     const deal = (await dealResponse.json()).item;
     await page.goto(`/sales/automations?pipelineId=${pipeline.id}`);
-    await page.getByText("Começar com uma receita", { exact: true }).click();
+    await page
+      .getByText("Começar com uma receita de automação", { exact: true })
+      .click();
     await page.getByLabel("Receita de automação").selectOption("TASK");
     await page
       .getByRole("button", { name: "Usar receita", exact: true })
       .click();
     await expect(page.getByLabel("O que acontece")).toHaveValue("DEAL_CREATED");
+    await editorStep(page, 1);
     await page.getByLabel("Nome da automação").fill("Acompanhar cadastro");
+    await editorStep(page, 3);
     await page
       .getByRole("button", { name: "Salvar rascunho", exact: true })
       .dblclick();
+    await editorStep(page, 3);
     await page
       .getByRole("button", { name: "Testar com prévia", exact: true })
       .dblclick();
@@ -67,17 +73,23 @@ for (const mobile of [false, true]) {
     await expect(page.getByText("Resultados dos testes (1)")).toBeVisible();
     const tasks = await page.request.get(`/api/sales/tasks?dealId=${deal.id}`);
     expect((await tasks.json()).total).toBe(0);
+    await editorStep(page, 1);
     await page.getByLabel("Nome da automação").fill("Não salvar");
     await page.getByRole("button", { name: "Cancelar alterações" }).click();
+    if (await page.getByRole("dialog").isVisible())
+      await page.getByRole("button", { name: "Descartar e continuar" }).click();
     await page.getByRole("button", { name: /Acompanhar cadastro/ }).click();
     await expect(page.getByLabel("Nome da automação")).toHaveValue(
       "Acompanhar cadastro",
     );
     // Select a saved rule and bind to an ID that must survive insertion, drag and rename.
+    await editorStep(page, 1);
     await page.getByLabel("O que acontece").selectOption("STAGE_CHANGED");
+    await editorStep(page, 1);
     await page
       .getByLabel("Etapa de entrada")
       .selectOption(pipeline.stages[2].id);
+    await editorStep(page, 3);
     await page
       .getByRole("button", { name: "Salvar rascunho", exact: true })
       .click();
@@ -183,36 +195,49 @@ for (const mobile of [false, true]) {
     await expect(page.getByLabel("Etapa de entrada")).toHaveValue(
       pipeline.stages[2].id,
     );
+    await editorStep(page, 3);
     await expect(
       page
         .getByRole("complementary", { name: "Prévia da automação" })
         .getByText("Negócio entrar em Proposta revisada"),
     ).toBeVisible();
+    await editorStep(page, 2);
     await page.getByLabel("Ação da automação").selectOption("MOVE");
+    await editorStep(page, 2);
     await page
       .getByLabel("Etapa de destino")
       .selectOption(pipeline.stages[2].id);
+    await editorStep(page, 3);
     await page
       .getByRole("button", { name: "Testar com prévia", exact: true })
       .click();
     await expect(
       page.locator(".automation-builder").getByRole("alert"),
     ).toContainText("evitar um ciclo");
+    await editorStep(page, 2);
     await page
       .getByLabel("Etapa de destino")
       .selectOption(pipeline.stages[0].id);
+    await editorStep(page, 1);
     await page.getByText("Adicionar condições", { exact: true }).click();
+    await editorStep(page, 1);
     await page.getByLabel("Valor mínimo (R$)").fill("30000");
+    await editorStep(page, 3);
     await page
       .getByRole("button", { name: "Testar com prévia", exact: true })
       .click();
     await expect(
       page.getByText(/Condição não atendida: o exemplo/).first(),
     ).toBeVisible();
+    await editorStep(page, 1);
     await page.getByLabel("Valor mínimo (R$)").fill("");
+    await editorStep(page, 2);
     await page.getByLabel("Ação da automação").selectOption("ASSIGN");
+    await editorStep(page, 2);
     await page.getByLabel("Atribuir a").selectOption({ index: 1 });
+    await editorStep(page, 1);
     await page.getByLabel("O que acontece").selectOption("LEAD_CREATED");
+    await editorStep(page, 3);
     await page
       .getByRole("button", { name: "Testar com prévia", exact: true })
       .click();

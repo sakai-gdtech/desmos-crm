@@ -1,7 +1,8 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Alert,
+  Dialog,
   Badge,
   Button,
   Field,
@@ -17,14 +18,33 @@ import {
 export function MessageTemplates({
   items,
   onSave,
+  onDirtyChange,
 }: {
   items: MessageTemplate[];
+  onDirtyChange?: (dirty: boolean) => void;
   onSave: (items: MessageTemplate[]) => boolean;
 }) {
   const [search, setSearch] = useState("");
   const [channel, setChannel] = useState("");
   const [draft, setDraft] = useState<MessageTemplate | null>(null);
   const [error, setError] = useState("");
+  const [baseline, setBaseline] = useState("");
+  const [cancelPending, setCancelPending] = useState(false);
+  const dirty = !!draft && JSON.stringify(draft) !== baseline;
+  useEffect(() => {
+    onDirtyChange?.(dirty);
+    return () => onDirtyChange?.(false);
+  }, [dirty, onDirtyChange]);
+  function edit(t: MessageTemplate) {
+    setDraft(t);
+    setBaseline(JSON.stringify(t));
+    setError("");
+  }
+  const filtered = items.filter(
+    (t) =>
+      (!channel || t.channel === channel) &&
+      t.name.toLocaleLowerCase().includes(search.toLocaleLowerCase()),
+  );
   const change = (key: keyof MessageTemplate, value: string) => {
     setDraft((d) => (d ? { ...d, [key]: value } : d));
     setError("");
@@ -39,25 +59,31 @@ export function MessageTemplates({
     <section className="message-library">
       <div className="crm-section-top">
         <div>
-          <h2>Modelos de mensagem</h2>
-          <p>Conteúdo reutilizável · salvo neste navegador, por empresa.</p>
+          <h2>{draft ? "Conteúdo da mensagem" : "Modelos de mensagem"}</h2>
+          <p>
+            {draft
+              ? "Variáveis são preenchidas com os dados do registro na prévia."
+              : "Mensagens reutilizáveis, sem gatilho ou ação. Salvas neste navegador."}
+          </p>
         </div>
-        <Button
-          variant="secondary"
-          onClick={() => {
-            setDraft({
-              id: crypto.randomUUID(),
-              revision: 1,
-              name: "",
-              channel: "EMAIL",
-              subject: "",
-              message: "",
-            });
-            setError("");
-          }}
-        >
-          Criar modelo
-        </Button>
+        {!draft && (
+          <Button
+            variant="secondary"
+            onClick={() => {
+              edit({
+                id: crypto.randomUUID(),
+                revision: 1,
+                name: "",
+                channel: "EMAIL",
+                subject: "",
+                message: "",
+              });
+              setError("");
+            }}
+          >
+            Criar modelo
+          </Button>
+        )}
       </div>
       {draft ? (
         <form
@@ -143,19 +169,34 @@ export function MessageTemplates({
               >{`{${v}}`}</button>
             ))}
           </div>
-          <details>
-            <summary>Prévia com exemplo fictício</summary>
+          <div className="library-message-preview">
+            <h3>Prévia com exemplo fictício</h3>
+            {draft.channel === "EMAIL" && (
+              <strong>
+                {
+                  renderMessage(draft.subject, {
+                    contato: "Marina",
+                    empresa: "Aurora Digital",
+                    negociacao: "Implantação comercial",
+                    responsavel: "Ana",
+                  }).value
+                }
+              </strong>
+            )}
             <p className="message-text">{sample.value}</p>
             {sample.missing.length > 0 && (
               <Alert>Variáveis sem dados: {sample.missing.join(", ")}</Alert>
             )}
-          </details>
+          </div>
           <p className="field-hint">
             Salvar uma revisão não altera o conteúdo de automações já salvas.
           </p>
           <div className="form-actions">
             <Button type="submit">Salvar modelo</Button>
-            <Button variant="ghost" onClick={() => setDraft(null)}>
+            <Button
+              variant="ghost"
+              onClick={() => (dirty ? setCancelPending(true) : setDraft(null))}
+            >
               Cancelar modelo
             </Button>
           </div>
@@ -179,56 +220,78 @@ export function MessageTemplates({
               <option value="WHATSAPP">WhatsApp</option>
             </Select>
           </div>
-          {items
-            .filter(
-              (t) =>
-                (!channel || t.channel === channel) &&
-                t.name.toLocaleLowerCase().includes(search.toLocaleLowerCase()),
-            )
-            .map((t) => (
-              <div className="template-row" key={t.id}>
-                <div>
-                  <strong>{t.name}</strong>
-                  <p>
-                    {t.channel === "EMAIL" ? "Email" : "WhatsApp"} · revisão{" "}
-                    {t.revision}
-                  </p>
-                </div>
-                <div className="crm-detail-actions">
-                  <Badge>Local</Badge>
-                  <Button
-                    variant="ghost"
-                    onClick={() => {
-                      setDraft({ ...t });
-                      setError("");
-                    }}
-                  >
-                    Editar modelo {t.name}
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    onClick={() => {
-                      setDraft({
-                        ...t,
-                        id: crypto.randomUUID(),
-                        revision: 1,
-                        name: `${t.name.slice(0, 85)} (cópia)`,
-                      });
-                      setError("");
-                    }}
-                  >
-                    Duplicar {t.name}
-                  </Button>
-                </div>
+          <p className="field-hint">
+            {filtered.length} {filtered.length === 1 ? "modelo" : "modelos"}
+          </p>
+          {filtered.map((t) => (
+            <div className="template-row" key={t.id}>
+              <div>
+                <strong>{t.name}</strong>
+                <p>
+                  {t.channel === "EMAIL" ? "Email" : "WhatsApp"} · revisão{" "}
+                  {t.revision}
+                </p>
+                <p className="template-content-sample">
+                  {t.subject || t.message}
+                </p>
               </div>
-            ))}
-          {!items.length && (
+              <div className="crm-detail-actions">
+                <Badge>Local</Badge>
+                <Button
+                  variant="ghost"
+                  onClick={() => {
+                    edit({ ...t });
+                    setError("");
+                  }}
+                >
+                  Editar modelo {t.name}
+                </Button>
+                <Button
+                  variant="ghost"
+                  onClick={() => {
+                    edit({
+                      ...t,
+                      id: crypto.randomUUID(),
+                      revision: 1,
+                      name: `${t.name.slice(0, 85)} (cópia)`,
+                    });
+                    setError("");
+                  }}
+                >
+                  Duplicar {t.name}
+                </Button>
+              </div>
+            </div>
+          ))}
+          {!filtered.length && (
             <p>
-              Nenhum modelo ainda. Crie um para reutilizar na ação da automação.
+              {items.length
+                ? "Nenhum modelo encontrado. Tente outro nome ou canal."
+                : "Crie seu primeiro modelo para reutilizar mensagens nas automações. Você também pode escrever diretamente em uma regra."}
             </p>
           )}
         </>
       )}
+      <Dialog
+        open={cancelPending}
+        onClose={() => setCancelPending(false)}
+        title="Descartar alterações do modelo?"
+        description="A revisão salva será mantida."
+      >
+        <div className="dialog-actions">
+          <Button variant="secondary" onClick={() => setCancelPending(false)}>
+            Continuar editando
+          </Button>
+          <Button
+            onClick={() => {
+              setCancelPending(false);
+              setDraft(null);
+            }}
+          >
+            Descartar modelo
+          </Button>
+        </div>
+      </Dialog>
     </section>
   );
 }

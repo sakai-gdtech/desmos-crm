@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import {
   Alert,
@@ -43,7 +43,7 @@ export default function AutomationEditor({
   onTest,
 }: {
   draft: Rule;
-  setDraft: (r: Rule) => void;
+  setDraft: (r: Rule | ((current: Rule) => Rule)) => void;
   pipeline: Pipeline;
   templates: MessageTemplate[];
   onSave: () => void;
@@ -51,6 +51,42 @@ export default function AutomationEditor({
   history: TestResult[];
   onTest: (test: TestResult) => void;
 }) {
+  const [step, setStep] = useState(1);
+  const flow = useRef<HTMLDivElement>(null);
+  const previousStep = useRef(1);
+  useEffect(() => {
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const element = flow.current;
+    if (step === previousStep.current) return;
+    const direction = step >= previousStep.current ? 1 : -1;
+    previousStep.current = step;
+    const animation =
+      !media.matches && element
+        ? element.animate(
+            [
+              { opacity: 0.65, transform: `translateX(${direction * 10}px)` },
+              { opacity: 1, transform: "translateX(0)" },
+            ],
+            { duration: 180, easing: "cubic-bezier(0.16, 1, 0.3, 1)" },
+          )
+        : null;
+    const cancel = () => animation?.cancel();
+    media.addEventListener("change", cancel);
+    return () => {
+      cancel();
+      media.removeEventListener("change", cancel);
+    };
+  }, [step]);
+  function move(next: number) {
+    setStep(next);
+    requestAnimationFrame(() =>
+      Array.from(
+        flow.current?.querySelectorAll<HTMLElement>("[data-step-title]") ?? [],
+      )
+        .find((el) => el.getClientRects().length > 0)
+        ?.focus({ preventScroll: true }),
+    );
+  }
   const { assignees } = useCrmReferences();
   const owners = assignees.data?.items ?? [];
   const [simulation, setSimulation] = useState("");
@@ -92,13 +128,19 @@ export default function AutomationEditor({
       ? "Modelo removido. Selecione outro modelo ou personalize só nesta regra antes de salvar."
       : "");
   function change<K extends keyof Rule>(key: K, value: Rule[K]) {
-    setDraft({
-      ...draft,
+    setDraft((current) => ({
+      ...current,
       [key]: value,
       ...(key === "action" && (value === "EMAIL" || value === "WHATSAPP")
-        ? { channel: value }
+        ? {
+            channel: value,
+            messageTemplate:
+              current.messageTemplate?.snapshot.channel === value
+                ? current.messageTemplate
+                : null,
+          }
         : {}),
-    });
+    }));
     setSimulation("");
     setError("");
   }
@@ -135,11 +177,30 @@ export default function AutomationEditor({
       ? `${draft.recipient.name} · ${draft.recipient.email} (criador fixo)`
       : selected?.contactName || "Contato vinculado ao negócio";
   return (
-    <div className="automation-editor-layout">
+    <div className="automation-editor-layout" ref={flow}>
+      <nav className="automation-progress" aria-label="Etapas da configuração">
+        {["Gatilho e condições", "Ação e mensagem", "Revisar e testar"].map(
+          (label, i) => (
+            <button
+              key={label}
+              type="button"
+              aria-current={step === i + 1 ? "step" : undefined}
+              onClick={() => move(i + 1)}
+            >
+              <span>{i + 1}</span>
+              {label}
+            </button>
+          ),
+        )}
+      </nav>
       <form
         className="automation-builder"
         onSubmit={(e) => {
           e.preventDefault();
+          if (step < 3) {
+            move(step + 1);
+            return;
+          }
           if (problem) {
             setError(problem);
             return;
@@ -147,21 +208,25 @@ export default function AutomationEditor({
           onSave();
         }}
       >
-        <Badge tone="amber">Rascunho de simulação · não executável</Badge>
-        <Field id="automation-name" label="Nome da automação">
-          <Input
-            id="automation-name"
-            value={draft.name}
-            onChange={(e) => change("name", e.target.value)}
-            required
-            maxLength={100}
-          />
-        </Field>
-        {(error || problem) && <Alert>{error || problem}</Alert>}
-        <section className="automation-step">
+        <p className="field-hint">{pipeline.name} · rascunho de simulação</p>
+        <div hidden={step !== 1}>
+          <Field id="automation-name" label="Nome da automação">
+            <Input
+              id="automation-name"
+              value={draft.name}
+              onChange={(e) => change("name", e.target.value)}
+              required
+              maxLength={100}
+            />
+          </Field>
+        </div>
+        {error && <Alert>{error}</Alert>}
+        <section className="automation-step" hidden={step !== 1}>
           <div className="automation-step-heading">
             <span>1</span>
-            <h3>Quando acontecer</h3>
+            <h2 data-step-title tabIndex={-1}>
+              Quando acontecer
+            </h2>
           </div>
           <Field id="automation-trigger" label="O que acontece">
             <Select
@@ -202,10 +267,9 @@ export default function AutomationEditor({
             </Field>
           )}
         </section>
-        <section className="automation-step">
+        <section className="automation-step" hidden={step !== 1}>
           <div className="automation-step-heading">
-            <span>2</span>
-            <h3>Se atender às condições</h3>
+            <h2>Condições opcionais</h2>
           </div>
           <p>Funil {pipeline.name}. Outras condições são opcionais.</p>
           <details
@@ -258,10 +322,11 @@ export default function AutomationEditor({
             </div>
           </details>
         </section>
-        <section className="automation-step">
+        <section className="automation-step" hidden={step !== 2}>
           <div className="automation-step-heading">
-            <span>3</span>
-            <h3>Fazer</h3>
+            <h2 data-step-title tabIndex={-1}>
+              Qual é o próximo passo?
+            </h2>
           </div>
           <Field id="automation-action" label="Ação da automação">
             <Select
@@ -345,7 +410,7 @@ export default function AutomationEditor({
                   <option value="">Personalizar nesta regra</option>
                   {draft.messageTemplate && !template && (
                     <option value={draft.messageTemplate.id}>
-                      Modelo indisponível — snapshot preservado
+                      Modelo indisponível — conteúdo preservado
                     </option>
                   )}
                   {templates
@@ -357,10 +422,14 @@ export default function AutomationEditor({
                     ))}
                 </Select>
               </Field>
+              <p className="field-hint">
+                Selecione conteúdo da biblioteca ou escreva uma mensagem somente
+                para esta regra.
+              </p>
               {draft.messageTemplate && (
                 <div className="info-note">
                   <p>
-                    Snapshot da revisão {draft.messageTemplate.revision}.{" "}
+                    Conteúdo da revisão {draft.messageTemplate.revision}.{" "}
                     {template
                       ? template.revision !== draft.messageTemplate.revision
                         ? "Há uma nova versão disponível."
@@ -406,44 +475,46 @@ export default function AutomationEditor({
                 </Select>
               </Field>
               <p className="field-hint">{recipient}</p>
-              {draft.action === "EMAIL" && (
-                <Field id="automation-subject" label="Assunto">
-                  <Input
-                    id="automation-subject"
-                    value={draft.subject}
+              <div hidden={!!draft.messageTemplate}>
+                {draft.action === "EMAIL" && (
+                  <Field id="automation-subject" label="Assunto">
+                    <Input
+                      id="automation-subject"
+                      value={draft.subject}
+                      readOnly={!!draft.messageTemplate}
+                      onChange={(e) => change("subject", e.target.value)}
+                      required
+                      maxLength={200}
+                    />
+                  </Field>
+                )}
+                <Field id="automation-message" label="Mensagem">
+                  <textarea
+                    id="automation-message"
+                    className="input automation-message"
+                    rows={4}
+                    value={draft.message}
                     readOnly={!!draft.messageTemplate}
-                    onChange={(e) => change("subject", e.target.value)}
+                    onChange={(e) => change("message", e.target.value)}
                     required
-                    maxLength={200}
+                    maxLength={4000}
                   />
                 </Field>
-              )}
-              <Field id="automation-message" label="Mensagem">
-                <textarea
-                  id="automation-message"
-                  className="input automation-message"
-                  rows={4}
-                  value={draft.message}
-                  readOnly={!!draft.messageTemplate}
-                  onChange={(e) => change("message", e.target.value)}
-                  required
-                  maxLength={4000}
-                />
-              </Field>
-              {!draft.messageTemplate && (
-                <div className="automation-variables">
-                  <span>Inserir:</span>
-                  {variables.map((v) => (
-                    <button
-                      type="button"
-                      key={v}
-                      onClick={() =>
-                        change("message", `${draft.message} {${v}}`)
-                      }
-                    >{`{${v}}`}</button>
-                  ))}
-                </div>
-              )}
+                {!draft.messageTemplate && (
+                  <div className="automation-variables">
+                    <span>Inserir:</span>
+                    {variables.map((v) => (
+                      <button
+                        type="button"
+                        key={v}
+                        onClick={() =>
+                          change("message", `${draft.message} {${v}}`)
+                        }
+                      >{`{${v}}`}</button>
+                    ))}
+                  </div>
+                )}
+              </div>
               <details>
                 <summary>Prazo de exemplo</summary>
                 <Field
@@ -475,51 +546,54 @@ export default function AutomationEditor({
             retry={() => assignees.refetch()}
           />
         )}
-        <div className="form-actions">
-          <Button type="submit" disabled={assignees.isPending}>
-            Salvar rascunho
-          </Button>
-          <Button variant="ghost" onClick={onCancel}>
-            Cancelar alterações
-          </Button>
-        </div>
       </form>
-      <aside className="automation-preview" aria-label="Prévia da automação">
-        <h2>Revisão e prévia</h2>
-        <Badge tone="amber">Sem efeitos reais</Badge>
-        <dl className="automation-readable-summary">
-          <dt>Quando</dt>
-          <dd>
-            {draft.trigger === "STAGE_CHANGED"
-              ? `Negócio entrar em ${stageName(draft.stageId)}`
-              : triggers[draft.trigger]}
-          </dd>
-          <dt>Se</dt>
-          <dd>
-            {[
-              pipeline.name,
-              draft.conditionStageId ? stageName(draft.conditionStageId) : "",
-              draft.ownerId ? ownerName(draft.ownerId) : "",
-              draft.minimum ? `Valor mínimo R$ ${draft.minimum}` : "",
-            ]
-              .filter(Boolean)
-              .join(" · ")}
-          </dd>
-          <dt>Fazer</dt>
-          <dd>
-            {actions[draft.action]}
-            {draft.action === "ASSIGN"
-              ? `: ${ownerName(draft.assigneeId)}`
-              : draft.action === "MOVE"
-                ? `: ${stageName(draft.targetStageId)}`
-                : ""}
-          </dd>
-        </dl>
+      <aside
+        hidden={step === 1}
+        className="automation-preview"
+        aria-label="Prévia da automação"
+      >
+        <h2 data-step-title tabIndex={-1}>
+          {step === 2 ? "Prévia da mensagem" : "Revisão e prévia"}
+        </h2>
+        <div hidden={step !== 3}>
+          <Badge tone="amber">Sem efeitos reais</Badge>
+          <dl className="automation-readable-summary">
+            <dt>Quando</dt>
+            <dd>
+              {draft.trigger === "STAGE_CHANGED"
+                ? `Negócio entrar em ${stageName(draft.stageId)}`
+                : triggers[draft.trigger]}
+            </dd>
+            <dt>Se</dt>
+            <dd>
+              {[
+                pipeline.name,
+                draft.conditionStageId ? stageName(draft.conditionStageId) : "",
+                draft.ownerId ? ownerName(draft.ownerId) : "",
+                draft.minimum ? `Valor mínimo R$ ${draft.minimum}` : "",
+              ]
+                .filter(Boolean)
+                .join(" · ")}
+            </dd>
+            <dt>Fazer</dt>
+            <dd>
+              {actions[draft.action]}
+              {draft.action === "ASSIGN"
+                ? `: ${ownerName(draft.assigneeId)}`
+                : draft.action === "MOVE"
+                  ? `: ${stageName(draft.targetStageId)}`
+                  : ""}
+            </dd>
+          </dl>
+        </div>
         <Field id="automation-preview-record" label="Dados da prévia">
           <Select
             id="automation-preview-record"
             value={previewId}
-            onChange={(e) => setPreviewId(e.target.value)}
+            onChange={(e) => {
+              setPreviewId(e.target.value);
+              setSimulation("");
+            }}
           >
             <option value="">Exemplo fictício · Marina / Aurora</option>
             {records.data?.items.map((d) => (
@@ -547,30 +621,58 @@ export default function AutomationEditor({
         ) : (
           <p>{renderMessage(draft.taskTitle, sample).value}</p>
         )}
-        <Button
-          variant="secondary"
-          disabled={assignees.isPending}
-          onClick={test}
-        >
-          {["EMAIL", "WHATSAPP"].includes(draft.action)
-            ? "Simular envio"
-            : "Testar com prévia"}
-        </Button>
-        {simulation && (
-          <p className="automation-simulation" role="status">
-            {simulation}
-          </p>
-        )}
-        <details className="automation-test-history">
-          <summary>Resultados dos testes ({history.length})</summary>
-          {history.map((h) => (
-            <div key={h.id}>
-              <strong>{h.name}</strong>
-              <p>{h.result}</p>
-            </div>
-          ))}
-        </details>
+        <div hidden={step !== 3}>
+          {problem && <Alert>{problem}</Alert>}
+          <Button
+            variant="secondary"
+            disabled={assignees.isPending}
+            onClick={test}
+          >
+            {["EMAIL", "WHATSAPP"].includes(draft.action)
+              ? "Simular envio"
+              : "Testar com prévia"}
+          </Button>
+          {simulation && (
+            <p className="automation-simulation" role="status">
+              {simulation}
+            </p>
+          )}
+          <details className="automation-test-history">
+            <summary>Resultados dos testes ({history.length})</summary>
+            {history.map((h) => (
+              <div key={h.id}>
+                <strong>{h.name}</strong>
+                <p>{h.result}</p>
+              </div>
+            ))}
+          </details>
+        </div>
       </aside>
+      <div className="automation-editor-actions">
+        <Button variant="ghost" onClick={onCancel}>
+          Cancelar alterações
+        </Button>
+        <div>
+          {step > 1 && (
+            <Button variant="secondary" onClick={() => move(step - 1)}>
+              Voltar ao passo anterior
+            </Button>
+          )}
+          {step < 3 ? (
+            <Button onClick={() => move(step + 1)}>Continuar</Button>
+          ) : (
+            <Button
+              disabled={assignees.isPending || !!problem}
+              onClick={() => {
+                if (problem) setError(problem);
+                else onSave();
+              }}
+            >
+              Salvar rascunho
+            </Button>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

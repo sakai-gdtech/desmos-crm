@@ -1,0 +1,88 @@
+{
+  "measuredAt": "2026-10-02T01:06:12.127Z",
+  "method": "Chrome headless, production Webpack, same Mac/API/account, 1440x1000, no CPU/network throttling. In-page performance.now: click until editor input exists plus two rAF; input event plus two rAF. 1 cold + 5 warm opens, 5 input samples. These are local lab latencies, not field INP/FPS or user data. gzip counts computed per fetched/output asset at level 9; not observed wire compression.",
+  "builds": {
+    "base": {
+      "allOutput": {
+        "jsRaw": 1459418,
+        "jsGzip": 448365,
+        "cssRaw": 71002,
+        "cssGzip": 13855
+      },
+      "initialJS": {
+        "raw": 839492,
+        "gzip": 252499,
+        "count": 16
+      },
+      "initialCSS": {
+        "raw": 71002,
+        "gzip": 13855,
+        "count": 1
+      },
+      "afterEditorJS": {
+        "raw": 869234,
+        "gzip": 261908,
+        "count": 19
+      },
+      "openMs": [
+        336.09999999403954,
+        26.799999997019768,
+        27.69999998807907,
+        28.700000002980232,
+        29.899999991059303,
+        28.200000002980232
+      ],
+      "coldOpenMs": 336.09999999403954,
+      "warmOpenMedianMs": 28.200000002980232,
+      "inputMs": [
+        34,
+        30.69999998807907,
+        32.599999994039536,
+        33.400000005960464,
+        32
+      ],
+      "inputMedianMs": 32.599999994039536
+    },
+    "final": {
+      "allOutput": {
+        "jsRaw": 1478844,
+        "jsGzip": 454909,
+        "cssRaw": 78627,
+        "cssGzip": 15145
+      },
+      "initialJS": {
+        "raw": 868756,
+        "gzip": 261986,
+        "count": 19
+      },
+      "initialCSS": {
+        "raw": 78627,
+        "gzip": 15145,
+        "count": 1
+      },
+      "afterEditorJS": {
+        "raw": 882767,
+        "gzip": 266331,
+        "count": 20
+      },
+      "openMs": [
+        331.70000000298023,
+        31.5,
+        29.100000008940697,
+        30.600000008940697,
+        28.299999997019768,
+        28.200000002980232
+      ],
+      "coldOpenMs": 331.70000000298023,
+      "warmOpenMedianMs": 29.100000008940697,
+      "inputMs": [
+        32.5,
+        32.6000000089407,
+        31.700000002980232,
+        31.700000002980232,
+        32.70000000298023
+      ],
+      "inputMedianMs": 32.5
+    }
+  }
+}
