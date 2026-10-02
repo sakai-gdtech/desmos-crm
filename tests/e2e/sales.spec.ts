@@ -42,10 +42,10 @@ test("pipeline pela interface, oportunidade, Kanban, ganho/perda, tarefas e foll
   test.setTimeout(90000);
   await account(page, baseURL!);
   await page.goto("/sales/pipelines");
-  await page.getByRole("link", { name: "Novo pipeline", exact: true }).click();
-  await page.getByLabel("Nome do pipeline", { exact: true }).fill("Comercial");
+  await page.getByRole("link", { name: "Novo funil", exact: true }).click();
+  await page.getByLabel("Nome do funil", { exact: true }).fill("Comercial");
   await page
-    .getByRole("button", { name: "Salvar pipeline", exact: true })
+    .getByRole("button", { name: "Salvar funil", exact: true })
     .click();
   await expect(page).toHaveURL("/sales/pipelines");
   const p = (await (await page.request.get("/api/sales/pipelines")).json())

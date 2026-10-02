@@ -2,6 +2,7 @@
 import { useEffect, useId, useRef } from "react";
 import { X } from "lucide-react";
 import { DealDetail } from "./deals";
+import { usePanelMotion } from "@/components/ui/motion";
 export function DealDrawer({
   id,
   onClose,
@@ -30,6 +31,7 @@ export function DealDrawer({
       document.body.style.overflow = previous;
     };
   }, [id]);
+  usePanelMotion(ref, !!id);
   const close = () => {
     ref.current?.close();
     if (returnFocus.current?.isConnected)

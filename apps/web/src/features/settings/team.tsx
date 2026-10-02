@@ -1,4 +1,5 @@
 "use client";
+import { MotionCollection } from "@/components/ui/motion";
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
@@ -233,7 +234,12 @@ function TeamContent({
                   <th className="align-right">Acesso</th>
                 </tr>
               </thead>
-              <tbody>
+              <MotionCollection
+                as="tbody"
+                motionKey={members.data.items
+                  .map((m) => `${m.id}:${m.status}:${m.role}`)
+                  .join("|")}
+              >
                 {members.data.items.map((member) => (
                   <tr key={member.id}>
                     <td>
@@ -310,7 +316,7 @@ function TeamContent({
                     </td>
                   </tr>
                 ))}
-              </tbody>
+              </MotionCollection>
             </table>
           </div>
         )}
@@ -346,7 +352,12 @@ function TeamContent({
                   <th>Válido até</th>
                 </tr>
               </thead>
-              <tbody>
+              <MotionCollection
+                as="tbody"
+                motionKey={invitations.data.items
+                  .map((i) => `${i.id}:${i.status}`)
+                  .join("|")}
+              >
                 {invitations.data.items.map((invitation) => (
                   <tr key={invitation.id}>
                     <td>{invitation.email}</td>
@@ -373,7 +384,7 @@ function TeamContent({
                     </td>
                   </tr>
                 ))}
-              </tbody>
+              </MotionCollection>
             </table>
           </div>
         )}

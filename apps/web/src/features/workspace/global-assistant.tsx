@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Sparkles, X } from "lucide-react";
 import { Alert } from "@/components/ui/primitives";
+import { usePanelMotion } from "@/components/ui/motion";
 import { api } from "@/lib/api";
 import type { SessionContext } from "@/lib/types";
 import type { Pipeline } from "@/features/sales/types";
@@ -38,17 +39,21 @@ export function GlobalAssistant({ session }: { session: SessionContext }) {
   });
   const context = pathname.includes("automations")
     ? "Automações"
-    : pathname.includes("agenda")
-      ? "Agenda"
-      : pathname.includes("tasks")
-        ? "Tarefas"
-        : pathname.includes("crm")
-          ? "Clientes"
-          : pathname.includes("sales")
-            ? "Negócios"
-            : pathname.includes("settings")
-              ? "Configurações"
-              : "Visão geral";
+    : pathname.includes("pipelines")
+      ? "Funis e etapas"
+      : pathname.includes("activities")
+        ? "Atividades"
+        : pathname.includes("agenda")
+          ? "Agenda"
+          : pathname.includes("tasks")
+            ? "Tarefas"
+            : pathname.includes("crm")
+              ? "Clientes"
+              : pathname.includes("sales")
+                ? "Negócios"
+                : pathname.includes("settings")
+                  ? "Configurações"
+                  : "Visão geral";
   useEffect(() => {
     if (!open) return;
     const read = () => {
@@ -91,6 +96,7 @@ export function GlobalAssistant({ session }: { session: SessionContext }) {
       window.removeEventListener("keydown", escape);
     };
   }, [open, canDraft, session.tenant.id]);
+  usePanelMotion(panel, open);
   function close() {
     setOpen(false);
     trigger.current?.focus({ preventScroll: true });
@@ -130,6 +136,10 @@ export function GlobalAssistant({ session }: { session: SessionContext }) {
             >
               <X size={20} />
             </button>
+          </div>
+          <div className="assistant-status">
+            <span />
+            Demonstração local · sem envio
           </div>
           <div className="global-assistant-body">
             {error && <Alert>{error}</Alert>}

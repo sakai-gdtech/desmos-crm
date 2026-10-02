@@ -1,8 +1,10 @@
 "use client";
 import Link from "next/link";
+import { SalesNavigation } from "./navigation";
 import { DealDrawer } from "./deal-drawer";
 import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { useLayoutMotion } from "@/components/ui/motion";
 import { useMutation, useQuery, keepPreviousData } from "@tanstack/react-query";
 import {
   ArrowRightLeft,
@@ -79,6 +81,16 @@ export function SalesBoard() {
       await invalidate();
     },
   });
+  const boardRef = useRef<HTMLDivElement>(null);
+  const captureMove = useLayoutMotion(
+    boardRef,
+    result.data?.columns
+      .map(
+        (column) =>
+          `${column.stage.id}:${column.items.map((deal) => deal.id).join(",")}`,
+      )
+      .join("|") ?? "",
+  );
   if (!session) return null;
   if (!session.permissions.includes("deals.view")) return <PermissionNotice />;
   const canUpdate = session.permissions.includes("deals.update");
@@ -88,6 +100,7 @@ export function SalesBoard() {
     setDragging(null);
     setOver("");
     if (stageId !== deal.stageId) {
+      captureMove();
       setNotice("");
       move.reset();
       move.mutate({ deal, stageId });
@@ -101,10 +114,6 @@ export function SalesBoard() {
         description="Acompanhe cada negociação e mantenha o próximo passo em vista."
         action={
           <div className="crm-detail-actions">
-            <Link className="btn btn-secondary" href="/sales/deals">
-              <List size={15} />
-              Lista
-            </Link>
             {canCreate && pipelineId && (
               <Link
                 className="btn btn-primary"
@@ -117,6 +126,7 @@ export function SalesBoard() {
           </div>
         }
       />
+      <SalesNavigation pipelineId={pipelineId} canManage={canManage} />
       {pipelines.isPending ? (
         <LoadingPage />
       ) : pipelines.isError ? (
@@ -127,13 +137,13 @@ export function SalesBoard() {
           title="Organize seu primeiro funil"
           description={
             canManage
-              ? "Crie um pipeline para começar a acompanhar as negociações."
+              ? "Crie um funil para começar a acompanhar as negociações."
               : "Peça ao administrador para configurar o primeiro pipeline."
           }
           action={
             canManage && (
               <Link className="btn btn-primary" href="/sales/pipelines/new">
-                Criar pipeline
+                Criar funil
               </Link>
             )
           }
@@ -141,7 +151,7 @@ export function SalesBoard() {
       ) : (
         <>
           <div className="sales-board-toolbar">
-            <Field id="board-pipeline" label="Pipeline">
+            <Field id="board-pipeline" label="Funil">
               <Select
                 id="board-pipeline"
                 value={pipelineId}
@@ -196,11 +206,11 @@ export function SalesBoard() {
             </Field>
             {canManage && (
               <Link
-                href={`/sales/pipelines/${pipelineId}/edit`}
+                href={`/sales/pipelines/${pipelineId}/edit?from=board`}
                 className="btn btn-ghost"
               >
                 <Settings2 size={16} />
-                Configurar
+                Editar etapas
               </Link>
             )}
           </div>
@@ -225,6 +235,7 @@ export function SalesBoard() {
                   <span>Deslize o quadro para ver todas as etapas.</span>
                 </p>
                 <div
+                  ref={boardRef}
                   className="sales-kanban"
                   aria-label="Quadro de oportunidades"
                 >
@@ -271,6 +282,7 @@ export function SalesBoard() {
                       <div className="sales-column-body">
                         {column.items.map((deal) => (
                           <article
+                            data-motion-key={deal.id}
                             key={deal.id}
                             className={`sales-deal-card ${dragging?.id === deal.id ? "is-dragging" : ""}`}
                             draggable={

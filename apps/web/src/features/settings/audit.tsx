@@ -1,4 +1,5 @@
 "use client";
+import { MotionCollection } from "@/components/ui/motion";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import {
@@ -96,7 +97,10 @@ function AuditContent({
                 <th>Data e hora</th>
               </tr>
             </thead>
-            <tbody>
+            <MotionCollection
+              as="tbody"
+              motionKey={visible.map((item) => item.id).join("|")}
+            >
               {visible.map((event) => (
                 <tr key={event.id}>
                   <td>
@@ -120,7 +124,7 @@ function AuditContent({
                   </td>
                 </tr>
               ))}
-            </tbody>
+            </MotionCollection>
           </table>
         </div>
       )}

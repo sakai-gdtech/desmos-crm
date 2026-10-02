@@ -1,5 +1,7 @@
 "use client";
+import { MotionCollection } from "@/components/ui/motion";
 import Link from "next/link";
+import { WorkNavigation } from "./navigation";
 import { useMemo, useRef, useState } from "react";
 import { useInfiniteQuery, useMutation } from "@tanstack/react-query";
 import {
@@ -178,6 +180,7 @@ export function SalesAgenda() {
           </div>
         }
       />
+      <WorkNavigation />
       <div className="agenda-controls">
         <div className="crm-detail-actions">
           <Button
@@ -307,8 +310,9 @@ export function SalesAgenda() {
               description="Escolha outra semana, consulte atrasadas ou crie o próximo passo."
             />
           )}
-          <div
+          <MotionCollection
             className={`agenda-days ${view === "week" && bucket === "period" ? "agenda-week" : "agenda-list"}`}
+            motionKey={`${start}:${view}:${bucket}:${items.map((item) => `${item.id}:${item.status}`).join("|")}`}
           >
             {groups.map((day) => (
               <section key={day} aria-label={label(day)}>
@@ -366,7 +370,7 @@ export function SalesAgenda() {
                   ))}
               </section>
             ))}
-          </div>
+          </MotionCollection>
           {more && (
             <Button
               variant="secondary"

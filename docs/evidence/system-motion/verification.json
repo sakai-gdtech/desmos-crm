@@ -1,0 +1,2876 @@
+{
+  "capturedAt": "2026-10-02T02:24:11.842Z",
+  "base": "http://localhost:3017",
+  "method": "Local development Chrome, fictional tenant; stable screenshots, video of real interactions, Motion.dev rendered frames and native animation records. Screenshot does not prove motion. No physical phone or field metrics.",
+  "errors": [],
+  "shots": [
+    {
+      "name": "desktop-workspace",
+      "url": "/workspace",
+      "overflow": false,
+      "title": "Visão geral",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "name": "desktop-onboarding",
+      "url": "/onboarding",
+      "overflow": false,
+      "title": "Configure sua empresa.",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "name": "desktop-leads",
+      "url": "/crm/leads",
+      "overflow": false,
+      "title": "Leads",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "name": "desktop-contacts",
+      "url": "/crm/contacts",
+      "overflow": false,
+      "title": "Contatos",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "name": "desktop-companies",
+      "url": "/crm/companies",
+      "overflow": false,
+      "title": "Empresas clientes",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "name": "desktop-lead-detail",
+      "url": "/crm/leads/b4a8ee64-a7ac-4b1a-9f7e-b26a53de7fc1",
+      "overflow": false,
+      "title": "Carolina Andrade",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "name": "desktop-lead-form",
+      "url": "/crm/leads/b4a8ee64-a7ac-4b1a-9f7e-b26a53de7fc1/edit",
+      "overflow": false,
+      "title": "Editar lead",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "name": "desktop-tags",
+      "url": "/crm/tags",
+      "overflow": false,
+      "title": "Tags",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "name": "desktop-trash",
+      "url": "/crm/trash",
+      "overflow": false,
+      "title": "Lixeira",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "name": "desktop-board",
+      "url": "/sales/board",
+      "overflow": false,
+      "title": "Negócios",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "name": "desktop-deals",
+      "url": "/sales/deals",
+      "overflow": false,
+      "title": "Negócios",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "confirmedAt": "2026-10-02T02:29:35.685Z"
+    },
+    {
+      "name": "desktop-deal-detail",
+      "url": "/sales/deals/70ee17fa-b833-4ec8-abc4-5ab672d888fc",
+      "overflow": false,
+      "title": "Projeto Aurora",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "name": "desktop-deal-form",
+      "url": "/sales/deals/70ee17fa-b833-4ec8-abc4-5ab672d888fc/edit",
+      "overflow": false,
+      "title": "Editar oportunidade",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "name": "desktop-proposal",
+      "url": "/sales/deals/70ee17fa-b833-4ec8-abc4-5ab672d888fc/proposal",
+      "overflow": false,
+      "title": "Proposta comercial",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "name": "desktop-pipelines",
+      "url": "/sales/pipelines",
+      "overflow": false,
+      "title": "Funis e etapas",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "name": "desktop-stages",
+      "url": "/sales/pipelines/95b393aa-97b3-4aea-9fa0-4396132877e9/edit",
+      "overflow": false,
+      "title": "Editar funil",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "name": "desktop-tasks",
+      "url": "/sales/tasks",
+      "overflow": false,
+      "title": "Tarefas",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "name": "desktop-task-detail",
+      "url": "/sales/tasks/71a05d4c-3c98-4834-93ad-52ab81619810",
+      "overflow": false,
+      "title": "Revisar proposta da Aurora",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "name": "desktop-task-form",
+      "url": "/sales/tasks/71a05d4c-3c98-4834-93ad-52ab81619810/edit",
+      "overflow": false,
+      "title": "Editar tarefa",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "name": "desktop-activities",
+      "url": "/sales/activities",
+      "overflow": false,
+      "title": "Atividades",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "name": "desktop-activity-form",
+      "url": "/sales/activities/96016cd6-b867-4b43-b2ef-b4f06d15eebe/edit",
+      "overflow": false,
+      "title": "Editar atividade",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "name": "desktop-agenda",
+      "url": "/sales/agenda",
+      "overflow": false,
+      "title": "Agenda",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "name": "desktop-automations",
+      "url": "/sales/automations",
+      "overflow": false,
+      "title": "Automações de vendas",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "name": "desktop-settings-company",
+      "url": "/settings/company",
+      "overflow": false,
+      "title": "Sua empresa",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "name": "desktop-settings-team",
+      "url": "/settings/team",
+      "overflow": false,
+      "title": "Equipe e acessos",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "name": "desktop-settings-profile",
+      "url": "/settings/profile",
+      "overflow": false,
+      "title": "Meu perfil",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "name": "desktop-settings-sessions",
+      "url": "/settings/sessions",
+      "overflow": false,
+      "title": "Dispositivos e sessões",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "name": "desktop-settings-audit",
+      "url": "/settings/audit",
+      "overflow": false,
+      "title": "Registro de atividades",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "name": "desktop-deal-drawer",
+      "url": "/workspace",
+      "overflow": false,
+      "title": "Projeto Aurora",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "name": "desktop-automations",
+      "url": "/sales/automations",
+      "overflow": false,
+      "title": "Automações de vendas",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "name": "desktop-message-form",
+      "url": "/sales/automations",
+      "overflow": false,
+      "title": "Biblioteca de mensagens",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "name": "desktop-library",
+      "url": "/sales/automations",
+      "overflow": false,
+      "title": "Biblioteca de mensagens",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "name": "desktop-automation-action",
+      "url": "/sales/automations",
+      "overflow": false,
+      "title": "Configurar automação",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "name": "desktop-automation-review",
+      "url": "/sales/automations",
+      "overflow": false,
+      "title": "Configurar automação",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "name": "desktop-assistant",
+      "url": "/sales/automations",
+      "overflow": false,
+      "title": "Automações de vendas",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "confirmedAt": "2026-10-02T02:29:33.566Z"
+    },
+    {
+      "name": "desktop-assistant-draft",
+      "url": "/sales/automations",
+      "overflow": false,
+      "title": "Automações de vendas",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "confirmedAt": "2026-10-02T02:29:34.296Z"
+    },
+    {
+      "name": "desktop-assistant-agenda",
+      "url": "/sales/agenda",
+      "overflow": false,
+      "title": "Agenda",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "confirmedAt": "2026-10-02T02:29:35.148Z"
+    },
+    {
+      "name": "desktop-leads",
+      "url": "/crm/leads",
+      "overflow": false,
+      "title": "Leads",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "name": "desktop-settings-company",
+      "url": "/settings/company",
+      "overflow": false,
+      "title": "Sua empresa",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "name": "mobile-workspace",
+      "url": "/workspace",
+      "overflow": false,
+      "title": "Visão geral",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "mobile-onboarding",
+      "url": "/onboarding",
+      "overflow": false,
+      "title": "Configure sua empresa.",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "mobile-leads",
+      "url": "/crm/leads",
+      "overflow": false,
+      "title": "Leads",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "mobile-contacts",
+      "url": "/crm/contacts",
+      "overflow": false,
+      "title": "Contatos",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "mobile-companies",
+      "url": "/crm/companies",
+      "overflow": false,
+      "title": "Empresas clientes",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "mobile-lead-detail",
+      "url": "/crm/leads/b4a8ee64-a7ac-4b1a-9f7e-b26a53de7fc1",
+      "overflow": false,
+      "title": "Carolina Andrade",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "mobile-lead-form",
+      "url": "/crm/leads/b4a8ee64-a7ac-4b1a-9f7e-b26a53de7fc1/edit",
+      "overflow": false,
+      "title": "Editar lead",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "mobile-tags",
+      "url": "/crm/tags",
+      "overflow": false,
+      "title": "Tags",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "mobile-trash",
+      "url": "/crm/trash",
+      "overflow": false,
+      "title": "Lixeira",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "mobile-board",
+      "url": "/sales/board",
+      "overflow": false,
+      "title": "Negócios",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "mobile-deals",
+      "url": "/sales/deals",
+      "overflow": false,
+      "title": "Negócios",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "confirmedAt": "2026-10-02T02:29:35.765Z"
+    },
+    {
+      "name": "mobile-deal-detail",
+      "url": "/sales/deals/70ee17fa-b833-4ec8-abc4-5ab672d888fc",
+      "overflow": false,
+      "title": "Projeto Aurora",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "mobile-deal-form",
+      "url": "/sales/deals/70ee17fa-b833-4ec8-abc4-5ab672d888fc/edit",
+      "overflow": false,
+      "title": "Editar oportunidade",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "mobile-proposal",
+      "url": "/sales/deals/70ee17fa-b833-4ec8-abc4-5ab672d888fc/proposal",
+      "overflow": false,
+      "title": "Proposta comercial",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "mobile-pipelines",
+      "url": "/sales/pipelines",
+      "overflow": false,
+      "title": "Funis e etapas",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "mobile-stages",
+      "url": "/sales/pipelines/95b393aa-97b3-4aea-9fa0-4396132877e9/edit",
+      "overflow": false,
+      "title": "Editar funil",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "mobile-tasks",
+      "url": "/sales/tasks",
+      "overflow": false,
+      "title": "Tarefas",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "mobile-task-detail",
+      "url": "/sales/tasks/71a05d4c-3c98-4834-93ad-52ab81619810",
+      "overflow": false,
+      "title": "Revisar proposta da Aurora",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "mobile-task-form",
+      "url": "/sales/tasks/71a05d4c-3c98-4834-93ad-52ab81619810/edit",
+      "overflow": false,
+      "title": "Editar tarefa",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "mobile-activities",
+      "url": "/sales/activities",
+      "overflow": false,
+      "title": "Atividades",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "mobile-activity-form",
+      "url": "/sales/activities/96016cd6-b867-4b43-b2ef-b4f06d15eebe/edit",
+      "overflow": false,
+      "title": "Editar atividade",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "mobile-agenda",
+      "url": "/sales/agenda",
+      "overflow": false,
+      "title": "Agenda",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "mobile-automations",
+      "url": "/sales/automations",
+      "overflow": false,
+      "title": "Automações de vendas",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "mobile-settings-company",
+      "url": "/settings/company",
+      "overflow": false,
+      "title": "Sua empresa",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "mobile-settings-team",
+      "url": "/settings/team",
+      "overflow": false,
+      "title": "Equipe e acessos",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "mobile-settings-profile",
+      "url": "/settings/profile",
+      "overflow": false,
+      "title": "Meu perfil",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "mobile-settings-sessions",
+      "url": "/settings/sessions",
+      "overflow": false,
+      "title": "Dispositivos e sessões",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "mobile-settings-audit",
+      "url": "/settings/audit",
+      "overflow": false,
+      "title": "Registro de atividades",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "mobile-library",
+      "url": "/sales/automations",
+      "overflow": false,
+      "title": "Biblioteca de mensagens",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "mobile-assistant",
+      "url": "/sales/automations",
+      "overflow": false,
+      "title": "Automações de vendas",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "confirmedAt": "2026-10-02T02:29:36.981Z"
+    },
+    {
+      "name": "mobile-assistant-draft",
+      "url": "/sales/automations",
+      "overflow": false,
+      "title": "Automações de vendas",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "confirmedAt": "2026-10-02T02:29:37.607Z"
+    },
+    {
+      "name": "mobile-navigation",
+      "url": "/sales/automations",
+      "overflow": false,
+      "title": "Biblioteca de mensagens",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "mobile-dark-workspace",
+      "url": "/workspace",
+      "overflow": false,
+      "title": "Visão geral",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "mobile-dark-leads",
+      "url": "/crm/leads",
+      "overflow": false,
+      "title": "Leads",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "mobile-dark-board",
+      "url": "/sales/board",
+      "overflow": false,
+      "title": "Negócios",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "mobile-dark-tasks",
+      "url": "/sales/tasks",
+      "overflow": false,
+      "title": "Tarefas",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "mobile-dark-agenda",
+      "url": "/sales/agenda",
+      "overflow": false,
+      "title": "Agenda",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "mobile-dark-automations",
+      "url": "/sales/automations",
+      "overflow": false,
+      "title": "Automações de vendas",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "mobile-dark-settings-company",
+      "url": "/settings/company",
+      "overflow": false,
+      "title": "Sua empresa",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "mobile-dark-assistant",
+      "url": "/sales/automations",
+      "overflow": false,
+      "title": "Automações de vendas",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "confirmedAt": "2026-10-02T02:29:38.374Z"
+    },
+    {
+      "name": "desktop-auth-login",
+      "url": "/login",
+      "overflow": false,
+      "title": "Entre no seu\nespaço de trabalho.",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "name": "desktop-auth-register",
+      "url": "/register",
+      "overflow": false,
+      "title": "Crie a conta\nda sua empresa.",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "name": "desktop-auth-forgot-password",
+      "url": "/forgot-password",
+      "overflow": false,
+      "title": "Vamos recuperar\nseu acesso.",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "name": "desktop-auth-reset-password",
+      "url": "/reset-password",
+      "overflow": false,
+      "title": "Defina sua\nnova senha.",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "name": "desktop-auth-verify-email",
+      "url": "/verify-email",
+      "overflow": false,
+      "title": "Confirme que\neste email é seu.",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "name": "desktop-auth-accept-invitation",
+      "url": "/accept-invitation",
+      "overflow": false,
+      "title": "Junte-se\nà sua equipe.",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "name": "desktop-auth-login",
+      "url": "/login",
+      "overflow": false,
+      "title": "Entre no seu\nespaço de trabalho.",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "name": "mobile-auth-login",
+      "url": "/login",
+      "overflow": false,
+      "title": "Entre no seu\nespaço de trabalho.",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "mobile-auth-register",
+      "url": "/register",
+      "overflow": false,
+      "title": "Crie a conta\nda sua empresa.",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "mobile-auth-forgot-password",
+      "url": "/forgot-password",
+      "overflow": false,
+      "title": "Vamos recuperar\nseu acesso.",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "mobile-auth-reset-password",
+      "url": "/reset-password",
+      "overflow": false,
+      "title": "Defina sua\nnova senha.",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "mobile-auth-verify-email",
+      "url": "/verify-email",
+      "overflow": false,
+      "title": "Confirme que\neste email é seu.",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "name": "mobile-auth-accept-invitation",
+      "url": "/accept-invitation",
+      "overflow": false,
+      "title": "Junte-se\nà sua equipe.",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    }
+  ],
+  "audits": [
+    {
+      "name": "board",
+      "violations": []
+    },
+    {
+      "name": "automations",
+      "violations": []
+    },
+    {
+      "name": "assistant",
+      "violations": []
+    },
+    {
+      "name": "assistant-draft",
+      "violations": []
+    },
+    {
+      "name": "agenda",
+      "violations": []
+    },
+    {
+      "name": "crm",
+      "violations": []
+    },
+    {
+      "name": "settings-company",
+      "violations": []
+    },
+    {
+      "name": "assistant-mobile",
+      "violations": []
+    },
+    {
+      "name": "dark-mobile-settings",
+      "violations": []
+    },
+    {
+      "name": "dark-mobile-assistant",
+      "violations": []
+    },
+    {
+      "name": "auth-login",
+      "violations": []
+    },
+    {
+      "name": "mobile-deals",
+      "violations": []
+    },
+    {
+      "name": "assistant-draft-mobile",
+      "violations": []
+    }
+  ],
+  "motion": {
+    "beforeReduced": 1,
+    "afterReduced": 0,
+    "board": [
+      {
+        "target": null,
+        "frames": {
+          "transform": [
+            "translateX(20px)",
+            "translate(0, 0)"
+          ]
+        },
+        "duration": 280,
+        "at": 256.6000000089407,
+        "canceled": true,
+        "completed": false
+      },
+      {
+        "target": null,
+        "frames": {
+          "transform": [
+            "translateY(12px)",
+            "translateY(0)"
+          ]
+        },
+        "duration": 240,
+        "at": 257.1000000089407,
+        "canceled": true,
+        "completed": false
+      },
+      {
+        "target": null,
+        "frames": {
+          "transform": [
+            "translateY(12px)",
+            "translateY(0)"
+          ]
+        },
+        "duration": 240,
+        "at": 257.1000000089407,
+        "canceled": true,
+        "completed": false
+      },
+      {
+        "target": null,
+        "frames": {
+          "transform": [
+            "translateY(12px)",
+            "translateY(0)"
+          ]
+        },
+        "duration": 240,
+        "at": 257.20000000298023,
+        "canceled": true,
+        "completed": false
+      },
+      {
+        "target": null,
+        "frames": {
+          "transform": [
+            "translateX(20px)",
+            "translate(0, 0)"
+          ]
+        },
+        "duration": 280,
+        "at": 257.6000000089407,
+        "canceled": true,
+        "completed": true
+      },
+      {
+        "target": null,
+        "frames": {
+          "transform": [
+            "translateY(12px)",
+            "translateY(0)"
+          ]
+        },
+        "duration": 240,
+        "at": 257.70000000298023,
+        "canceled": true,
+        "completed": true
+      },
+      {
+        "target": null,
+        "frames": {
+          "transform": [
+            "translateY(12px)",
+            "translateY(0)"
+          ]
+        },
+        "duration": 240,
+        "at": 257.79999999701977,
+        "canceled": true,
+        "completed": true
+      },
+      {
+        "target": null,
+        "frames": {
+          "transform": [
+            "translateY(12px)",
+            "translateY(0)"
+          ]
+        },
+        "duration": 240,
+        "at": 257.79999999701977,
+        "canceled": true,
+        "completed": true
+      },
+      {
+        "target": null,
+        "frames": {
+          "opacity": 0
+        },
+        "at": 533.4000000059605,
+        "canceled": false,
+        "completed": true
+      },
+      {
+        "target": null,
+        "frames": {
+          "transform": [
+            "translateX(-48px)",
+            "translate(0, 0)"
+          ]
+        },
+        "duration": 350,
+        "at": 533.7999999970198,
+        "canceled": true,
+        "completed": true
+      },
+      {
+        "target": null,
+        "frames": {
+          "transform": [
+            "translateX(20px)",
+            "translate(0, 0)"
+          ]
+        },
+        "duration": 280,
+        "at": 568.4000000059605,
+        "canceled": true,
+        "completed": false
+      },
+      {
+        "target": null,
+        "frames": {
+          "transform": [
+            "translateX(20px)",
+            "translate(0, 0)"
+          ]
+        },
+        "duration": 280,
+        "at": 570.7000000029802,
+        "canceled": true,
+        "completed": true
+      },
+      {
+        "target": null,
+        "frames": {
+          "transform": [
+            "translateX(20px)",
+            "translate(0, 0)"
+          ]
+        },
+        "duration": 280,
+        "at": 1100.9000000059605,
+        "canceled": true,
+        "completed": false
+      },
+      {
+        "target": null,
+        "frames": {
+          "transform": [
+            "translateX(20px)",
+            "translate(0, 0)"
+          ]
+        },
+        "duration": 280,
+        "at": 1104.2000000029802,
+        "canceled": true,
+        "completed": true
+      },
+      {
+        "target": null,
+        "frames": {
+          "transform": [
+            "translateX(10px)",
+            "translate(0, 0)"
+          ]
+        },
+        "duration": 220,
+        "at": 1243.1000000089407,
+        "canceled": true,
+        "completed": false
+      },
+      {
+        "target": null,
+        "frames": {
+          "transform": [
+            "translateX(10px)",
+            "translate(0, 0)"
+          ]
+        },
+        "duration": 220,
+        "at": 1243.4000000059605,
+        "canceled": true,
+        "completed": true
+      },
+      {
+        "target": "70ee17fa-b833-4ec8-abc4-5ab672d888fc",
+        "frames": {
+          "transform": [
+            "translate(-308px, 274.59375px)",
+            "translate(0, 0)"
+          ]
+        },
+        "duration": 350,
+        "at": 1266.9000000059605,
+        "canceled": false,
+        "completed": true
+      },
+      {
+        "target": "bb0b5fe9-276c-4668-9d3f-1664fdf9aef8",
+        "frames": {
+          "transform": [
+            "translate(0px, -274.59375px)",
+            "translate(0, 0)"
+          ]
+        },
+        "duration": 350,
+        "at": 1267,
+        "canceled": false,
+        "completed": true
+      }
+    ],
+    "stages": [
+      {
+        "target": null,
+        "frames": {
+          "transform": [
+            "translateX(20px)",
+            "translate(0, 0)"
+          ]
+        },
+        "duration": 280,
+        "at": 122.70000000298023,
+        "canceled": true,
+        "completed": false
+      },
+      {
+        "target": null,
+        "frames": {
+          "transform": [
+            "translateX(20px)",
+            "translate(0, 0)"
+          ]
+        },
+        "duration": 280,
+        "at": 123.20000000298023,
+        "canceled": true,
+        "completed": false
+      },
+      {
+        "target": null,
+        "frames": {
+          "opacity": 0
+        },
+        "at": 189.90000000596046,
+        "canceled": false,
+        "completed": true
+      },
+      {
+        "target": "f05db87f-14a5-44c8-9bec-56598babedc4",
+        "frames": {
+          "transform": [
+            "translate(0px, 127px)",
+            "translate(0, 0)"
+          ]
+        },
+        "duration": 350,
+        "at": 190,
+        "canceled": true,
+        "completed": false
+      },
+      {
+        "target": "98fbd6ae-fdb2-4262-937c-ad80308eb637",
+        "frames": {
+          "transform": [
+            "translate(0px, -127px)",
+            "translate(0, 0)"
+          ]
+        },
+        "duration": 350,
+        "at": 190.09999999403954,
+        "canceled": true,
+        "completed": false
+      }
+    ],
+    "rendered": [
+      {
+        "name": "kanban",
+        "frames": [
+          {
+            "at": 1193.6000000089407,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": "[data-motion-key=\"70ee17fa-b833-4ec8-abc4-5ab672d888fc\"]",
+                "transform": "none",
+                "x": 299,
+                "y": 832.46875
+              }
+            ]
+          },
+          {
+            "at": 1199.2000000029802,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": "[data-motion-key=\"70ee17fa-b833-4ec8-abc4-5ab672d888fc\"]",
+                "transform": "none",
+                "x": 299,
+                "y": 832.46875
+              }
+            ]
+          },
+          {
+            "at": 1215.2999999970198,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": "[data-motion-key=\"70ee17fa-b833-4ec8-abc4-5ab672d888fc\"]",
+                "transform": "none",
+                "x": 299,
+                "y": 832.46875
+              }
+            ]
+          },
+          {
+            "at": 1231.7000000029802,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": "[data-motion-key=\"70ee17fa-b833-4ec8-abc4-5ab672d888fc\"]",
+                "transform": "none",
+                "x": 299,
+                "y": 832.46875
+              }
+            ]
+          },
+          {
+            "at": 1255.1000000089407,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": "[data-motion-key=\"70ee17fa-b833-4ec8-abc4-5ab672d888fc\"]",
+                "transform": "none",
+                "x": 299,
+                "y": 905.46875
+              }
+            ]
+          },
+          {
+            "at": 1267.7999999970198,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": "[data-motion-key=\"70ee17fa-b833-4ec8-abc4-5ab672d888fc\"]",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, -308, 274.594)",
+                "x": 299,
+                "y": 827.875
+              }
+            ]
+          },
+          {
+            "at": 1281.7000000029802,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": "[data-motion-key=\"70ee17fa-b833-4ec8-abc4-5ab672d888fc\"]",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, -308, 274.594)",
+                "x": 299,
+                "y": 827.875
+              }
+            ]
+          },
+          {
+            "at": 1299.5,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": "[data-motion-key=\"70ee17fa-b833-4ec8-abc4-5ab672d888fc\"]",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, -280.924, 250.455)",
+                "x": 326.0759582519531,
+                "y": 803.7357788085938
+              }
+            ]
+          },
+          {
+            "at": 1317,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": "[data-motion-key=\"70ee17fa-b833-4ec8-abc4-5ab672d888fc\"]",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, -231.211, 206.134)",
+                "x": 375.7885437011719,
+                "y": 759.4151000976562
+              }
+            ]
+          },
+          {
+            "at": 1333.5,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": "[data-motion-key=\"70ee17fa-b833-4ec8-abc4-5ab672d888fc\"]",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, -177.77, 158.489)",
+                "x": 429.22979736328125,
+                "y": 711.7701416015625
+              }
+            ]
+          },
+          {
+            "at": 1350.4000000059605,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": "[data-motion-key=\"70ee17fa-b833-4ec8-abc4-5ab672d888fc\"]",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, -132.047, 117.725)",
+                "x": 474.9530944824219,
+                "y": 671.006103515625
+              }
+            ]
+          },
+          {
+            "at": 1365.2000000029802,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": "[data-motion-key=\"70ee17fa-b833-4ec8-abc4-5ab672d888fc\"]",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, -94.8007, 84.5184)",
+                "x": 512.1993408203125,
+                "y": 637.7996826171875
+              }
+            ]
+          },
+          {
+            "at": 1381.7000000029802,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": "[data-motion-key=\"70ee17fa-b833-4ec8-abc4-5ab672d888fc\"]",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, -67.1851, 59.8981)",
+                "x": 539.8148803710938,
+                "y": 613.1793212890625
+              }
+            ]
+          },
+          {
+            "at": 1400.2999999970198,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": "[data-motion-key=\"70ee17fa-b833-4ec8-abc4-5ab672d888fc\"]",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, -46.6694, 41.6075)",
+                "x": 560.3306274414062,
+                "y": 594.8887939453125
+              }
+            ]
+          },
+          {
+            "at": 1416.6000000089407,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": "[data-motion-key=\"70ee17fa-b833-4ec8-abc4-5ab672d888fc\"]",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, -31.8903, 28.4314)",
+                "x": 575.1096801757812,
+                "y": 581.7127075195312
+              }
+            ]
+          },
+          {
+            "at": 1432.2000000029802,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": "[data-motion-key=\"70ee17fa-b833-4ec8-abc4-5ab672d888fc\"]",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, -21.8238, 19.4568)",
+                "x": 585.1761474609375,
+                "y": 572.738037109375
+              }
+            ]
+          },
+          {
+            "at": 1448.2000000029802,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": "[data-motion-key=\"70ee17fa-b833-4ec8-abc4-5ab672d888fc\"]",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, -14.6489, 13.0601)",
+                "x": 592.35107421875,
+                "y": 566.34130859375
+              }
+            ]
+          },
+          {
+            "at": 1466.7999999970198,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": "[data-motion-key=\"70ee17fa-b833-4ec8-abc4-5ab672d888fc\"]",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, -9.8021, 8.73895)",
+                "x": 597.1978759765625,
+                "y": 562.0202026367188
+              }
+            ]
+          },
+          {
+            "at": 1483.4000000059605,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": "[data-motion-key=\"70ee17fa-b833-4ec8-abc4-5ab672d888fc\"]",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, -6.55953, 5.84808)",
+                "x": 600.4404907226562,
+                "y": 559.1293334960938
+              }
+            ]
+          },
+          {
+            "at": 1499.6000000089407,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": "[data-motion-key=\"70ee17fa-b833-4ec8-abc4-5ab672d888fc\"]",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, -4.29756, 3.83144)",
+                "x": 602.7024536132812,
+                "y": 557.1126708984375
+              }
+            ]
+          },
+          {
+            "at": 1516.1000000089407,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": "[data-motion-key=\"70ee17fa-b833-4ec8-abc4-5ab672d888fc\"]",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, -2.86328, 2.55272)",
+                "x": 604.13671875,
+                "y": 555.833984375
+              }
+            ]
+          },
+          {
+            "at": 1533.4000000059605,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": "[data-motion-key=\"70ee17fa-b833-4ec8-abc4-5ab672d888fc\"]",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, -1.87229, 1.66922)",
+                "x": 605.127685546875,
+                "y": 554.950439453125
+              }
+            ]
+          },
+          {
+            "at": 1548.4000000059605,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": "[data-motion-key=\"70ee17fa-b833-4ec8-abc4-5ab672d888fc\"]",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, -1.23405, 1.1002)",
+                "x": 605.7659301757812,
+                "y": 554.3814697265625
+              }
+            ]
+          },
+          {
+            "at": 1566.7999999970198,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": "[data-motion-key=\"70ee17fa-b833-4ec8-abc4-5ab672d888fc\"]",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, -0.812833, 0.724672)",
+                "x": 606.1871948242188,
+                "y": 554.0059204101562
+              }
+            ]
+          },
+          {
+            "at": 1583.4000000059605,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": "[data-motion-key=\"70ee17fa-b833-4ec8-abc4-5ab672d888fc\"]",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, -0.50661, 0.451662)",
+                "x": 606.493408203125,
+                "y": 553.73291015625
+              }
+            ]
+          },
+          {
+            "at": 1598.7000000029802,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": "[data-motion-key=\"70ee17fa-b833-4ec8-abc4-5ab672d888fc\"]",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, -0.330159, 0.294349)",
+                "x": 606.6698608398438,
+                "y": 553.5756225585938
+              }
+            ]
+          },
+          {
+            "at": 1616.7999999970198,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": "[data-motion-key=\"70ee17fa-b833-4ec8-abc4-5ab672d888fc\"]",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, 0, 0)",
+                "x": 607,
+                "y": 553.28125
+              }
+            ]
+          },
+          {
+            "at": 1632,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": "[data-motion-key=\"70ee17fa-b833-4ec8-abc4-5ab672d888fc\"]",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, 0, 0)",
+                "x": 607,
+                "y": 553.28125
+              }
+            ]
+          },
+          {
+            "at": 1650.2000000029802,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": "[data-motion-key=\"70ee17fa-b833-4ec8-abc4-5ab672d888fc\"]",
+                "engine": "motion.dev",
+                "transform": "none",
+                "x": 607,
+                "y": 553.28125
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "stages-reversal",
+        "frames": [
+          {
+            "at": 199.59999999403954,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".sales-stage-editor fieldset",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, 0, 127)",
+                "x": 309,
+                "y": 826.171875
+              },
+              {
+                "selector": ".sales-stage-editor fieldset:nth-child(2)",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, 0, -127)",
+                "x": 309,
+                "y": 699.171875
+              }
+            ]
+          },
+          {
+            "at": 214.59999999403954,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".sales-stage-editor fieldset",
+                "engine": "motion.dev",
+                "transform": "none",
+                "x": 309,
+                "y": 629.578125
+              },
+              {
+                "selector": ".sales-stage-editor fieldset:nth-child(2)",
+                "engine": "motion.dev",
+                "transform": "none",
+                "x": 309,
+                "y": 756.578125
+              }
+            ]
+          },
+          {
+            "at": 231.09999999403954,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".sales-stage-editor fieldset",
+                "engine": "motion.dev",
+                "transform": "none",
+                "x": 309,
+                "y": 629.578125
+              },
+              {
+                "selector": ".sales-stage-editor fieldset:nth-child(2)",
+                "engine": "motion.dev",
+                "transform": "none",
+                "x": 309,
+                "y": 756.578125
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "chat-desktop",
+        "frames": [
+          {
+            "at": 3512.5,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, -48, 0)",
+                "x": 896,
+                "y": 76
+              }
+            ]
+          },
+          {
+            "at": 3528.9000000059605,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, -43.7823, 0)",
+                "x": 900.2176513671875,
+                "y": 76
+              }
+            ]
+          },
+          {
+            "at": 3545.1000000089407,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, -35.9848, 0)",
+                "x": 908.0152587890625,
+                "y": 76
+              }
+            ]
+          },
+          {
+            "at": 3562.300000011921,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, -27.7554, 0)",
+                "x": 916.2445678710938,
+                "y": 76
+              }
+            ]
+          },
+          {
+            "at": 3577.300000011921,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, -20.5807, 0)",
+                "x": 923.4193115234375,
+                "y": 76
+              }
+            ]
+          },
+          {
+            "at": 3595.7000000029802,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, -14.7755, 0)",
+                "x": 929.2244873046875,
+                "y": 76
+              }
+            ]
+          },
+          {
+            "at": 3611.6000000089407,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, -10.4716, 0)",
+                "x": 933.5284423828125,
+                "y": 76
+              }
+            ]
+          },
+          {
+            "at": 3629,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, -7.27393, 0)",
+                "x": 936.72607421875,
+                "y": 76
+              }
+            ]
+          },
+          {
+            "at": 3645.300000011921,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, -4.97055, 0)",
+                "x": 939.0294799804688,
+                "y": 76
+              }
+            ]
+          },
+          {
+            "at": 3661.800000011921,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, -3.40152, 0)",
+                "x": 940.5985107421875,
+                "y": 76
+              }
+            ]
+          },
+          {
+            "at": 3677.1000000089407,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, -2.2832, 0)",
+                "x": 941.716796875,
+                "y": 76
+              }
+            ]
+          },
+          {
+            "at": 3694,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, -1.5278, 0)",
+                "x": 942.4722290039062,
+                "y": 76
+              }
+            ]
+          },
+          {
+            "at": 3710.6000000089407,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, -1.01996, 0)",
+                "x": 942.9800415039062,
+                "y": 76
+              }
+            ]
+          },
+          {
+            "at": 3728.9000000059605,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, -0.669824, 0)",
+                "x": 943.3302001953125,
+                "y": 76
+              }
+            ]
+          },
+          {
+            "at": 3745.6000000089407,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, -0.446281, 0)",
+                "x": 943.5537109375,
+                "y": 76
+              }
+            ]
+          },
+          {
+            "at": 3762.300000011921,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, -0.291121, 0)",
+                "x": 943.7088623046875,
+                "y": 76
+              }
+            ]
+          },
+          {
+            "at": 3777.1000000089407,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, -0.192345, 0)",
+                "x": 943.8076782226562,
+                "y": 76
+              }
+            ]
+          },
+          {
+            "at": 3795.1000000089407,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, -0.126692, 0)",
+                "x": 943.873291015625,
+                "y": 76
+              }
+            ]
+          },
+          {
+            "at": 3811.800000011921,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, -0.0789616, 0)",
+                "x": 943.9210205078125,
+                "y": 76
+              }
+            ]
+          },
+          {
+            "at": 3828.9000000059605,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, -0.0514603, 0)",
+                "x": 943.9485473632812,
+                "y": 76
+              }
+            ]
+          },
+          {
+            "at": 3843.6000000089407,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, 0, 0)",
+                "x": 944,
+                "y": 76
+              }
+            ]
+          },
+          {
+            "at": 3862.2000000029802,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "none",
+                "x": 944,
+                "y": 76
+              }
+            ]
+          },
+          {
+            "at": 3879,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "none",
+                "x": 944,
+                "y": 76
+              }
+            ]
+          },
+          {
+            "at": 3895.2000000029802,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "none",
+                "x": 944,
+                "y": 76
+              }
+            ]
+          },
+          {
+            "at": 3912.300000011921,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "none",
+                "x": 944,
+                "y": 76
+              }
+            ]
+          },
+          {
+            "at": 3928.9000000059605,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "none",
+                "x": 944,
+                "y": 76
+              }
+            ]
+          },
+          {
+            "at": 3943.7000000029802,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "none",
+                "x": 944,
+                "y": 76
+              }
+            ]
+          },
+          {
+            "at": 3962.2000000029802,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "none",
+                "x": 944,
+                "y": 76
+              }
+            ]
+          },
+          {
+            "at": 3978.4000000059605,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "none",
+                "x": 944,
+                "y": 76
+              }
+            ]
+          },
+          {
+            "at": 3995.5,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "none",
+                "x": 944,
+                "y": 76
+              }
+            ]
+          },
+          {
+            "at": 4011.7000000029802,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "none",
+                "x": 944,
+                "y": 76
+              }
+            ]
+          },
+          {
+            "at": 4027.9000000059605,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "none",
+                "x": 944,
+                "y": 76
+              }
+            ]
+          },
+          {
+            "at": 4045.6000000089407,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "none",
+                "x": 944,
+                "y": 76
+              }
+            ]
+          },
+          {
+            "at": 4062.300000011921,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "none",
+                "x": 944,
+                "y": 76
+              }
+            ]
+          },
+          {
+            "at": 4078.4000000059605,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "none",
+                "x": 944,
+                "y": 76
+              }
+            ]
+          },
+          {
+            "at": 4095.7000000029802,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "none",
+                "x": 944,
+                "y": 76
+              }
+            ]
+          },
+          {
+            "at": 4112.300000011921,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "none",
+                "x": 944,
+                "y": 76
+              }
+            ]
+          },
+          {
+            "at": 4128.9000000059605,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "none",
+                "x": 944,
+                "y": 76
+              }
+            ]
+          },
+          {
+            "at": 4145.600000008941,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "none",
+                "x": 944,
+                "y": 76
+              }
+            ]
+          },
+          {
+            "at": 4162.300000011921,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "none",
+                "x": 944,
+                "y": 76
+              }
+            ]
+          },
+          {
+            "at": 4178.9000000059605,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "none",
+                "x": 944,
+                "y": 76
+              }
+            ]
+          },
+          {
+            "at": 4195.5,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "none",
+                "x": 944,
+                "y": 76
+              }
+            ]
+          },
+          {
+            "at": 4211.70000000298,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "none",
+                "x": 944,
+                "y": 76
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "chat-mobile",
+        "frames": [
+          {
+            "at": 596.0999999940395,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, 0, 24)",
+                "x": 8,
+                "y": 92
+              }
+            ]
+          },
+          {
+            "at": 612.9000000059605,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, 0, 21.8855)",
+                "x": 8,
+                "y": 89.88550567626953
+              }
+            ]
+          },
+          {
+            "at": 630.2999999970198,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, 0, 18.0104)",
+                "x": 8,
+                "y": 86.01039123535156
+              }
+            ]
+          },
+          {
+            "at": 646.0999999940395,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, 0, 13.8707)",
+                "x": 8,
+                "y": 81.87066650390625
+              }
+            ]
+          },
+          {
+            "at": 664.7000000029802,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, 0, 10.2847)",
+                "x": 8,
+                "y": 78.28471374511719
+              }
+            ]
+          },
+          {
+            "at": 680.5,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, 0, 7.3977)",
+                "x": 8,
+                "y": 75.39769744873047
+              }
+            ]
+          },
+          {
+            "at": 697.2999999970198,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, 0, 5.2324)",
+                "x": 8,
+                "y": 73.23240661621094
+              }
+            ]
+          },
+          {
+            "at": 712.5999999940395,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, 0, 3.63471)",
+                "x": 8,
+                "y": 71.63470458984375
+              }
+            ]
+          },
+          {
+            "at": 729.7999999970198,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, 0, 2.48973)",
+                "x": 8,
+                "y": 70.4897232055664
+              }
+            ]
+          },
+          {
+            "at": 747.4000000059605,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, 0, 1.69559)",
+                "x": 8,
+                "y": 69.69558715820312
+              }
+            ]
+          },
+          {
+            "at": 763.5999999940395,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, 0, 1.14339)",
+                "x": 8,
+                "y": 69.14338684082031
+              }
+            ]
+          },
+          {
+            "at": 780.5,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, 0, 0.765324)",
+                "x": 8,
+                "y": 68.76532745361328
+              }
+            ]
+          },
+          {
+            "at": 797.2000000029802,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, 0, 0.510842)",
+                "x": 8,
+                "y": 68.5108413696289
+              }
+            ]
+          },
+          {
+            "at": 813.9000000059605,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, 0, 0.334696)",
+                "x": 8,
+                "y": 68.3346939086914
+              }
+            ]
+          },
+          {
+            "at": 830.7000000029802,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, 0, 0.222978)",
+                "x": 8,
+                "y": 68.22297668457031
+              }
+            ]
+          },
+          {
+            "at": 846.5,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, 0, 0.145809)",
+                "x": 8,
+                "y": 68.14580535888672
+              }
+            ]
+          },
+          {
+            "at": 862.7000000029802,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, 0, 0.096098)",
+                "x": 8,
+                "y": 68.09609985351562
+              }
+            ]
+          },
+          {
+            "at": 880.4000000059605,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, 0, 0.0632985)",
+                "x": 8,
+                "y": 68.06330108642578
+              }
+            ]
+          },
+          {
+            "at": 895.7999999970198,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, 0, 0.0394538)",
+                "x": 8,
+                "y": 68.0394515991211
+              }
+            ]
+          },
+          {
+            "at": 913,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, 0, 0.0257099)",
+                "x": 8,
+                "y": 68.02571105957031
+              }
+            ]
+          },
+          {
+            "at": 930.2000000029802,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, 0, 0)",
+                "x": 8,
+                "y": 68
+              }
+            ]
+          },
+          {
+            "at": 946.9000000059605,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "matrix(1, 0, 0, 1, 0, 0)",
+                "x": 8,
+                "y": 68
+              }
+            ]
+          },
+          {
+            "at": 963.2000000029802,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "none",
+                "x": 8,
+                "y": 68
+              }
+            ]
+          },
+          {
+            "at": 979,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "none",
+                "x": 8,
+                "y": 68
+              }
+            ]
+          },
+          {
+            "at": 997.2000000029802,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "none",
+                "x": 8,
+                "y": 68
+              }
+            ]
+          },
+          {
+            "at": 1013.7000000029802,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "none",
+                "x": 8,
+                "y": 68
+              }
+            ]
+          },
+          {
+            "at": 1030.2000000029802,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "none",
+                "x": 8,
+                "y": 68
+              }
+            ]
+          },
+          {
+            "at": 1047,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "none",
+                "x": 8,
+                "y": 68
+              }
+            ]
+          },
+          {
+            "at": 1063.7000000029802,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "none",
+                "x": 8,
+                "y": 68
+              }
+            ]
+          },
+          {
+            "at": 1080.4000000059605,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "none",
+                "x": 8,
+                "y": 68
+              }
+            ]
+          },
+          {
+            "at": 1096.5,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "none",
+                "x": 8,
+                "y": 68
+              }
+            ]
+          },
+          {
+            "at": 1112.5,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "none",
+                "x": 8,
+                "y": 68
+              }
+            ]
+          },
+          {
+            "at": 1130.4000000059605,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "none",
+                "x": 8,
+                "y": 68
+              }
+            ]
+          },
+          {
+            "at": 1147.2000000029802,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "none",
+                "x": 8,
+                "y": 68
+              }
+            ]
+          },
+          {
+            "at": 1163.7000000029802,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "none",
+                "x": 8,
+                "y": 68
+              }
+            ]
+          },
+          {
+            "at": 1179.5,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "none",
+                "x": 8,
+                "y": 68
+              }
+            ]
+          },
+          {
+            "at": 1197,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "none",
+                "x": 8,
+                "y": 68
+              }
+            ]
+          },
+          {
+            "at": 1213.7000000029802,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "none",
+                "x": 8,
+                "y": 68
+              }
+            ]
+          },
+          {
+            "at": 1229.7999999970198,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "none",
+                "x": 8,
+                "y": 68
+              }
+            ]
+          },
+          {
+            "at": 1247,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "none",
+                "x": 8,
+                "y": 68
+              }
+            ]
+          },
+          {
+            "at": 1263.2999999970198,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "none",
+                "x": 8,
+                "y": 68
+              }
+            ]
+          },
+          {
+            "at": 1278.7999999970198,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "none",
+                "x": 8,
+                "y": 68
+              }
+            ]
+          },
+          {
+            "at": 1295.2999999970198,
+            "overflow": 0,
+            "elements": [
+              {
+                "selector": ".global-assistant",
+                "engine": "motion.dev",
+                "transform": "none",
+                "x": 8,
+                "y": 68
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "confirmedAt": "2026-10-02T02:29:38.615Z",
+  "confirmation": {
+    "method": "Targeted second pass: compact chat review/transcript/composer light/dark desktop/mobile; deals table keyboard focus and horizontal scrolling within its container.",
+    "initialFindings": [
+      "mobile-deals body overflow (repaired by existing table-scroll container)",
+      "chat review fields consumed the transcript (repaired by summary plus expandable adjustments)"
+    ],
+    "table": {
+      "bodyOverflow": false,
+      "scrollLeft": 120,
+      "scrollWidth": 768,
+      "clientWidth": 356
+    },
+    "errors": []
+  }
+}

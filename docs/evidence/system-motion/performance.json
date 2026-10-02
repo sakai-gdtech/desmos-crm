@@ -1,0 +1,100 @@
+{
+  "measuredAt": "2026-10-02T02:42:46.859Z",
+  "method": "Chrome headless, production Webpack, same Mac/API/account, 1440x1000, no CPU/network throttling. In-page performance.now: click until editor input exists plus two rAF; input event plus two rAF. 1 cold + 5 warm opens, 5 input samples. These are local lab latencies, not field INP/FPS or user data. 40 rAF frames during seven editor step switches, reporting gaps and observed Long Tasks; not a full performance trace. gzip counts computed per fetched/output asset at level 9; not observed wire compression.",
+  "builds": {
+    "base": {
+      "allOutput": {
+        "jsRaw": 1478846,
+        "jsGzip": 454935,
+        "cssRaw": 78627,
+        "cssGzip": 15145
+      },
+      "initialJS": {
+        "raw": 851209,
+        "gzip": 256258,
+        "count": 17
+      },
+      "initialCSS": {
+        "raw": 78627,
+        "gzip": 15145,
+        "count": 1
+      },
+      "afterEditorJS": {
+        "raw": 882767,
+        "gzip": 266352,
+        "count": 20
+      },
+      "openMs": [
+        334.90000000596046,
+        31.399999991059303,
+        27.299999997019768,
+        26.099999994039536,
+        29.5,
+        29.600000008940697
+      ],
+      "coldOpenMs": 334.90000000596046,
+      "warmOpenMedianMs": 29.5,
+      "inputMs": [
+        32.099999994039536,
+        33.20000000298023,
+        32.30000001192093,
+        32.599999994039536,
+        30.100000008940697
+      ],
+      "inputMedianMs": 32.30000001192093,
+      "frameSample": {
+        "count": 39,
+        "p95FrameGapMs": 16.799999999999955,
+        "maxFrameGapMs": 16.799999999999955,
+        "longTasks": []
+      }
+    },
+    "final": {
+      "allOutput": {
+        "jsRaw": 1506707,
+        "jsGzip": 463823,
+        "cssRaw": 85522,
+        "cssGzip": 16292
+      },
+      "initialJS": {
+        "raw": 887130,
+        "gzip": 268499,
+        "count": 19
+      },
+      "initialCSS": {
+        "raw": 85522,
+        "gzip": 16292,
+        "count": 1
+      },
+      "afterEditorJS": {
+        "raw": 901038,
+        "gzip": 272785,
+        "count": 20
+      },
+      "openMs": [
+        322,
+        32.29999999701977,
+        19.299999997019768,
+        21.399999991059303,
+        22,
+        28.100000008940697
+      ],
+      "coldOpenMs": 322,
+      "warmOpenMedianMs": 22,
+      "inputMs": [
+        34.70000000298023,
+        31.299999997019768,
+        33,
+        32.70000000298023,
+        33.80000001192093
+      ],
+      "inputMedianMs": 33,
+      "frameSample": {
+        "count": 39,
+        "p95FrameGapMs": 16.700000000000273,
+        "maxFrameGapMs": 16.800000000000182,
+        "longTasks": []
+      }
+    }
+  }
+}

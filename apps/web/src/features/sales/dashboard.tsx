@@ -1,4 +1,5 @@
 "use client";
+import { MotionCollection } from "@/components/ui/motion";
 import Link from "next/link";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
@@ -162,7 +163,10 @@ export function SalesDashboard() {
           </Link>
         </div>
         {data.deals.length ? (
-          <div className="radar-list">
+          <MotionCollection
+            className="radar-list"
+            motionKey={data.deals.map((item) => item.id).join("|")}
+          >
             {data.deals.map((d) => (
               <Link
                 href={`/sales/deals/${d.id}`}
@@ -193,7 +197,7 @@ export function SalesDashboard() {
                 <ArrowRight size={18} />
               </Link>
             ))}
-          </div>
+          </MotionCollection>
         ) : (
           <EmptyState
             icon={<Target size={26} />}
@@ -216,7 +220,10 @@ export function SalesDashboard() {
           </Link>
         </div>
         {data.tasks.length ? (
-          <div className="radar-list">
+          <MotionCollection
+            className="radar-list"
+            motionKey={data.tasks.map((item) => item.id).join("|")}
+          >
             {data.tasks.map((t) => (
               <Link
                 className="radar-row"
@@ -233,7 +240,7 @@ export function SalesDashboard() {
                 <ArrowRight size={18} />
               </Link>
             ))}
-          </div>
+          </MotionCollection>
         ) : (
           <p className="muted">
             {data.overdueCount === null

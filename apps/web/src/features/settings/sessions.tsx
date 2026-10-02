@@ -1,4 +1,5 @@
 "use client";
+import { MotionCollection } from "@/components/ui/motion";
 import { useRouter } from "next/navigation";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Monitor, ShieldCheck, Smartphone } from "lucide-react";
@@ -103,7 +104,10 @@ export function SessionsSettings() {
               }
             />
           ) : (
-            <div className="session-list">
+            <MotionCollection
+              className="session-list"
+              motionKey={sessions.data.items.map((item) => item.id).join("|")}
+            >
               {sessions.data.items.map((item) => (
                 <div className="session-row" key={item.id}>
                   <span className="device-icon">
@@ -147,7 +151,7 @@ export function SessionsSettings() {
                   </Button>
                 </div>
               ))}
-            </div>
+            </MotionCollection>
           )}
         </Card>
       )}

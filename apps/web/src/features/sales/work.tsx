@@ -1,5 +1,7 @@
 "use client";
+import { MotionCollection } from "@/components/ui/motion";
 import Link from "next/link";
+import { WorkNavigation } from "./navigation";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
@@ -107,6 +109,7 @@ export function WorkList({ kind }: { kind: WorkKind }) {
           )
         }
       />
+      <WorkNavigation />
       <Card>
         <div
           className="crm-tabs sales-agenda-tabs"
@@ -221,7 +224,10 @@ function WorkRows({
           description="Crie um próximo passo ou escolha outro período para consultar."
         />
       ) : (
-        <div className="sales-work-list">
+        <MotionCollection
+          className="sales-work-list"
+          motionKey={items.map((item) => `${item.id}:${item.status}`).join("|")}
+        >
           {items.map((w) => (
             <div className="sales-work-row" key={w.id}>
               <div className="sales-work-main">
@@ -277,7 +283,7 @@ function WorkRows({
               )}
             </div>
           ))}
-        </div>
+        </MotionCollection>
       )}
     </>
   );
@@ -371,7 +377,12 @@ export function RelatedDeals({
           description="As negociações deste relacionamento aparecerão aqui."
         />
       ) : (
-        <div className="sales-work-list">
+        <MotionCollection
+          className="sales-work-list"
+          motionKey={result.data.items
+            .map((item) => `${item.id}:${item.status}`)
+            .join("|")}
+        >
           {result.data.items.map((d) => (
             <div className="sales-work-row" key={d.id}>
               <div className="sales-work-main">
@@ -389,7 +400,7 @@ export function RelatedDeals({
               </strong>
             </div>
           ))}
-        </div>
+        </MotionCollection>
       )}
       <Pagination
         page={page}

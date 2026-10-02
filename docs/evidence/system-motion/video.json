@@ -1,0 +1,12 @@
+{
+  "recordedAt": "2026-10-02T02:42:27.686Z",
+  "build": "production exact final source",
+  "viewport": {
+    "width": 1440,
+    "height": 1000
+  },
+  "fixture": "fictional local QA account",
+  "method": "Live Playwright interaction recording: stage reorder/cancel, contextual navigation, message library, chat conversation and draft review, progressive editor, retained conversation in Agenda. No real sends or persistent pipeline changes.",
+  "errors": [],
+  "durationSeconds": 14.04
+}

@@ -1,4 +1,5 @@
 "use client";
+import { MotionCollection } from "@/components/ui/motion";
 import Link from "next/link";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
@@ -144,7 +145,11 @@ export function Timeline({
         />
       ) : (
         <>
-          <ol className="crm-events">
+          <MotionCollection
+            as="ol"
+            className="crm-events"
+            motionKey={result.data.items.map((event) => event.id).join("|")}
+          >
             {result.data.items.map((event) => {
               const Icon = event.type.startsWith("note.")
                 ? MessageSquareText
@@ -247,7 +252,7 @@ export function Timeline({
                 </li>
               );
             })}
-          </ol>
+          </MotionCollection>
           <Pagination
             page={page}
             total={result.data.total}

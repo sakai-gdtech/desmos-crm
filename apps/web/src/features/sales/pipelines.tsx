@@ -1,6 +1,8 @@
 "use client";
+import { useLayoutMotion, MotionCollection } from "@/components/ui/motion";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEditorMemory } from "@/features/workspace/editor-memory";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -37,14 +39,18 @@ export function Pipelines() {
   const canManage = session?.permissions.includes("pipelines.manage");
   return (
     <div className="page-stack">
+      <Link className="back-link" href="/sales/board">
+        <ArrowLeft size={15} />
+        Voltar para negócios
+      </Link>
       <PageHeading
-        title="Pipelines"
+        title="Funis e etapas"
         description="Defina os caminhos comerciais e as etapas de cada negociação."
         action={
           canManage && (
             <Link className="btn btn-primary" href="/sales/pipelines/new">
               <Plus size={16} />
-              Novo pipeline
+              Novo funil
             </Link>
           )
         }
@@ -59,20 +65,23 @@ export function Pipelines() {
           title="Seu primeiro funil"
           description={
             canManage
-              ? "Crie um pipeline para organizar suas oportunidades por etapa."
-              : "Peça ao administrador para configurar o pipeline da sua empresa."
+              ? "Crie um funil para organizar suas oportunidades por etapa."
+              : "Peça ao administrador para configurar o funil da sua empresa."
           }
           action={
             canManage && (
               <Link className="btn btn-primary" href="/sales/pipelines/new">
-                Criar pipeline
+                Criar funil
               </Link>
             )
           }
         />
       ) : (
         <Card>
-          <div className="sales-pipeline-list">
+          <MotionCollection
+            className="sales-pipeline-list"
+            motionKey={result.data.items.map((item) => item.id).join("|")}
+          >
             {result.data.items.map((p) => (
               <div key={p.id}>
                 <div>
@@ -98,13 +107,13 @@ export function Pipelines() {
                       className="btn btn-secondary"
                       href={`/sales/pipelines/${p.id}/edit`}
                     >
-                      Configurar
+                      Editar etapas
                     </Link>
                   </div>
                 )}
               </div>
             ))}
-          </div>
+          </MotionCollection>
         </Card>
       )}
     </div>
@@ -129,15 +138,36 @@ export function PipelineEditor({ id }: { id?: string }) {
 }
 function Editor({ item }: { item?: Pipeline }) {
   const router = useRouter();
+  const params = useSearchParams();
+  const returnTo =
+    item && params.get("from") === "board"
+      ? `/sales/board?pipelineId=${encodeURIComponent(item.id)}`
+      : "/sales/pipelines";
   const invalidate = useSalesInvalidation();
-  const [name, setName] = useState(item?.name ?? "Vendas");
-  const [description, setDescription] = useState(item?.description ?? "");
-  const [active, setActive] = useState(item?.active ?? true);
-  const [stages, setStages] = useState(() =>
-    (item?.stages ?? defaults).map((s) => ({
-      ...s,
-      localKey: s.id ?? crypto.randomUUID(),
-    })),
+  type Draft = {
+    name: string;
+    description: string;
+    active: boolean;
+    stages: (Stage & { localKey: string })[];
+  };
+  const memory = useEditorMemory<Draft>(
+    `pipeline:${item?.id ?? "new"}:${item?.version ?? "new"}`,
+  );
+  const [recovered] = useState(() => memory.read());
+  const [name, setName] = useState(recovered?.name ?? item?.name ?? "Vendas");
+  const [description, setDescription] = useState(
+    recovered?.description ?? item?.description ?? "",
+  );
+  const [active, setActive] = useState(
+    recovered?.active ?? item?.active ?? true,
+  );
+  const [stages, setStages] = useState(
+    () =>
+      recovered?.stages ??
+      (item?.stages ?? defaults).map((s) => ({
+        ...s,
+        localKey: s.id ?? crypto.randomUUID(),
+      })),
   );
   const original = useRef(
     JSON.stringify({
@@ -154,6 +184,50 @@ function Editor({ item }: { item?: Pipeline }) {
       active,
       stages: stages.map(({ localKey, ...s }) => s),
     }) !== original.current;
+  const latest = useRef({ dirty, name, description, active, stages });
+  latest.current = { dirty, name, description, active, stages };
+  const discarded = useRef(false);
+  const memoryRef = useRef(memory);
+  useEffect(
+    () => () => {
+      if (latest.current.dirty && !discarded.current)
+        memoryRef.current.write(latest.current);
+    },
+    [],
+  );
+  const [leaveTo, setLeaveTo] = useState("");
+  const leave = () => (dirty ? setLeaveTo(returnTo) : router.push(returnTo));
+  useEffect(() => {
+    if (!dirty) return;
+    const clicked = (event: MouseEvent) => {
+      if (
+        event.defaultPrevented ||
+        event.button !== 0 ||
+        event.metaKey ||
+        event.ctrlKey ||
+        event.shiftKey ||
+        event.altKey
+      )
+        return;
+      const link =
+        event.target instanceof Element
+          ? event.target.closest<HTMLAnchorElement>("a[href]")
+          : null;
+      if (!link || link.target === "_blank" || link.hasAttribute("download"))
+        return;
+      const target = new URL(link.href, location.href);
+      if (
+        target.origin !== location.origin ||
+        (target.pathname === location.pathname &&
+          target.search === location.search)
+      )
+        return;
+      event.preventDefault();
+      setLeaveTo(`${target.pathname}${target.search}${target.hash}`);
+    };
+    document.addEventListener("click", clicked, true);
+    return () => document.removeEventListener("click", clicked, true);
+  }, [dirty]);
   useEffect(() => {
     if (!dirty) return;
     const handler = (e: BeforeUnloadEvent) => e.preventDefault();
@@ -166,6 +240,11 @@ function Editor({ item }: { item?: Pipeline }) {
   const [focusKey, setFocusKey] = useState("");
   const saveLocked = useRef(false);
   const dragKey = useRef<string | null>(null);
+  const stagesRef = useRef<HTMLDivElement>(null);
+  const captureStages = useLayoutMotion(
+    stagesRef,
+    stages.map((stage) => stage.localKey).join("|"),
+  );
   useEffect(() => {
     if (!focusKey) return;
     const index = stages.findIndex((s) => s.localKey === focusKey);
@@ -222,8 +301,10 @@ function Editor({ item }: { item?: Pipeline }) {
             ),
           }),
     onSuccess: async () => {
+      discarded.current = true;
+      memory.clear();
       await invalidate();
-      router.push("/sales/pipelines");
+      router.push(returnTo);
     },
     onSettled: () => {
       saveLocked.current = false;
@@ -232,6 +313,8 @@ function Editor({ item }: { item?: Pipeline }) {
   const remove = useMutation({
     mutationFn: () => api(`/sales/pipelines/${item!.id}`, { method: "DELETE" }),
     onSuccess: async () => {
+      discarded.current = true;
+      memory.clear();
       await invalidate();
       router.push("/sales/pipelines");
     },
@@ -243,6 +326,7 @@ function Editor({ item }: { item?: Pipeline }) {
   }
   function reorder(index: number, target: number) {
     if (target < 0 || target >= stages.length || index === target) return;
+    captureStages();
     const moved = stages[index];
     setStages((old) => {
       const next = [...old];
@@ -255,6 +339,7 @@ function Editor({ item }: { item?: Pipeline }) {
     );
   }
   function insert() {
+    captureStages();
     const index =
       insertAt === "end"
         ? stages.length
@@ -298,12 +383,14 @@ function Editor({ item }: { item?: Pipeline }) {
         save.mutate();
       }}
     >
-      <Link className="back-link" href="/sales/pipelines">
+      <button type="button" className="back-link" onClick={leave}>
         <ArrowLeft size={15} />
-        Voltar para pipelines
-      </Link>
+        {params.get("from") === "board"
+          ? "Voltar para negócios"
+          : "Voltar para funis"}
+      </button>
       <PageHeading
-        title={item ? "Configurar pipeline" : "Novo pipeline"}
+        title={item ? "Editar funil" : "Novo funil"}
         description="Organize as etapas e defina a probabilidade de cada uma."
         action={
           item && (
@@ -318,10 +405,17 @@ function Editor({ item }: { item?: Pipeline }) {
         }
       />
       {formError && <Alert>{formError}</Alert>}
+      {recovered && (
+        <Alert success>
+          Retomamos as alterações desta sessão. Salve para aplicar ao funil;
+          este rascunho permanece somente em memória até sair da conta ou
+          recarregar.
+        </Alert>
+      )}
       {save.isError && <Alert>{errorMessage(save.error)}</Alert>}
       <Card className="sales-form-section">
         <div className="form-grid">
-          <Field id="pipeline-name" label="Nome do pipeline">
+          <Field id="pipeline-name" label="Nome do funil">
             <Input
               id="pipeline-name"
               value={name}
@@ -346,7 +440,7 @@ function Editor({ item }: { item?: Pipeline }) {
               checked={active}
               onChange={(e) => setActive(e.target.checked)}
             />
-            Pipeline ativo
+            Funil ativo
           </label>
         )}
       </Card>
@@ -402,9 +496,10 @@ function Editor({ item }: { item?: Pipeline }) {
             versão anterior.
           </p>
         )}
-        <div className="sales-stage-editor sales-stage-compact">
+        <div ref={stagesRef} className="sales-stage-editor sales-stage-compact">
           {stages.map((s, i) => (
             <fieldset
+              data-motion-key={s.localKey}
               key={s.localKey}
               disabled={save.isPending}
               className={dropAt === i ? "stage-drop-target" : undefined}
@@ -488,9 +583,10 @@ function Editor({ item }: { item?: Pipeline }) {
                       variant="ghost"
                       disabled={stages.length === 1}
                       aria-label={`Remover etapa ${s.name || i + 1}`}
-                      onClick={() =>
-                        setStages((v) => v.filter((_, j) => j !== i))
-                      }
+                      onClick={() => {
+                        captureStages();
+                        setStages((v) => v.filter((_, j) => j !== i));
+                      }}
                     >
                       <Trash2 size={16} />
                     </Button>
@@ -543,23 +639,46 @@ function Editor({ item }: { item?: Pipeline }) {
       </Card>
       <div className="form-actions">
         <div>
-          <Link className="btn btn-secondary" href="/sales/pipelines">
+          <Button variant="secondary" onClick={leave}>
             Cancelar
-          </Link>
+          </Button>
           {item && (
             <Button variant="danger" onClick={() => setRemoveOpen(true)}>
-              Excluir pipeline
+              Excluir funil
             </Button>
           )}
         </div>
         <Button type="submit" loading={save.isPending}>
-          Salvar pipeline
+          Salvar funil
         </Button>
       </div>
       <Dialog
+        open={!!leaveTo}
+        onClose={() => setLeaveTo("")}
+        title="Descartar alterações do funil?"
+        description="A ordem e os dados editados ainda não foram aplicados. Continue editando ou descarte para sair."
+      >
+        <div className="dialog-actions">
+          <Button variant="secondary" onClick={() => setLeaveTo("")}>
+            Continuar editando
+          </Button>
+          <Button
+            variant="danger"
+            onClick={() => {
+              discarded.current = true;
+              memory.clear();
+              router.push(leaveTo);
+              setLeaveTo("");
+            }}
+          >
+            Descartar alterações
+          </Button>
+        </div>
+      </Dialog>
+      <Dialog
         open={removeOpen}
         onClose={() => setRemoveOpen(false)}
-        title="Excluir pipeline?"
+        title="Excluir funil?"
         description="A exclusão é possível apenas quando não há oportunidades vinculadas, inclusive na lixeira."
       >
         {remove.isError && <Alert>{errorMessage(remove.error)}</Alert>}

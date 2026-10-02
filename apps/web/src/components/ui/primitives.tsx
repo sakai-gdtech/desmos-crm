@@ -17,6 +17,7 @@ import { AlertCircle, CheckCircle2, Loader2, X } from "lucide-react";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { errorMessage } from "@/lib/api";
+import { useMotionEntry, usePanelMotion } from "./motion";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -111,8 +112,15 @@ export function Alert({
   children: ReactNode;
   success?: boolean;
 }) {
+  const ref = useRef<HTMLDivElement>(null);
+  useMotionEntry(
+    ref,
+    typeof children === "string" ? children : String(success),
+    "feedback",
+  );
   return (
     <div
+      ref={ref}
       className={cn("alert", success && "alert-success")}
       role={success ? "status" : "alert"}
     >
@@ -142,8 +150,10 @@ export function PageHeading({
   description: string;
   action?: ReactNode;
 }) {
+  const ref = useRef<HTMLElement>(null);
+  useMotionEntry(ref, title);
   return (
-    <header className="page-heading">
+    <header ref={ref} className="page-heading" data-motion-context="">
       <div>
         <h1>{title}</h1>
         <p>{description}</p>
@@ -228,6 +238,7 @@ export function Dialog({
     if (open && !ref.current?.open) ref.current?.showModal();
     else if (!open && ref.current?.open) ref.current.close();
   }, [open]);
+  usePanelMotion(ref, open, "dialog");
   return (
     <dialog
       ref={ref}

@@ -14,6 +14,7 @@ import {
 import { useRouter } from "next/navigation";
 import { api, sessionTabId, setExpectedTenant } from "@/lib/api";
 import type { SessionContext } from "@/lib/types";
+import { MotionProvider } from "./ui/motion";
 
 const ThemeContext = createContext({ dark: false, toggle: () => {} });
 export function useTheme() {
@@ -73,9 +74,11 @@ export function Providers({ children }: { children: ReactNode }) {
   };
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeContext.Provider value={{ dark, toggle }}>
-        {children}
-      </ThemeContext.Provider>
+      <MotionProvider>
+        <ThemeContext.Provider value={{ dark, toggle }}>
+          {children}
+        </ThemeContext.Provider>
+      </MotionProvider>
     </QueryClientProvider>
   );
 }

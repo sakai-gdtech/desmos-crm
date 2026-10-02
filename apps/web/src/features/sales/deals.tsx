@@ -1,5 +1,7 @@
 "use client";
+import { MotionCollection } from "@/components/ui/motion";
 import Link from "next/link";
+import { SalesNavigation } from "./navigation";
 import { NextAction } from "./next-action";
 import { Proposal } from "./proposal";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -88,14 +90,10 @@ export function Deals() {
   return (
     <div className="page-stack">
       <PageHeading
-        title={deleted ? "Oportunidades na lixeira" : "Oportunidades"}
+        title={deleted ? "Negócios na lixeira" : "Negócios"}
         description="Consulte os valores, responsáveis e próximos passos das negociações."
         action={
           <div className="crm-detail-actions">
-            <Link className="btn btn-secondary" href="/sales/board">
-              <GitBranch size={15} />
-              Kanban
-            </Link>
             {session.permissions.includes("deals.create") && (
               <Link className="btn btn-primary" href="/sales/deals/new">
                 <Plus size={16} />
@@ -104,6 +102,10 @@ export function Deals() {
             )}
           </div>
         }
+      />
+      <SalesNavigation
+        pipelineId={pipelineId}
+        canManage={session.permissions.includes("pipelines.manage")}
       />
       <Card>
         <div className="crm-toolbar">
@@ -173,7 +175,12 @@ export function Deals() {
             }
           />
         ) : (
-          <div className="table-wrap">
+          <div
+            className="table-scroll crm-table-scroll"
+            role="region"
+            aria-label="Lista de negócios"
+            tabIndex={0}
+          >
             <table className="data-table crm-table">
               <thead>
                 <tr>
@@ -185,7 +192,10 @@ export function Deals() {
                   <th>{deleted ? "Ação" : "Próxima atividade"}</th>
                 </tr>
               </thead>
-              <tbody>
+              <MotionCollection
+                as="tbody"
+                motionKey={result.data.items.map((item) => item.id).join("|")}
+              >
                 {result.data.items.map((d) => (
                   <tr key={d.id}>
                     <td>
@@ -227,7 +237,7 @@ export function Deals() {
                     </td>
                   </tr>
                 ))}
-              </tbody>
+              </MotionCollection>
             </table>
           </div>
         )}
@@ -811,22 +821,28 @@ export function DealDetail({
               );
             })}
           </div>
-          {tab === "history" ? (
-            <Timeline kind="deals" id={id} timezone={session.tenant.timezone} />
-          ) : tab === "notes" ? (
-            <Notes
-              kind="deals"
-              id={id}
-              canEdit={canEdit}
-              timezone={session.tenant.timezone}
-            />
-          ) : (
-            <RelatedWork
-              kind={tab as "tasks" | "activities"}
-              referenceKey="dealId"
-              referenceId={id}
-            />
-          )}
+          <MotionCollection motionKey={tab}>
+            {tab === "history" ? (
+              <Timeline
+                kind="deals"
+                id={id}
+                timezone={session.tenant.timezone}
+              />
+            ) : tab === "notes" ? (
+              <Notes
+                kind="deals"
+                id={id}
+                canEdit={canEdit}
+                timezone={session.tenant.timezone}
+              />
+            ) : (
+              <RelatedWork
+                kind={tab as "tasks" | "activities"}
+                referenceKey="dealId"
+                referenceId={id}
+              />
+            )}
+          </MotionCollection>
         </Card>
       </div>
       <Dialog

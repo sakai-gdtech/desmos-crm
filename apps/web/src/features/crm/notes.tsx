@@ -1,4 +1,5 @@
 "use client";
+import { MotionCollection } from "@/components/ui/motion";
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
@@ -250,7 +251,12 @@ export function Notes({
           />
         )
       ) : (
-        <div className="crm-notes-list">
+        <MotionCollection
+          className="crm-notes-list"
+          motionKey={notes.data.items
+            .map((note) => `${note.id}:${note.updatedAt}:${note.pinned}`)
+            .join("|")}
+        >
           {[...notes.data.items]
             .sort(
               (a, b) =>
@@ -322,7 +328,7 @@ export function Notes({
                 )}
               </article>
             ))}
-        </div>
+        </MotionCollection>
       )}
       <Dialog
         open={!!deleting}

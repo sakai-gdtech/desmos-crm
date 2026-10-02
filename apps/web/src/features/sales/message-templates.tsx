@@ -1,4 +1,5 @@
 "use client";
+import { MotionCollection } from "@/components/ui/motion";
 import { useEffect, useState } from "react";
 import {
   Alert,
@@ -223,46 +224,50 @@ export function MessageTemplates({
           <p className="field-hint">
             {filtered.length} {filtered.length === 1 ? "modelo" : "modelos"}
           </p>
-          {filtered.map((t) => (
-            <div className="template-row" key={t.id}>
-              <div>
-                <strong>{t.name}</strong>
-                <p>
-                  {t.channel === "EMAIL" ? "Email" : "WhatsApp"} · revisão{" "}
-                  {t.revision}
-                </p>
-                <p className="template-content-sample">
-                  {t.subject || t.message}
-                </p>
+          <MotionCollection
+            motionKey={filtered.map((t) => `${t.id}:${t.revision}`).join("|")}
+          >
+            {filtered.map((t) => (
+              <div className="template-row" key={t.id}>
+                <div>
+                  <strong>{t.name}</strong>
+                  <p>
+                    {t.channel === "EMAIL" ? "Email" : "WhatsApp"} · revisão{" "}
+                    {t.revision}
+                  </p>
+                  <p className="template-content-sample">
+                    {t.subject || t.message}
+                  </p>
+                </div>
+                <div className="crm-detail-actions">
+                  <Badge>Local</Badge>
+                  <Button
+                    variant="ghost"
+                    onClick={() => {
+                      edit({ ...t });
+                      setError("");
+                    }}
+                  >
+                    Editar modelo {t.name}
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    onClick={() => {
+                      edit({
+                        ...t,
+                        id: crypto.randomUUID(),
+                        revision: 1,
+                        name: `${t.name.slice(0, 85)} (cópia)`,
+                      });
+                      setError("");
+                    }}
+                  >
+                    Duplicar {t.name}
+                  </Button>
+                </div>
               </div>
-              <div className="crm-detail-actions">
-                <Badge>Local</Badge>
-                <Button
-                  variant="ghost"
-                  onClick={() => {
-                    edit({ ...t });
-                    setError("");
-                  }}
-                >
-                  Editar modelo {t.name}
-                </Button>
-                <Button
-                  variant="ghost"
-                  onClick={() => {
-                    edit({
-                      ...t,
-                      id: crypto.randomUUID(),
-                      revision: 1,
-                      name: `${t.name.slice(0, 85)} (cópia)`,
-                    });
-                    setError("");
-                  }}
-                >
-                  Duplicar {t.name}
-                </Button>
-              </div>
-            </div>
-          ))}
+            ))}
+          </MotionCollection>
           {!filtered.length && (
             <p>
               {items.length

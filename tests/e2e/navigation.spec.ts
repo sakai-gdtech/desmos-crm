@@ -45,28 +45,49 @@ test("tema claro padrão, navegação por tarefa e preferência explícita persi
   await expect(
     page.getByRole("button", { name: "Sair da conta" }),
   ).toBeInViewport();
-  await page.getByRole("link", { name: "Funis e etapas", exact: true }).click();
+  const settings = page.locator("#nav-settings");
+  await expect(settings.getByRole("link")).toHaveCount(5);
+  await expect(settings.getByRole("link", { name: "Atividades" })).toHaveCount(
+    0,
+  );
+  await expect(
+    settings.getByRole("link", { name: "Funis e etapas" }),
+  ).toHaveCount(0);
+  await nav.getByRole("link", { name: "Negócios", exact: true }).click();
+  await page
+    .getByRole("link", { name: "Gerenciar funis", exact: true })
+    .click();
   await expect(page).toHaveURL(/\/sales\/pipelines$/);
   await page.reload();
   await expect(
+    nav.getByRole("link", { name: "Negócios", exact: true }),
+  ).toHaveAttribute("aria-current", "page");
+  await expect(
     page.getByRole("button", { name: "Configurações", exact: true }),
-  ).toHaveAttribute("aria-expanded", "true");
+  ).toHaveAttribute("aria-expanded", "false");
   await page.getByRole("button", { name: "Ativar tema escuro" }).click();
   await page.reload();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
-  for (const [route, label] of [
-    ["/sales/activities", "Atividades"],
-    ["/sales/deals", "Oportunidades"],
-  ]) {
-    await page.goto(route!);
-    await page.reload();
-    await expect(
-      page.getByRole("button", { name: "Configurações", exact: true }),
-    ).toHaveAttribute("aria-expanded", "true");
-    await expect(
-      page.getByRole("link", { name: label!, exact: true }),
-    ).toHaveAttribute("aria-current", "page");
-  }
+  await page.goto("/sales/agenda");
+  const planning = page.getByRole("navigation", {
+    name: "Planejamento comercial",
+  });
+  await planning.getByRole("link", { name: "Atividades", exact: true }).click();
+  await expect(page).toHaveURL(/\/sales\/activities$/);
+  await expect(
+    nav.getByRole("link", { name: "Agenda", exact: true }),
+  ).toHaveAttribute("aria-current", "page");
+  await planning.getByRole("link", { name: "Tarefas", exact: true }).click();
+  await expect(page).toHaveURL(/\/sales\/tasks$/);
+  await page.goto("/sales/deals");
+  await expect(
+    nav.getByRole("link", { name: "Negócios", exact: true }),
+  ).toHaveAttribute("aria-current", "page");
+  await expect(
+    page
+      .getByRole("navigation", { name: "Visualização de negócios" })
+      .getByRole("link", { name: "Lista", exact: true }),
+  ).toHaveAttribute("aria-current", "page");
 });
 
 test("menu móvel fecha com Escape, devolve foco e fecha ao navegar", async ({

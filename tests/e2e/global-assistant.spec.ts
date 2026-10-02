@@ -72,7 +72,7 @@ for (const mobile of [false, true])
     page.on("request", (r) => {
       if (["POST", "PATCH", "PUT", "DELETE"].includes(r.method())) mutations++;
     });
-    await page.getByRole("button", { name: "Usar exemplo de reunião" }).click();
+    await page.getByRole("button", { name: "Preparar aviso por email" }).click();
     await page
       .getByRole("button", { name: "Enviar pedido", exact: true })
       .click();
@@ -211,7 +211,7 @@ for (const mobile of [false, true])
     await entry.click();
     await expect(panel.getByRole("log")).toBeEmpty();
     await expect(
-      page.getByRole("button", { name: "Usar exemplo de reunião" }),
+      page.getByRole("button", { name: "Preparar aviso por email" }),
     ).toHaveCount(0);
     await page
       .getByLabel("Pergunte ou descreva uma automação")

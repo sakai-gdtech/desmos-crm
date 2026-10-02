@@ -1,4 +1,5 @@
 "use client";
+import { MotionCollection } from "@/components/ui/motion";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, type ReactNode } from "react";
@@ -650,41 +651,47 @@ export function CrmDetail({ kind, id }: { kind: CrmKind; id: string }) {
               </button>
             )}
           </div>
-          {tab === "history" ? (
-            <Timeline kind={kind} id={id} timezone={session.tenant.timezone} />
-          ) : tab === "notes" ? (
-            <Notes
-              kind={kind}
-              id={id}
-              canEdit={canUpdate}
-              timezone={session.tenant.timezone}
-            />
-          ) : tab === "deals" ? (
-            <RelatedDeals
-              referenceKey={
-                kind === "leads"
-                  ? "leadId"
-                  : kind === "contacts"
-                    ? "contactId"
-                    : "companyId"
-              }
-              referenceId={id}
-            />
-          ) : tab === "tasks" || tab === "activities" ? (
-            <RelatedWork
-              kind={tab}
-              referenceKey={
-                kind === "leads"
-                  ? "leadId"
-                  : kind === "contacts"
-                    ? "contactId"
-                    : "companyId"
-              }
-              referenceId={id}
-            />
-          ) : (
-            <CompanyContacts id={id} />
-          )}
+          <MotionCollection motionKey={tab}>
+            {tab === "history" ? (
+              <Timeline
+                kind={kind}
+                id={id}
+                timezone={session.tenant.timezone}
+              />
+            ) : tab === "notes" ? (
+              <Notes
+                kind={kind}
+                id={id}
+                canEdit={canUpdate}
+                timezone={session.tenant.timezone}
+              />
+            ) : tab === "deals" ? (
+              <RelatedDeals
+                referenceKey={
+                  kind === "leads"
+                    ? "leadId"
+                    : kind === "contacts"
+                      ? "contactId"
+                      : "companyId"
+                }
+                referenceId={id}
+              />
+            ) : tab === "tasks" || tab === "activities" ? (
+              <RelatedWork
+                kind={tab}
+                referenceKey={
+                  kind === "leads"
+                    ? "leadId"
+                    : kind === "contacts"
+                      ? "contactId"
+                      : "companyId"
+                }
+                referenceId={id}
+              />
+            ) : (
+              <CompanyContacts id={id} />
+            )}
+          </MotionCollection>
         </Card>
       </div>
       <Dialog

@@ -1,4 +1,5 @@
 "use client";
+import { MotionCollection } from "@/components/ui/motion";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -428,66 +429,70 @@ function Workspace({
             Rascunhos ficam neste navegador. Somente o acompanhamento
             identificado como funcional cria tarefas na demo.
           </p>
-          {pipeline.demoFixture &&
-            (!search ||
-              "Acompanhamento de proposta"
-                .toLocaleLowerCase()
-                .includes(search.toLocaleLowerCase())) && (
-              <button
-                type="button"
-                className="automation-directory-row"
-                onClick={() => setView("real")}
-              >
-                <span>
-                  <strong>Acompanhamento de proposta</strong>
-                  <small>
-                    Entrada em{" "}
-                    {pipeline.stages.find(
-                      (s) => s.id === pipeline.demoFollowupStageId,
-                    )?.name ?? "etapa configurada"}{" "}
-                    → tarefa no dia seguinte · {pipeline.name}
-                  </small>
-                </span>
-                <span>
-                  <Badge tone="green">Funciona nesta demo</Badge>
-                  <small>
-                    {pipeline.demoFollowupEnabled ? "Ativa" : "Pausada"}
-                  </small>
-                </span>
-              </button>
-            )}
-          {rules
-            .filter((r) =>
-              r.name.toLocaleLowerCase().includes(search.toLocaleLowerCase()),
-            )
-            .map((r) => (
-              <button
-                type="button"
-                className="automation-directory-row"
-                key={r.id}
-                onClick={() => start(r)}
-              >
-                <span>
-                  <strong>{r.name}</strong>
-                  <small>
-                    {r.trigger === "STAGE_CHANGED"
-                      ? `Entrada em ${pipeline.stages.find((s) => s.id === r.stageId)?.name ?? "etapa indisponível"}`
-                      : r.trigger === "DEAL_CREATED"
-                        ? "Novo negócio"
-                        : r.trigger === "LEAD_CREATED"
-                          ? "Novo lead"
-                          : r.trigger === "DEAL_WON"
-                            ? "Negócio ganho"
-                            : "Negócio perdido"}{" "}
-                    → {actions[r.action]} · {pipeline.name}
-                  </small>
-                </span>
-                <span>
-                  <Badge tone="amber">Simulação</Badge>
-                  <small>Rascunho local</small>
-                </span>
-              </button>
-            ))}
+          <MotionCollection
+            motionKey={`${pipeline.id}:${search}:${rules.map((r) => `${r.id}:${r.name}`).join("|")}`}
+          >
+            {pipeline.demoFixture &&
+              (!search ||
+                "Acompanhamento de proposta"
+                  .toLocaleLowerCase()
+                  .includes(search.toLocaleLowerCase())) && (
+                <button
+                  type="button"
+                  className="automation-directory-row"
+                  onClick={() => setView("real")}
+                >
+                  <span>
+                    <strong>Acompanhamento de proposta</strong>
+                    <small>
+                      Entrada em{" "}
+                      {pipeline.stages.find(
+                        (s) => s.id === pipeline.demoFollowupStageId,
+                      )?.name ?? "etapa configurada"}{" "}
+                      → tarefa no dia seguinte · {pipeline.name}
+                    </small>
+                  </span>
+                  <span>
+                    <Badge tone="green">Funciona nesta demo</Badge>
+                    <small>
+                      {pipeline.demoFollowupEnabled ? "Ativa" : "Pausada"}
+                    </small>
+                  </span>
+                </button>
+              )}
+            {rules
+              .filter((r) =>
+                r.name.toLocaleLowerCase().includes(search.toLocaleLowerCase()),
+              )
+              .map((r) => (
+                <button
+                  type="button"
+                  className="automation-directory-row"
+                  key={r.id}
+                  onClick={() => start(r)}
+                >
+                  <span>
+                    <strong>{r.name}</strong>
+                    <small>
+                      {r.trigger === "STAGE_CHANGED"
+                        ? `Entrada em ${pipeline.stages.find((s) => s.id === r.stageId)?.name ?? "etapa indisponível"}`
+                        : r.trigger === "DEAL_CREATED"
+                          ? "Novo negócio"
+                          : r.trigger === "LEAD_CREATED"
+                            ? "Novo lead"
+                            : r.trigger === "DEAL_WON"
+                              ? "Negócio ganho"
+                              : "Negócio perdido"}{" "}
+                      → {actions[r.action]} · {pipeline.name}
+                    </small>
+                  </span>
+                  <span>
+                    <Badge tone="amber">Simulação</Badge>
+                    <small>Rascunho local</small>
+                  </span>
+                </button>
+              ))}
+          </MotionCollection>
           {!!search &&
             !rules.some((r) =>
               r.name.toLocaleLowerCase().includes(search.toLocaleLowerCase()),

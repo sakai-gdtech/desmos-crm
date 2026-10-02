@@ -1,4 +1,5 @@
 "use client";
+import { MotionCollection } from "@/components/ui/motion";
 import Link from "next/link";
 import { useState } from "react";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
@@ -305,7 +306,10 @@ export function CrmList({ kind }: { kind: CrmKind }) {
                   <th scope="col">Atualizado</th>
                 </tr>
               </thead>
-              <tbody>
+              <MotionCollection
+                as="tbody"
+                motionKey={results.data.items.map((item) => item.id).join("|")}
+              >
                 {results.data.items.map((item) => (
                   <tr key={item.id}>
                     <td>
@@ -367,7 +371,7 @@ export function CrmList({ kind }: { kind: CrmKind }) {
                     </td>
                   </tr>
                 ))}
-              </tbody>
+              </MotionCollection>
             </table>
           </div>
         )}

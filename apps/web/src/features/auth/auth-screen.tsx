@@ -1,4 +1,5 @@
 "use client";
+import { MotionCollection } from "@/components/ui/motion";
 
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -7,12 +8,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import {
-  ArrowLeft,
-  ArrowRight,
-  Check,
-  ShieldCheck,
-} from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, ShieldCheck } from "lucide-react";
 import { Alert, Button, Field, Input } from "@/components/ui/primitives";
 import {
   api,
@@ -512,7 +508,7 @@ export function AuthScreen({ mode }: { mode: AuthMode }) {
             desmos<span className="brand-suffix">crm</span>
           </span>
         </Link>
-        <div className="auth-form-wrap">
+        <MotionCollection className="auth-form-wrap" motionKey={mode}>
           <h1>{content.title}</h1>
           <p className="auth-description">{content.description}</p>
           {mode === "login" ? (
@@ -528,7 +524,7 @@ export function AuthScreen({ mode }: { mode: AuthMode }) {
           ) : (
             <InvitationForm />
           )}
-        </div>
+        </MotionCollection>
         <p className="auth-bottom">
           <ShieldCheck size={14} /> Sua conexão com a equipe começa com
           segurança.

@@ -32,6 +32,7 @@ import {
 } from "lucide-react";
 import { useSession, useTheme } from "@/components/providers";
 import { AssistantProvider } from "./assistant-context";
+import { EditorMemoryProvider } from "./editor-memory";
 import { GlobalAssistant } from "./global-assistant";
 import { BrandSymbol } from "@/components/brand";
 import { Alert, ErrorState, LoadingPage, cn } from "@/components/ui/primitives";
@@ -48,7 +49,7 @@ const nav = [
     label: "Automações",
     href: "/sales/automations",
     icon: Workflow,
-    group: "CONFIGURAÇÕES",
+    group: "TRABALHO",
     permission: "pipelines.manage",
   },
   { label: "Visão geral", href: "/workspace", icon: Home, group: "WORKSPACE" },
@@ -77,14 +78,14 @@ const nav = [
     label: "Tags",
     href: "/crm/tags",
     icon: Tags,
-    group: "CONFIGURAÇÕES",
+    group: "CLIENTES",
     permission: "tags.manage",
   },
   {
     label: "Lixeira",
     href: "/crm/trash",
     icon: Trash2,
-    group: "CONFIGURAÇÕES",
+    group: "CLIENTES",
     permission: "crm.trash",
   },
   {
@@ -95,17 +96,17 @@ const nav = [
     permission: "deals.view",
   },
   {
-    label: "Oportunidades",
+    label: "Lista de negócios",
     href: "/sales/deals",
     icon: Handshake,
-    group: "CONFIGURAÇÕES",
+    group: "VENDAS",
     permission: "deals.view",
   },
   {
     label: "Atividades",
     href: "/sales/activities",
     icon: CalendarClock,
-    group: "CONFIGURAÇÕES",
+    group: "AGENDA",
     permission: "activities.view",
   },
   {
@@ -126,7 +127,7 @@ const nav = [
     label: "Funis e etapas",
     href: "/sales/pipelines",
     icon: GitBranch,
-    group: "CONFIGURAÇÕES",
+    group: "VENDAS",
     permission: "pipelines.manage",
   },
   {
@@ -260,6 +261,8 @@ function WorkspaceShell({
     (n) =>
       !n.permission ||
       session.permissions.includes(n.permission) ||
+      (n.href === "/sales/agenda" &&
+        session.permissions.includes("activities.view")) ||
       (n.permission === "crm.trash" &&
         [
           "leads.delete",
@@ -272,7 +275,12 @@ function WorkspaceShell({
     nav.find((n) => n.href === pathname || pathname.startsWith(`${n.href}/`))
       ?.label ?? "Configuração inicial";
   const renderLink = ({ href, icon: Icon, label }: (typeof nav)[number]) => {
-    const active = pathname === href || pathname.startsWith(`${href}/`);
+    const active =
+      pathname === href ||
+      pathname.startsWith(`${href}/`) ||
+      (href === "/sales/board" &&
+        /^\/sales\/(deals|pipelines)(\/|$)/.test(pathname)) ||
+      (href === "/sales/agenda" && pathname.startsWith("/sales/activities"));
     return (
       <Link
         key={href}
@@ -288,17 +296,7 @@ function WorkspaceShell({
     );
   };
   const clients = allowed.filter((item) => item.group === "CLIENTES");
-  const settings = [
-    "/sales/activities",
-    "/sales/deals",
-    "/settings/company",
-    "/settings/team",
-    "/sales/pipelines",
-    "/sales/automations",
-    "/crm/tags",
-    "/settings/audit",
-    "/crm/trash",
-  ].flatMap((href) => allowed.filter((item) => item.href === href));
+  const settings = allowed.filter((item) => item.group === "CONFIGURAÇÕES");
   const account = allowed.filter((item) => item.group === "MINHA CONTA");
   return (
     <div className="app-shell">
@@ -381,10 +379,8 @@ function WorkspaceShell({
                 </div>
               </>
             )}
-            {allowed
-              .filter((item) =>
-                ["/sales/agenda", "/sales/tasks"].includes(item.href),
-              )
+            {["/sales/agenda", "/sales/tasks", "/sales/automations"]
+              .flatMap((href) => allowed.filter((item) => item.href === href))
               .map(renderLink)}
           </div>
         </nav>
@@ -509,7 +505,9 @@ export function AuthenticatedLayout({ children }: { children: ReactNode }) {
     );
   return (
     <AssistantProvider key={`${data.tenant.id}:${data.user.id}`}>
-      <WorkspaceShell session={data}>{children}</WorkspaceShell>
+      <EditorMemoryProvider>
+        <WorkspaceShell session={data}>{children}</WorkspaceShell>
+      </EditorMemoryProvider>
     </AssistantProvider>
   );
 }

@@ -100,7 +100,7 @@ for (const mobile of [false, true])
       .nth(2)
       .fill("Validação");
     await page
-      .getByRole("button", { name: "Salvar pipeline", exact: true })
+      .getByRole("button", { name: "Salvar funil", exact: true })
       .click();
     await expect(page).toHaveURL(/\/sales\/pipelines$/);
     await page.goto(`/sales/automations?pipelineId=${pipeline.id}`);
@@ -118,7 +118,9 @@ for (const mobile of [false, true])
       .getByRole("button", { name: "Salvar modelo", exact: true })
       .dblclick();
     await page.getByRole("button", { name: "Assistente", exact: true }).click();
-    await page.getByRole("button", { name: "Usar exemplo de reunião" }).click();
+    await page
+      .getByRole("button", { name: "Preparar aviso por email" })
+      .click();
     await page
       .getByRole("button", { name: "Enviar pedido", exact: true })
       .click();
@@ -231,7 +233,9 @@ for (const mobile of [false, true])
     await expect(
       page.getByRole("complementary", { name: "Assistente Desmos" }),
     ).toBeVisible();
-    await page.getByRole("button", { name: "Usar exemplo de reunião" }).click();
+    await page
+      .getByRole("button", { name: "Preparar aviso por email" })
+      .click();
     await page
       .getByRole("button", { name: "Enviar pedido", exact: true })
       .click();

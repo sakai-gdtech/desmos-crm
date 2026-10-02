@@ -1,4 +1,5 @@
 "use client";
+import { useMotionPlayer } from "@/components/ui/motion";
 import { useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import {
@@ -54,29 +55,25 @@ export default function AutomationEditor({
   const [step, setStep] = useState(1);
   const flow = useRef<HTMLDivElement>(null);
   const previousStep = useRef(1);
+  const play = useMotionPlayer();
   useEffect(() => {
-    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
     const element = flow.current;
     if (step === previousStep.current) return;
     const direction = step >= previousStep.current ? 1 : -1;
+    const transform = window.matchMedia("(max-width: 760px)").matches
+      ? `translateY(${direction * 20}px)`
+      : `translateX(${direction * 24}px)`;
     previousStep.current = step;
-    const animation =
-      !media.matches && element
-        ? element.animate(
-            [
-              { opacity: 0.65, transform: `translateX(${direction * 10}px)` },
-              { opacity: 1, transform: "translateX(0)" },
-            ],
-            { duration: 180, easing: "cubic-bezier(0.16, 1, 0.3, 1)" },
-          )
-        : null;
-    const cancel = () => animation?.cancel();
-    media.addEventListener("change", cancel);
-    return () => {
-      cancel();
-      media.removeEventListener("change", cancel);
-    };
-  }, [step]);
+    const animation = element
+      ? play(
+          element,
+          [{ transform }, { transform: "translate(0, 0)" }],
+          { duration: 280 },
+          "step",
+        )
+      : null;
+    return () => animation?.cancel();
+  }, [step, play]);
   function move(next: number) {
     setStep(next);
     requestAnimationFrame(() =>

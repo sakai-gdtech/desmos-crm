@@ -1,4 +1,5 @@
 "use client";
+import { MotionCollection } from "@/components/ui/motion";
 import { useState } from "react";
 import {
   keepPreviousData,
@@ -144,7 +145,10 @@ export function CrmTrash() {
                   <th scope="col">Ações</th>
                 </tr>
               </thead>
-              <tbody>
+              <MotionCollection
+                as="tbody"
+                motionKey={result.data.items.map((item) => item.id).join("|")}
+              >
                 {result.data.items.map((item) => (
                   <tr key={item.id}>
                     <td>
@@ -187,7 +191,7 @@ export function CrmTrash() {
                     </td>
                   </tr>
                 ))}
-              </tbody>
+              </MotionCollection>
             </table>
           </div>
         )}

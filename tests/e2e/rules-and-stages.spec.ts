@@ -166,7 +166,7 @@ for (const mobile of [false, true]) {
         saves++;
     });
     await page
-      .getByRole("button", { name: "Salvar pipeline", exact: true })
+      .getByRole("button", { name: "Salvar funil", exact: true })
       .dblclick();
     await expect(page).toHaveURL(/\/sales\/pipelines$/);
     expect(saves).toBe(1);
@@ -249,7 +249,8 @@ for (const mobile of [false, true]) {
       .getByLabel("Nome da etapa", { exact: true })
       .first()
       .fill("Cancelada");
-    await page.getByRole("link", { name: "Cancelar", exact: true }).click();
+    await page.getByRole("button", { name: "Cancelar", exact: true }).click();
+    await page.getByRole("button", { name: "Descartar alterações", exact: true }).click();
     await page.goto(`/sales/pipelines/${pipeline.id}/edit`);
     await expect(
       page.getByLabel("Nome da etapa", { exact: true }).first(),

@@ -1,4 +1,5 @@
 "use client";
+import { MotionCollection } from "@/components/ui/motion";
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Check, Pencil, Plus, Tags as TagsIcon, Trash2, X } from "lucide-react";
@@ -178,7 +179,11 @@ export function CrmTags() {
             description="Use tags para identificar segmentos, interesses e outros grupos de relacionamento."
           />
         ) : (
-          <ul className="crm-tags-management">
+          <MotionCollection
+            as="ul"
+            className="crm-tags-management"
+            motionKey={result.data.items.map((tag) => tag.id).join("|")}
+          >
             {result.data.items.map((tag) => (
               <li key={tag.id}>
                 <Tags tags={[tag]} />
@@ -205,7 +210,7 @@ export function CrmTags() {
                 </div>
               </li>
             ))}
-          </ul>
+          </MotionCollection>
         )}
       </Card>
       <Dialog
